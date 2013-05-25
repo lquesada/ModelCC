@@ -12,7 +12,7 @@ echo "Previous builds cleaned."
 echo ""
 
 echo "Generating local copy..."
-cp -rf ../ModelCCExamples ../ModelCC/ res config ../UserManual addcr.sh ../dist
+cp -rf ../ModelCCExamples ../ModelCC/ res config ../UserManual ../dist
 cd ..
 cp -rf DistScript dist
 cd dist
@@ -247,7 +247,7 @@ echo ""
 
 echo "Adding Carriage Returns..."
 for i in $javas config/changelog.txt res/license.txt res/readme.txt;do
-  cat $i | ./addcr.sh > aux
+  cat $i | ./DistScript/addcr.sh > aux
   mv aux $i
 done
 echo "Carriage returns added."
@@ -366,7 +366,7 @@ mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
 mkdir $mcdirs
 mkdir $mcdirb
-mv UserManual ModelCC ModelCCExamples $mcdirs
+mv UserManual ModelCC ModelCCExamples DistScript $mcdirs
 mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib doc $mcdirb
 cp UserManual.pdf $mcdirb
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirs
