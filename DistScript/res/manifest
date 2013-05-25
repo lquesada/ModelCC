@@ -1,0 +1,2 @@
+Main-Class: org.modelcc.examples.test.InteractiveTest
+Class-Path: . ModelCC.jar ModelCCExamples_lib/slick-util.jar ModelCCExamples_lib/lwjgl.jar ModelCCExamples_lib/org.hamcrest.core_1.1.0.v20090501071000.jar ModelCCExamples_lib/lwjgl_util.jar ModelCCExamples_lib/jinput.jar ModelCCExamples_lib/junit.jar
