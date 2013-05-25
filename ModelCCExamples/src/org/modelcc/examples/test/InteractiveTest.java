@@ -6,6 +6,7 @@
 package org.modelcc.examples.test;
 
 import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.examples.language.simplearithmeticexpression.Expression;
@@ -37,6 +38,16 @@ public class InteractiveTest {
      * @param args the arguments.
      */
     public static void main(String args[]) {
+    	System.setProperty("java.library.path", "ModelCCExamples_lib:"+System.getProperty("java.library.path"));
+    	Field fieldSysPath;
+		try {
+			fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
+	    	fieldSysPath.setAccessible( true );
+	    	fieldSysPath.set( null, null );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
         if (args.length>0) {
             if (args[0].equals("bench")) {
                 LanguageSpecification ls;
