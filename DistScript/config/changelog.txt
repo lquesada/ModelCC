@@ -1,0 +1,157 @@
+-----------------------------
+ModelCC v2.01    (2012-01-18)
+-----------------------------
+
++ [FEATURE] org.modelcc.types.ByteModel added.
++ [FEATURE] org.modelcc.types.ShortModel added.
++ [FEATURE] org.modelcc.types.IntegerModel added.
++ [FEATURE] org.modelcc.types.LongModel added.
++ [FEATURE] org.modelcc.types.FloatModel added.
++ [FEATURE] org.modelcc.types.DoubleModel added.
++ [FEATURE] Added ImperativeArithmetic to ModelCCExamples.
++ [FIX] Start symbols with all their members being optional would match an empty string but would produce a null result.
++ [FIX] References were not reset between uses of a parser.
+
+-----------------------------
+ModelCC v2.00    (2012-01-12)
+-----------------------------
+
++ [FEATURE] @ID Annotation.
++ [FEATURE] @Reference Annotation.
++ [FEATURE] ModelCC now supports references.
+
+-----------------------------
+
+
+
+-----------------------------
+
+-----------------------------
+ModelCC v1.10    (2011-12-25)
+-----------------------------
+
++ [FEATURE] Improved the CanvasDraw language.
++ [FIX] All ModelCC components are now Serializable.
++ [FIX] Exceptions code has been cleaned. Exceptions are now chained and provide more information.
++ [FIX] Changed the default ModelCCExamples GUI size.
+
+-----------------------------
+ModelCC v1.09    (2011-12-24)
+-----------------------------
+
++ [FEATURE] The language descriptions in ModelCCExamples now include HTML formatting.
++ [FIX] The language descriptions in ModelCCExamples were wrong.
++ [FIX] ModelCC would not work with classes found in directories with special characters in their name.
+
+-----------------------------
+ModelCC v1.08    (2011-12-23)
+-----------------------------
+
++ [FEATURE] ModelCCExamples now includes a GUI.
+
+-----------------------------
+ModelCC v1.07    (2011-12-22)
+-----------------------------
+
++ [FEATURE] Abstract classes that implement IModel and have no subclasses generate a warning.
++ [FEATURE] Abstract classes that are composite generate a warning.
++ [FEATURE] Optional members with all optional fields generate a warning.
++ [FEATURE] Optional members with 0.. multiplicity and no prefixes or suffixes generate a warning.
++ [FEATURE] JavaModelReader now provides a record of the warnings generated during the last model reading.
+
+-----------------------------
+ModelCC v1.06    (2011-12-18)
+-----------------------------
+
++ [FIX] Fixed performance leak: less handles are generated while parsing.
++ [FIX] Cleaned internal interface of Lamb and Fence.
++ [FIX] Element enumerations now internally use Java arrays instead of ArrayLists.
++ [FIX] Adjusted initial map and set sizes.
+
+-----------------------------
+ModelCC v1.05    (2011-12-14)
+-----------------------------
+
++ [FIX] Fixed huge performance leak: associativities are now applied before expanding every symbol.
+
+-----------------------------
+ModelCC v1.04    (2011-12-05)
+-----------------------------
+
++ [FEATURE] @Optional checking JUnit tests added.
++ [FEATURE] Fence symbol builder JUnit tests added.
++ [FEATURE] Lamb token builder and Fence symbol builder execution count JUnit tests added.
++ [FEATURE] @Autorun count JUnit tests added.
++ [FEATURE] Constraint enforcement performance JUnit tests added.
++ [FEATURE] The distribution package zips now contain a directory.
++ [FEATURE] ModelCC and ModelCCExamples are now distributed as two independent packages.
++ [FEATURE] Added CanvasDraw to ModelCCExamples.
++ [FIX] Non-optional members with all their members being optional were being not instantiated.
++ [FIX] Improved the enforcement of associativity constraints before expanding elements.
+
+-----------------------------
+ModelCC v1.03    (2011-12-03)
+-----------------------------
+
++ [FIX] Methods that return void annotated with @Autorun were not executed.
++ [FIX] @FreeForm and @Optional in combination caused the duplication of grammar rules.
++ [FIX] Fixed huge performance leak during the parsing: Associativity constraints now apply before expanding the elements.
++ [FIX] Optional symbols being skipped allowed skipping non-matched symbols when producing parse trees.
+
+-----------------------------
+ModelCC v1.02    (2011-11-19)
+-----------------------------
+
++ [FEATURE] User manual has been slightly extended with an example and set up information.
++ [FIX] JavaModelReader threw a NullPointerException when reading a class in the default package "".
++ [FIX] Non-instantiable classes do not cause the RunTime Subclasses Identificator to stop working.
+
+-----------------------------
+ModelCC v1.01    (2011-11-14)
+-----------------------------
+
++ [FEATURE] Parser implements the String parameter methods as wrappers of the Reader parameter methods.
++ [FEATURE] Methods annotated with @Autorun can now return Boolean and void apart from boolean.
++ [FEATURE] New JUnit tests added.
++ [FEATURE] LexerGenerator class.
++ [FEATURE] ModelCCExamples application added to the distribution.
++ [FEATURE] CLI added to the ModelCCExamples library.
++ [FEATURE] SimpleArithmeticExpression added to ModelCCExamples.
++ [FIX] Methods annotated with @Autorun were run several times.
++ [FIX] Fixed Run-Time Subclass Identification on Java Model Reader not working with Jar files.
++ [RENAME] org.modelcc.patternrecognizer -> org.modelcc.lexer.recognizer.
++ [RENAME] org.modelcc.patternrecognizer.regexppatternrecognizer -> org.modelcc.lexer.recognizer.regexp.
++ [RENAME] org.modelcc.language.lexicalspecification -> org.modelcc.language.lexis.
++ [RENAME] org.modelcc.language.syntacticspecification -> org.modelcc.language.syntax.
++ [RENAME] org.modelcc.lexer.recognizer.Match -> org.modelcc.lexer.recognizer.MatchedObject.
++ [RENAME] org.modelcc.lexer.lamb.SyntaxGraphLexer -> org.modelcc.lexer.Lexer.
++ [RENAME] alternation precedence -> selection precedence.
+
+
+-----------------------------
+ModelCC v1.00    (2011-08-27)
+-----------------------------
+
++ [FEATURE] Metamodel.
++ [FEATURE] IModel interface.
++ [FEATURE] @Pattern annotation.
++ [FEATURE] @Value annotation.
++ [FEATURE] @Prefix annotation.
++ [FEATURE] @Suffix annotation.
++ [FEATURE] @Separator annotation.
++ [FEATURE] @Optional annotation.
++ [FEATURE] @Minimum annotation.
++ [FEATURE] @Maximum annotation.
++ [FEATURE] @Associativity annotation.
++ [FEATURE] @Composition annotation.
++ [FEATURE] @Priority annotation.
++ [FEATURE] @Autorun annotation.
++ [FEATURE] @FreeOrder annotation.
++ [FEATURE] JavaModelReader.
++ [FEATURE] LanguageModelWriter.
++ [FEATURE] Lamb lexer.
++ [FEATURE] Fence parser.
++ [FEATURE] FenceParser adapter.
++ [FEATURE] FenceParserGenerator.
++ [FEATURE] First version of the user manual.
++ [FEATURE] Initial set of extensive JUnit tests.

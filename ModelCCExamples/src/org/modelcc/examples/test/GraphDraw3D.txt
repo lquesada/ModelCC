@@ -1,0 +1,39 @@
+<html>
+<body>
+<font size="3">
+The <b>Graph Draw 3D language</b> allows the imperative generation of 3D drawings.<br/>
+It features the following capabilities:<br/>
+<br/>
+<br/>
+<b>Example input:</b><br/>
+<br/>
+<pre>
+scene {
+     draw axis
+     {
+       translate x 3
+       rotate x 0.7 y 0.2 z 0.4 angle 20
+       scale 3
+       material g 0.4
+       draw cube
+     }
+     material r 1.0
+     scale 0.8
+     repeat 10 times [
+       draw cube
+       material relative g +0.1 a -0.07
+       translate y 1.2
+       rotate z 1 angle 21
+     ]
+     repeat 10 times [
+       draw cube
+       material relative g +0.1 a +0.07
+       translate y 1.2
+       rotate z 1 angle 28
+     ]
+   }
+</pre>
+</font>
+</body>
+</html>
+   

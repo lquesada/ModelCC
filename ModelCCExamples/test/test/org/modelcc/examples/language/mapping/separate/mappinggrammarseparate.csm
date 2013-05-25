@@ -1,0 +1,13 @@
+ConstraintDefinition: "[" constraintID "]"
+ConstraintDefinition: ":" constraint
+Element.name[separator]: "."
+Identifier.name: "[a-zA-Z][a-zA-Z0-9_]*"
+ClausureSpecification: constraint "\*"
+OptionalSpecification: constraint "\?"
+PositiveClauseSpecification: constraint "\+"
+ParenthesizedSpecification: "\(" constraint "\)"
+ConstraintSpecification: SequenceSpecification < PrecedenceSpecification < AlternationSpecification 
+AlternationSpecification.constraints[separator]: "\|"
+PrecedenceSpecification.constraints[separator]: "\<"
+Boolean.value: "true|false"
+Integer.value: "[0-9]+"
