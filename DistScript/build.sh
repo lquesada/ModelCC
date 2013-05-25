@@ -13,7 +13,9 @@ echo ""
 
 echo "Generating local copy..."
 cp -rf ../ModelCCExamples ../ModelCC/ res config ../UserManual addcr.sh ../dist
-cd ../dist
+cd ..
+cp -rf DistScript dist
+cd dist
 echo "Local copy generated."
 echo ""
 
@@ -265,18 +267,20 @@ mkdir ../bin
 find -name *.java > list
 javac -source $target -target $target -d ../bin @list || eq=1
 rm list
-#cp -rf * ../bin
-#cd ../bin
-#find -name *.java | xargs rm -rf
+cp -rf * ../bin
+cd ../bin
+find -name *.java | xargs rm -rf
+find -name *.form | xargs rm -rf
 cd ..
 cd test
 mkdir ../bintest
 find -name *.java > list
 javac -source $target -target $target -cp ../bin:../../res/junit.jar -d ../bintest @list || eq=1
 rm list
-#cp -rf * ../bintest
-#cd ../bintest
-#find -name *.java | xargs rm -rf
+cp -rf * ../bintest
+cd ../bintest
+find -name *.java | xargs rm -rf
+find -name *.form | xargs rm -rf
 cd ..
 cd bin
 jar cf ModelCC.jar org
@@ -312,18 +316,20 @@ mkdir ../bin
 find -name *.java > list
 javac -source $target -target $target -cp ../../ModelCC.jar:../lib/lwjgl-2.9.0/jar/lwjgl.jar:../lib/lwjgl-2.9.0/jar/lwjgl_util.jar:../lib/lwjgl-2.9.0/jar/jinput.jar:../lib/slick-util/slick-util.jar -d ../bin @list || eq=1
 rm list
-#cp -rf * ../bin
-#cd ../bin
-#find -name *.java | xargs rm -rf
+cp -rf * ../bin
+cd ../bin
+find -name *.java | xargs rm -rf
+find -name *.form | xargs rm -rf
 cd ..
 cd test
 mkdir ../bintest
 find -name *.java > list
 javac -source $target -target $target -cp ../../ModelCC.jar:../bin:../../res/junit.jar -d ../bintest @list || eq=1
 rm list
-#cp -rf * ../bintest
-#cd ../bintest
-#find -name *.java | xargs rm -rf
+cp -rf * ../bintest
+cd ../bintest
+find -name *.java | xargs rm -rf
+find -name *.form | xargs rm -rf
 cd ..
 cd bin
 jar cfm ModelCCExamples.jar ../../res/manifest org
@@ -332,7 +338,7 @@ if [ $eq -eq 1 ];then
   echo "ERROR: BUILD FAILED"
   exit
 fi
-cp bin/ModelCCExamples.jar ../ModelCCExamples-build.jar
+cp bin/ModelCCExamples.jar ../ModelCCExamples.jar
 cd ..
 echo "ModelCCExamples built."
 echo ""
@@ -351,17 +357,15 @@ cd ..
 echo "ModelCCExamples tested."
 echo ""
 
-echo "Bundling ModelCCExamples..."
-eq=0
-java -jar res/JarSpliceCLI.jar -i ModelCCExamples-build.jar ModelCC.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/lwjgl.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/lwjgl_util.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/jinput.jar ModelCCExamples/lib/slick-util/slick-util.jar -n ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libjinput-linux64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libjinput-linux.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/liblwjgl64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/liblwjgl.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libopenal64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libopenal.so ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/libjinput-osx.jnilib ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/liblwjgl.jnilib ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/openal.dylib ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-dx8_64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-dx8.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-raw_64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-raw.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/lwjgl64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/lwjgl.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/OpenAL32.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/OpenAL64.dll -o ModelCCExamples.jar -m org.modelcc.examples.test.InteractiveTest -p -Xms256m -Xmx512m || eq=1
-if [ $eq -eq 1 ];then
-  echo "ERROR: BUNDLING FAILED"
-  exit
-fi
-#TODO rm ModelCCExamples-build.jar
-echo "ModelCCExamples bundled."
-
-exit
+#echo "Bundling ModelCCExamples..."
+#eq=0
+#java -jar res/JarSpliceCLI.jar -i ModelCCExamples-build.jar ModelCC.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/lwjgl.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/lwjgl_util.jar ModelCCExamples/lib/lwjgl-2.9.0/jar/jinput.jar ModelCCExamples/lib/slick-util/slick-util.jar -n ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libjinput-linux64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libjinput-linux.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/liblwjgl64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/liblwjgl.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libopenal64.so ModelCCExamples/lib/lwjgl-2.9.0/native/linux/libopenal.so ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/libjinput-osx.jnilib ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/liblwjgl.jnilib ModelCCExamples/lib/lwjgl-2.9.0/native/macosx/openal.dylib ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-dx8_64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-dx8.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-raw_64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/jinput-raw.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/lwjgl64.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/lwjgl.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/OpenAL32.dll ModelCCExamples/lib/lwjgl-2.9.0/native/windows/OpenAL64.dll -o ModelCCExamples.jar -m org.modelcc.examples.test.InteractiveTest -p -Xms256m -Xmx512m || eq=1
+#if [ $eq -eq 1 ];then
+#  echo "ERROR: BUNDLING FAILED"
+#  exit
+#fi
+#rm ModelCCExamples-build.jar
+#echo "ModelCCExamples bundled."
 
 echo "Building JavaDoc..."
 cd ModelCC
@@ -404,15 +408,17 @@ cd ..
 echo "Manual generated."
 echo ""
 
-#TODO TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-exit
-
 echo "Organizing software..."
 mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
 mkdir $mcdirs
 mkdir $mcdirb
-mv ModelCC ModelCCExamples $mcdirs
+mv UserManual ModelCC ModelCCExamples $mcdirs
+mv ModelCC.jar ModelCCExamples.jar $mcdirb
+
+#TODO TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+exit
+
 mv $mcjar $mcdirb
 mv $mcejar lib $mcedirb
 mv manual $mcdirs
