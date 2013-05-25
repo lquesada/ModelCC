@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ModelCCExamples">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="ModelCC.location" value="../ModelCC"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="lib/junit.jar"/>
+        <pathelement location="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="ModelCC.classpath">
+        <pathelement location="${ModelCC.location}/bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+    </path>
+    <path id="ModelCCExamples.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <path refid="ModelCC.classpath"/>
+        <pathelement location="lib/lwjgl-2.9.0/jar/jinput.jar"/>
+        <pathelement location="lib/lwjgl-2.9.0/jar/lwjgl_util.jar"/>
+        <pathelement location="lib/lwjgl-2.9.0/jar/lwjgl.jar"/>
+        <pathelement location="lib/slick-util/slick-util.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${ModelCC.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project,create-run-jar" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${ModelCC.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="test"/>
+            <classpath refid="ModelCCExamples.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="ModelCCExamples">
+        <java classname="org.modelcc.examples.test.InteractiveTest" failonerror="true" fork="yes">
+            <jvmarg line="-Djava.library.path=lib/lwjgl-2.9.0/native/linux"/>
+            <classpath refid="ModelCCExamples.classpath"/>
+        </java>
+    </target>
+    <target name="ModelCCExamplesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.org.modelcc.examples.language.canvasdraw.CanvasDrawTest" todir="${junit.output.dir}"/>
+            <test name="test.org.modelcc.examples.language.imperativearithmetic.ImperativeArithmeticTest" todir="${junit.output.dir}"/>
+            <test name="test.org.modelcc.examples.language.simplearithmeticexpression.ExpressionTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-Djava.library.path=lib/lwjgl-2.9.0/native/linux"/>
+            <classpath refid="ModelCCExamples.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+    <target depends="build-project" name="create-run-jar">
+        <jar destfile="../ModelCCExamples.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.modelcc.examples.test.InteractiveTest"/>
+                <attribute name="Class-Path" value=". ModelCCExamples_lib/junit.jar ModelCCExamples_lib/org.hamcrest.core_1.1.0.v20090501071000.jar ModelCCExamples_lib/jinput.jar ModelCCExamples_lib/lwjgl_util.jar ModelCCExamples_lib/lwjgl.jar ModelCCExamples_lib/slick-util.jar"/>
+            </manifest>
+            <fileset dir="bin"/>
+        </jar>
+    </target>
+
+</project>
