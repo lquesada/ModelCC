@@ -364,13 +364,17 @@ echo ""
 echo "Organizing software..."
 mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
+exdirb=`echo modelccexamples-$version`
 mkdir $mcdirs
 mkdir $mcdirb
+mkdir $exdirb
 mv UserManual ModelCC ModelCCExamples DistScript $mcdirs
-mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib doc $mcdirb
-cp UserManual.pdf $mcdirb
+cp ModelCC.jar UserManual.pdf $mcdirb
+mv doc $mcdirb
+mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib $exdirb
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirs
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirb
+cp config/changelog.txt res/license.txt res/readme.txt $exdirb
 echo "Software organized."
 echo ""
 
@@ -379,28 +383,30 @@ find -name \* | xargs touch
 echo "Software touched."
 echo ""
 
-echo "Building source package..."
+echo "Building source packages..."
 zip -r -9 $mcdirs.zip $mcdirs > /dev/null
-echo "Source package built."
+echo "Source packages built."
 echo ""
 
-echo "Building binary package..."
+echo "Building binary packages..."
 zip -r -9 $mcdirb.zip $mcdirb > /dev/null
-echo "Binary package built."
+zip -r -9 $exdirb.zip $exdirb > /dev/null
+echo "Binary packages built."
 echo ""
 
 echo "Calculating md5sum..."
-md5sum $mcdirb.zip $mcdirs.zip > modelcc-$version.md5sum
+md5sum $mcdirb.zip $exdirb.zip $mcdirs.zip > modelcc-$version.md5sum
 echo "md5sum calculated."
 echo ""
 
 echo "Touching software..."
-touch $mcdirb.zip $mcdirs.zip modelcc-$version.md5sum 
+touch $mcdirb.zip $mcdirs.zip $exdirb.zip modelcc-$version.md5sum 
 echo "Software touched."
 echo ""
 
 #echo "Generating snapshot..."
 #cp $mcdirb.zip ../modelcc-snapshot.zip
+#cp $exdirb.zip ../modelccexamples-snapshot.zip
 #cp $mcdirs.zip ../modelcc-src-snapshot.zip
 #cp UserManual.pdf ../UserManual-snapshot.pdf
 #echo "Snapshot generated."
