@@ -275,6 +275,7 @@ echo "Testing ModelCC..."
 cd ModelCC
 eq=0
 ant ModelCCTest || eq=1
+rm -rf junit
 if [ $eq -eq 1 ];then
   echo "ERROR: JUNITS FAILED"
   exit
@@ -299,6 +300,7 @@ echo "Testing ModelCCExamples..."
 cd ModelCCExamples
 eq=0
 ant ModelCCExamplesTest || eq=1
+rm -rf junit
 if [ $eq -eq 1 ];then
   echo "ERROR: JUNITS FAILED"
   exit
@@ -338,9 +340,11 @@ echo ""
 echo "Cleaning local copy..."
 cd ModelCC
 rm -rf bin
+rm -rf lib
 cd ..
 cd ModelCCExamples
 ant clean > /dev/null
+rm -rf lib/junit* lib/org.hamcrest*
 rm -rf bin
 cd ..
 echo "Local copy cleaned."
@@ -362,19 +366,29 @@ echo "Manual generated."
 echo ""
 
 echo "Organizing software..."
+um=`echo ModelCC-UserManual-$version.pdf`
 mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
+exdirs=`echo modelccexamples-$version-src`
 exdirb=`echo modelccexamples-$version`
+fulldirs=`echo modelcc-full-$version-src`
 mkdir $mcdirs
 mkdir $mcdirb
 mkdir $exdirb
-mv UserManual ModelCC ModelCCExamples DistScript $mcdirs
-cp ModelCC.jar UserManual.pdf $mcdirb
+mkdir $exdirs
+#mkdir $fulldirs
+cp -rf ModelCC $mcdirs
+cp -rf ModelCCExamples $exdirs
+#mv UserManual ModelCC ModelCCExamples DistScript $fulldirs
+mv UserManual.pdf $um
+cp ModelCC.jar $um $mcdirb
 mv doc $mcdirb
 mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib $exdirb
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirs
+cp config/changelog.txt res/license.txt res/readme.txt $fulldirs
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirb
 cp config/changelog.txt res/license.txt res/readme.txt $exdirb
+cp config/changelog.txt res/license.txt res/readme.txt $exdirs
 echo "Software organized."
 echo ""
 
@@ -385,6 +399,8 @@ echo ""
 
 echo "Building source packages..."
 zip -r -9 $mcdirs.zip $mcdirs > /dev/null
+zip -r -9 $exdirs.zip $exdirs > /dev/null
+#zip -r -9 $fulldirs.zip $fulldirs > /dev/null
 echo "Source packages built."
 echo ""
 
@@ -395,22 +411,16 @@ echo "Binary packages built."
 echo ""
 
 echo "Calculating md5sum..."
-md5sum $mcdirb.zip $exdirb.zip $mcdirs.zip > modelcc-$version.md5sum
+md5sum $mcdirb.zip $exdirb.zip $mcdirs.zip $exdirs.zip $um > modelcc-$version.md5sum
 echo "md5sum calculated."
 echo ""
 
 echo "Touching software..."
-touch $mcdirb.zip $mcdirs.zip $exdirb.zip modelcc-$version.md5sum 
+touch $mcdirb.zip $mcdirs.zip $exdirb.zip $exdirs.zip modelcc-$version.md5sum $um 
+mkdir built
+mv $mcdirb.zip $mcdirs.zip $exdirb.zip $exdirs.zip modelcc-$version.md5sum $um built
 echo "Software touched."
 echo ""
-
-#echo "Generating snapshot..."
-#cp $mcdirb.zip ../modelcc-snapshot.zip
-#cp $exdirb.zip ../modelccexamples-snapshot.zip
-#cp $mcdirs.zip ../modelcc-src-snapshot.zip
-#cp UserManual.pdf ../UserManual-snapshot.pdf
-#echo "Snapshot generated."
-#echo ""
 
 
 echo "Please, check:"
