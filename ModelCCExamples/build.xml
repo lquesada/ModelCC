@@ -108,7 +108,32 @@
                 <attribute name="Class-Path" value=". ModelCCExamples_lib/junit.jar ModelCCExamples_lib/org.hamcrest.core_1.1.0.v20090501071000.jar ModelCCExamples_lib/jinput.jar ModelCCExamples_lib/lwjgl_util.jar ModelCCExamples_lib/lwjgl.jar ModelCCExamples_lib/slick-util.jar"/>
             </manifest>
             <fileset dir="bin"/>
+            <fileset dir="../ModelCC/bin"/>
         </jar>
+        <delete dir="../ModelCCExamples_lib"/>
+        <mkdir dir="../ModelCCExamples_lib"/>
+        <copy file="lib/lwjgl-2.9.0/jar/jinput.jar" todir="../ModelCCExamples_lib"/>
+        <copy file="lib/lwjgl-2.9.0/jar/lwjgl_util.jar" todir="../ModelCCExamples_lib"/>
+        <copy file="lib/lwjgl-2.9.0/jar/lwjgl.jar" todir="../ModelCCExamples_lib"/>
+        <copy file="lib/slick-util/slick-util.jar" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/libjinput-linux64.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/libjinput-linux.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/liblwjgl64.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/liblwjgl.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/libopenal64.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/linux/libopenal.so" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/macosx/libjinput-osx.jnilib" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/macosx/liblwjgl.jnilib" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/macosx/openal.dylib" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/jinput-dx8_64.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/jinput-dx8.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/jinput-raw_64.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/jinput-raw.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/lwjgl64.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/lwjgl.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/OpenAL32.dll" todir="../ModelCCExamples_lib"/>
+	<copy file="lib/lwjgl-2.9.0/native/windows/OpenAL64.dll" todir="../ModelCCExamples_lib"/>
+
     </target>
 
 </project>

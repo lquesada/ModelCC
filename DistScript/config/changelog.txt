@@ -1,4 +1,15 @@
 -----------------------------
+ModelCC v2.02    (2013-05-25)
+-----------------------------
+
++ [CHANGE] ModelCC is now published at GitHub.
++ [CHANGE] ModelCC is now provided as en Eclipse project.
++ [FEATURE] Distribution script provided.
++ [FIX] Containers with a minimum of 0 components could cause a parser exception.
++ [FIX] Reference post-propagation in alternations could cause a parser exception.
++ [FIX] Lamb and Fence ignored unexpected characters at the beginning and end of the input.
+
+-----------------------------
 ModelCC v2.01    (2012-01-18)
 -----------------------------
 
