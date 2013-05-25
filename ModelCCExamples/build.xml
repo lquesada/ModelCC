@@ -107,8 +107,14 @@
                 <attribute name="Main-Class" value="org.modelcc.examples.test.InteractiveTest"/>
                 <attribute name="Class-Path" value=". ModelCCExamples_lib/junit.jar ModelCCExamples_lib/org.hamcrest.core_1.1.0.v20090501071000.jar ModelCCExamples_lib/jinput.jar ModelCCExamples_lib/lwjgl_util.jar ModelCCExamples_lib/lwjgl.jar ModelCCExamples_lib/slick-util.jar"/>
             </manifest>
-            <fileset dir="bin"/>
-            <fileset dir="../ModelCC/bin"/>
+            <fileset dir="bin">
+              <include name="org/"/>
+              <exclude name="test/"/>
+            </fileset>
+            <fileset dir="../ModelCC/bin">
+              <include name="org/"/>
+              <exclude name="test/"/>
+            </fileset>
         </jar>
         <delete dir="../ModelCCExamples_lib"/>
         <mkdir dir="../ModelCCExamples_lib"/>
