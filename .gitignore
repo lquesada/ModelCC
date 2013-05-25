@@ -1,6 +1,8 @@
 /dist
 /ModelCC/bin
+/ModelCC/.metadata
 /ModelCCExamples/bin
+/ModelCCExamples/.metadata
 /UserManual/doc.dvi
 /UserManual/doc.pdf
 /UserManual/doc.toc
