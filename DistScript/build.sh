@@ -366,7 +366,7 @@ echo "Manual generated."
 echo ""
 
 echo "Organizing software..."
-um=`echo ModelCC-UserManual-$version.pdf`
+um=`echo modelcc-$version-manual.pdf`
 mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
 exdirs=`echo modelccexamples-$version-src`
