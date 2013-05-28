@@ -2,8 +2,8 @@
 ModelCC v2.03    (2013-05-28)
 -----------------------------
 
-+ [CHANGE] ParserGenerator is now ParserFactory.
-+ [CHANGE] LexerGenerator is now LexerFactory.
++ [CHANGE] ParserGenerator is now called ParserFactory.
++ [CHANGE] LexerGenerator is now called LexerFactory.
 + [FEATURE] Convenience methods provided in ParserFactory and LexerFactory.
 + [FIX] Patterns can now match the empty string.
 + [FIX] Patterns can now be the empty string.
@@ -13,9 +13,9 @@ ModelCC v2.02    (2013-05-25)
 -----------------------------
 
 + [CHANGE] ModelCC is now published at GitHub.
-+ [CHANGE] ModelCC is now provided as en Eclipse project.
++ [CHANGE] ModelCC is now provided as an Eclipse project.
 + [FEATURE] Distribution script provided.
-+ [FEATURE] Added Graph 3D example language.
++ [FEATURE] Added GraphDraw3D example language.
 + [FIX] Containers with a minimum of 0 components could cause a parser exception.
 + [FIX] Reference post-propagation in alternations could cause a parser exception.
 + [FIX] Lamb and Fence ignored unexpected characters at the beginning and end of the input.
