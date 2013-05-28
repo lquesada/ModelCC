@@ -162,7 +162,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                 t = ite.next();
                 s = new ParsedSymbol(t.getType(),t.getStartIndex(),t.getEndIndex(),t.getString());
                 s.setUserData(t.getUserData());
-                System.out.println("------------------------------------------- TOKEN is " +t.getType()+"("+t.getString()+") at "+t.getStartIndex()+"-"+t.getEndIndex());
+                //System.out.println("------------------------------------------- TOKEN is " +t.getType()+"("+t.getString()+") at "+t.getStartIndex()+"-"+t.getEndIndex());
                 ttos.put(t,s);
                 symbolSet.add(s);
             }

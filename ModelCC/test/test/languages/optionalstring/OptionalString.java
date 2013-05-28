@@ -1,4 +1,4 @@
-package test.languages.cswebunit;
+package test.languages.optionalstring;
 
 import org.modelcc.*;
 

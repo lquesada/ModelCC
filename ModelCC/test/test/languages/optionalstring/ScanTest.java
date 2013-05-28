@@ -1,4 +1,4 @@
-package test.languages.cswebunit;
+package test.languages.optionalstring;
 
 import static org.junit.Assert.*;
 
@@ -34,30 +34,27 @@ public class ScanTest {
     	return generateParser(source).parse(input);
     }
     
-    /*TODO
 	@Test
 	public void StringTest() {
 		checkMatches(BigString.class,"01a2",1);
 		checkMatches(BigString.class,"012",1);
 		
-	}*/
+	}
 
 	@Test
 	public void StringContentTest() {
-		System.out.println("START1");
-		BigString a = (BigString)parse(BigString.class,"01a2");
+		BigString a = (BigString)parse(BigString.class,"01aasdfasdf2");
 		OptionalString value = a.getValue();
-		assertEquals(value,"a");
+		assertEquals("aasdfasdf",value.getValue());
 		
 		
 	}
 
 	@Test
 	public void StringNotContentTest() {
-		System.out.println("START2");
 		BigString a = (BigString)parse(BigString.class,"012");
 		OptionalString value = a.getValue();
-		assertEquals(value,"");
+		assertEquals("",value.getValue());
 		
 		
 	}

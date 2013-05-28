@@ -174,9 +174,24 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
         return valid;
     }
 
-    private void fixOptionals(Object o, Model m,Set<Field> filled) throws InstantiationException, IllegalAccessException, NoSuchFieldException,SecurityException {
-        if (m.getClassToElement().get(o.getClass()).getClass().equals(BasicModelElement.class)) {
-        	System.out.println("TODO OJO "+o);
+    private boolean fixOptionals(Object o, Model m,Set<Field> filled) throws InstantiationException, IllegalAccessException, NoSuchFieldException,SecurityException {
+    	if (m.getClassToElement().get(o.getClass()).getClass().equals(BasicModelElement.class)) {
+    		Class c = o.getClass();
+            BasicModelElement be = (BasicModelElement) m.getClassToElement().get(c);
+            try {
+                if (be.getValueField() != null) {
+                    Field fld = c.getDeclaredField(be.getValueField());
+                    if (fld != null) {
+                        fld.setAccessible(true);
+                        if (fld.getType().equals(String.class))
+                        	fld.set(o, ObjectCaster.castObject(fld.getType(), ""));
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(BasicTokenBuilder.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+
         }
         else {
 	        ComplexModelElement ce = (ComplexModelElement)m.getClassToElement().get(o.getClass());
@@ -230,5 +245,6 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	            }
 	        }
         }
+    	return true;
     }
 }
