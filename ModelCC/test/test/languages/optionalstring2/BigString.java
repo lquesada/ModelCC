@@ -1,7 +1,16 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package test.languages.optionalstring2;
 
 import org.modelcc.*;
 
+/**
+ *
+ * @author elezeta
+ */
 @Prefix("0")
 @FreeOrder
 public class BigString implements IModel {
