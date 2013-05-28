@@ -32,7 +32,7 @@ public @interface Pattern {
   /**
    * @return the regular expression.
    */
-  public String regExp() default "";
+  public String regExp() default "]";
 
   //Define Pattern as class plus argument (matcher, args), or as RegExp
 

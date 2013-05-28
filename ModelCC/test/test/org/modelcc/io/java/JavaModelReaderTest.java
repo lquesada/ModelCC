@@ -794,7 +794,7 @@ public class JavaModelReaderTest {
     @Test
     public void patternRecognizerTest() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(false);
+        CountFilter c = new CountFilter(true);
         lg.setFilter(c);
         Model m = modelGen(BasicClass.class);
         if (m == null) {
