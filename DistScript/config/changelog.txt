@@ -1,4 +1,14 @@
 -----------------------------
+ModelCC v2.03    (2013-05-28)
+-----------------------------
+
++ [CHANGE] ParserGenerator is now ParserFactory.
++ [CHANGE] LexerGenerator is now LexerFactory.
++ [FEATURE] Convenience methods provided in ParserFactory and LexerFactory.
++ [FIX] Patterns can now match the empty string.
++ [FIX] Patterns can now be the empty string.
+
+-----------------------------
 ModelCC v2.02    (2013-05-25)
 -----------------------------
 
