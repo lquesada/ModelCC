@@ -37,7 +37,7 @@ find -name .svn | xargs rm -rf
 echo ".svn rubbish removed."
 echo ""
 
-javas=`find -name *.java`
+javas=`find ModelCC/src ModelCC/test ModelCCExamples/src ModelCCExamples/test -name *.java`
 javasrc=`find ModelCC/src -name *.java`
 javatest=`find ModelCC/test ModelCCExamples/src ModelCCExamples/test -name *.java`
 echo "Found `echo $javasrc | wc -w` java source files"
@@ -371,21 +371,17 @@ mcdirs=`echo modelcc-$version-src`
 mcdirb=`echo modelcc-$version`
 exdirs=`echo modelccexamples-$version-src`
 exdirb=`echo modelccexamples-$version`
-fulldirs=`echo modelcc-full-$version-src`
 mkdir $mcdirs
 mkdir $mcdirb
 mkdir $exdirb
 mkdir $exdirs
-#mkdir $fulldirs
 cp -rf ModelCC $mcdirs
 cp -rf ModelCCExamples $exdirs
-#mv UserManual ModelCC ModelCCExamples DistScript $fulldirs
 mv UserManual.pdf $um
 cp ModelCC.jar $um $mcdirb
 mv doc $mcdirb
 mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib $exdirb
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirs
-cp config/changelog.txt res/license.txt res/readme.txt $fulldirs
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirb
 cp config/changelog.txt res/license.txt res/readme.txt $exdirb
 cp config/changelog.txt res/license.txt res/readme.txt $exdirs
@@ -400,7 +396,6 @@ echo ""
 echo "Building source packages..."
 zip -r -9 $mcdirs.zip $mcdirs > /dev/null
 zip -r -9 $exdirs.zip $exdirs > /dev/null
-#zip -r -9 $fulldirs.zip $fulldirs > /dev/null
 echo "Source packages built."
 echo ""
 

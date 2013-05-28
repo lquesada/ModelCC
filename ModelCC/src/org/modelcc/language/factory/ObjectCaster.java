@@ -1,9 +1,33 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package org.modelcc.language.factory;
 
+/**
+ * Object Wrapper
+ * @author elezeta
+ * @serial
+ */
 public final class ObjectCaster {
 
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
+    /**
+     * Private constructor as to avoid instantiation.
+     */
 	private ObjectCaster() { }
 	
+	/**
+	 * Converts and casts an object to a class type
+	 * @param type the class type
+	 * @param obj the object
+	 * @return an instance of the class type.
+	 */
     public static Object castObject(Class type,Object obj) {
         if (obj.getClass().equals(String.class)) {
             String data = (String)obj;

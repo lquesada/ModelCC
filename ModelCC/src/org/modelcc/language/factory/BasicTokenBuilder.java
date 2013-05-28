@@ -82,8 +82,6 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
             return false;
         }
 
-        //System.out.println("Me han llamado!");
-
         return valid;
     }
 

@@ -1,3 +1,8 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package test.languages.optionalstring;
 
 import static org.junit.Assert.*;
@@ -12,6 +17,10 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
+/**
+ *
+ * @author elezeta
+ */
 public class ScanTest {
 
     public static Parser<?> generateParser(Class<?> source) {
