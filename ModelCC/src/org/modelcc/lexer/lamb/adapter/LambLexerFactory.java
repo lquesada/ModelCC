@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.CannotCreateLexerException;
-import org.modelcc.lexer.LexerGenerator;
+import org.modelcc.lexer.LexerFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -27,7 +27,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public class LambLexerGenerator extends LexerGenerator implements Serializable {
+public class LambLexerFactory extends LexerFactory implements Serializable {
 
     /**
      * Serial Version ID
@@ -51,7 +51,7 @@ public class LambLexerGenerator extends LexerGenerator implements Serializable {
      * @throws CannotCreateLexerException  
      */
     public static LambLexer create(Model m) throws CannotCreateLexerException {
-        return LambLexerGenerator.create(m,new HashSet<PatternRecognizer>());
+        return LambLexerFactory.create(m,new HashSet<PatternRecognizer>());
     }
     
     /**
@@ -65,7 +65,7 @@ public class LambLexerGenerator extends LexerGenerator implements Serializable {
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
         if (skip != null)
             fillIgnore(ignore,skip,skip.getStart());
-        return LambLexerGenerator.create(m,ignore);
+        return LambLexerFactory.create(m,ignore);
     }
       
     /**
@@ -96,7 +96,7 @@ public class LambLexerGenerator extends LexerGenerator implements Serializable {
      */
     private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
-            Logger.getLogger(LambLexerGenerator.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
+            Logger.getLogger(LambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {
             ignore.add(((BasicModelElement)el).getPattern());
         }

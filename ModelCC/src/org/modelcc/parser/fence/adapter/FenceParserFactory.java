@@ -24,14 +24,14 @@ import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.parser.CannotCreateParserException;
-import org.modelcc.parser.ParserGenerator;
+import org.modelcc.parser.ParserFactory;
 
 /**
  * ModelCC Fence Parser Generator
  * @author elezeta
  * @serial
  */
-public final class FenceParserGenerator extends ParserGenerator implements Serializable {
+public final class FenceParserFactory extends ParserFactory implements Serializable {
 
     /**
      * Serial Version ID
@@ -107,7 +107,7 @@ public final class FenceParserGenerator extends ParserGenerator implements Seria
 
     private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
-            Logger.getLogger(FenceParserGenerator.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
+            Logger.getLogger(FenceParserFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {
             ignore.add(((BasicModelElement)el).getPattern());
         }

@@ -7,13 +7,13 @@ package test.org.modelcc;
 
 import test.languages.extra.ParenthesisPlus;
 import org.modelcc.lexer.Lexer;
-import org.modelcc.lexer.LexerGenerator;
+import org.modelcc.lexer.LexerFactory;
 
 import java.util.Set;
 import java.util.HashSet;
 import org.modelcc.io.ModelReader;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.ParserGenerator;
+import org.modelcc.parser.ParserFactory;
 import org.modelcc.metamodel.Model;
 import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.io.java.JavaModelReader;
@@ -70,7 +70,7 @@ public class ModelCC2_03Test {
             Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
             se.add(new RegExpPatternRecognizer(" "));
             
-            Parser<Expression> parser = ParserGenerator.create(m,se);
+            Parser<Expression> parser = ParserFactory.create(m,se);
 
             Expression result = parser.parse("3+(2+5)");
             
@@ -97,8 +97,8 @@ public class ModelCC2_03Test {
 
             Model m = jmr.read();
 
-            Lexer lexer = LexerGenerator.create(m);
-            Parser<Expression> parser = ParserGenerator.create(m,lexer);
+            Lexer lexer = LexerFactory.create(m);
+            Parser<Expression> parser = ParserFactory.create(m,lexer);
 
             Expression result = parser.parse("3+(2+5)");
             if (result == null)
@@ -127,8 +127,8 @@ public class ModelCC2_03Test {
 
             Model mskip = jmrskip.read();
 
-            Lexer lexer = LexerGenerator.create(m,mskip);
-            Parser<Expression> parser = ParserGenerator.create(m,lexer);
+            Lexer lexer = LexerFactory.create(m,mskip);
+            Parser<Expression> parser = ParserFactory.create(m,lexer);
             
             Expression result = parser.parse("3+((+2+5)");
 
@@ -153,8 +153,8 @@ public class ModelCC2_03Test {
 
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             ignore.add(new RegExpPatternRecognizer("\\(\\+"));
-            Lexer lexer = LexerGenerator.create(m,ignore);
-            Parser<Expression> parser = ParserGenerator.create(m,lexer);
+            Lexer lexer = LexerFactory.create(m,ignore);
+            Parser<Expression> parser = ParserFactory.create(m,lexer);
             
             Expression result = parser.parse("3+((+2+5)");
 

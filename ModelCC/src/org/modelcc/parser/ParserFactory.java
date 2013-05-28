@@ -25,14 +25,14 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.parser.fence.Fence;
 import org.modelcc.parser.fence.adapter.FenceParser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
 /**
  * ModelCC Parser Generator
  * @author elezeta
  * @serial
  */
-public class ParserGenerator implements Serializable {
+public class ParserFactory implements Serializable {
 
 
     /**
@@ -47,7 +47,7 @@ public class ParserGenerator implements Serializable {
      * @throws CannotCreateParserException
      */
     public static Parser create(Model m) throws CannotCreateParserException {
-        return FenceParserGenerator.create(m);
+        return FenceParserFactory.create(m);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ParserGenerator implements Serializable {
      * @throws CannotCreateParserException
      */
     public static Parser create(Model m,Lexer lexer) throws CannotCreateParserException {
-    	return FenceParserGenerator.create(m,lexer);
+    	return FenceParserFactory.create(m,lexer);
     }
 
     /**
@@ -69,7 +69,7 @@ public class ParserGenerator implements Serializable {
      * @throws CannotCreateParserException
      */
     public static Parser create(Model m,Model skip) throws CannotCreateParserException {
-    	return FenceParserGenerator.create(m,skip);
+    	return FenceParserFactory.create(m,skip);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ParserGenerator implements Serializable {
      * @throws CannotCreateParserException
      */
     public static Parser create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateParserException {
-    	return FenceParserGenerator.create(m,ignore);
+    	return FenceParserFactory.create(m,ignore);
     }
 	
 }

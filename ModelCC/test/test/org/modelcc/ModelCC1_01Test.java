@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.HashSet;
 import org.modelcc.io.ModelReader;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.metamodel.Model;
 import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.io.java.JavaModelReader;
@@ -22,7 +22,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.modelcc.lexer.lamb.adapter.LambLexerGenerator;
+import org.modelcc.lexer.lamb.adapter.LambLexerFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 
@@ -69,7 +69,7 @@ public class ModelCC1_01Test {
             Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
             se.add(new RegExpPatternRecognizer(" "));
             
-            Parser<Expression> parser = FenceParserGenerator.create(m,se);
+            Parser<Expression> parser = FenceParserFactory.create(m,se);
 
             Expression result = parser.parse("3+(2+5)");
             
@@ -96,8 +96,8 @@ public class ModelCC1_01Test {
 
             Model m = jmr.read();
 
-            Lexer lexer = LambLexerGenerator.create(m);
-            Parser<Expression> parser = FenceParserGenerator.create(m,lexer);
+            Lexer lexer = LambLexerFactory.create(m);
+            Parser<Expression> parser = FenceParserFactory.create(m,lexer);
 
             Expression result = parser.parse("3+(2+5)");
             if (result == null)
@@ -126,8 +126,8 @@ public class ModelCC1_01Test {
 
             Model mskip = jmrskip.read();
 
-            Lexer lexer = LambLexerGenerator.create(m,mskip);
-            Parser<Expression> parser = FenceParserGenerator.create(m,lexer);
+            Lexer lexer = LambLexerFactory.create(m,mskip);
+            Parser<Expression> parser = FenceParserFactory.create(m,lexer);
             
             Expression result = parser.parse("3+((+2+5)");
 
@@ -152,8 +152,8 @@ public class ModelCC1_01Test {
 
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             ignore.add(new RegExpPatternRecognizer("\\(\\+"));
-            Lexer lexer = LambLexerGenerator.create(m,ignore);
-            Parser<Expression> parser = FenceParserGenerator.create(m,lexer);
+            Lexer lexer = LambLexerFactory.create(m,ignore);
+            Parser<Expression> parser = FenceParserFactory.create(m,lexer);
             
             Expression result = parser.parse("3+((+2+5)");
 

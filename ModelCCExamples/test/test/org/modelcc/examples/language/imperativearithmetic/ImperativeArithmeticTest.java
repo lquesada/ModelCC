@@ -7,7 +7,7 @@ package test.org.modelcc.examples.language.imperativearithmetic;
 
 import org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.modelcc.metamodel.Model;
@@ -52,7 +52,7 @@ public class ImperativeArithmeticTest {
         try {
             ModelReader jmr = new JavaModelReader(ImperativeArithmetic.class);
             Model m = jmr.read();
-            parser = FenceParserGenerator.create(m);
+            parser = FenceParserFactory.create(m);
 
         } catch (Exception ex) {
             Logger.getLogger(ImperativeArithmeticTest.class.getName()).log(Level.SEVERE, null, ex);

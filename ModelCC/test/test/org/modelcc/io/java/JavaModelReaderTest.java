@@ -286,7 +286,7 @@ public class JavaModelReaderTest {
     @Test
     public void modelReadTest1() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(true);
+        CountFilter c = new CountFilter(false);
         lg.setFilter(c);
         Model m = modelGen(Expression.class);
         if (m == null)
@@ -1116,6 +1116,18 @@ public class JavaModelReaderTest {
         assertEquals(1,c.getCount());
     }
 
+    @Test
+    public void modelWrongPatternTest() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass23.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
 
     @Test
     public void NotIModelTest() {

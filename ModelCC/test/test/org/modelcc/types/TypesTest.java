@@ -11,7 +11,7 @@ import org.modelcc.types.ShortModel;
 import org.modelcc.types.LongModel;
 import org.modelcc.types.IntegerModel;
 import org.modelcc.types.ByteModel;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.metamodel.Model;
 import org.modelcc.io.java.JavaModelReader;
 import org.junit.After;
@@ -51,7 +51,7 @@ public class TypesTest {
             JavaModelReader jmr = new JavaModelReader(c);
             m = jmr.read();
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
-            Parser p = FenceParserGenerator.create(m);
+            Parser p = FenceParserFactory.create(m);
             return p.parse(text);
         } catch (Exception e) {
             assertTrue(false);
