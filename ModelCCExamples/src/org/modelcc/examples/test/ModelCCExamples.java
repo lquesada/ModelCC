@@ -36,7 +36,7 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.ParserFactory;
 
 /**
  * ModelCCExamples.
@@ -427,7 +427,7 @@ private void evaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             Model m = jmr.read();
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             ignore.add(new RegExpPatternRecognizer("%.*\n"));
-            parser = FenceParserGenerator.create(m,ignore);
+            parser = ParserFactory.create(m,ignore);
         } catch (Exception ex) {
             outputln("CRITICAL ERROR: "+ex.getMessage());
         } 

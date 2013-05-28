@@ -7,7 +7,7 @@ package test.org.modelcc.examples.language.canvasdraw;
 
 import org.modelcc.examples.language.canvasdraw.CanvasDraw;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.modelcc.metamodel.Model;
@@ -43,7 +43,7 @@ public class CanvasDrawTest {
 
             ModelReader jmr = new JavaModelReader(CanvasDraw.class);
             Model m = jmr.read();
-            parser = FenceParserGenerator.create(m);
+            parser = FenceParserFactory.create(m);
 
         } catch (Exception ex) {
             Logger.getLogger(CanvasDrawTest.class.getName()).log(Level.SEVERE, null, ex);

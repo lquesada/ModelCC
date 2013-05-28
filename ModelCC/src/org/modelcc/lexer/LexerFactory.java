@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
-import org.modelcc.lexer.lamb.adapter.LambLexerGenerator;
+import org.modelcc.lexer.lamb.adapter.LambLexerFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -28,7 +28,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public abstract class LexerGenerator implements Serializable {
+public abstract class LexerFactory implements Serializable {
 
     /**
      * Serial Version ID
@@ -42,7 +42,7 @@ public abstract class LexerGenerator implements Serializable {
      * @throws CannotCreateLexerException  
      */
     public static Lexer create(Model m) throws CannotCreateLexerException {
-        return LambLexerGenerator.create(m);
+        return LambLexerFactory.create(m);
     }
     
     /**
@@ -53,7 +53,7 @@ public abstract class LexerGenerator implements Serializable {
      * @throws CannotCreateLexerException  
      */
     public static Lexer create(Model m,Model skip) throws CannotCreateLexerException {
-        return LambLexerGenerator.create(m,skip);
+        return LambLexerFactory.create(m,skip);
     }
       
     /**
@@ -64,7 +64,7 @@ public abstract class LexerGenerator implements Serializable {
      * @throws CannotCreateLexerException  
      */
     public static Lexer create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateLexerException {
-        return LambLexerGenerator.create(m,ignore);
+        return LambLexerFactory.create(m,ignore);
     }
     
 }

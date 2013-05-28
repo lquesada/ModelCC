@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.HashSet;
 import org.modelcc.io.ModelReader;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.metamodel.Model;
 import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.io.java.JavaModelReader;
@@ -63,7 +63,7 @@ public class ModelCC1_00Test {
 
             Model m = jmr.read();
 
-            Parser<Expression> parser = FenceParserGenerator.create(m);
+            Parser<Expression> parser = FenceParserFactory.create(m);
 
             Expression result = parser.parse("3+(2+5)");
 
@@ -84,7 +84,7 @@ public class ModelCC1_00Test {
 
             Model m = JavaModelReader.read(Expression.class);
 
-            Parser<Expression> parser = FenceParserGenerator.create(m);
+            Parser<Expression> parser = FenceParserFactory.create(m);
 
             Expression result = parser.parse("3+(2+5)");
 
@@ -111,7 +111,7 @@ public class ModelCC1_00Test {
 
             Model mskip = jmrskip.read();
 
-            Parser<Expression> parser = FenceParserGenerator.create(m,mskip);
+            Parser<Expression> parser = FenceParserFactory.create(m,mskip);
 
             Expression result = parser.parse("3+((+2+5)");
 
@@ -136,7 +136,7 @@ public class ModelCC1_00Test {
 
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             ignore.add(new RegExpPatternRecognizer("\\(\\+"));
-            Parser<Expression> parser = FenceParserGenerator.create(m,ignore);
+            Parser<Expression> parser = FenceParserFactory.create(m,ignore);
 
             Expression result = parser.parse("3+((+2+5)");
 

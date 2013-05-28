@@ -10,7 +10,7 @@ import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
 public class ScanTest {
 
@@ -18,7 +18,7 @@ public class ScanTest {
          try {
             ModelReader jmr = new JavaModelReader(source);
             Model m = jmr.read();
-            return FenceParserGenerator.create(m);
+            return FenceParserFactory.create(m);
         } catch (Exception ex) {
             Logger.getLogger(ScanTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);

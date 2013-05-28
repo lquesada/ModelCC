@@ -6,7 +6,7 @@
 package test.org.modelcc.examples.language.simplearithmeticexpression;
 
 import org.modelcc.parser.Parser;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
+import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.modelcc.metamodel.Model;
@@ -43,7 +43,7 @@ public class ExpressionTest {
 
             ModelReader jmr = new JavaModelReader(Expression.class);
             Model m = jmr.read();
-            parser = FenceParserGenerator.create(m);
+            parser = FenceParserFactory.create(m);
 
         } catch (Exception ex) {
             Logger.getLogger(ExpressionTest.class.getName()).log(Level.SEVERE, null, ex);

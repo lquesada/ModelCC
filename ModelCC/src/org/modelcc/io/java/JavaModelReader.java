@@ -516,7 +516,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         //PatternRecognizer pattern;
         if (elementClass.isAnnotationPresent(Pattern.class)) {
             Pattern p = (Pattern)elementClass.getAnnotation(Pattern.class);
-            if (p.matcher() != Pattern.class && !p.regExp().equals("]")) {
+            if (p.matcher() != Pattern.class && !p.regExp().equals("]]]]]]]]]]]]]")) {
                 log(Level.SEVERE, "In class \"{0}\": The @Pattern annotation cannot specify both a matcher class and a regular expression.", new Object[]{elementClass.getCanonicalName()});
                 if (valueField != null)
                     valueField = null;
@@ -531,7 +531,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
                         pattern = (PatternRecognizer) an.matcher().getConstructor(String.class).newInstance(an.args());
                     }
                 }
-                else if (!an.regExp().equals("]")) {
+                else if (!an.regExp().equals("]]]]]]]]]]]]]")) {
                     if (pas.containsKey(an.regExp()))
                             pattern = pas.get(an.regExp());
                     else {
