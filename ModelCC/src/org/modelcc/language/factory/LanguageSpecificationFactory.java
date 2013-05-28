@@ -433,19 +433,13 @@ public final class LanguageSpecificationFactory implements Serializable {
 /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
-            System.out.print("LanguageSpecificationFactory.java token: "+rx.getType()+" : "+rx.getRecognizer());
-            System.out.println();
+            System.out.println("token: "+rx);
         }
 
 
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
-            System.out.print("regla: "+rx.getLeft().getType()+" ::=");
-            for (Iterator<RuleElement> itere = rx.getRight().iterator();itere.hasNext();) {
-                RuleElement rf = itere.next();
-                System.out.print(" "+rf.getType());
-            }
-            System.out.println();
+            System.out.println("regla: "+rx);
         }
 */
  

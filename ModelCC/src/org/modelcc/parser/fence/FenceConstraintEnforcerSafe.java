@@ -391,6 +391,9 @@ public final class FenceConstraintEnforcerSafe implements Serializable {
             HashSet<Symbol> hs = new HashSet<Symbol>();
             s = new Symbol(id.val,ps);
             s.setUserData(ps.getUserData());
+
+            //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+
             if (build(s)) {
                 id.val++;
                 symbols.add(s);
@@ -409,6 +412,8 @@ public final class FenceConstraintEnforcerSafe implements Serializable {
             s = new Symbol(id.val,ps);
             id.val++;
 
+            //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+
             s.setUserData(ps.getUserData());
             if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
                 symbols.add(s);
@@ -425,7 +430,8 @@ public final class FenceConstraintEnforcerSafe implements Serializable {
 
             Set<ExpandTuple> tuples = searchAllTuples(ps);
             
-            
+            //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+
             Set<Symbol> hs = new HashSet<Symbol>();
             for (Iterator<ExpandTuple> ite = tuples.iterator();ite.hasNext();) {
                 ExpandTuple et = ite.next();
