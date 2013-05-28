@@ -1012,20 +1012,20 @@ try \{
 
 A \emph{Parser} can be generated from a model.
 
-ModelCC currently provides \emph{FenceParserGenerator}, which is able to produce a Fence parser with a subyacent Lamb lexer from a model and an optional \emph{skip} model which determines the patterns that should be ignored by the lexer (i.e. comments). It should be noted that, in the current implementation, the Lamb lexer ignores any character that does not match a pattern, and the \emph{skip} model can be used to ignore patterns that would be matched as other tokens. The following code illustrates the usage of this parser generator:
+ModelCC currently provides \emph{ParserFactory}, which is able to produce a Fence parser with a subyacent Lamb lexer from a model and an optional \emph{skip} model which determines the patterns that should be ignored by the lexer (i.e. comments). It should be noted that, in the current implementation, the Lamb lexer ignores any character that does not match a pattern, and the \emph{skip} model can be used to ignore patterns that would be matched as other tokens. The following code illustrates the usage of this parser generator:
 
 \begin{colframe}
 \begin{alltt}
 import org.modelcc.metamodel.Model;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 [...]
 
 //being m the model.
 
 try \{
-  Parser<MySimpleLanguage> parser = FenceParserGenerator.create(m);
+  Parser<MySimpleLanguage> parser = ParserFactory.create(m);
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
 \}
@@ -1037,8 +1037,8 @@ The following code illustrates the usage of this parser generator with a \emph{s
 \begin{colframe}
 \begin{alltt}
 import org.modelcc.metamodel.Model;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 [...]
 
@@ -1047,7 +1047,7 @@ import org.modelcc.parser.Parser;
 //being MySimpleLanguage the main model class.
 
 try \{
-  Parser<MySimpleLanguage> parser = FenceParserGenerator.create(m,skip);
+  Parser<MySimpleLanguage> parser = ParserFactory.create(m,skip);
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
 \}
@@ -1082,8 +1082,8 @@ The following code reads a model from a set of annotated Java classes, generates
 \begin{alltt}
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
-import org.modelcc.parser.fence.adapter.FenceParserGenerator;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 [...]
 
@@ -1093,7 +1093,7 @@ try \{
   Model m = JavaModelReader.read(Expression.class);
 
   // Generate a parser from the model.
-  Parser<Expression> parser = FenceParserGenerator.create(m);
+  Parser<Expression> parser = ParserFactory.create(m);
 
   // Parse an input string.
   Expression result = parser.parse("3+(2+5)");
