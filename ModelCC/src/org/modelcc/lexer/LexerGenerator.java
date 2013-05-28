@@ -53,7 +53,7 @@ public abstract class LexerGenerator implements Serializable {
      * @throws CannotCreateLexerException  
      */
     public static Lexer create(Model m,Model skip) throws CannotCreateLexerException {
-        return LambLexerGenerator.create(skip);
+        return LambLexerGenerator.create(m,skip);
     }
       
     /**
