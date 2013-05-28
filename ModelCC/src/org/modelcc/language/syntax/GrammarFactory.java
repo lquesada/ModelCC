@@ -158,6 +158,7 @@ public final class GrammarFactory implements Serializable {
                 if (r.getRight().isEmpty()) {
                     emptyRules.add(r.getLeft().getType());
                     emptyRuleRules.put(r.getLeft().getType(),r);
+                    //System.out.println("GrammarFactory.java empty rule"+r);
                     iter.remove();
                 }
             }

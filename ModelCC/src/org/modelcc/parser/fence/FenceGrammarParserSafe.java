@@ -162,6 +162,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                 t = ite.next();
                 s = new ParsedSymbol(t.getType(),t.getStartIndex(),t.getEndIndex(),t.getString());
                 s.setUserData(t.getUserData());
+                System.out.println("------------------------------------------- TOKEN is " +t.getType()+"("+t.getString()+") at "+t.getStartIndex()+"-"+t.getEndIndex());
                 ttos.put(t,s);
                 symbolSet.add(s);
             }
@@ -265,6 +266,8 @@ public final class FenceGrammarParserSafe implements Serializable {
                         do {
                             skip++;
                             nextType = wh.getRule().getRight().get(wh.getMatched()+skip).getType();
+                            //System.out.println("Looking for nextType: "+nextType);
+                            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
                             if (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
                                 generateSymbol(g.getStartType(),wh,lg.getInputStart(),lg.getInputEnd());
                             }
@@ -298,6 +301,8 @@ public final class FenceGrammarParserSafe implements Serializable {
         do {
             skip++;
             nextType = r.getRight().get(matched+skip).getType();
+            //System.out.println("Looking for nextType: "+nextType);
+            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
             Set<Handle> tc = thisCore.get(nextType);
             h = new Handle(r,matched+skip,first.getStartIndex(),first);
             if (tc == null || !tc.contains(h)) {
@@ -312,8 +317,9 @@ public final class FenceGrammarParserSafe implements Serializable {
                             tc.add(h);
                     }
                 }
-            
+                
                 if (nextType.equals(s.getType())) {
+                	//System.out.println("Matched!");
                     WaitingHandle w = new WaitingHandle(r,matched+skip,first.getStartIndex(),first,s);
                     Set<WaitingHandle> dh = doneHandles.get(s);
                     if (dh == null) {
@@ -354,10 +360,12 @@ public final class FenceGrammarParserSafe implements Serializable {
         Set<Object> singleTypeHistory = new HashSet<Object>();
         Iterator<RuleElement> itee;
         int count = 0;
-        RuleElement e;
-        for (itee = wh.getRule().getRight().iterator();itee.hasNext();)
-            if (!g.getEmptyRules().contains(itee.next().getType()))
+        for (itee = wh.getRule().getRight().iterator();itee.hasNext();) {
+        	RuleElement e = itee.next();
+            if (!g.getEmptyRules().contains(e.getType())) {
                 count++;
+            }
+        }
         if (count==1) {
             if (wh.getNext().getSingleTypeHistory() != null)
                 singleTypeHistory.addAll(wh.getNext().getSingleTypeHistory());

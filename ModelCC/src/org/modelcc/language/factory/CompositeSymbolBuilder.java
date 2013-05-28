@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SymbolBuilder;
+import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.metamodel.ComplexModelElement;
@@ -174,55 +175,60 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
     }
 
     private void fixOptionals(Object o, Model m,Set<Field> filled) throws InstantiationException, IllegalAccessException, NoSuchFieldException,SecurityException {
-        ComplexModelElement ce = (ComplexModelElement)m.getClassToElement().get(o.getClass());
-        Field[] fields = o.getClass().getDeclaredFields();
-        for (int i = 0;i < fields.length;i++) {
-            ElementMember ct = ce.getFieldToContent().get(fields[i].getName());
-            if (ct != null) {
-                Field fld = o.getClass().getDeclaredField(ct.getField());
-                if (filled == null || !filled.contains(fields[i])) {
-                    if (ct != null) {
-                        if (!ct.isOptional()) {
-                            if (!ct.getClass().equals(MultipleElementMember.class)) {
-                                Class c = fields[i].getType();
-                                Object o2 = c.newInstance();
-                                fixOptionals(o2,m,null);
-                                fields[i].setAccessible(true);
-                                fields[i].set(o,o2);
-                            }
-                            else {
-                                MultipleElementMember mc = (MultipleElementMember)ct;
-                                Object list;
-                                if (mc.getMinimumMultiplicity() == 0) {
-                                    switch (mc.getCollection()) {
-                                        case LIST:
-                                            if (fld.getType().isInterface())
-                                                    list = ArrayList.class.newInstance();
-                                                else
-                                                    list = fld.getType().newInstance();
-                                                fields[i].setAccessible(true);
-                                                fields[i].set(o,list);
-                                                break;
-                                            case LANGARRAY:
-                                                list = Array.newInstance(ct.getElementClass(),0);
-                                                fields[i].setAccessible(true);
-                                                fields[i].set(o,list);
-                                                break;
-                                            case SET:
-                                                if (fld.getType().isInterface())
-                                                    list = HashSet.class.newInstance();
-                                                else
-                                                    list = fld.getType().newInstance();
-                                                fields[i].setAccessible(true);
-                                                fields[i].set(o,list);
-                                                break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if (m.getClassToElement().get(o.getClass()).getClass().equals(BasicModelElement.class)) {
+        	System.out.println("TODO OJO "+o);
+        }
+        else {
+	        ComplexModelElement ce = (ComplexModelElement)m.getClassToElement().get(o.getClass());
+	        Field[] fields = o.getClass().getDeclaredFields();
+	        for (int i = 0;i < fields.length;i++) {
+	            ElementMember ct = ce.getFieldToContent().get(fields[i].getName());
+	            if (ct != null) {
+	                Field fld = o.getClass().getDeclaredField(ct.getField());
+	                if (filled == null || !filled.contains(fields[i])) {
+	                    if (ct != null) {
+	                        if (!ct.isOptional()) {
+	                            if (!ct.getClass().equals(MultipleElementMember.class)) {
+	                                Class c = fields[i].getType();
+	                                Object o2 = c.newInstance();
+	                                fixOptionals(o2,m,null);
+	                                fields[i].setAccessible(true);
+	                                fields[i].set(o,o2);
+	                            }
+	                            else {
+	                                MultipleElementMember mc = (MultipleElementMember)ct;
+	                                Object list;
+	                                if (mc.getMinimumMultiplicity() == 0) {
+	                                    switch (mc.getCollection()) {
+	                                        case LIST:
+	                                            if (fld.getType().isInterface())
+	                                                    list = ArrayList.class.newInstance();
+	                                                else
+	                                                    list = fld.getType().newInstance();
+	                                                fields[i].setAccessible(true);
+	                                                fields[i].set(o,list);
+	                                                break;
+	                                            case LANGARRAY:
+	                                                list = Array.newInstance(ct.getElementClass(),0);
+	                                                fields[i].setAccessible(true);
+	                                                fields[i].set(o,list);
+	                                                break;
+	                                            case SET:
+	                                                if (fld.getType().isInterface())
+	                                                    list = HashSet.class.newInstance();
+	                                                else
+	                                                    list = fld.getType().newInstance();
+	                                                fields[i].setAccessible(true);
+	                                                fields[i].set(o,list);
+	                                                break;
+	                                    }
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
         }
     }
 }

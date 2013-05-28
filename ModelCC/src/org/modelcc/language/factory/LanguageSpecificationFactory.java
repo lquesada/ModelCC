@@ -166,10 +166,25 @@ public final class LanguageSpecificationFactory implements Serializable {
                 }
                 sr.add(r);
 
-                BasicModelElement be = (BasicModelElement)el;
-                TokenSpecification ts = new TokenSpecification(beid,be.getPattern(),btb);
+                BasicModelElement bel = (BasicModelElement)el;
+
+                // Hack: pattern matches empty string
+            	
+                if (bel.getPattern().read("",0)!=null) {
+                    RuleElement rel2 = new RuleElement(eid);
+                	Rule er = new Rule();
+                	er.setLeft(rel2);
+                	er.setRight(new ArrayList<RuleElement>());
+                	er.setBuilder(dsb);
+                	ssf.addRule(er);
+                	sr.add(er);
+                }
+                
+                
+                	
+                TokenSpecification ts = new TokenSpecification(beid,bel.getPattern(),btb);
                 lsf.addTokenSpecification(ts);
-                elementTokenSpecifications.put(be,ts);
+                elementTokenSpecifications.put(bel,ts);
             }
         }
 
@@ -413,11 +428,12 @@ public final class LanguageSpecificationFactory implements Serializable {
 
         ssf.setStartType(eltoeid.get(m.getStart()));
 
+
         
 /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
-            System.out.print("token: "+rx.getType()+" : "+((RegExpPatternRecognizer)rx.getRecognizer()).getRegExp());
+            System.out.print("LanguageSpecificationFactory.java token: "+rx.getType()+" : "+rx.getRecognizer());
             System.out.println();
         }
 
