@@ -35,7 +35,6 @@ public final class DecoratorSymbolBuilder extends SymbolBuilder implements Seria
         ModelElement el = eid.getElement();
         Object o = null;
         boolean valid = true;
-
         int target = -1;
         for (int i = 0;i < t.getContents().size();i++) {
             if (t.getContents().get(i).getType().getClass().equals(ElementId.class))
@@ -53,7 +52,6 @@ public final class DecoratorSymbolBuilder extends SymbolBuilder implements Seria
             Logger.getLogger(DecoratorSymbolBuilder.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
         return valid;
     }
 }

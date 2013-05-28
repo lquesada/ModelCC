@@ -201,7 +201,11 @@ public final class LambSafe implements Serializable {
                                         forbidden[i].addAll(pset);
 
                                     if (ts.getTokenOption()==TokenOption.CONSIDER) {
-                                        tokenList.add(t);
+                                    	//System.out.println("-- LAMB found token "+t.getType()+" "+t.getStartIndex()+" to "+t.getEndIndex()+" val "+t.getString()+" recog "+ts.getRecognizer()+" INPUTS "+inputs+" at "+i+"  "+inputs.charAt(i));
+                                    	if (t.getStartIndex()<=t.getEndIndex()) {
+                                    		//System.out.println("OK!");
+                                    		tokenList.add(t);
+                                    	}
                                     }
                                     else {
                                         for (k = start;k <= end;k++)
@@ -211,6 +215,8 @@ public final class LambSafe implements Serializable {
                                         if (inputend == end)
                                         	inputend = inputend-(end-start+1);
                                     }
+                                	if (start>end)
+                                		end = start;
                                     if (end+1 < inputs.length())
                                         if (search[end+1] == Search.NO)
                                             search[end+1] = Search.YES;
