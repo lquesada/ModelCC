@@ -1,7 +1,9 @@
 /dist
 /ModelCC/bin
+/ModelCC/junit
 /ModelCC/.metadata
 /ModelCCExamples/bin
+/ModelCCExamples/junit
 /ModelCCExamples/.metadata
 /UserManual/doc.dvi
 /UserManual/doc.pdf
@@ -11,3 +13,4 @@
 /UserManual/doc.ind
 /UserManual/doc.out
 /UserManual/doc.ilg
+/.metadata
