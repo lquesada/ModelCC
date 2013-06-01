@@ -12,8 +12,8 @@
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="../../../../Programas/eclipse/plugins/org.junit_4.10.0.v4_10_0_v20120426-0900/junit.jar"/>
-        <pathelement location="../../../../Programas/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+        <pathelement location="../lib/junit.jar"/>
+        <pathelement location="../lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
     </path>
     <path id="ModelCC.classpath">
         <pathelement location="bin"/>

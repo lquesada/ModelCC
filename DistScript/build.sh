@@ -12,7 +12,7 @@ echo "Previous builds cleaned."
 echo ""
 
 echo "Generating local copy..."
-cp -rf ../ModelCCExamples ../ModelCC/ res config ../UserManual ../dist
+cp -rf ../lib ../ModelCCExamples ../ModelCC/ res config ../UserManual ../dist
 cd ..
 cp -rf DistScript dist
 cd dist
