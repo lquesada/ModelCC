@@ -73,14 +73,6 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="JavaModelReaderTest.modelWrongPatternTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.org.modelcc.io.java.JavaModelReaderTest" todir="${junit.output.dir}"/>
-            <classpath refid="ModelCC.classpath"/>
-        </junit>
-    </target>
     <target name="ModelCCTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -106,30 +98,6 @@
             <test name="test.org.modelcc.parser.fence.FenceTest" todir="${junit.output.dir}"/>
             <test name="test.org.modelcc.types.ScientificNotationParserTest" todir="${junit.output.dir}"/>
             <test name="test.org.modelcc.types.TypesTest" todir="${junit.output.dir}"/>
-            <classpath refid="ModelCC.classpath"/>
-        </junit>
-    </target>
-    <target name="ScanTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.languages.optionalstring.ScanTest" todir="${junit.output.dir}"/>
-            <classpath refid="ModelCC.classpath"/>
-        </junit>
-    </target>
-    <target name="ModelCC2_03Test">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.org.modelcc.ModelCC2_03Test" todir="${junit.output.dir}"/>
-            <classpath refid="ModelCC.classpath"/>
-        </junit>
-    </target>
-    <target name="test.languages.optionalstring2">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.languages.optionalstring2.ScanTest" todir="${junit.output.dir}"/>
             <classpath refid="ModelCC.classpath"/>
         </junit>
     </target>
