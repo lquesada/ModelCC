@@ -34,9 +34,10 @@
     </target>
     <target name="clean">
         <delete dir="bin"/>
+        <delete file="../ModelCC.jar"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
+    <target depends="build-subprojects,build-project,create-jar" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
@@ -108,5 +109,13 @@
             </fileset>
             <report format="frames" todir="${junit.output.dir}"/>
         </junitreport>
+    </target>
+    <target depends="build-project" name="create-jar">
+        <jar destfile="../ModelCC.jar">
+            <fileset dir="bin">
+              <include name="org/"/>
+              <exclude name="test/"/>
+            </fileset>
+        </jar>
     </target>
 </project>
