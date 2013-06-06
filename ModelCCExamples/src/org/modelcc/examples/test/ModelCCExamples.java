@@ -426,6 +426,7 @@ private void evaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             ModelReader jmr = new JavaModelReader(a);
             Model m = jmr.read();
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+            ignore.add(new RegExpPatternRecognizer("[\r \n\t]+"));
             ignore.add(new RegExpPatternRecognizer("%.*\n"));
             parser = ParserFactory.create(m,ignore);
         } catch (Exception ex) {

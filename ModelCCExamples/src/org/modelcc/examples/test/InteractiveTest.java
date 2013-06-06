@@ -7,6 +7,8 @@ package org.modelcc.examples.test;
 
 import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.examples.language.simplearithmeticexpression.Expression;
@@ -16,6 +18,8 @@ import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.LexicalGraph;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.FenceConstraintEnforcer;
 import org.modelcc.parser.fence.FenceGrammarParser;
