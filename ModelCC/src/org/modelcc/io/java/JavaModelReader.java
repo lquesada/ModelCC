@@ -1436,7 +1436,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						}
 					}
 					ModelElement emc = classToElement.get(em.getElementClass());
-					if ((BasicModelElement.class.isAssignableFrom(emc.getClass()))) {
+					if ((!ComplexModelElement.class.isAssignableFrom(emc.getClass()))) {
+						System.out.println("YES "+emc.getElementClass().getCanonicalName());
 						if (!canMatchEmptyString(emc,subclasses,classToElement))
 							return false;
 					}
@@ -1446,8 +1447,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
 				boolean anything = false;
-				if (!canMatchEmptyString(classToElement.get(em.getElementClass()),subclasses,classToElement))
-					anything = true;
+				if (!em.isOptional()) {
+					System.out.println("THIS IS "+es.getElementClass().getCanonicalName()+" CHECKING "+em.getElementClass().getCanonicalName());
+					if (!canMatchEmptyString(classToElement.get(em.getElementClass()),subclasses,classToElement)) {
+						anything = true;
+					}
+				}
 				if (!anything)
 					return true;
 			}
