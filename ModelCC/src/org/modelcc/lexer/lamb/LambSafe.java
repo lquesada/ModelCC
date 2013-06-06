@@ -233,9 +233,8 @@ public final class LambSafe implements Serializable {
                     for (ite = tokenList.iterator();ite.hasNext();) {
                         t = ite.next();
                         erase = false;
-                        for (k = t.getStartIndex();k <= t.getEndIndex();k++)
-                            if (search[k] == Search.NEVER)
-                                erase = true;
+                        if (search[t.getStartIndex()] == Search.NEVER)
+                            erase = true;
                         if (erase)
                             ite.remove();
                         else
