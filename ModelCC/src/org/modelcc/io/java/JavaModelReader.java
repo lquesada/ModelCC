@@ -27,6 +27,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import javax.swing.plaf.basic.BasicEditorPaneUI;
+
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
@@ -1372,9 +1375,21 @@ public class JavaModelReader extends ModelReader implements Serializable {
 
 
 	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement) {
-		if (!es.getPrefix().isEmpty() || !es.getSuffix().isEmpty())
-			return false;
-		if (BasicModelElement.class.isAssignableFrom(es.getClass())) {
+		if ((es.getPrefix()!=null)) {
+			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
+				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+					return false;
+				}
+			}
+		}
+		if ((es.getSuffix()!=null)) {
+			for (Iterator<PatternRecognizer> ite = es.getSuffix().iterator();ite.hasNext();) {
+				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+					return false;
+				}
+			}
+		}
+ 		if (BasicModelElement.class.isAssignableFrom(es.getClass())) {
 			BasicModelElement bes = (BasicModelElement)es;
 			if (bes.getPattern().read("",0) != null) {
 				return true;
@@ -1382,12 +1397,61 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		}
 		else if (ChoiceModelElement.class.isAssignableFrom(es.getClass())) {
 			ChoiceModelElement ces = (ChoiceModelElement)es;
-			for (Iterator<ModelElement> ite = subclasses.get(ces).iterator();ite.hasNext();) {
-				if (canMatchEmptyString(ite.next(),subclasses,classToElement))
-						return true;
+			if (subclasses.containsKey(ces)) {
+				for (Iterator<ModelElement> ite = subclasses.get(ces).iterator();ite.hasNext();) {
+					if (canMatchEmptyString(ite.next(),subclasses,classToElement))
+							return true;
+				}
 			}
 		}
-		//TODO complexmodelelement test
+		else if (ComplexModelElement.class.isAssignableFrom(es.getClass())) {
+			ComplexModelElement ces = (ComplexModelElement)es;
+			for (int i = 0;i < ces.getContents().size();i++) {
+				ElementMember em = ces.getContents().get(i);
+				if (!em.isOptional()) {
+					if (em.getPrefix()!=null) {
+						for (Iterator<PatternRecognizer> ite = em.getPrefix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+								return false;
+							}
+						}
+					}
+					if (em.getSuffix()!=null) {
+						for (Iterator<PatternRecognizer> ite = em.getSuffix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+								return false;
+							}
+						}
+					}
+					if (MultipleElementMember.class.isAssignableFrom(em.getClass())) {
+						MultipleElementMember mem = (MultipleElementMember)em;
+						if (mem.getMinimumMultiplicity()>0) {
+							if (em.getSeparator()!=null) {
+								for (Iterator<PatternRecognizer> ite = em.getSeparator().iterator();ite.hasNext();) {
+									if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+										return false;
+									}
+								}
+							}
+						}
+					}
+					ModelElement emc = classToElement.get(em.getElementClass());
+					if ((BasicModelElement.class.isAssignableFrom(emc.getClass()))) {
+						if (!canMatchEmptyString(emc,subclasses,classToElement))
+							return false;
+					}
+				}
+			}
+			System.out.println("TODO JavaModelReader NO IDEA YET");
+			for (int i = 0;i < ces.getContents().size();i++) {
+				ElementMember em = ces.getContents().get(i);
+				boolean anything = false;
+				if (!canMatchEmptyString(classToElement.get(em.getElementClass()),subclasses,classToElement))
+					anything = true;
+				if (!anything)
+					return true;
+			}
+		}
 		return false;
 	}
 }
