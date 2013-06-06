@@ -125,6 +125,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
         Map<PreElement,PreElement> preSuperclasses = new HashMap<PreElement,PreElement>();
         Map<PreElement,Integer> priorities = new HashMap<PreElement,Integer>();
 
+        Map<ModelElement,ModelElement> defaultElement = new HashMap<ModelElement,ModelElement>();
+
         // Detects relevants classes.
         relevantClasses = detectRelevantClasses(root);
 
@@ -149,12 +151,15 @@ public class JavaModelReader extends ModelReader implements Serializable {
         // Convert PreElements to Elements (fixate them in order to encapsulate private members)
         fixateElements(preElements,elements,prePrecedences,precedences,subclasses,preSubclasses,superclasses,preSuperclasses,preElementToElement,classToElement);
 
+        // Find defaultElements.
+        findDefaultElements(elements,classToElement,subclasses,defaultElement);
+        
         start = classToElement.get(root);
 
-        return new Model(elements,start,delimiters,precedences,subclasses,superclasses,classToElement);
+        return new Model(elements,start,delimiters,precedences,subclasses,superclasses,classToElement,defaultElement);
     }
 
-    /**
+	/**
      * Detects all the relevant classes from a root one
      * @param root the root class
      * @return the set of relevant classes
@@ -1344,5 +1349,45 @@ public class JavaModelReader extends ModelReader implements Serializable {
         }
     }
 
+    /**
+     * Find default elements. When an abstract element matches the empty string, one of its subclasses is its default element.
+     * @param elements Element list
+     * @param defaultElement Output default element list
+     */
+    private void findDefaultElements(Set<ModelElement> elements,Map<Class,ModelElement> classToElement,Map<ModelElement,Set<ModelElement>> subclasses,Map<ModelElement, ModelElement> defaultElement) {
+    	for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
+    		ModelElement e = ite.next();
+    		if (Modifier.isAbstract(e.getElementClass().getModifiers())) {
+    			if (subclasses.containsKey(e)) {
+	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
+	    	    		ModelElement es = ites.next();
+	    	    		if (canMatchEmptyString(es,subclasses,classToElement)) {
+	    	    			defaultElement.put(e,es);
+	    	    		}
+	    	    	}
+    			}
+    		}
+    	}
+	}
 
+
+	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement) {
+		if (!es.getPrefix().isEmpty() || !es.getSuffix().isEmpty())
+			return false;
+		if (BasicModelElement.class.isAssignableFrom(es.getClass())) {
+			BasicModelElement bes = (BasicModelElement)es;
+			if (bes.getPattern().read("",0) != null) {
+				return true;
+			}
+		}
+		else if (ChoiceModelElement.class.isAssignableFrom(es.getClass())) {
+			ChoiceModelElement ces = (ChoiceModelElement)es;
+			for (Iterator<ModelElement> ite = subclasses.get(ces).iterator();ite.hasNext();) {
+				if (canMatchEmptyString(ite.next(),subclasses,classToElement))
+						return true;
+			}
+		}
+		//TODO complexmodelelement test
+		return false;
+	}
 }

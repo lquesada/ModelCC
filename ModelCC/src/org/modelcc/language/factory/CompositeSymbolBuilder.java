@@ -8,7 +8,10 @@ package org.modelcc.language.factory;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,6 +24,7 @@ import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ElementMember;
+import org.modelcc.metamodel.ModelElement;
 import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
@@ -205,7 +209,14 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                        if (!ct.isOptional()) {
 	                            if (!ct.getClass().equals(MultipleElementMember.class)) {
 	                                Class c = fields[i].getType();
-	                                Object o2 = c.newInstance();
+	                                Object o2;
+	                                if (Modifier.isAbstract( c.getModifiers())) {
+	                                	Class nc = m.getDefaultElement().get(m.getClassToElement().get(c)).getElementClass();
+	                                	o2 = nc.newInstance();
+	                                }
+	                                else {
+	                                	o2 = c.newInstance();
+	                                }
 	                                fixOptionals(o2,m,null);
 	                                fields[i].setAccessible(true);
 	                                fields[i].set(o,o2);
