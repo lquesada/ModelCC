@@ -59,6 +59,11 @@ public final class Model implements Serializable {
     private Map<Class,ModelElement> classToElement;
 
     /**
+     * ModelElement default element map.
+     */
+    private Map<ModelElement,ModelElement> defaultElement;
+
+    /**
      * Constructor.
      * @param elements the set of elements of this model.
      * @param start the start element of this model
@@ -68,7 +73,7 @@ public final class Model implements Serializable {
      * @param superelements the element superclass map
      * @param classToElement the class to element map
      */
-    public Model(Set<ModelElement> elements,ModelElement start,Set<PatternRecognizer> delimiters,Map<ModelElement,Set<ModelElement>> precedences,Map<ModelElement,Set<ModelElement>> subelements,Map<ModelElement,ModelElement> superelements,Map<Class,ModelElement> classToElement) {
+    public Model(Set<ModelElement> elements,ModelElement start,Set<PatternRecognizer> delimiters,Map<ModelElement,Set<ModelElement>> precedences,Map<ModelElement,Set<ModelElement>> subelements,Map<ModelElement,ModelElement> superelements,Map<Class,ModelElement> classToElement,Map<ModelElement,ModelElement> defaultElement) {
         this.elements = elements;
         this.start = start;
         this.delimiters = delimiters;
@@ -76,6 +81,7 @@ public final class Model implements Serializable {
         this.subelements = subelements;
         this.superelements = superelements;
         this.classToElement = classToElement;
+        this.defaultElement = defaultElement;
     }
 
     /**
@@ -125,6 +131,13 @@ public final class Model implements Serializable {
      */
     public Map<Class, ModelElement> getClassToElement() {
         return Collections.unmodifiableMap(classToElement);
+    }
+
+    /**
+     * @return the defaultElement
+     */
+    public Map<ModelElement, ModelElement> getDefaultElement() {
+        return Collections.unmodifiableMap(defaultElement);
     }
 
 }
