@@ -13,11 +13,15 @@ import test.languages.warnings.ReferenceNotIModel;
 import test.languages.warnings.CollectionID;
 import test.languages.warnings.IDNotIModel;
 import test.languages.warnings.OptionalID;
+
+import java.util.HashSet;
 import java.util.List;
 import test.languages.warnings.OptionalMult;
 import test.languages.warnings.OptionalMain;
 import test.languages.warnings.AbstNoSubClasses1;
 import test.languages.warnings.AbstNoSubClasses;
+
+import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.ClassDoesNotExtendIModel;
 import org.modelcc.io.java.JavaModelReader;
 import java.util.logging.Filter;
@@ -25,6 +29,9 @@ import java.util.logging.LogRecord;
 import test.languages.wronglanguages.*;
 import test.languages.patternrecognizertest.*;
 import org.modelcc.metamodel.*;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
+
 import test.languages.testlanguage.*;
 import org.modelcc.AssociativityType;
 import test.languages.arithmeticcalculator.*;
@@ -33,6 +40,7 @@ import test.languages.arithmeticcalculator.binaryoperators.*;
 import test.languages.nestedinheritsexample.*;
 import test.languages.arithmeticcalculator.expressions.*;
 import test.languages.arithmeticcalculator.expressions.literals.*;
+import test.org.modelcc.ModelCC2_03Test;
 import test.org.modelcc.io.Serialization;
 
 import java.lang.reflect.InvocationTargetException;
@@ -45,6 +53,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.CompositionType;
 import static org.junit.Assert.*;
@@ -1313,6 +1322,5 @@ public class JavaModelReaderTest {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-
+ 
 }
