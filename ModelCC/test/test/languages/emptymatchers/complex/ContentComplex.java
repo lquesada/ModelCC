@@ -6,5 +6,6 @@ public class ContentComplex extends Content implements IModel {
 
 	public Basic empty;
 	
-	@Optional public BasicSomething something;
+	@Optional
+	public BasicSomething something;
 }
