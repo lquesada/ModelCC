@@ -147,7 +147,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 
         // Checks optionals.
         checkOptionals(preElements,classToPreElement);
-        
+
         // Checks references.
         checkReferences(preElements,classToPreElement);
 
@@ -156,7 +156,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
 
         // Find defaultElements.
         findDefaultElements(elements,classToElement,subclasses,defaultElement);
-        
+
+        // Check cycles.
+        checkCycles(elements,classToElement,subclasses);
+
         start = classToElement.get(root);
 
         return new Model(elements,start,delimiters,precedences,subclasses,superclasses,classToElement,defaultElement);
@@ -1483,5 +1486,168 @@ public class JavaModelReader extends ModelReader implements Serializable {
 
 		}
 		return false;
+	}
+	
+	private void checkCycles(Set<ModelElement> elements,
+			Map<Class, ModelElement> classToElement,
+			Map<ModelElement, Set<ModelElement>> subclasses) {
+		for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
+			ModelElement e = ite.next();
+			checkCycle(e,e,classToElement,subclasses);
+		}
+	}
+
+
+	private void checkCycle(ModelElement es, ModelElement orig,
+			Map<Class, ModelElement> classToElement,
+			Map<ModelElement, Set<ModelElement>> subclasses) {
+		if ((es.getPrefix()!=null)) {
+			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
+				String pref = ite.next().getArg();
+				if (new RegExpPatternRecognizer(pref).read("",0) == null) {
+					return;
+				}
+			}
+		}
+		if ((es.getSuffix()!=null)) {
+			for (Iterator<PatternRecognizer> ite = es.getSuffix().iterator();ite.hasNext();) {
+				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+					return;
+				}
+			}
+		}
+ 		if (BasicModelElement.class.isAssignableFrom(es.getClass())) {
+ 			return;
+		}
+		else if (ChoiceModelElement.class.isAssignableFrom(es.getClass())) {
+			ChoiceModelElement ces = (ChoiceModelElement)es;
+			if (subclasses.containsKey(ces)) {
+				boolean hasOtherThanOrig = false;
+				boolean hasOrig = false;
+				for (Iterator<ModelElement> ite = subclasses.get(ces).iterator();ite.hasNext();) {
+					ModelElement me = ite.next();
+					if (me.equals(orig)) {
+						hasOrig = true;
+						if ((me.getPrefix()!=null)) {
+							for (Iterator<PatternRecognizer> ite2 = me.getPrefix().iterator();ite2.hasNext();) {
+								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+									hasOtherThanOrig = true;
+								}
+							}
+						}
+						if ((me.getSuffix()!=null)) {
+							for (Iterator<PatternRecognizer> ite2 = me.getSuffix().iterator();ite2.hasNext();) {
+								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+									hasOtherThanOrig = true;
+								}
+							}
+						}
+					}
+					else {
+						hasOtherThanOrig = true;
+					}
+					checkCycle(me,orig,classToElement,subclasses);
+				}
+				if (hasOrig && !hasOtherThanOrig) {
+                    log(Level.SEVERE, "Class \"{0}\" cycles with recursive inheritance or composition.", new Object[]{orig.getElementClass().getCanonicalName()});
+				}
+			}
+			return;
+		}
+		else if (ComplexModelElement.class.isAssignableFrom(es.getClass())) {
+			ComplexModelElement ces = (ComplexModelElement)es;
+			for (int i = 0;i < ces.getContents().size();i++) {
+				ElementMember em = ces.getContents().get(i);
+				if (!em.isOptional()) {
+					ModelElement emca = classToElement.get(em.getElementClass());
+					if (emca.getPrefix()!=null) {
+						for (Iterator<PatternRecognizer> ite = emca.getPrefix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+								return;
+							}
+						}
+					}
+					if (emca.getSuffix()!=null) {
+						for (Iterator<PatternRecognizer> ite = emca.getSuffix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+								return;
+							}
+						}
+					}
+					if (em.getPrefix()!=null) {
+						for (Iterator<PatternRecognizer> ite = em.getPrefix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+								return;
+							}
+						}
+					}
+					if (em.getSuffix()!=null) {
+						for (Iterator<PatternRecognizer> ite = em.getSuffix().iterator();ite.hasNext();) {
+							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+								return;
+							}
+						}
+					}
+					if (MultipleElementMember.class.isAssignableFrom(em.getClass())) {
+						MultipleElementMember mem = (MultipleElementMember)em;
+						if (mem.getMinimumMultiplicity()>0) {
+							if (em.getSeparator()!=null) {
+								for (Iterator<PatternRecognizer> ite = em.getSeparator().iterator();ite.hasNext();) {
+									if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			boolean hasOtherThanOrig = false;
+			boolean hasOrig = false;
+
+			for (int i = 0;i < ces.getContents().size();i++) {
+				ElementMember em = ces.getContents().get(i);
+				ModelElement emm = classToElement.get(em.getElementClass());
+				if (!em.isOptional()) {
+					if (emm.equals(orig)) {
+						hasOrig = true;
+						if ((emm.getPrefix()!=null)) {
+							for (Iterator<PatternRecognizer> ite2 = emm.getPrefix().iterator();ite2.hasNext();) {
+								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+									hasOtherThanOrig = true;
+								}
+							}
+						}
+						if ((emm.getSuffix()!=null)) {
+							for (Iterator<PatternRecognizer> ite2 = emm.getSuffix().iterator();ite2.hasNext();) {
+								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+									hasOtherThanOrig = true;
+								}
+							}
+						}
+					}
+					else {
+						hasOtherThanOrig = true;
+					}
+				}
+			}
+			
+			if (hasOrig && !hasOtherThanOrig) {
+                log(Level.SEVERE, "Class \"{0}\" cycles with recursive inheritance or composition.", new Object[]{orig.getElementClass().getCanonicalName()});
+			}
+
+			if (hasOrig && !hasOtherThanOrig) {
+				for (int i = 0;i < ces.getContents().size();i++) {
+					ElementMember em = ces.getContents().get(i);
+					ModelElement emm = classToElement.get(em.getElementClass());
+					if (!em.isOptional()) {
+						if (!emm.equals(orig)) {
+							checkCycle(emm,orig,classToElement,subclasses);
+						}
+					}
+				}
+			}
+
+		}
 	}
 }

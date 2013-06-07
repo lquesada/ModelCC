@@ -1266,6 +1266,32 @@ public class JavaModelReaderTest {
         Collection<test.languages.emptymatchers.prefix2.StartPoint> result = parser.parseAll("acb");
         assertEquals(1,result.size());
     }
+
+    @Test
+    public void PrefixLoopTest() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.prefixloop.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void PrefixLoopTest2() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.prefixloop2.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
     
     @Test
     public void ReferenceNotIDTest() {
