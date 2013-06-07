@@ -210,12 +210,8 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                            if (!ct.getClass().equals(MultipleElementMember.class)) {
 	                                Class c = fields[i].getType();
 	                                Object o2;
-                                	System.out.println("TODO CompositeSymbolBuilder fix this CLASS IS "+c);
 	                                while (Modifier.isAbstract( c.getModifiers())) {
-	                                	System.out.println("IS ABSTRACT");
-	                                	System.out.println("DEF "+m.getDefaultElement().get(m.getClassToElement().get(c)));
 	                                	c = m.getDefaultElement().get(m.getClassToElement().get(c)).getElementClass();
-	                                	System.out.println("NEW CLASS IS "+c);
 	                                }
                                 	o2 = c.newInstance();
 	                                fixOptionals(o2,m,null);

@@ -152,8 +152,8 @@ public class DefaultElementTest {
 
             assertNotNull(result);
             assertNotNull(result.content);
-            assertNotNull(((test.languages.emptymatchers.complex.ContentComplex)result.content).something);
-            assertNull(((test.languages.emptymatchers.complex.ContentComplex)result.content).empty);
+            assertNull(((test.languages.emptymatchers.complex.ContentComplex)result.content).something);
+            assertNotNull(((test.languages.emptymatchers.complex.ContentComplex)result.content).empty);
 
 
         } catch (Exception ex) {
