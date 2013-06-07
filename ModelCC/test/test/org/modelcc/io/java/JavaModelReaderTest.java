@@ -14,6 +14,7 @@ import test.languages.warnings.CollectionID;
 import test.languages.warnings.IDNotIModel;
 import test.languages.warnings.OptionalID;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import test.languages.warnings.OptionalMult;
@@ -29,6 +30,7 @@ import java.util.logging.LogRecord;
 import test.languages.wronglanguages.*;
 import test.languages.patternrecognizertest.*;
 import org.modelcc.metamodel.*;
+import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 
@@ -40,6 +42,7 @@ import test.languages.arithmeticcalculator.binaryoperators.*;
 import test.languages.nestedinheritsexample.*;
 import test.languages.arithmeticcalculator.expressions.*;
 import test.languages.arithmeticcalculator.expressions.literals.*;
+import test.languages.emptymatchers.prefix.StartPoint;
 import test.org.modelcc.ModelCC2_03Test;
 import test.org.modelcc.io.Serialization;
 
@@ -1216,6 +1219,52 @@ public class JavaModelReaderTest {
             return;
         }
         assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void EmptyPrefixTest() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.prefix.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        se.add(new RegExpPatternRecognizer(" "));
+        Parser<test.languages.emptymatchers.prefix.StartPoint> parser;
+		try {
+			parser = ParserFactory.create(m,se);
+		} catch (CannotCreateParserException e) {
+            assertFalse(true);
+            return;
+		}
+        Collection<test.languages.emptymatchers.prefix.StartPoint> result = parser.parseAll("ab");
+        assertEquals(0,result.size());
+    }
+
+    @Test
+    public void EmptyPrefixTest2() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.prefix2.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        se.add(new RegExpPatternRecognizer(" "));
+        Parser<test.languages.emptymatchers.prefix2.StartPoint> parser;
+		try {
+			parser = ParserFactory.create(m,se);
+		} catch (CannotCreateParserException e) {
+            assertFalse(true);
+            return;
+		}
+        Collection<test.languages.emptymatchers.prefix2.StartPoint> result = parser.parseAll("acb");
+        assertEquals(1,result.size());
     }
     
     @Test
