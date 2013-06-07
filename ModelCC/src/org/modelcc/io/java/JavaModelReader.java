@@ -1364,7 +1364,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
     			if (subclasses.containsKey(e)) {
 	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
 	    	    		ModelElement es = ites.next();
-	    	    		if (canMatchEmptyString(es,subclasses,classToElement)) {
+	    	    		if (canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>())) {
 	    	    			defaultElement.put(e,es);
 	    	    		}
 	    	    	}
@@ -1374,7 +1374,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	}
 
 
-	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement) {
+	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement,Set<ModelElement> history) {
 		if ((es.getPrefix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
 				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
@@ -1394,15 +1394,26 @@ public class JavaModelReader extends ModelReader implements Serializable {
 			if (bes.getPattern().read("",0) != null) {
 				return true;
 			}
+			else {
+				return false;
+			}
 		}
 		else if (ChoiceModelElement.class.isAssignableFrom(es.getClass())) {
 			ChoiceModelElement ces = (ChoiceModelElement)es;
 			if (subclasses.containsKey(ces)) {
 				for (Iterator<ModelElement> ite = subclasses.get(ces).iterator();ite.hasNext();) {
-					if (canMatchEmptyString(ite.next(),subclasses,classToElement))
+					ModelElement me = ite.next();
+					if (!history.contains(me)) {
+						Set<ModelElement> history2 = new HashSet<ModelElement>();
+						history2.addAll(history);
+						history2.add(es);
+						if (canMatchEmptyString(me,subclasses,classToElement,history2)) {
 							return true;
+						}
+					}
 				}
 			}
+			return false;
 		}
 		else if (ComplexModelElement.class.isAssignableFrom(es.getClass())) {
 			ComplexModelElement ces = (ComplexModelElement)es;
@@ -1435,27 +1446,41 @@ public class JavaModelReader extends ModelReader implements Serializable {
 							}
 						}
 					}
-					ModelElement emc = classToElement.get(em.getElementClass());
-					if ((!ComplexModelElement.class.isAssignableFrom(emc.getClass()))) {
-						System.out.println("YES "+emc.getElementClass().getCanonicalName());
-						if (!canMatchEmptyString(emc,subclasses,classToElement))
-							return false;
-					}
 				}
 			}
-			System.out.println("TODO JavaModelReader NO IDEA YET");
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
 				boolean anything = false;
 				if (!em.isOptional()) {
-					System.out.println("THIS IS "+es.getElementClass().getCanonicalName()+" CHECKING "+em.getElementClass().getCanonicalName());
-					if (!canMatchEmptyString(classToElement.get(em.getElementClass()),subclasses,classToElement)) {
+					Set<ModelElement> history2 = new HashSet<ModelElement>();
+					history2.addAll(history);
+					history2.add(es);
+					if (!canMatchEmptyString(classToElement.get(em.getElementClass()),subclasses,classToElement,history2)) {
 						anything = true;
 					}
 				}
 				if (!anything)
 					return true;
 			}
+			for (int i = 0;i < ces.getContents().size();i++) {
+				ElementMember em = ces.getContents().get(i);
+				boolean anything = false;
+				if (!em.isOptional()) {
+					ModelElement emc = classToElement.get(em.getElementClass());
+					if ((!ComplexModelElement.class.isAssignableFrom(emc.getClass()))) {
+						Set<ModelElement> history2 = new HashSet<ModelElement>();
+						history2.addAll(history);
+						history2.add(es);
+						if (!canMatchEmptyString(emc,subclasses,classToElement,history2)) {
+							anything = true;
+							return false;
+						}
+					}
+				}
+				if (!anything)
+					return true;
+			}
+
 		}
 		return false;
 	}
