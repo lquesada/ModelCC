@@ -42,8 +42,6 @@
     </target>
     <target name="clean">
         <delete dir="bin"/>
-        <delete file="../ModelCCExamples.jar"/>
-        <delete dir="../ModelCCExamples_lib"/>
     </target>
     <target depends="clean" name="cleanall">
         <ant antfile="build.xml" dir="${ModelCC.location}" inheritAll="false" target="clean"/>
