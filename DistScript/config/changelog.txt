@@ -1,4 +1,13 @@
 -----------------------------
+ModelCC v2.04    (2013-06-07)
+-----------------------------
+
++ [FEATURE] Recursive inheritance/composition that would loop now causes a warning.
++ [FIX] Ignore patterns inhibited the generation of all the symbols that they overlapped with.
++ [FIX] Added whitespace ignore patterns to ModelCCExamples.
++ [FIX] Abstract classes that can match empty strings do not throw exceptions anymore.
+
+-----------------------------
 ModelCC v2.03    (2013-05-28)
 -----------------------------
 
