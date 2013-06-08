@@ -156,6 +156,8 @@ The specification of a language in ModelCC starts with the definition of basic l
 Basic language elements can be modeled as simple classes in an object-oriented programming language annotated with pattern constraints, as described in Section \ref{sec:patterns}.
 The ASM-CSM mapping of those basic elements will establish their correspondence to the tokens that appear in the concrete syntax of the language whose ASM we design in ModelCC.
 
+The metadata annotation \emph{@Setup} can be used to specify the method, if any, that has to be run to initialize the language element instances.
+
 Then, ModelCC provides the necessary mechanisms to combine those basic elements into more complex language constructs, which correspond to the use of concatenation, selection, and repetition in the syntax-driven specification of languages.
 
 In the following subsections, we describe the mechanisms provided by ModelCC to implement the three main constructs that let us specify complete abstract syntax models on top of basic
@@ -780,7 +782,7 @@ public class Program implements{\emph IModel} \{
 
 Reference constraints allow specifying references to elements.
 
-\subsubsection{The @ID annotation [since ModelCC v2.00]}
+\subsubsection{The @ID annotation}
 
 The \an{@ID} annotation allows the specification of the components of an element that represent its key.
 
@@ -803,7 +805,7 @@ public class User implements{\emph IModel} \{
 \end{colframe}
 
 
-\subsubsection{The @Reference annotation [since ModelCC v2.00]}
+\subsubsection{The @Reference annotation}
 
 The \an{@Reference} annotation allows the specification of references to an element. Whenever a key for that element is found, it is considered a reference to it, and therefore the very same object is linked to the reference.
 
@@ -831,9 +833,9 @@ public class Sale implements{\emph IModel} \{
 
 ModelCC provides a mechanism for the user to implement any other constraint and semantic actions he needs.
 
-\subsubsection{The @Autorun annotation}
+\subsubsection{The @Constraint annotation}
 
-the \an{@Autorun} annotation allows the specification of a method that will be run after an instance of a language element has been generated. That method can perform any action involving the \an{@Value}-annotated language element member or any other element member. It has to accept no parameters and must return a boolean that specifies if the element is valid and can be generated.
+the \an{@Constraint} annotation allows the specification of a method that will be run after an instance of a language element has been generated. That method can perform any action involving the \an{@Value}-annotated language element member or any other element member. It has to accept no parameters and must return a boolean that specifies if the element is valid and can be generated.
 
 The following code shows an example of user defined constraint, in which a \emph{BoundedInteger} has to be between $4$ and $17$:
 
@@ -846,7 +848,7 @@ public class BoundedInteger implements{\emph IModel} \{
   @Value
   int value;
 
-  {\bf @Autorun}
+  {\bf @Constraint}
   boolean check() \{
     if (value >= 4 && value <= 17)
       return true;
@@ -859,7 +861,7 @@ public class BoundedInteger implements{\emph IModel} \{
 \end{colframe}
 
 
-\section{Predefined types [since ModelCC v2.01]} \label{sec:predefinedtypes}
+\section{Predefined types} \label{sec:predefinedtypes}
 
 ModelCC provides several predefined models for common data types.
 

@@ -21,11 +21,11 @@
 \BOOKMARK [2][-]{subsection.3.5}{Composite Element Order Constraints}{section.3}% 21
 \BOOKMARK [3][-]{subsubsection.3.5.1}{The @FreeOrder annotation}{subsection.3.5}% 22
 \BOOKMARK [2][-]{subsection.3.6}{Reference Constraints}{section.3}% 23
-\BOOKMARK [3][-]{subsubsection.3.6.1}{The @ID annotation [since ModelCC v2.00]}{subsection.3.6}% 24
-\BOOKMARK [3][-]{subsubsection.3.6.2}{The @Reference annotation [since ModelCC v2.00]}{subsection.3.6}% 25
+\BOOKMARK [3][-]{subsubsection.3.6.1}{The @ID annotation}{subsection.3.6}% 24
+\BOOKMARK [3][-]{subsubsection.3.6.2}{The @Reference annotation}{subsection.3.6}% 25
 \BOOKMARK [2][-]{subsection.3.7}{User defined constraints}{section.3}% 26
-\BOOKMARK [3][-]{subsubsection.3.7.1}{The @Autorun annotation}{subsection.3.7}% 27
-\BOOKMARK [1][-]{section.4}{Predefined types [since ModelCC v2.01]}{}% 28
+\BOOKMARK [3][-]{subsubsection.3.7.1}{The @Constraint annotation}{subsection.3.7}% 27
+\BOOKMARK [1][-]{section.4}{Predefined types}{}% 28
 \BOOKMARK [1][-]{section.5}{Getting Started on ModelCC}{}% 29
 \BOOKMARK [2][-]{subsection.5.1}{Setting up ModelCC}{section.5}% 30
 \BOOKMARK [3][-]{subsubsection.5.1.1}{Downloading ModelCC}{subsection.5.1}% 31
