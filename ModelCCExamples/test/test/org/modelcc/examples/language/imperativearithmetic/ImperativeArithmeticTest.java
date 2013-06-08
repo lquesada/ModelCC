@@ -8,8 +8,14 @@ package test.org.modelcc.examples.language.imperativearithmetic;
 import org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.io.ModelReader;
@@ -52,7 +58,10 @@ public class ImperativeArithmeticTest {
         try {
             ModelReader jmr = new JavaModelReader(ImperativeArithmetic.class);
             Model m = jmr.read();
-            parser = FenceParserFactory.create(m);
+            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+            se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
+            
+            parser = FenceParserFactory.create(m,se);
 
         } catch (Exception ex) {
             Logger.getLogger(ImperativeArithmeticTest.class.getName()).log(Level.SEVERE, null, ex);

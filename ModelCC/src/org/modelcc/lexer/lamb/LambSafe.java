@@ -128,6 +128,9 @@ public final class LambSafe implements Serializable {
         Set<Token> tokens = new HashSet<Token>();
         Set<Token> starts = new HashSet<Token>();
 
+        Search[] search;
+        search = new Search[inputs.length()+1];
+
         // -------------
         // Scanning step
         // -------------
@@ -159,8 +162,6 @@ public final class LambSafe implements Serializable {
 
             // Determines if search must be performed starting in an inputs
             //   string index.
-            Search[] search;
-            search = new Search[inputs.length()+1];
             for (i = 0;i < search.length;i++)
                 search[i] = Search.NO;
             search[0] = Search.YES;
@@ -297,7 +298,13 @@ public final class LambSafe implements Serializable {
                                     state = 2;
                                 else {
                                     minend = Math.min(minend,tj.getEndIndex());
-                                    addPreceding(ti,tj);
+                                    boolean together = true;
+                                    for (int f = ti.getEndIndex()+1;f < tj.getStartIndex();f++) {
+                                    	if (search[f]!=Search.NEVER)
+                                    		together = false;
+                                    }
+                                    if (together)
+                                    	addPreceding(ti,tj);
                                 }
                             }
                     }

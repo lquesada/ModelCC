@@ -8,8 +8,14 @@ package test.org.modelcc.examples.language.canvasdraw;
 import org.modelcc.examples.language.canvasdraw.CanvasDraw;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.io.ModelReader;
@@ -43,7 +49,9 @@ public class CanvasDrawTest {
 
             ModelReader jmr = new JavaModelReader(CanvasDraw.class);
             Model m = jmr.read();
-            parser = FenceParserFactory.create(m);
+            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+            se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
+            parser = FenceParserFactory.create(m,se);
 
         } catch (Exception ex) {
             Logger.getLogger(CanvasDrawTest.class.getName()).log(Level.SEVERE, null, ex);
