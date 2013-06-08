@@ -15,4 +15,5 @@ public class Test5 extends Test2 implements IModel {
 
     @ID
     Test1 sheep;
+    
 }

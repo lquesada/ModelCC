@@ -66,13 +66,14 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
                 Method mtd = c.getDeclaredMethod(be.getSetupMethod(),new Class[]{});
                 if (mtd != null) {
                     mtd.setAccessible(true);
-                    if (mtd.getReturnType().equals(boolean.class) || mtd.getReturnType().equals(Boolean.class)) {
-                        valid = (Boolean)mtd.invoke(o);
-                    }
-                    else {
-                        mtd.invoke(o);
-                        valid = true;
-                    }
+                    mtd.invoke(o);
+                }
+            }
+            for (int i = 0;i < be.getConstraintMethods().size();i++) {
+                Method mtd = c.getDeclaredMethod(be.getConstraintMethods().get(i),new Class[]{});
+                if (mtd != null) {
+                    mtd.setAccessible(true);
+                    valid = (Boolean)mtd.invoke(o);
                 }
             }
             t.setUserData(o);

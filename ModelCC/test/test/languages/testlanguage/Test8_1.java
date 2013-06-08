@@ -21,7 +21,7 @@ public class Test8_1 implements IModel {
         
     }
     
-    @Setup
+    @Constraint
     public Boolean run() {
         if (read.equals("a"))    
             return true;

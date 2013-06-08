@@ -51,4 +51,8 @@ public class Main implements IModel {
         return true;
     }
 
+    @Setup
+    void setup() {
+    	
+    }
 }
