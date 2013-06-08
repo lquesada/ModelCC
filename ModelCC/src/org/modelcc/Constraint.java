@@ -11,13 +11,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines run on load method.
+ * Defines constraint checking method.
  * @author elezeta
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Autorun {
+public @interface Constraint {
 
-    //Define which method should be run after loading the elements.
+    //Define which method should be run after loading the elements for checking
+	//their constraints.
 
 }

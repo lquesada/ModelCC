@@ -46,7 +46,7 @@ public class Main implements IModel {
 
     Set<Set<Test1>> testsout4;
 
-    @Autorun
+    @Setup
     boolean run() {
         return true;
     }

@@ -21,7 +21,7 @@ public class Test8_2 implements IModel {
         
     }
     
-    @Autorun
+    @Setup
     public void run() {
     }
     

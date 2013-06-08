@@ -32,7 +32,7 @@ public class FloatModel extends Number implements IModel,Serializable {
     @Value
     String textValue;
     
-    @Autorun
+    @Setup
     void run() {
         val = new Float((float)ScientificNotationParser.parseReal(textValue));
     }

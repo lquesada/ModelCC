@@ -25,7 +25,7 @@ public final class DrawSentence extends Sentence implements IModel {
     @Prefix({"max","nesting"})
     IntegerLiteral maxNesting;
     
-    @Autorun
+    @Setup
     public void build() {
         if (maxNesting == null)
             maxNesting = new IntegerLiteral(10000);

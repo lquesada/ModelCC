@@ -20,7 +20,7 @@ import org.modelcc.*;
 @FreeOrder(false)
 public class Test4 extends Test2 implements IModel {
 
-    @Autorun boolean run2() {
+    @Setup boolean run2() {
         return true;
     }
 }

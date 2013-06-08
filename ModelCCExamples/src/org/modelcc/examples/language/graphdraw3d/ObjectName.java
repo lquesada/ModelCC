@@ -38,7 +38,7 @@ public final class ObjectName implements IModel {
         return hash;
     }
     
-    @Autorun
+    @Setup
     public boolean build() {
         if (name.equals("axis") || name.equals("cube") || name.equals("square"))
             return false;

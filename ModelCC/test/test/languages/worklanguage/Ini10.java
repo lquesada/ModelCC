@@ -25,7 +25,7 @@ public class Ini10 implements IModel {
 
     Ino2 b;
 
-    @Autorun
+    @Setup
     private boolean run() {
         return true;
     }

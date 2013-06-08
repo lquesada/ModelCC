@@ -1062,7 +1062,7 @@ public class LambTest {
         se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
         Lexer lamb = new LambLexer(ls,se);
         LexicalGraph lg = lamb.scan(sr);
-        assertNotNull(lg.getFollowing().get(lg.getStart().iterator().next()));
+    assertNotNull(lg.getFollowing().get(lg.getStart().iterator().next()));
 
    }
 
