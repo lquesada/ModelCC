@@ -1058,6 +1058,36 @@ public class LambTest {
             assertFalse(true);
             return;
         }
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
+        Lexer lamb = new LambLexer(ls,se);
+        LexicalGraph lg = lamb.scan(sr);
+        assertNotNull(lg.getFollowing().get(lg.getStart().iterator().next()));
+
+   }
+
+  @Test
+    public void IgnoreCheckInComplete() {
+        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
+
+        m1 = new TokenSpecification("(",new RegExpPatternRecognizer("\\("),TokenOption.CONSIDER,null);
+        m2 = new TokenSpecification(")",new RegExpPatternRecognizer("\\)"),TokenOption.CONSIDER,null);
+
+        lsf.addTokenSpecification(m1);
+        lsf.addTokenSpecification(m2);
+
+        String input = "( )";
+        StringReader sr = new StringReader(input);
+
+        LexicalSpecification ls;
+        try {
+            ls = lsf.create();
+        } catch (TokenSpecificationCyclicPrecedenceException ex) {
+            Logger.getLogger(LambTest.class.getName()).log(Level.SEVERE, null, ex);
+            assertFalse(true);
+            return;
+        }
         Lexer lamb = new LambLexer(ls);
         LexicalGraph lg = lamb.scan(sr);
         assertNull(lg.getFollowing().get(lg.getStart().iterator().next()));
