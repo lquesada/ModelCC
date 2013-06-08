@@ -35,7 +35,7 @@ public final class RotateSentence extends Sentence implements IModel {
     @Prefix("z")
     Literal z;
 
-    @Autorun
+    @Setup
     public boolean build() {
         if (x == null && y == null && z == null)
             return false;

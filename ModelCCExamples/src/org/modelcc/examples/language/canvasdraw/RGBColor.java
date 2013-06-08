@@ -31,7 +31,7 @@ public class RGBColor implements IModel {
         return color;
     }
     
-    @Autorun
+    @Setup
     public void load() {
         color = new Color(red.getValue(),green.getValue(),blue.getValue());
     }

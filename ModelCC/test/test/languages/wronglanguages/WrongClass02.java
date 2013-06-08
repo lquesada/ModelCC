@@ -14,11 +14,11 @@ import org.modelcc.*;
 @Pattern(regExp="a")
 public class WrongClass02 implements IModel {
 
-     @Autorun boolean run1() {
+     @Setup boolean run1() {
          return true;
      }
 
-     @Autorun boolean run2() {
+     @Setup boolean run2() {
          return true;
      }
 }

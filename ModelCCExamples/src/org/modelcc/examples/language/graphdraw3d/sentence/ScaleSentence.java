@@ -37,7 +37,7 @@ public final class ScaleSentence extends Sentence implements IModel {
 
     boolean considerAll = false;
 
-    @Autorun
+    @Setup
     public boolean build() {
         if (x == null && y == null && z == null && all == null)
             return false;

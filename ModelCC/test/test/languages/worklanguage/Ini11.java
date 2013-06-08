@@ -27,7 +27,7 @@ public class Ini11 implements IModel {
 
     Ino b;
 
-    @Autorun
+    @Setup
     private boolean run() {
         return true;
     }

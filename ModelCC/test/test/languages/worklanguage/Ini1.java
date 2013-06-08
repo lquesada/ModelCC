@@ -15,7 +15,7 @@ public class Ini1 implements IModel {
 
     public Ino[] a;
 
-    @Autorun
+    @Setup
     private boolean run() {
         return true;
     }

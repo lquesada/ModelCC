@@ -32,7 +32,7 @@ public class DoubleModel extends Number implements IModel,Serializable {
     @Value
     String textValue;
     
-    @Autorun
+    @Setup
     void run() {
         val = new Double((double)ScientificNotationParser.parseReal(textValue));
     }

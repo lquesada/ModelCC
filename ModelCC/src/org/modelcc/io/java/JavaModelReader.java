@@ -576,15 +576,15 @@ public class JavaModelReader extends ModelReader implements Serializable {
         boolean shownMethodError = false;
         boolean shownMethodError1 = false;
         for (int i = 0;i < ml.length;i++) {
-            if (ml[i].isAnnotationPresent(Autorun.class)) {
+            if (ml[i].isAnnotationPresent(Setup.class)) {
                 if (ml[i].getReturnType()!=boolean.class &&
                     ml[i].getReturnType()!=Boolean.class &&
                     ml[i].getReturnType()!=void.class) {
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Autorun annotation can only be assigned to a method that returns boolean, Boolean, or void.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method that returns boolean, Boolean, or void.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
                     shownMethodError1 = true;
                 }
                 if (ml[i].getParameterTypes().length!=0) {
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Autorun annotation can only be assigned to a method with no parameters.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method with no parameters.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
                     shownMethodError1 = true;
                 }
                 if (AutorunMethod == null) {
@@ -592,10 +592,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 }
                 else {
                     if (!shownMethodError) {
-                        log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Autorun annotation can only be assigned to a single method.", new Object[]{AutorunMethod.getName(), elementClass.getCanonicalName()});
+                        log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{AutorunMethod.getName(), elementClass.getCanonicalName()});
                         shownMethodError = true;
                     }
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Autorun annotation can only be assigned to a single method.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
                 }
             }
         }

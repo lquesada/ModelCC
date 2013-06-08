@@ -50,7 +50,7 @@ public final class MaterialSentence extends Sentence implements IModel {
 
     boolean considerAll = false;
 
-    @Autorun
+    @Setup
     public boolean build() {
         if (r == null && g == null && b == null && a == null && all == null && text == null)
             return false;

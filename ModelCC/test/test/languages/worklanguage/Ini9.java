@@ -23,7 +23,7 @@ public class Ini9 implements IModel {
     @Suffix("\\)")
     public Set<Ino2> a;
 
-    @Autorun
+    @Setup
     private boolean run() {
         return true;
     }

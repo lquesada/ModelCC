@@ -26,7 +26,7 @@ public class CanvasDraw extends JComponent implements IModel {
     int height;
     Color background;
 
-    @Autorun
+    @Setup
     public void open() {
         width = 640;
         height = 480;

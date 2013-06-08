@@ -15,7 +15,7 @@ public class WrongClass16 implements IModel {
 
     OKClass aasdf2;
 
-    @Autorun void run(String a) {
+    @Setup void run(String a) {
     }
 
 }

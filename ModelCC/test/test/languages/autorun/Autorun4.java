@@ -16,7 +16,7 @@ public class Autorun4 implements IModel {
      
     public int count=0;
     
-    @Autorun
+    @Setup
     void load() {
         count++;
     }

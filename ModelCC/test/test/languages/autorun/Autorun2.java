@@ -17,7 +17,7 @@ public class Autorun2 implements IModel {
     
     public int count=0;
     
-    @Autorun
+    @Setup
     boolean load() {
         count++;
         return true;
