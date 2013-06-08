@@ -675,6 +675,7 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getSeparator().size());
         assertEquals(1,ce.getConstraintMethods().size());
         assertEquals("run",ce.getConstraintMethods().get(0));
+        assertEquals("setup",ce.getSetupMethod());
 
         se = (ChoiceModelElement) m.getClassToElement().get(Test2.class);
         assertTrue(m.getElements().contains(se));
@@ -860,6 +861,21 @@ public class JavaModelReaderTest {
         assertNull(be.getSetupMethod());
     }
 
+    @Test
+    public void modelWrongTest02b() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass02b.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+        BasicModelElement be;
+        be = (BasicModelElement) m.getClassToElement().get(WrongClass02b.class);
+        assertEquals(1,be.getConstraintMethods().size());
+    }
     @Test
     public void modelWrongTest03() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
