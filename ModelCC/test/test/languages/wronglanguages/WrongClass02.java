@@ -14,8 +14,7 @@ import org.modelcc.*;
 @Pattern(regExp="a")
 public class WrongClass02 implements IModel {
 
-     @Setup boolean run1() {
-         return true;
+     @Setup void run1() {
      }
 
      @Setup boolean run2() {

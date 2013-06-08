@@ -58,15 +58,16 @@ public final class ComplexModelElement extends ModelElement {
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the default separator
-     * @param AutorunMethod the run on load method
+     * @param setupMethod the setup method
+     * @param constraintMethods the constraint checking methods
      * @param contents the element contents
      * @param ids the element ids
      * @param freeOrder whether if the element may be placed in free order
      * @param composition the composition type
      * @param hasAnyAssociativity has any associativity 
      */
-    public ComplexModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String AutorunMethod,List<ElementMember> contents,List<ElementMember> ids,boolean freeOrder,CompositionType composition,boolean hasAnyAssociativity) {
-        super(elementClass,associativity,prefix,suffix,separator,AutorunMethod,hasAnyAssociativity);
+    public ComplexModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,List<ElementMember> contents,List<ElementMember> ids,boolean freeOrder,CompositionType composition,boolean hasAnyAssociativity) {
+        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity);
         this.contents = contents;
         this.ids = ids;
         this.freeOrder = freeOrder;

@@ -327,7 +327,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(DivisionOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -338,7 +338,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(MultiplicationOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -349,7 +349,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(SubstractionOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -360,7 +360,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(IntegerLiteral.class);
         assertTrue(m.getElements().contains(be));
@@ -371,7 +371,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNotNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(RealLiteral.class);
         assertTrue(m.getElements().contains(be));
@@ -382,7 +382,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNotNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         ce = (ComplexModelElement) m.getClassToElement().get(BinaryExpression.class);
         assertTrue(m.getElements().contains(ce));
@@ -417,7 +417,7 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getPrefix().size());
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
-        assertNull(ce.getAutorunMethod());
+        assertNull(ce.getSetupMethod());
 
         se = (ChoiceModelElement) m.getClassToElement().get(LiteralExpression.class);
         assertTrue(m.getElements().contains(se));
@@ -426,7 +426,7 @@ public class JavaModelReaderTest {
         assertEquals(0,se.getPrefix().size());
         assertEquals(0,se.getSuffix().size());
         assertEquals(0,se.getSeparator().size());
-        assertNull(se.getAutorunMethod());
+        assertNull(se.getSetupMethod());
         assertTrue(m.getSubelements().get(m.getClassToElement().get(LiteralExpression.class)).contains(m.getClassToElement().get(IntegerLiteral.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(LiteralExpression.class)).contains(m.getClassToElement().get(RealLiteral.class)));
         assertTrue(m.getSuperelements().get(m.getClassToElement().get(IntegerLiteral.class)).equals(m.getClassToElement().get(LiteralExpression.class)));
@@ -452,7 +452,7 @@ public class JavaModelReaderTest {
         assertEquals(1,ce.getSuffix().size());
         assertEquals("\\)",((RegExpPatternRecognizer)ce.getSuffix().get(0)).getRegExp());
         assertEquals(0,ce.getSeparator().size());
-        assertNull(ce.getAutorunMethod());
+        assertNull(ce.getSetupMethod());
 
         ce = (ComplexModelElement) m.getClassToElement().get(UnaryExpression.class);
         assertTrue(m.getElements().contains(ce));
@@ -480,7 +480,7 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getPrefix().size());
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
-        assertNull(ce.getAutorunMethod());
+        assertNull(ce.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(MinusOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -491,7 +491,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         be = (BasicModelElement) m.getClassToElement().get(PlusOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -502,7 +502,7 @@ public class JavaModelReaderTest {
         assertEquals(0,be.getSeparator().size());
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
         se = (ChoiceModelElement) m.getClassToElement().get(BinaryOperator.class);
         assertTrue(m.getElements().contains(se));
@@ -511,7 +511,7 @@ public class JavaModelReaderTest {
         assertEquals(0,se.getPrefix().size());
         assertEquals(0,se.getSuffix().size());
         assertEquals(0,se.getSeparator().size());
-        assertNull(se.getAutorunMethod());
+        assertNull(se.getSetupMethod());
         assertTrue(m.getSubelements().get(m.getClassToElement().get(BinaryOperator.class)).contains(m.getClassToElement().get(AdditionOperator.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(BinaryOperator.class)).contains(m.getClassToElement().get(SubstractionOperator.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(BinaryOperator.class)).contains(m.getClassToElement().get(MultiplicationOperator.class)));
@@ -528,7 +528,7 @@ public class JavaModelReaderTest {
         assertEquals(0,se.getPrefix().size());
         assertEquals(0,se.getSuffix().size());
         assertEquals(0,se.getSeparator().size());
-        assertNull(se.getAutorunMethod());
+        assertNull(se.getSetupMethod());
         assertTrue(m.getSubelements().get(m.getClassToElement().get(Expression.class)).contains(m.getClassToElement().get(UnaryExpression.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(Expression.class)).contains(m.getClassToElement().get(BinaryExpression.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(Expression.class)).contains(m.getClassToElement().get(ParenthesizedExpression.class)));
@@ -543,7 +543,7 @@ public class JavaModelReaderTest {
         assertEquals(0,se.getPrefix().size());
         assertEquals(0,se.getSuffix().size());
         assertEquals(0,se.getSeparator().size());
-        assertNull(se.getAutorunMethod());
+        assertNull(se.getSetupMethod());
         assertTrue(m.getSubelements().get(m.getClassToElement().get(UnaryOperator.class)).contains(m.getClassToElement().get(MinusOperator.class)));
         assertTrue(m.getSubelements().get(m.getClassToElement().get(UnaryOperator.class)).contains(m.getClassToElement().get(PlusOperator.class)));
         assertTrue(m.getSuperelements().get(m.getClassToElement().get(MinusOperator.class)).equals(m.getClassToElement().get(UnaryOperator.class)));
@@ -592,7 +592,7 @@ public class JavaModelReaderTest {
             assertEquals(((RegExpPatternRecognizer)be.getPrefix().get(0)).getRegExp(),((RegExpPatternRecognizer)be.getSeparator().get(1)).getRegExp());
         assertNotNull(be.getPattern());
         assertEquals("a", be.getValueField());
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
 
 
         ce = (ComplexModelElement) m.getClassToElement().get(Main.class);
@@ -673,7 +673,8 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getPrefix().size());
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
-        assertEquals("run", ce.getAutorunMethod());
+        assertEquals(1,ce.getConstraintMethods().size());
+        assertEquals("run",ce.getConstraintMethods().get(0));
 
         se = (ChoiceModelElement) m.getClassToElement().get(Test2.class);
         assertTrue(m.getElements().contains(se));
@@ -687,7 +688,8 @@ public class JavaModelReaderTest {
             assertEquals("d",((RegExpPatternRecognizer)se.getSuffix().get(1)).getRegExp());
         assertEquals(1,se.getSeparator().size());
             assertEquals("e",((RegExpPatternRecognizer)se.getSeparator().get(0)).getRegExp());
-        assertEquals("run", se.getAutorunMethod());
+        assertEquals(1,se.getConstraintMethods().size());
+        assertEquals("run",se.getConstraintMethods().get(0));
 
         ce = (ComplexModelElement) m.getClassToElement().get(Test3.class);
         assertTrue(m.getElements().contains(ce));
@@ -703,7 +705,8 @@ public class JavaModelReaderTest {
             assertEquals("d",((RegExpPatternRecognizer)se.getSuffix().get(1)).getRegExp());
         assertEquals(1,se.getSeparator().size());
             assertEquals("e",((RegExpPatternRecognizer)se.getSeparator().get(0)).getRegExp());
-        assertEquals("run", ce.getAutorunMethod());
+        assertEquals(1,se.getConstraintMethods().size());
+        assertEquals("run",se.getConstraintMethods().get(0));
 
         se = (ChoiceModelElement) m.getClassToElement().get(Test4.class);
         assertTrue(m.getElements().contains(se));
@@ -714,7 +717,9 @@ public class JavaModelReaderTest {
             assertEquals("d",((RegExpPatternRecognizer)se.getSuffix().get(0)).getRegExp());
             assertEquals("c",((RegExpPatternRecognizer)se.getSuffix().get(1)).getRegExp());
         assertEquals(0,se.getSeparator().size());
-        assertEquals("run2", se.getAutorunMethod());
+        assertEquals(2,se.getConstraintMethods().size());
+        assertTrue(se.getConstraintMethods().get(0).contains("run2"));
+        assertTrue(se.getConstraintMethods().get(0).contains("run"));
 
         ce = (ComplexModelElement) m.getClassToElement().get(Test5.class);
         assertTrue(m.getElements().contains(ce));
@@ -726,7 +731,8 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getSuffix().size());
         assertEquals(1,ce.getSeparator().size());
             assertEquals("e",((RegExpPatternRecognizer)ce.getSeparator().get(0)).getRegExp());
-        assertEquals("run", ce.getAutorunMethod());
+        assertEquals(1,ce.getConstraintMethods().size());
+        assertEquals("run",ce.getConstraintMethods().get(0));
 
 
         ce = (ComplexModelElement) m.getClassToElement().get(Test6.class);
@@ -749,7 +755,9 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getPrefix().size());
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
-        assertEquals("run2", ce.getAutorunMethod());
+        assertEquals(2,ce.getConstraintMethods().size());
+        assertTrue(ce.getConstraintMethods().get(0).contains("run2"));
+        assertTrue(ce.getConstraintMethods().get(0).contains("run"));
 
         assertFalse(checkPrec(m,Main.class,Test1.class));
         assertFalse(checkPrec(m,Main.class,Test2.class));
@@ -846,10 +854,10 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
         }
-        assertEquals(2,c.getCount());
+        assertEquals(3,c.getCount());
         BasicModelElement be;
         be = (BasicModelElement) m.getClassToElement().get(WrongClass02.class);
-        assertNull(be.getAutorunMethod());
+        assertNull(be.getSetupMethod());
     }
 
     @Test
@@ -1023,7 +1031,7 @@ public class JavaModelReaderTest {
         }
         assertEquals(1,c.getCount());
         assertEquals(ComplexModelElement.class,m.getClassToElement().get(WrongClass14.class).getClass());
-        assertNull(m.getClassToElement().get(WrongClass14.class).getAutorunMethod());
+        assertNull(m.getClassToElement().get(WrongClass14.class).getSetupMethod());
     }
 
     @Test
@@ -1036,9 +1044,9 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
         }
-        assertEquals(1,c.getCount());
+        assertEquals(2,c.getCount());
         assertEquals(ComplexModelElement.class,m.getClassToElement().get(WrongClass15.class).getClass());
-        assertNull(m.getClassToElement().get(WrongClass15.class).getAutorunMethod());
+        assertNull(m.getClassToElement().get(WrongClass15.class).getSetupMethod());
     }
 
     @Test
@@ -1053,7 +1061,7 @@ public class JavaModelReaderTest {
         }
         assertEquals(1,c.getCount());
         assertEquals(ComplexModelElement.class,m.getClassToElement().get(WrongClass16.class).getClass());
-        assertNull(m.getClassToElement().get(WrongClass16.class).getAutorunMethod());
+        assertNull(m.getClassToElement().get(WrongClass16.class).getSetupMethod());
     }
 
     @Test

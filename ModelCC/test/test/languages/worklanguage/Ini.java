@@ -15,7 +15,7 @@ public class Ini implements IModel {
 
     public Ino a;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

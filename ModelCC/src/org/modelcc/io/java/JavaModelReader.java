@@ -499,7 +499,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
         List<PatternRecognizer> separator = null;
         PatternRecognizer pattern = null;
         Field valueField = null;
-        Method AutorunMethod = null;
+        Method setupMethod = null;
+        List<Method> constraintMethods = new ArrayList<Method>();
 
         Field[] fl = elementClass.getDeclaredFields();
         //log(Level.INFO, "Reading class \"{0}\".", actname);
@@ -571,36 +572,58 @@ public class JavaModelReader extends ModelReader implements Serializable {
         }
 
 
-        //Method AutorunMethod;
-        Method[] ml = elementClass.getDeclaredMethods();
-        boolean shownMethodError = false;
-        boolean shownMethodError1 = false;
-        for (int i = 0;i < ml.length;i++) {
-            if (ml[i].isAnnotationPresent(Setup.class)) {
-                if (ml[i].getReturnType()!=boolean.class &&
-                    ml[i].getReturnType()!=Boolean.class &&
-                    ml[i].getReturnType()!=void.class) {
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method that returns boolean, Boolean, or void.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
-                    shownMethodError1 = true;
-                }
-                if (ml[i].getParameterTypes().length!=0) {
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method with no parameters.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
-                    shownMethodError1 = true;
-                }
-                if (AutorunMethod == null) {
-                    AutorunMethod = ml[i];
-                }
-                else {
-                    if (!shownMethodError) {
-                        log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{AutorunMethod.getName(), elementClass.getCanonicalName()});
-                        shownMethodError = true;
-                    }
-                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
-                }
-            }
+        //Method setupMethod;
+        {
+	        Method[] ml = elementClass.getDeclaredMethods();
+	        boolean shownMethodError = false;
+	        boolean shownMethodError1 = false;
+	        for (int i = 0;i < ml.length;i++) {
+	            if (ml[i].isAnnotationPresent(Setup.class)) {
+	                if (ml[i].getReturnType()!=void.class) {
+	                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method that returns void.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+	                    shownMethodError1 = true;
+	                }
+	                if (ml[i].getParameterTypes().length!=0) {
+	                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a method with no parameters.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+	                    shownMethodError1 = true;
+	                }
+	                if (setupMethod == null) {
+	                    setupMethod = ml[i];
+	                }
+	                else {
+	                    if (!shownMethodError) {
+	                        log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{setupMethod.getName(), elementClass.getCanonicalName()});
+	                        shownMethodError = true;
+	                    }
+	                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Setup annotation can only be assigned to a single method.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+	                }
+	            }
+	        }
+	        if (shownMethodError || shownMethodError1)
+	            setupMethod = null;
         }
-        if (shownMethodError || shownMethodError1)
-            AutorunMethod = null;
+        
+        //Method constraintMethods;
+        {
+	        Method[] ml = elementClass.getDeclaredMethods();
+	        boolean shownMethodError;
+	        for (int i = 0;i < ml.length;i++) {
+	        	shownMethodError = false;
+	            if (ml[i].isAnnotationPresent(Constraint.class)) {
+	                if (ml[i].getReturnType()!=boolean.class &&
+	                    ml[i].getReturnType()!=Boolean.class) {
+	                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Constraint annotation can only be assigned to a method that returns boolean or Boolean.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+	                    shownMethodError = true;
+	                }
+	                if (ml[i].getParameterTypes().length!=0) {
+	                    log(Level.SEVERE, "In method \"{0}\" of class \"{1}\": The @Constraint annotation can only be assigned to a method with no parameters.", new Object[]{ml[i].getName(), elementClass.getCanonicalName()});
+	                    shownMethodError = true;
+	                }
+	                if (!shownMethodError)
+	                	constraintMethods.add(ml[i]);
+	            }
+	        }
+        }
      
         //List<ElementMember> contents = new ArrayList<ElementMember>();
         for (int i = 0;i < fl.length;i++) {
@@ -712,7 +735,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 delimiters.addAll(separator);
         }
 
-        PreElement pe = new PreElement(elementClass,contents,ids,freeOrder,associativity,composition,prefix,suffix,separator,pattern,valueField,AutorunMethod);
+        PreElement pe = new PreElement(elementClass,contents,ids,freeOrder,associativity,composition,prefix,suffix,separator,pattern,valueField,setupMethod,constraintMethods);
 
         classToPreElement.put(elementClass,pe);
 
@@ -982,9 +1005,17 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (target.getComposition()==null && source.getComposition()!= null) {
             target.setComposition(source.getComposition());
         }
-        // Autorun
-        if (target.getAutorunMethod()==null && source.getAutorunMethod()!= null) {
-            target.setAutorunMethod(source.getAutorunMethod());
+        // Setup
+        if (target.getSetupMethod()==null && source.getSetupMethod()!= null) {
+            target.setAutorunMethod(source.getSetupMethod());
+        }
+        // Constraints
+        if (!source.getConstraintMethods().isEmpty()) {
+        	for (int i = 0;i < source.getConstraintMethods().size();i++) {
+        		Method met = source.getConstraintMethods().get(i);
+        		if (!target.getConstraintMethods().contains(met))
+        			target.getConstraintMethods().add(met);
+        	}
         }
         // FreeOrder
         if (target.isFreeOrder()==null && source.isFreeOrder()!= null) {
@@ -1178,7 +1209,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
             List<PatternRecognizer> separator;
             PatternRecognizer pattern;
             Field valueField;
-            Method autorunMethod;
+            Method setupMethod;
             elementClass = pe.getElementClass();
             contents = pe.getContents();
             ids = pe.getIds();
@@ -1211,37 +1242,42 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 separator = pe.getSeparator();
             pattern = pe.getPattern();
             valueField = pe.getValueField();
-            autorunMethod = pe.getAutorunMethod();
+            setupMethod = pe.getSetupMethod();
             hasAnyAssociativity = pe.getHasAnyAssociativity();
 
             String valueFieldName = null;
             if (valueField != null)
                 valueFieldName = valueField.getName();
 
-            String autorunMethodName = null;
-            if (autorunMethod != null)
-                autorunMethodName = autorunMethod.getName();
+            String setupMethodName = null;
+            if (setupMethod != null)
+                setupMethodName = setupMethod.getName();
 
+            List<String> constraintMethodNames = new ArrayList<String>();
+            for (int i = 0;i < pe.getConstraintMethods().size();i++) {
+            	constraintMethodNames.add(pe.getConstraintMethods().get(i).getName());
+            }
+            
             e = null;
             if (Modifier.isAbstract(elementClass.getModifiers()) && preSubclasses.get(pe) == null) {
-                 e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,autorunMethodName,hasAnyAssociativity);
+                 e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
                  if (!contents.isEmpty())
                      log(Level.SEVERE, "In class \"{0}\": Not empty abstract class.", new Object[]{elementClass.getCanonicalName()});
                  else
                      log(Level.SEVERE, "In class \"{0}\": Abstract class without subclasses.", new Object[]{elementClass.getCanonicalName()});
             }
             else if (preSubclasses.get(pe) != null) {
-                e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,autorunMethodName,hasAnyAssociativity);
+                e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
                 if (!contents.isEmpty())
                      log(Level.SEVERE, "In class \"{0}\": Classes that are superclasses cannot be composite.", new Object[]{elementClass.getCanonicalName()});
             }
             else if (pe.getPattern() != null) {
                 if (!hasConstructor(elementClass))
                     log(Level.SEVERE, "In class \"{0}\": Elements containing @Pattern or @Value need to implement a public parameterless constructor.", new Object[]{elementClass.getCanonicalName()});
-                    e = new BasicModelElement(elementClass,associativity,prefix,suffix,separator,autorunMethodName,pattern,valueFieldName,hasAnyAssociativity);
+                    e = new BasicModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,pattern,valueFieldName,hasAnyAssociativity);
             }
             else {
-                e = new ComplexModelElement(elementClass,associativity,prefix,suffix,separator,autorunMethodName,contents,ids,freeOrder,composition,hasAnyAssociativity);
+                e = new ComplexModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,contents,ids,freeOrder,composition,hasAnyAssociativity);
                 if (hasPattern(elementClass)) {
                     contents = new ArrayList<ElementMember>();
                 }

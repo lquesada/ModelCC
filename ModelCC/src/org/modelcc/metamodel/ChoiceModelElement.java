@@ -28,11 +28,12 @@ public final class ChoiceModelElement extends ModelElement {
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the default separator
-     * @param AutorunMethod the run on load method
+     * @param setupMethod the setup method
+     * @param constraintMethods the constraint checking methods
      * @param hasAnyAssociativity has any associativity 
      */
-    public ChoiceModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String AutorunMethod,boolean hasAnyAssociativity) {
-        super(elementClass,associativity,prefix,suffix,separator,AutorunMethod,hasAnyAssociativity);
+    public ChoiceModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity) {
+        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity);
     }
 
     

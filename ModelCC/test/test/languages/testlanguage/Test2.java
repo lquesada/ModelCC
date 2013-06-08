@@ -20,7 +20,7 @@ import org.modelcc.*;
 @FreeOrder
 public class Test2 implements IModel {
 
-    @Setup
+    @Constraint
     boolean run() {
         return true;
     }

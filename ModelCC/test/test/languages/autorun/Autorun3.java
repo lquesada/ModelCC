@@ -18,8 +18,10 @@ public class Autorun3 implements IModel {
     public int count=0;
     
     @Setup
-    Boolean load() {
+    void load() {
         count++;
+    }
+    @Constraint Boolean checkConstraint() {
         return true;
     }
 }
