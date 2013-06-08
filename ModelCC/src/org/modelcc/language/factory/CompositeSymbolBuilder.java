@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
@@ -139,21 +140,9 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                 }
             }
             fixOptionals(o,m,filled);
-            if (ce.getSetupMethod() != null) {
-                Method mtd = c.getDeclaredMethod(ce.getSetupMethod(),new Class[]{});
-                if (mtd != null) {
-                    mtd.setAccessible(true);
-                    if (valid) {
-                        if (mtd.getReturnType().equals(boolean.class) || mtd.getReturnType().equals(Boolean.class)) {
-                            valid = (Boolean)mtd.invoke(o);
-                        }
-                        else {
-                            mtd.invoke(o);
-                            valid = true;
-                        }
-                    }
-                }
-            }
+            runSetupMethods(o,ce);
+            valid &= runConstraints(o,ce);
+
             t.setUserData(o);
 
         } catch (Exception ex) {
@@ -255,4 +244,34 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
         }
     	return true;
     }
+    
+
+	private void runSetupMethods(Object o,ModelElement el) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		if (m.getSuperelements().get(el) != null) {
+			runSetupMethods(o,m.getSuperelements().get(el));
+		}
+        if (el.getSetupMethod() != null) {
+            Method mtd = el.getElementClass().getDeclaredMethod(el.getSetupMethod(),new Class[]{});
+            if (mtd != null) {
+                mtd.setAccessible(true);
+                mtd.invoke(o);
+            }
+        }
+	}
+
+	private boolean runConstraints(Object o, ModelElement el) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		boolean valid = true;
+		if (m.getSuperelements().get(el) != null) {
+			valid &= runConstraints(o,m.getSuperelements().get(el));
+		}
+        for (int i = 0;i < el.getConstraintMethods().size();i++) {
+            Method mtd = el.getElementClass().getDeclaredMethod(el.getConstraintMethods().get(i),new Class[]{});
+            if (mtd != null) {
+                mtd.setAccessible(true);
+                valid &= (Boolean)mtd.invoke(o);
+            }
+        }
+		return valid;
+	}
+
 }

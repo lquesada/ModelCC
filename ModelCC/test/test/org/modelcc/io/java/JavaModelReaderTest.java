@@ -718,9 +718,8 @@ public class JavaModelReaderTest {
             assertEquals("d",((RegExpPatternRecognizer)se.getSuffix().get(0)).getRegExp());
             assertEquals("c",((RegExpPatternRecognizer)se.getSuffix().get(1)).getRegExp());
         assertEquals(0,se.getSeparator().size());
-        assertEquals(2,se.getConstraintMethods().size());
+        assertEquals(1,se.getConstraintMethods().size());
         assertTrue(se.getConstraintMethods().get(0).contains("run2"));
-        assertTrue(se.getConstraintMethods().get(0).contains("run"));
 
         ce = (ComplexModelElement) m.getClassToElement().get(Test5.class);
         assertTrue(m.getElements().contains(ce));
@@ -732,8 +731,7 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getSuffix().size());
         assertEquals(1,ce.getSeparator().size());
             assertEquals("e",((RegExpPatternRecognizer)ce.getSeparator().get(0)).getRegExp());
-        assertEquals(1,ce.getConstraintMethods().size());
-        assertEquals("run",ce.getConstraintMethods().get(0));
+        assertEquals(0,ce.getConstraintMethods().size());
 
 
         ce = (ComplexModelElement) m.getClassToElement().get(Test6.class);
@@ -756,9 +754,7 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getPrefix().size());
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
-        assertEquals(2,ce.getConstraintMethods().size());
-        assertTrue(ce.getConstraintMethods().get(0).contains("run2"));
-        assertTrue(ce.getConstraintMethods().get(0).contains("run"));
+        assertEquals(0,ce.getConstraintMethods().size());
 
         assertFalse(checkPrec(m,Main.class,Test1.class));
         assertFalse(checkPrec(m,Main.class,Test2.class));
