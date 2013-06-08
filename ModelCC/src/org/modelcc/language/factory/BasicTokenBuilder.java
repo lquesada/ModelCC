@@ -7,12 +7,14 @@ package org.modelcc.language.factory;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.language.lexis.TokenBuilder;
 import org.modelcc.metamodel.BasicModelElement;
+import org.modelcc.metamodel.ModelElement;
 import org.modelcc.lexer.lamb.Token;
 import org.modelcc.metamodel.Model;
 
@@ -62,20 +64,8 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
                     fld.set(o, ObjectCaster.castObject(fld.getType(), t.getValue()));
                 }
             }
-            if (be.getSetupMethod() != null) {
-                Method mtd = c.getDeclaredMethod(be.getSetupMethod(),new Class[]{});
-                if (mtd != null) {
-                    mtd.setAccessible(true);
-                    mtd.invoke(o);
-                }
-            }
-            for (int i = 0;i < be.getConstraintMethods().size();i++) {
-                Method mtd = c.getDeclaredMethod(be.getConstraintMethods().get(i),new Class[]{});
-                if (mtd != null) {
-                    mtd.setAccessible(true);
-                    valid = (Boolean)mtd.invoke(o);
-                }
-            }
+            runSetupMethods(o,be);
+            valid &= runConstraints(o,be);
             t.setUserData(o);
 
         } catch (Exception ex) {
@@ -85,6 +75,34 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
 
         return valid;
     }
+
+	private void runSetupMethods(Object o,ModelElement el) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		if (m.getSuperelements().get(el) != null) {
+			runSetupMethods(o,m.getSuperelements().get(el));
+		}
+        if (el.getSetupMethod() != null) {
+            Method mtd = el.getElementClass().getDeclaredMethod(el.getSetupMethod(),new Class[]{});
+            if (mtd != null) {
+                mtd.setAccessible(true);
+                mtd.invoke(o);
+            }
+        }
+	}
+
+	private boolean runConstraints(Object o, ModelElement el) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		boolean valid = true;
+		if (m.getSuperelements().get(el) != null) {
+			valid &= runConstraints(o,m.getSuperelements().get(el));
+		}
+        for (int i = 0;i < el.getConstraintMethods().size();i++) {
+            Method mtd = el.getElementClass().getDeclaredMethod(el.getConstraintMethods().get(i),new Class[]{});
+            if (mtd != null) {
+                mtd.setAccessible(true);
+                valid &= (Boolean)mtd.invoke(o);
+            }
+        }
+		return valid;
+	}
 
 
 }

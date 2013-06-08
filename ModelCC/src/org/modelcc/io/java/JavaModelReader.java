@@ -1005,6 +1005,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (target.getComposition()==null && source.getComposition()!= null) {
             target.setComposition(source.getComposition());
         }
+        /*
         // Setup
         if (target.getSetupMethod()==null && source.getSetupMethod()!= null) {
             target.setAutorunMethod(source.getSetupMethod());
@@ -1016,7 +1017,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         		if (!target.getConstraintMethods().contains(met))
         			target.getConstraintMethods().add(met);
         	}
-        }
+        }*/
         // FreeOrder
         if (target.isFreeOrder()==null && source.isFreeOrder()!= null) {
             target.setFreeOrder(source.isFreeOrder());
