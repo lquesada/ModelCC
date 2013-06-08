@@ -19,7 +19,7 @@ public class Ini3 implements IModel {
 
     public ArrayList<Ino> a;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

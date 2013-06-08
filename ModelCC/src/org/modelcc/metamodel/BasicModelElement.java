@@ -40,13 +40,14 @@ public final class BasicModelElement extends ModelElement implements Serializabl
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the default separator
-     * @param AutorunMethod the run on load method
+     * @param setupMethod the setup method
+     * @param constraintMethods the constraint checking methods
      * @param pattern the pattern
      * @param valueField the value field
      * @param hasAnyAssociativity has any associativity 
      */
-    public BasicModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String AutorunMethod,PatternRecognizer pattern,String valueField,boolean hasAnyAssociativity) {
-        super(elementClass,associativity,prefix,suffix,separator,AutorunMethod,hasAnyAssociativity);
+    public BasicModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,PatternRecognizer pattern,String valueField,boolean hasAnyAssociativity) {
+        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity);
         this.pattern = pattern;
         this.valueField = valueField;
     }

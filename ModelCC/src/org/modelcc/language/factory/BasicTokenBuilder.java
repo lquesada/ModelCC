@@ -62,8 +62,8 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
                     fld.set(o, ObjectCaster.castObject(fld.getType(), t.getValue()));
                 }
             }
-            if (be.getAutorunMethod() != null) {
-                Method mtd = c.getDeclaredMethod(be.getAutorunMethod(),new Class[]{});
+            if (be.getSetupMethod() != null) {
+                Method mtd = c.getDeclaredMethod(be.getSetupMethod(),new Class[]{});
                 if (mtd != null) {
                     mtd.setAccessible(true);
                     if (mtd.getReturnType().equals(boolean.class) || mtd.getReturnType().equals(Boolean.class)) {

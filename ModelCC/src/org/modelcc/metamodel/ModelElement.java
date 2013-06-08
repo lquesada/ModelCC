@@ -50,9 +50,14 @@ public abstract class ModelElement implements Serializable {
     private List<PatternRecognizer> separator;
 
     /**
-     * Run on load method.
+     * Setup method.
      */
-    private String AutorunMethod;
+    private String setupMethod;
+
+    /**
+     * Constraint methods.
+     */
+    private List<String> constraintMethods;
 
     /**
      * has any associativity.
@@ -66,10 +71,11 @@ public abstract class ModelElement implements Serializable {
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the default separator
-     * @param AutorunMethod the run on load method
+     * @param setupMethod the setup method
+     * @param constraintMethod the constraint methods
      * @param hasAnyAssociativity has any associativity 
      */
-    public ModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String AutorunMethod,boolean hasAnyAssociativity) {
+    public ModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity) {
         this.elementClass = elementClass;
         this.associativity = associativity;
         this.prefix = prefix;
@@ -81,7 +87,8 @@ public abstract class ModelElement implements Serializable {
         this.separator = separator;
         if (separator == null)
             this.separator = new ArrayList<PatternRecognizer>();
-        this.AutorunMethod = AutorunMethod;
+        this.setupMethod = setupMethod;
+        this.constraintMethods = constraintMethods;
         this.hasAnyAssociativity = hasAnyAssociativity;
 
     }
@@ -122,10 +129,17 @@ public abstract class ModelElement implements Serializable {
     }
 
     /**
-     * @return the run on load method
+     * @return the setup method
      */
-    public String getAutorunMethod() {
-        return AutorunMethod;
+    public String getSetupMethod() {
+        return setupMethod;
+    }
+
+    /**
+     * @return the setup method
+     */
+    public List<String> getConstraintMethods() {
+        return Collections.unmodifiableList(constraintMethods);
     }
 
     /**

@@ -19,7 +19,7 @@ public class Ini5 implements IModel {
 
     public Set<Ino> a;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

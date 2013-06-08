@@ -25,7 +25,7 @@ public class Ini10 implements IModel {
 
     Ino2 b;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

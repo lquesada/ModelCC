@@ -70,9 +70,13 @@ public final class PreElement implements Serializable {
      */
     private Field valueField;
     /**
-     * Run on load method.
+     * Setup method.
      */
-    private Method AutorunMethod;
+    private Method setupMethod;
+    /**
+     * Constraint methods.
+     */
+    private List<Method> constraintMethods;
 
     /**
      * Any subclass has associativity.
@@ -92,9 +96,10 @@ public final class PreElement implements Serializable {
      * @param separator the separator
      * @param pattern the pattern
      * @param valueField the value field
-     * @param AutorunMethod the run on load method
+     * @param setupMethod the setup method
+     * @param constraintMethods the constraint checking methods
      */
-    public PreElement(Class elementClass, List<ElementMember> contents, List<ElementMember> ids, Boolean freeOrder, AssociativityType associativity, CompositionType composition, List<PatternRecognizer> prefix, List<PatternRecognizer> suffix, List<PatternRecognizer> separator, PatternRecognizer pattern, Field valueField, Method AutorunMethod) {
+    public PreElement(Class elementClass, List<ElementMember> contents, List<ElementMember> ids, Boolean freeOrder, AssociativityType associativity, CompositionType composition, List<PatternRecognizer> prefix, List<PatternRecognizer> suffix, List<PatternRecognizer> separator, PatternRecognizer pattern, Field valueField, Method setupMethod,List<Method> constraintMethods) {
         this.elementClass = elementClass;
         this.contents = contents;
         this.ids = ids;
@@ -106,7 +111,8 @@ public final class PreElement implements Serializable {
         this.separator = separator;
         this.pattern = pattern;
         this.valueField = valueField;
-        this.AutorunMethod = AutorunMethod;
+        this.setupMethod = setupMethod;
+        this.constraintMethods = constraintMethods;
         this.hasAnyAssociativity = false;
     }
 
@@ -181,12 +187,19 @@ public final class PreElement implements Serializable {
     }
 
     /**
-     * @return the run on load method
+     * @return the setup method
      */
-    public Method getAutorunMethod() {
-        return AutorunMethod;
+    public Method getSetupMethod() {
+        return setupMethod;
     }
 
+    /**
+     * @return the constraint checking methods
+     */
+    public List<Method> getConstraintMethods() {
+        return constraintMethods;
+    }
+    
     /**
      * @param elementClass the elementClass to set
      */
@@ -261,7 +274,7 @@ public final class PreElement implements Serializable {
      * @param AutorunMethod the run on load method to set
      */
     public void setAutorunMethod(Method AutorunMethod) {
-        this.AutorunMethod = AutorunMethod;
+        this.setupMethod = AutorunMethod;
     }
 
     /**

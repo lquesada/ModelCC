@@ -20,7 +20,7 @@ public class Ini8 implements IModel {
     @Suffix("\\)")
     public Set<Ino2> a;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

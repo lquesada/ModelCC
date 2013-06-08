@@ -19,7 +19,7 @@ public class Ini61 implements IModel {
 
     public HashSet<Ino1> a;
 
-    @Setup
+    @Constraint
     private boolean run() {
         return true;
     }

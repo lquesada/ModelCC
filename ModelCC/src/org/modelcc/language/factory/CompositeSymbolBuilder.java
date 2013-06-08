@@ -139,8 +139,8 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                 }
             }
             fixOptionals(o,m,filled);
-            if (ce.getAutorunMethod() != null) {
-                Method mtd = c.getDeclaredMethod(ce.getAutorunMethod(),new Class[]{});
+            if (ce.getSetupMethod() != null) {
+                Method mtd = c.getDeclaredMethod(ce.getSetupMethod(),new Class[]{});
                 if (mtd != null) {
                     mtd.setAccessible(true);
                     if (valid) {
