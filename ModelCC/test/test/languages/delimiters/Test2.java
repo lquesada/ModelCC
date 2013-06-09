@@ -3,7 +3,7 @@
  */
 
 
-package test.languages.prefixes;
+package test.languages.delimiters;
 
 import org.modelcc.*;
 
@@ -11,8 +11,8 @@ import org.modelcc.*;
  *
  * @author elezeta
  */
-@Prefix("(?i)a")
-public class Test1 implements IModel {
+@Prefix("a?")
+public class Test2 implements IModel {
 
     @Value int a;
 }

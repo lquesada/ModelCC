@@ -3,7 +3,7 @@
  */
 
 
-package test.languages.prefixes;
+package test.languages.delimiters;
 
 import org.modelcc.*;
 
@@ -11,9 +11,8 @@ import org.modelcc.*;
  *
  * @author elezeta
  */
-@Prefix("")
-@Suffix("")
-public class Test4 implements IModel {
+public class Test5 implements IModel {
 
-    @Value int a;
+	@Separator("")
+	Test5a aas[];
 }
