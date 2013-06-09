@@ -3,7 +3,7 @@ ModelCC v2.05    (2013-06-09)
 -----------------------------
 
 + [FEATURE] @Constraint and @Setup annotations now run in cascade.
-+ [CHANGE] @Autorun has been splited into @Setup and @Constraint.
++ [CHANGE] @Autorun has been split into @Setup and @Constraint.
 + [FIX] Fixed wrong linking in lexical analysis graphs.
 + [FIX] Delimiters can now match the empty string.
 + [FIX] Delimiters can now be the empty string.
