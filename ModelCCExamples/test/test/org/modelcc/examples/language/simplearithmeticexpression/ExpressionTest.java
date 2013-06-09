@@ -7,8 +7,14 @@ package test.org.modelcc.examples.language.simplearithmeticexpression;
 
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.io.ModelReader;
@@ -43,7 +49,10 @@ public class ExpressionTest {
 
             ModelReader jmr = new JavaModelReader(Expression.class);
             Model m = jmr.read();
-            parser = FenceParserFactory.create(m);
+            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+            se.add(new RegExpPatternRecognizer("[\r \n\t]+"));
+            se.add(new RegExpPatternRecognizer("%[^\n]*(\n|$)"));
+            parser = FenceParserFactory.create(m,se);
 
         } catch (Exception ex) {
             Logger.getLogger(ExpressionTest.class.getName()).log(Level.SEVERE, null, ex);

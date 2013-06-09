@@ -208,13 +208,13 @@ public class ModelCCExamples extends javax.swing.JFrame {
         jPanel7.setLayout(new java.awt.BorderLayout());
 
         buttonGroup1.add(eachSeparately);
+        eachSeparately.setSelected(true);
         eachSeparately.setText("Evaluate each line separately");
         eachSeparately.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         eachSeparately.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jPanel7.add(eachSeparately, java.awt.BorderLayout.CENTER);
 
         buttonGroup1.add(wholeInput);
-        wholeInput.setSelected(true);
         wholeInput.setText("Evaluate the whole input at once");
         wholeInput.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         wholeInput.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -427,7 +427,7 @@ private void evaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             Model m = jmr.read();
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             ignore.add(new RegExpPatternRecognizer("[\r \n\t]+"));
-            ignore.add(new RegExpPatternRecognizer("%.*\n"));
+            ignore.add(new RegExpPatternRecognizer("%[^\n]*(\n|$)"));
             parser = ParserFactory.create(m,ignore);
         } catch (Exception ex) {
             outputln("CRITICAL ERROR: "+ex.getMessage());

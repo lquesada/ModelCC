@@ -59,8 +59,8 @@ public class ImperativeArithmeticTest {
             ModelReader jmr = new JavaModelReader(ImperativeArithmetic.class);
             Model m = jmr.read();
             Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
-            se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
-            
+            se.add(new RegExpPatternRecognizer("[\r \n\t]+"));
+            se.add(new RegExpPatternRecognizer("%[^\n]*(\n|$)"));
             parser = FenceParserFactory.create(m,se);
 
         } catch (Exception ex) {

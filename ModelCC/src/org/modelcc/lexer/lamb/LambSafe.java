@@ -209,12 +209,11 @@ public final class LambSafe implements Serializable {
                                     	}
                                     }
                                     else {
-                                        for (k = start;k <= end;k++)
+                                    	//System.out.println("-- LAMB found ignore "+t.getType()+" "+t.getStartIndex()+" to "+t.getEndIndex()+" val "+t.getString()+" recog "+ts.getRecognizer()+" INPUTS "+inputs+" at "+i+"  "+inputs.charAt(i));
+                                        if (search[end+1] == Search.NO)
+                                            search[end+1] = Search.YES;
+                                    	for (k = start;k <= end;k++)
                                             search[k] = Search.NEVER;
-                                        if (inputstart == start)
-                                        	inputstart = end+1;
-                                        if (inputend == end)
-                                        	inputend = inputend-(end-start+1);
                                     }
                                 	if (start>end)
                                 		end = start;
@@ -230,7 +229,6 @@ public final class LambSafe implements Serializable {
                             }
                         }
                     }
-
                     for (ite = tokenList.iterator();ite.hasNext();) {
                         t = ite.next();
                         erase = false;
@@ -253,6 +251,11 @@ public final class LambSafe implements Serializable {
 
         }
 
+
+        while (inputstart<inputend && search[inputstart]==Search.NEVER)
+        	inputstart++;
+        while (inputend>=inputstart && search[inputend]==Search.NEVER)
+        	inputend--;
 
         // -------------
         // Graph generation step

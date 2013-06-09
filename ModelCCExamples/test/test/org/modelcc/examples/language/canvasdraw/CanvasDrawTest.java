@@ -50,7 +50,8 @@ public class CanvasDrawTest {
             ModelReader jmr = new JavaModelReader(CanvasDraw.class);
             Model m = jmr.read();
             Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
-            se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
+            se.add(new RegExpPatternRecognizer("[\r \n\t]+"));
+            se.add(new RegExpPatternRecognizer("%[^\n]*(\n|$)"));
             parser = FenceParserFactory.create(m,se);
 
         } catch (Exception ex) {
@@ -95,6 +96,11 @@ public class CanvasDrawTest {
     @Test
     public void CanvasDrawTest6() {
             assertEquals(1,parser.parseAll("canvas width 640 height 480 background (0,0,0) color (255,0,0) line [(10,10),(20,20)] rectangle [(40,100),(60,120)] fill color (0,255,0) circle (400,30),400").size());
+    }    
+
+    @Test
+    public void CanvasDrawTest7() {
+            assertEquals(1,parser.parseAll("canvas %test").size());
     }    
 
 }
