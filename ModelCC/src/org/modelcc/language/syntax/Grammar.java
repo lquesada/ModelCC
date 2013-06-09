@@ -125,13 +125,18 @@ public final class Grammar implements Serializable {
             Rule r;
             for (Iterator<Rule> ite = rules.iterator();ite.hasNext();) {
                 r = ite.next();
-                Set<Rule> se = startRules.get(r.getRight().get(0).getType());
-                if (se == null) {
-                    se = new HashSet<Rule>();
-                    startRules.put(r.getRight().get(0).getType(),se);
-                }
-                se.add(r);            
+                int i = 0;
+                do {
+	                Set<Rule> se = startRules.get(r.getRight().get(i).getType());
+	                if (se == null) {
+	                    se = new HashSet<Rule>();
+	                    startRules.put(r.getRight().get(i).getType(),se);
+	                }
+	                se.add(r);
+	                i++;
+                } while (emptyRules.contains(r.getRight().get(i-1).getType()) && i < r.getRight().size());
             }
+
             // Calculate firstStar:
             Set<Object> objs = new HashSet<Object>();
             firstStar = new HashMap<Object,Set<Object>>();
@@ -180,10 +185,8 @@ public final class Grammar implements Serializable {
             e.printStackTrace();
             System.exit(0);
         }
-
     }
-
-
+    
     /**
      * Fills the first* set of a rule
      * @param se the set

@@ -122,11 +122,41 @@ public final class LanguageSpecificationFactory implements Serializable {
 
         // Delimiters to tokens.
         for (Iterator<PatternRecognizer> ite = m.getDelimiters().iterator();ite.hasNext();) {
-            PatternRecognizer pr = ite.next();
+        	PatternRecognizer pr = ite.next();
             TokenSpecification ts = new TokenSpecification(pr, pr);
-            lsf.addTokenSpecification(ts);
-            deltots.put(pr,ts);
-            deltore.put(pr,new RuleElement(pr));
+        	lsf.addTokenSpecification(ts);
+        	deltots.put(pr,ts);
+
+            RuleElement re = new RuleElement(pr);
+            // Hack: delimiter pattern matches empty string
+            if (ts.getRecognizer().getArg().equals("")) {
+            	Rule er = new Rule();
+            	er.setLeft(re);
+            	er.setBuilder(null);
+            	er.setRight(new ArrayList<RuleElement>());
+            	ssf.addRule(er);
+            	deltore.put(pr,re);
+            }
+            else if (ts.getRecognizer().read("",0)!=null) {
+            	RuleElement parent = new RuleElement(re); 
+            	Rule er = new Rule();
+            	er.setLeft(parent);
+            	er.setBuilder(null);
+            	List<RuleElement> lre = new ArrayList<RuleElement>();
+            	lre.add(re);
+            	er.setRight(lre);
+            	ssf.addRule(er);
+            	Rule er2 = new Rule();
+            	er2.setLeft(parent);
+            	er2.setBuilder(null);
+            	er2.setRight(new ArrayList<RuleElement>());
+            	ssf.addRule(er2);
+            	deltore.put(pr,parent);
+
+            }
+            else {
+            	deltore.put(pr,re);
+            }
         }
 
 
@@ -180,8 +210,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                 	sr.add(er);
                 }
                 
-                
-                	
                 TokenSpecification ts = new TokenSpecification(beid,bel.getPattern(),btb);
                 lsf.addTokenSpecification(ts);
                 elementTokenSpecifications.put(bel,ts);

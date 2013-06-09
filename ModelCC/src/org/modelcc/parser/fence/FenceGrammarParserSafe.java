@@ -162,7 +162,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                 t = ite.next();
                 s = new ParsedSymbol(t.getType(),t.getStartIndex(),t.getEndIndex(),t.getString());
                 s.setUserData(t.getUserData());
-                //System.out.println("------------------------------------------- TOKEN is " +t.getType()+"("+t.getString()+") at "+t.getStartIndex()+"-"+t.getEndIndex());
+                //out("------------------------------------------- TOKEN is " +t.getType()+"("+t.getString()+") at "+t.getStartIndex()+"-"+t.getEndIndex());
                 ttos.put(t,s);
                 symbolSet.add(s);
             }
@@ -220,11 +220,13 @@ public final class FenceGrammarParserSafe implements Serializable {
 
             // PROCEDURE
             // --------------
+            //out("HERE "+symbolSet.size());
 
             // Adds a handle with each rule to each core.
             for (ites = symbolSet.iterator();ites.hasNext();) {
                 s = ites.next();
                 Set<Rule> startRules = g.getStartRules().get(s.getType());
+                //out(s.getType()+"   "+g.getStartRules());
                 if (startRules != null) {
                     for (iter = startRules.iterator();iter.hasNext();) {
                         r = iter.next();
@@ -266,8 +268,8 @@ public final class FenceGrammarParserSafe implements Serializable {
                         do {
                             skip++;
                             nextType = wh.getRule().getRight().get(wh.getMatched()+skip).getType();
-                            //System.out.println("Looking for nextType: "+nextType);
-                            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
+                            //out("Looking for nextType: "+nextType);
+                            //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
                             if (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
                                 generateSymbol(g.getStartType(),wh,lg.getInputStart(),lg.getInputEnd());
                             }
@@ -276,7 +278,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                 }
                 //out("END PROCESSING "+wh);
             }
-            //System.out.println("GENERATED UP TO: "+doneHandles.size());
+            ////out("GENERATED UP TO: "+doneHandles.size());
         }
         
         return new ParsedGraph(symbolSet,starts,preceding,following,g);
@@ -301,8 +303,8 @@ public final class FenceGrammarParserSafe implements Serializable {
         do {
             skip++;
             nextType = r.getRight().get(matched+skip).getType();
-            //System.out.println("Looking for nextType: "+nextType);
-            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
+            //out("Looking for nextType: "+nextType);
+            //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
             Set<Handle> tc = thisCore.get(nextType);
             h = new Handle(r,matched+skip,first.getStartIndex(),first);
             if (tc == null || !tc.contains(h)) {
@@ -319,7 +321,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                 }
                 
                 if (nextType.equals(s.getType())) {
-                	//System.out.println("Matched!");
+                	//out("Matched!");
                     WaitingHandle w = new WaitingHandle(r,matched+skip,first.getStartIndex(),first,s);
                     Set<WaitingHandle> dh = doneHandles.get(s);
                     if (dh == null) {
@@ -377,7 +379,7 @@ public final class FenceGrammarParserSafe implements Serializable {
 
         
         s = new ParsedSymbol(wh.getRule().getLeft().getType(),wh.getFirst().getStartIndex(),wh.getNext().getEndIndex(),singleTypeHistory);
-        //System.out.println("------------------------------------------- GP GENERATED " +wh.getRule().getLeft().getType()+" in "+wh.getFirst().getStartIndex()+"-"+wh.getNext().getEndIndex());
+        //out("------------------------------------------- GP GENERATED " +wh.getRule().getLeft().getType()+" in "+wh.getFirst().getStartIndex()+"-"+wh.getNext().getEndIndex());
 
         if (!symbolSet.contains(s)) {
             symbolSet.add(s);
