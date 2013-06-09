@@ -1,13 +1,22 @@
 -----------------------------
+ModelCC v2.06    (2013-06-09)
+-----------------------------
+
++ [FEATURE] Exceptions in methods annotated with @Constraint or @Setup are now shown.
++ [FIX] Lamb incorrectly treated ignore patterns at the start or end of the input.
++ [FIX] ModelCCExamples comment pattern did not consider end of input.
++ [FIX] ModelCCExamples GraphDraw3D language used @Setup for constraints.
+
+-----------------------------
 ModelCC v2.05    (2013-06-09)
 -----------------------------
 
 + [FEATURE] @Constraint and @Setup annotations now run in cascade.
 + [CHANGE] @Autorun has been split into @Setup and @Constraint.
-+ [FIX] Fixed wrong linking in lexical analysis graphs.
++ [FIX] Lexical analysis graphs were incorrectly linked.
 + [FIX] Delimiters can now match the empty string.
 + [FIX] Delimiters can now be the empty string.
-+ [FIX] Fixed bug in start rule calculation.
++ [FIX] Start rule calculation did not consider empty rules.
 
 -----------------------------
 ModelCC v2.04    (2013-06-07)
