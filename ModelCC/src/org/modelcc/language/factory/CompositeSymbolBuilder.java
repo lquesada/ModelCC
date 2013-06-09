@@ -254,7 +254,21 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
             Method mtd = el.getElementClass().getDeclaredMethod(el.getSetupMethod(),new Class[]{});
             if (mtd != null) {
                 mtd.setAccessible(true);
-                mtd.invoke(o);
+                try {
+					mtd.invoke(o);
+				} catch (IllegalArgumentException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				} catch (IllegalAccessException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				} catch (InvocationTargetException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				}
             }
         }
 	}
@@ -268,7 +282,21 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
             Method mtd = el.getElementClass().getDeclaredMethod(el.getConstraintMethods().get(i),new Class[]{});
             if (mtd != null) {
                 mtd.setAccessible(true);
-                valid &= (Boolean)mtd.invoke(o);
+                try {
+                    valid &= (Boolean)mtd.invoke(o);
+				} catch (IllegalArgumentException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				} catch (IllegalAccessException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				} catch (InvocationTargetException e) {
+	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+					e.printStackTrace();
+					throw e;
+				}
             }
         }
 		return valid;

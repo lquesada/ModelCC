@@ -18,7 +18,7 @@ public class Autorun1 implements IModel {
     public int count=0;
     
     @Setup
-    void load() {
+    void load() throws Exception {
         count++;
     }
 }
