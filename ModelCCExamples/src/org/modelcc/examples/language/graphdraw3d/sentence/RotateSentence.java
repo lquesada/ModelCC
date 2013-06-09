@@ -36,16 +36,19 @@ public final class RotateSentence extends Sentence implements IModel {
     Literal z;
 
     @Setup
-    public boolean build() {
+    public void setup() {
+    	if (x != null || y != null || z != null) {
+            if (x == null)
+                x = new RealLiteral(0);
+            if (y == null)
+                y = new RealLiteral(0);
+            if (z == null)
+                z = new RealLiteral(0);
+    	}
+    }
+    @Constraint
+    public boolean check() {
         if (x == null && y == null && z == null)
-            return false;
-        if (x == null)
-            x = new RealLiteral(0);
-        if (y == null)
-            y = new RealLiteral(0);
-        if (z == null)
-            z = new RealLiteral(0);
-        if (x.doubleValue() == 0. && y.doubleValue() == 0. && z.doubleValue() == 0.)
             return false;
         return true;
     }

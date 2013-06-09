@@ -38,8 +38,8 @@ public final class ObjectName implements IModel {
         return hash;
     }
     
-    @Setup
-    public boolean build() {
+    @Constraint
+    public boolean check() {
         if (name.equals("axis") || name.equals("cube") || name.equals("square"))
             return false;
         return true;

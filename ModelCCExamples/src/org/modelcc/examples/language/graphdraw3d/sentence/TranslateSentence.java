@@ -33,15 +33,20 @@ public final class TranslateSentence extends Sentence implements IModel {
     Literal z;
 
     @Setup
-    public boolean build() {
+    public void setup() {
+    	if (x != null || y != null || z != null) {
+            if (x == null)
+                x = new RealLiteral(0);
+            if (y == null)
+                y = new RealLiteral(0);
+            if (z == null)
+                z = new RealLiteral(0);
+    	}
+    }
+    @Constraint
+    public boolean check() {
         if (x == null && y == null && z == null)
             return false;
-        if (x == null)
-            x = new RealLiteral(0);
-        if (y == null)
-            y = new RealLiteral(0);
-        if (z == null)
-            z = new RealLiteral(0);
         return true;
     }
 

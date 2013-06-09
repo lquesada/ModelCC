@@ -12,6 +12,7 @@ import org.modelcc.examples.language.graphdraw3d.resources.RunData;
  * Scene object.
  * @author elezeta
  */
+//TODO @Priority(precedes=ObjectName.class)
 public abstract class SceneObject implements IModel {
  
     public abstract void draw(RunData rd);

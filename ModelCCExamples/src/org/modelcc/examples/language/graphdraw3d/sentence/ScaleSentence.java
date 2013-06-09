@@ -38,23 +38,28 @@ public final class ScaleSentence extends Sentence implements IModel {
     boolean considerAll = false;
 
     @Setup
-    public boolean build() {
+    public void setup() {
+    	if (x != null || y != null || z != null || all != null) {
+	        if (x == null)
+	            x = new RealLiteral(1);
+	        if (y == null)
+	            y = new RealLiteral(1);
+	        if (z == null)
+	            z = new RealLiteral(1);
+	        if (all != null)
+	            considerAll = true;
+    	}
+    }
+
+    @Constraint
+    public boolean check() {
         if (x == null && y == null && z == null && all == null)
             return false;
         if ((x != null || y != null || z != null) && all != null)
             return false;
-        if (all != null)
-            considerAll = true;
-        else {
-            if (x == null)
-                x = new RealLiteral(1);
-            if (y == null)
-                y = new RealLiteral(1);
-            if (z == null)
-                z = new RealLiteral(1);
-        }
         return true;
     }
+    
 
     @Override
     public void run(RunData rd) {

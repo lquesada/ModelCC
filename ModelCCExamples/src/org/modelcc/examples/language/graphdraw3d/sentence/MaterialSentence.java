@@ -51,29 +51,29 @@ public final class MaterialSentence extends Sentence implements IModel {
     boolean considerAll = false;
 
     @Setup
-    public boolean build() {
-        if (r == null && g == null && b == null && a == null && all == null && text == null)
+    public void setup() {
+    	if (r != null || g != null || b != null || a != null || all != null || text != null) {
+	        if (r == null)
+	            r = new RealLiteral(0);
+	        if (g == null)
+	            g = new RealLiteral(0);
+	        if (b == null)
+	            b = new RealLiteral(0);
+	        if (a == null)
+	            a = new RealLiteral(1);
+	        if (all != null)
+	            considerAll = true;
+    	}
+    }
+    @Constraint
+    public boolean check() {
+        if (r == null && g == null && b == null && a == null && text == null)
             return false;
-        if ((r != null || g != null || b != null || a != null) && all != null)
+        if ((r != null || g != null || b != null) && all != null)
             return false;
-        if (text != null)
-            if (text.intValue() >= Resources.maxTextures || text.intValue()<0)
-                return false;
-        if (all != null)
-            considerAll = true;
-        else {
-            if (r == null)
-                r = new RealLiteral(0);
-            if (g == null)
-                g = new RealLiteral(0);
-            if (b == null)
-                b = new RealLiteral(0);
-            if (a == null)
-                a = new RealLiteral(1);
-        }
-
         return true;
     }
+
 
     @Override
     public void run(RunData rd) {
