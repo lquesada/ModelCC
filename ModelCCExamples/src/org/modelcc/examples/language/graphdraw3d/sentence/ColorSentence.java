@@ -18,7 +18,7 @@ import org.modelcc.examples.language.graphdraw3d.resources.Resources;
  * Rotate Sentence
  * @author elezeta
  */
-@Prefix("material")
+@Prefix("color")
 @FreeOrder
 public final class ColorSentence extends Sentence implements IModel {
 
