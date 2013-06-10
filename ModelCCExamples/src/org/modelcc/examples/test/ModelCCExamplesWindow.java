@@ -20,6 +20,7 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.Toolkit;
 
 public class ModelCCExamplesWindow extends JFrame {
 
@@ -45,6 +46,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public ModelCCExamplesWindow() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModelCCExamplesWindow.class.getResource("/org/modelcc/examples/test/icon.png")));
 		setTitle("ModelCC Examples");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -97,6 +99,14 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		JButton Process = new JButton("Process");
 		inputButtonPanel.add(Process, BorderLayout.EAST);
+		
+		JPanel altEnterPanel = new JPanel();
+		altEnterPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
+		inputButtonPanel.add(altEnterPanel, BorderLayout.CENTER);
+		altEnterPanel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel altEnterLabel = new JLabel("Press ALT+ENTER in order to");
+		altEnterPanel.add(altEnterLabel, BorderLayout.EAST);
 		
 		JLabel inputLabel = new JLabel("Input");
 		inputPanel.add(inputLabel, BorderLayout.NORTH);
