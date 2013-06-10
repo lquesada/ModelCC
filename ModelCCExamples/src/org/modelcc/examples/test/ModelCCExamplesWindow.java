@@ -9,12 +9,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.ImageIcon;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import java.awt.FlowLayout;
+import javax.swing.JScrollPane;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class ModelCCExamplesWindow extends JFrame {
 
@@ -49,8 +54,8 @@ public class ModelCCExamplesWindow extends JFrame {
 		setContentPane(mainPanel);
 		
 		JPanel leftPanel = new JPanel();
-		leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		mainPanel.add(leftPanel, BorderLayout.WEST);
+		leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel examplesLabel = new JLabel("Examples");
@@ -93,17 +98,20 @@ public class ModelCCExamplesWindow extends JFrame {
 		JButton Process = new JButton("Process");
 		inputButtonPanel.add(Process, BorderLayout.EAST);
 		
-		JPanel inputTextPanel = new JPanel();
-		inputTextPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-		inputPanel.add(inputTextPanel, BorderLayout.CENTER);
-		inputTextPanel.setLayout(new BorderLayout(0, 0));
-		
-		JTextArea inputTextArea = new JTextArea();
-		inputTextPanel.add(inputTextArea);
-		inputTextArea.setRows(10);
-		
 		JLabel inputLabel = new JLabel("Input");
 		inputPanel.add(inputLabel, BorderLayout.NORTH);
+		
+		JPanel inputBorderPanel = new JPanel();
+		inputBorderPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+		inputPanel.add(inputBorderPanel, BorderLayout.CENTER);
+		inputBorderPanel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane inputScrollPane = new JScrollPane();
+		inputBorderPanel.add(inputScrollPane);
+		inputScrollPane.setViewportBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(255, 255, 255)));
+		
+		JTextArea inputTextArea = new JTextArea();
+		inputScrollPane.setViewportView(inputTextArea);
 		
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -113,15 +121,17 @@ public class ModelCCExamplesWindow extends JFrame {
 		JLabel outputLabel = new JLabel("Output");
 		outputPanel.add(outputLabel, BorderLayout.NORTH);
 		
-		JPanel outputTextPanel = new JPanel();
-		outputTextPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-		outputPanel.add(outputTextPanel, BorderLayout.CENTER);
-		outputTextPanel.setLayout(new BorderLayout(0, 0));
+		JPanel outputBorderPanel = new JPanel();
+		outputBorderPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+		outputPanel.add(outputBorderPanel, BorderLayout.CENTER);
+		outputBorderPanel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane outputScrollPane = new JScrollPane();
+		outputBorderPanel.add(outputScrollPane);
+		outputScrollPane.setViewportBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(255, 255, 255)));
 		
 		JTextArea outputTextArea = new JTextArea();
-		outputTextPanel.add(outputTextArea);
 		outputTextArea.setEditable(false);
-		outputTextArea.setRows(5);
+		outputScrollPane.setViewportView(outputTextArea);
 	}
-
 }
