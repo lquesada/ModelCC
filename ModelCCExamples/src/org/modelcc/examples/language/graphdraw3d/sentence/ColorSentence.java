@@ -26,19 +26,19 @@ public final class ColorSentence extends Sentence implements IModel {
     Relative rel;
 
     @Optional
-    @Prefix("r")
+    @Prefix("red")
     Literal r;
 
     @Optional
-    @Prefix("g")
+    @Prefix("green")
     Literal g;
 
     @Optional
-    @Prefix("b")
+    @Prefix("blue")
     Literal b;
 
     @Optional
-    @Prefix("a")
+    @Prefix("alpha")
     Literal a;
 
     @Optional
