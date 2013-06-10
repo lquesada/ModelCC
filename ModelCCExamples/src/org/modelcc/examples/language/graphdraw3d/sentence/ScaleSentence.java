@@ -8,7 +8,7 @@ package org.modelcc.examples.language.graphdraw3d.sentence;
 import static org.lwjgl.opengl.GL11.*;
 import org.modelcc.*;
 import org.modelcc.examples.language.graphdraw3d.Literal;
-import org.modelcc.examples.language.graphdraw3d.RealLiteral;
+import org.modelcc.examples.language.graphdraw3d.DecimalLiteral;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.Sentence;
 
@@ -44,11 +44,11 @@ public final class ScaleSentence extends Sentence implements IModel {
 	            considerAll = true;
 	        else {
 		        if (x == null)
-		            x = new RealLiteral(1);
+		            x = new DecimalLiteral(1);
 		        if (y == null)
-		            y = new RealLiteral(1);
+		            y = new DecimalLiteral(1);
 		        if (z == null)
-		            z = new RealLiteral(1);
+		            z = new DecimalLiteral(1);
 	        }
     	}
     }
@@ -70,5 +70,10 @@ public final class ScaleSentence extends Sentence implements IModel {
         else
             glScaled(x.doubleValue(),y.doubleValue(),z.doubleValue());
     }
-    
+
+	@Override
+	public void undo(RunData rd) {
+		// TODO Auto-generated method stub
+		
+	}
 }

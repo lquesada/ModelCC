@@ -8,22 +8,21 @@ package org.modelcc.examples.language.graphdraw3d;
 import org.modelcc.*;
 
 /**
- * Real literal.
+ * Decimal literal.
  * @author elezeta
  */
-public class RealLiteral extends Literal implements IModel {
+public class DecimalLiteral extends Literal implements IModel {
     
     @Value
     double val;
 
-    public RealLiteral() {
+    public DecimalLiteral() {
         val = 0;
     }
     
-    public RealLiteral(double val) {
+    public DecimalLiteral(double val) {
         this.val = val;
     }
-    
     
     @Override
     public int intValue() {
@@ -31,17 +30,8 @@ public class RealLiteral extends Literal implements IModel {
     }
 
     @Override
-    public long longValue() {
-        return (long)val;
-    }
-
-    @Override
-    public float floatValue() {
-        return (float)val;
-    }
-
-    @Override
     public double doubleValue() {
         return val;
     }
+    
 }

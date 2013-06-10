@@ -34,5 +34,11 @@ public final class BlockSentence extends Sentence implements IModel {
         rd.setCurrentColor(cd);
         rd.setCurrentTexture(td);
     }
+
+	@Override
+	public void undo(RunData rd) {
+		// TODO Auto-generated method stub
+		
+	}
         
 }

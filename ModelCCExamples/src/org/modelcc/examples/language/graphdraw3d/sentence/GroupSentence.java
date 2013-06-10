@@ -25,5 +25,10 @@ public final class GroupSentence extends Sentence implements IModel {
         for (int i = 0;i < sentences.length;i++)
             sentences[i].run(rd);
     }
-    
+
+	@Override
+	public void undo(RunData rd) {
+		// TODO Auto-generated method stub
+		
+	}
 }

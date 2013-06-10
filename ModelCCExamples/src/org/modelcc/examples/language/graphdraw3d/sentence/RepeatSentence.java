@@ -28,5 +28,10 @@ public final class RepeatSentence extends Sentence implements IModel {
             sentence.run(rd);
         }
     }
-    
+
+	@Override
+	public void undo(RunData rd) {
+		// TODO Auto-generated method stub
+		
+	}
 }

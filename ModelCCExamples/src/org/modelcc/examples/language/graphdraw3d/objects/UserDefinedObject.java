@@ -3,7 +3,7 @@
  */
 
 
-package org.modelcc.examples.language.graphdraw3d.object;
+package org.modelcc.examples.language.graphdraw3d.objects;
 
 import org.modelcc.examples.language.graphdraw3d.SceneObject;
 import org.modelcc.*;

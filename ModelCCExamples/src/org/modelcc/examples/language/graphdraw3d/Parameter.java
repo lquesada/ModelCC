@@ -8,13 +8,9 @@ package org.modelcc.examples.language.graphdraw3d;
 import org.modelcc.*;
 
 /**
- * Literal.
+ * Literal literal.
  * @author elezeta
  */
-public abstract class Literal extends Parameter implements IModel {
-
-	public abstract int intValue();
-
-	public abstract double doubleValue();
-
+public abstract class Parameter implements IModel {
+    
 }

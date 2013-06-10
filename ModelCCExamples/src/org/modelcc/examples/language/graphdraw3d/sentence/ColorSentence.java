@@ -8,7 +8,7 @@ package org.modelcc.examples.language.graphdraw3d.sentence;
 import org.modelcc.*;
 import org.modelcc.examples.language.graphdraw3d.IntegerLiteral;
 import org.modelcc.examples.language.graphdraw3d.Literal;
-import org.modelcc.examples.language.graphdraw3d.RealLiteral;
+import org.modelcc.examples.language.graphdraw3d.DecimalLiteral;
 import org.modelcc.examples.language.graphdraw3d.resources.ColorData;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.Sentence;
@@ -20,7 +20,7 @@ import org.modelcc.examples.language.graphdraw3d.resources.Resources;
  */
 @Prefix("material")
 @FreeOrder
-public final class MaterialSentence extends Sentence implements IModel {
+public final class ColorSentence extends Sentence implements IModel {
 
     @Optional
     Relative rel;
@@ -42,32 +42,28 @@ public final class MaterialSentence extends Sentence implements IModel {
     Literal a;
 
     @Optional
-    @Prefix("texture")
-    IntegerLiteral text;
-
-    @Optional
     Literal all;
 
     boolean considerAll = false;
 
     @Setup
     public void setup() {
-    	if (r != null || g != null || b != null || a != null || all != null || text != null) {
+    	if (r != null || g != null || b != null || a != null || all != null) {
 	        if (r == null)
-	            r = new RealLiteral(0);
+	            r = new DecimalLiteral(0);
 	        if (g == null)
-	            g = new RealLiteral(0);
+	            g = new DecimalLiteral(0);
 	        if (b == null)
-	            b = new RealLiteral(0);
+	            b = new DecimalLiteral(0);
 	        if (a == null)
-	            a = new RealLiteral(1);
+	            a = new DecimalLiteral(1);
 	        if (all != null)
 	            considerAll = true;
     	}
     }
     @Constraint
     public boolean check() {
-        if (r == null && g == null && b == null && a == null && text == null)
+        if (r == null && g == null && b == null && a == null)
             return false;
         if ((r != null || g != null || b != null) && all != null)
             return false;
@@ -110,11 +106,12 @@ public final class MaterialSentence extends Sentence implements IModel {
                 newColor = new ColorData(r.doubleValue(),g.doubleValue(),b.doubleValue(),a.doubleValue());
             rd.setCurrentColor(newColor);
         }
-        if (text != null) {
-            if (text.intValue() < Resources.getTextures().length && text.intValue()>=0)
-                rd.setCurrentTexture(Resources.getTextures()[text.intValue()]);
-        }
     }
 
+	@Override
+	public void undo(RunData rd) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

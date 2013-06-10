@@ -30,16 +30,6 @@ public class IntegerLiteral extends Literal implements IModel {
     }
 
     @Override
-    public long longValue() {
-        return (long)val;
-    }
-
-    @Override
-    public float floatValue() {
-        return (float)val;
-    }
-
-    @Override
     public double doubleValue() {
         return (double)val;
     }
