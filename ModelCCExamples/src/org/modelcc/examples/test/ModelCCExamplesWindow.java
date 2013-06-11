@@ -1,6 +1,7 @@
 package org.modelcc.examples.test;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,41 +13,45 @@ import javax.swing.ImageIcon;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeWillExpandListener;
 
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreeSelectionModel;
+
+import org.modelcc.io.ModelReader;
+import org.modelcc.io.java.JavaModelReader;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
+import org.modelcc.metamodel.Model;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 public class ModelCCExamplesWindow extends JFrame {
 
-	private JPanel mainPanel;
-
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ModelCCExamplesWindow frame = new ModelCCExamplesWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+
+	
+	private Class languageClass;
+    private Parser parser;
+
+	
+	private JPanel mainPanel;
 
 	/**
 	 * Create the frame.
@@ -78,43 +83,72 @@ public class ModelCCExamplesWindow extends JFrame {
 		examplesTree.setShowsRootHandles(true);
 		examplesTree.setRootVisible(false);
 		examplesTree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("Languages") {
+			new InfoMutableTreeNode("Languages",null,null) {
 				{
-					DefaultMutableTreeNode node_1;
-					node_1 = new DefaultMutableTreeNode("Simple Arithmetic Expression");
-						node_1.add(new DefaultMutableTreeNode("Addition"));
-						node_1.add(new DefaultMutableTreeNode("Subtraction"));
-						node_1.add(new DefaultMutableTreeNode("Nesting"));
-						node_1.add(new DefaultMutableTreeNode("Assoacitivity"));
-						node_1.add(new DefaultMutableTreeNode("Decimal"));
+					InfoMutableTreeNode node_1;
+					Class lang;
+					String langName;
+					
+					lang = org.modelcc.examples.language.simplearithmeticexpression.Expression.class;
+					langName = "Simple Arithmetic Expression";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName);
+						node_1.add(new InfoMutableTreeNode("Addition",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Subtraction",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Nesting",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Assoacitivity",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Decimal",lang,langName));
 					add(node_1);
-					node_1 = new DefaultMutableTreeNode("CanvasDraw");
-						node_1.add(new DefaultMutableTreeNode("Blackboard"));
-						node_1.add(new DefaultMutableTreeNode("Polygons"));
+					
+					lang = org.modelcc.examples.language.canvasdraw.CanvasDraw.class;
+					langName = "CanvasDraw";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName);
+						node_1.add(new InfoMutableTreeNode("Blackboard",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Polygons",lang,langName));
 					add(node_1);
-					node_1 = new DefaultMutableTreeNode("ImperativeArithmetic");
-						node_1.add(new DefaultMutableTreeNode("Assignment"));
+					
+					lang = org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class;
+					langName = "ImperativeArithmetic";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName);
+						node_1.add(new InfoMutableTreeNode("Assignment",lang,langName));
 					add(node_1);
-					node_1 = new DefaultMutableTreeNode("GraphDraw3D");
-						node_1.add(new DefaultMutableTreeNode("Snail"));
-						node_1.add(new DefaultMutableTreeNode("Helix"));
-						node_1.add(new DefaultMutableTreeNode("PalmTree"));
+					
+					lang = org.modelcc.examples.language.graphdraw3d.Scene.class;
+					langName = "GraphDraw3D";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName);
+						node_1.add(new InfoMutableTreeNode("Snail",lang,langName));
+						node_1.add(new InfoMutableTreeNode("Helix",lang,langName));
+						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName));
 					add(node_1);
 				}
 			}
 		));
+	    examplesTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		examplesTree.setBorder(new EmptyBorder(5, 5, 5, 0));
 		examplesTreePanel.add(examplesTree);
 		examplesTree.addTreeWillExpandListener(new TreeWillExpandListener() {
 		    public void treeWillExpand(TreeExpansionEvent e) { }
 		    public void treeWillCollapse(TreeExpansionEvent e)
 		         throws ExpandVetoException {
-		     throw new ExpandVetoException(e, "you can't collapse this JTree");
+		     throw new ExpandVetoException(e);
 		     }
 		    });
 		for (int i = 0; i < examplesTree.getRowCount(); i++) {
 			examplesTree.expandRow(i);
 		}
+		final JTree et = examplesTree;
+		examplesTree.addTreeSelectionListener(
+				new TreeSelectionListener() {
+		    public void valueChanged(TreeSelectionEvent e) {
+		        InfoMutableTreeNode node = (InfoMutableTreeNode)et.getLastSelectedPathComponent();
+
+		        if (node == null) return;
+
+		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
+		        switchLanguage(nodeInfo.getLanguageName(),nodeInfo.getLanguageClass());
+		        
+		    }
+
+		});
 		
 		JPanel logoPanel = new JPanel();
 		logoPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
@@ -141,9 +175,6 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputPanel.add(inputButtonPanel, BorderLayout.SOUTH);
 		inputButtonPanel.setLayout(new BorderLayout(0, 0));
 		
-		JButton Process = new JButton("Process");
-		inputButtonPanel.add(Process, BorderLayout.EAST);
-		
 		JPanel altEnterPanel = new JPanel();
 		altEnterPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
 		inputButtonPanel.add(altEnterPanel, BorderLayout.CENTER);
@@ -164,7 +195,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputBorderPanel.add(inputScrollPane);
 		inputScrollPane.setViewportBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(255, 255, 255)));
 		
-		JTextArea inputTextArea = new JTextArea();
+		inputTextArea = new JTextArea();
 		inputScrollPane.setViewportView(inputTextArea);
 		
 		JPanel outputPanel = new JPanel();
@@ -184,8 +215,101 @@ public class ModelCCExamplesWindow extends JFrame {
 		outputBorderPanel.add(outputScrollPane);
 		outputScrollPane.setViewportBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(255, 255, 255)));
 		
-		JTextArea outputTextArea = new JTextArea();
+
+		JButton processButton = new JButton("Process");
+		inputButtonPanel.add(processButton, BorderLayout.EAST);
+		processButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				process();
+			}
+		});
+		
+		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
 		outputScrollPane.setViewportView(outputTextArea);
+		
+		outputTextArea.append("Welcome to ModelCC Examples.\n");
+		outputTextArea.append("Please choose a language or an example from the left menu.\n");
+		outputTextArea.append("\n");
 	}
+
+	JTextArea inputTextArea;
+	JTextArea outputTextArea;
+	
+	private void switchLanguage(String languageName,Class languageClass) {
+		if (!languageClass.equals(this.languageClass)) {
+			outputTextArea.append("Generating parser for the "+languageName+" language.\n\n");
+			this.languageClass = languageClass;
+	        parser = null;
+	        try {
+	            ModelReader jmr = new JavaModelReader(languageClass);
+	            Model m = jmr.read();
+	            Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+	            ignore.add(new RegExpPatternRecognizer("[\r \n\t]+"));
+	            ignore.add(new RegExpPatternRecognizer("%[^\n]*(\n|$)"));
+	            parser = ParserFactory.create(m,ignore);
+	        } catch (Exception ex) {
+	        	outputTextArea.append("CRITICAL ERROR: "+ex.getMessage()+"\n");
+	        } 
+	        outputTextArea.append("Parser generated.\n");
+	        outputTextArea.append("\n");
+	    }
+	}
+	
+
+	protected void process() {
+        String inp = inputTextArea.getText();
+		
+		
+        if (languageClass.equals(org.modelcc.examples.language.simplearithmeticexpression.Expression.class)) {
+        	org.modelcc.examples.language.simplearithmeticexpression.Expression exp = (org.modelcc.examples.language.simplearithmeticexpression.Expression) parser.parse(inp);
+            if (exp == null)
+            	outputTextArea.append("null\n");
+            else
+            	outputTextArea.append(""+exp.eval());
+        }
+        if (languageClass.equals(org.modelcc.examples.language.canvasdraw.CanvasDraw.class)) {
+        	org.modelcc.examples.language.canvasdraw.CanvasDraw cd = (org.modelcc.examples.language.canvasdraw.CanvasDraw) parser.parse(inp);
+            
+            if (cd == null)
+            	outputTextArea.append("null\n");
+            else {
+                JFrame jw = new JFrame("CanvasDraw");
+                jw.setResizable(false);
+                jw.setSize(cd.getSize());
+                Container pane = jw.getContentPane();
+                pane.add(cd, BorderLayout.CENTER);
+                cd.setVisible(true);
+                jw.setVisible(true);
+            }
+        }
+        if (languageClass.equals(org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class)) {
+        	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = (org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic) parser.parse(inp);
+            if (imp == null)
+            	outputTextArea.append("null\n");
+            else
+            	outputTextArea.append(imp.run()+"\n");
+        }
+        if (languageClass.equals(org.modelcc.examples.language.graphdraw3d.Scene.class)) {
+            //System.out.println("Results: "+parser.parseAll(inp).size());
+        	org.modelcc.examples.language.graphdraw3d.Scene imp = (org.modelcc.examples.language.graphdraw3d.Scene) parser.parse(inp);
+            if (imp == null)
+            	outputTextArea.append("null\n");
+            else {
+                try {
+                	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(imp);
+                    dw.run();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+	}
+	
 }
+
+
+//TODO show description
+//TODO show examples
+//TODO show ambiguities
+//TODO show opening
