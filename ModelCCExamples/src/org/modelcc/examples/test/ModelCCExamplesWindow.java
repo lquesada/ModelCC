@@ -259,6 +259,10 @@ public class ModelCCExamplesWindow extends JFrame {
 
 	protected void process() {
         String inp = inputTextArea.getText();
+        if (languageClass==null) {
+        	outputTextArea.append("No language selected.\n");
+        	return;
+        }
 		
 		
         if (languageClass.equals(org.modelcc.examples.language.simplearithmeticexpression.Expression.class)) {
@@ -266,7 +270,7 @@ public class ModelCCExamplesWindow extends JFrame {
             if (exp == null)
             	outputTextArea.append("null\n");
             else
-            	outputTextArea.append(""+exp.eval());
+            	outputTextArea.append(""+exp.eval()+"\n");
         }
         if (languageClass.equals(org.modelcc.examples.language.canvasdraw.CanvasDraw.class)) {
         	org.modelcc.examples.language.canvasdraw.CanvasDraw cd = (org.modelcc.examples.language.canvasdraw.CanvasDraw) parser.parse(inp);
@@ -308,8 +312,8 @@ public class ModelCCExamplesWindow extends JFrame {
 	
 }
 
-
+//TODO when generating parser, clean output
 //TODO show description
 //TODO show examples
 //TODO show ambiguities
-//TODO show opening
+//TODO show "opening window"
