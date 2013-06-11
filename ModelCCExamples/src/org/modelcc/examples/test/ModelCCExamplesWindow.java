@@ -20,9 +20,13 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
+
 import java.awt.Toolkit;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.ExpandVetoException;
 
 public class ModelCCExamplesWindow extends JFrame {
 
@@ -71,6 +75,8 @@ public class ModelCCExamplesWindow extends JFrame {
 		examplesTreePanel.setLayout(new BorderLayout(0, 0));
 		
 		JTree examplesTree = new JTree();
+		examplesTree.setShowsRootHandles(true);
+		examplesTree.setRootVisible(false);
 		examplesTree.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Languages") {
 				{
@@ -99,6 +105,16 @@ public class ModelCCExamplesWindow extends JFrame {
 		));
 		examplesTree.setBorder(new EmptyBorder(5, 5, 5, 0));
 		examplesTreePanel.add(examplesTree);
+		examplesTree.addTreeWillExpandListener(new TreeWillExpandListener() {
+		    public void treeWillExpand(TreeExpansionEvent e) { }
+		    public void treeWillCollapse(TreeExpansionEvent e)
+		         throws ExpandVetoException {
+		     throw new ExpandVetoException(e, "you can't collapse this JTree");
+		     }
+		    });
+		for (int i = 0; i < examplesTree.getRowCount(); i++) {
+			examplesTree.expandRow(i);
+		}
 		
 		JPanel logoPanel = new JPanel();
 		logoPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
