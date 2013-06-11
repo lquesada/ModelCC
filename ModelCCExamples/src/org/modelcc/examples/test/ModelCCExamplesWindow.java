@@ -21,6 +21,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Toolkit;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class ModelCCExamplesWindow extends JFrame {
 
@@ -69,6 +71,32 @@ public class ModelCCExamplesWindow extends JFrame {
 		examplesTreePanel.setLayout(new BorderLayout(0, 0));
 		
 		JTree examplesTree = new JTree();
+		examplesTree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("Languages") {
+				{
+					DefaultMutableTreeNode node_1;
+					node_1 = new DefaultMutableTreeNode("Simple Arithmetic Expression");
+						node_1.add(new DefaultMutableTreeNode("Addition"));
+						node_1.add(new DefaultMutableTreeNode("Subtraction"));
+						node_1.add(new DefaultMutableTreeNode("Nesting"));
+						node_1.add(new DefaultMutableTreeNode("Assoacitivity"));
+						node_1.add(new DefaultMutableTreeNode("Decimal"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("CanvasDraw");
+						node_1.add(new DefaultMutableTreeNode("Blackboard"));
+						node_1.add(new DefaultMutableTreeNode("Polygons"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("ImperativeArithmetic");
+						node_1.add(new DefaultMutableTreeNode("Assignment"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("GraphDraw3D");
+						node_1.add(new DefaultMutableTreeNode("Snail"));
+						node_1.add(new DefaultMutableTreeNode("Helix"));
+						node_1.add(new DefaultMutableTreeNode("PalmTree"));
+					add(node_1);
+				}
+			}
+		));
 		examplesTree.setBorder(new EmptyBorder(5, 5, 5, 0));
 		examplesTreePanel.add(examplesTree);
 		

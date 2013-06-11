@@ -175,7 +175,7 @@ public class InteractiveTest {
             }            
         }
         else {
-            ModelCCExamplesWindow win = new ModelCCExamplesWindow();
+            ModelCCExamples win = new ModelCCExamples();
             win.setVisible(true);
         }
     }
