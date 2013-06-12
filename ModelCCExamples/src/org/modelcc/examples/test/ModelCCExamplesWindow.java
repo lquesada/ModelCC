@@ -102,10 +102,9 @@ public class ModelCCExamplesWindow extends JFrame {
 					langInfo = "SimpleArithmeticExpression_";
 					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
 						node_1.add(new InfoMutableTreeNode("Addition",lang,langName,langInfo,1));
-						node_1.add(new InfoMutableTreeNode("Subtraction",lang,langName,langInfo,2));
-						node_1.add(new InfoMutableTreeNode("Nesting",lang,langName,langInfo,3));
-						node_1.add(new InfoMutableTreeNode("Assoacitivity",lang,langName,langInfo,4));
-						node_1.add(new InfoMutableTreeNode("Decimal",lang,langName,langInfo,5));
+						node_1.add(new InfoMutableTreeNode("Addition and subtraction",lang,langName,langInfo,2));
+						node_1.add(new InfoMutableTreeNode("Priorities",lang,langName,langInfo,3));
+						node_1.add(new InfoMutableTreeNode("Parentheses",lang,langName,langInfo,4));
 					add(node_1);
 					
 					lang = org.modelcc.examples.language.canvasdraw.CanvasDraw.class;
@@ -120,7 +119,8 @@ public class ModelCCExamplesWindow extends JFrame {
 					langName = "Imperative Arithmetic";
 					langInfo = "ImperativeArithmetic_";
 					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
-						node_1.add(new InfoMutableTreeNode("Assignment",lang,langName,langInfo,1));
+						node_1.add(new InfoMutableTreeNode("Output",lang,langName,langInfo,1));
+						node_1.add(new InfoMutableTreeNode("Assignment and Output",lang,langName,langInfo,2));
 					add(node_1);
 					
 					lang = org.modelcc.examples.language.graphdraw3d.Scene.class;
@@ -157,7 +157,7 @@ public class ModelCCExamplesWindow extends JFrame {
 
 		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
 		        switchLanguage(nodeInfo);
-		        
+		        loadExample(nodeInfo);
 		    }
 
 		});
@@ -361,9 +361,20 @@ public class ModelCCExamplesWindow extends JFrame {
             return "";
         }
     }
+    
+    private void loadExample(InfoMutableTreeNode node) {
+		String languageInfo = node.getLanguageInfo();
+		int textNumber = node.getTextNumber();
+		//TODO confirm
+		if (textNumber != 0)
+			inputTextArea.setText(readText("text/"+languageInfo+"Example"+textNumber+".txt"));
+		else
+			inputTextArea.setText("");
+		//TODO mover al principio si se carga
+    }
 
 }
 
-//TODO show examples
 //TODO show ambiguities
 //TODO show "opening window"
+//TODO ALT+ENTER

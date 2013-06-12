@@ -1,0 +1,7 @@
+% Subtraction, addition, multiplication, and division are left to right associative.
+% Multiplication and division precede subtraction and addition.
+% Parenthesis allow the explicit specification of the associativity.
+%
+% The following input is interpreted as ((3+2)/3)*2
+
+(3+2.5)/3*2

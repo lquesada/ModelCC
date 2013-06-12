@@ -1,0 +1,19 @@
+canvas                                % Creates a canvas
+     width 800 height 600             % with size 800x600,
+     background (0,0,0)               % and a black background.
+                                      % Then:
+   color (180,40,40)                  % Sets the color to red
+   rectangle [(40,100),(60,120)] fill % Draws a fill rectangle
+                                      %    from (40,100) to (60,120)
+   oval [(300,200),(400,370)] fill    % Draws an oval
+                                      %    from (300,200) to (400,370)
+   stroke 3                           % Sets the stroke to 3
+   line [(150,150),(200,200)]         % Draws a line
+                                      %    from (150,150) to (200,200)
+   color (40,180,40)                  % Sets the color to green
+   stroke 7                           % Sets the stroke to 7
+   circle (400,30),400                % Draws a circle
+                                      %    of radius 400 at (400,30)
+   color (70,70,180)                  % Sets the color the purple
+   polygon [(120,160),(110,140),      % Draws a fill polygon.
+           (165,130),(186,180)] fill

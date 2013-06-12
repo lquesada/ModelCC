@@ -1,0 +1,12 @@
+canvas                            % Creates a canvas
+     width 640 height 480         % with size 640x480,
+     background (31,41,56)        % and a dark cyan background.
+                                  % Then:
+   color (190,201,215)            % Sets the color to whiteish
+   stroke 5                       % Sets the stroke to 5
+   line [(100,160),(200,160)]     % Draws a line
+                                  %    from (100,160) to (200,160)
+   rectangle [(40,100),(100,160)] % Draws a rectangle
+                                  %    from (40,100) to (100,160)
+   circle (200,290),130           % Draws a circle
+                                  % of radius 130 at (200,290)

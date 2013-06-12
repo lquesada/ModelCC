@@ -1,0 +1,11 @@
+% Variable definition and output
+
+variables
+  var a
+  var b
+  var c
+sentences
+  a = 1
+  b = a+2
+  c = (a+b)*2
+  output a+b+c

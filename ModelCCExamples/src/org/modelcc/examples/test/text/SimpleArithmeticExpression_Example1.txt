@@ -1,0 +1,5 @@
+% Addition is left to right associative.
+%
+% The following input is interpreted as (3+2)+5
+
+3+2+5

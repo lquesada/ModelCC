@@ -1,0 +1,6 @@
+% Subtraction and addition are left to right associative.
+% Subtraction and addition have the same priority.
+%
+% The following input is interpreted as (3-2)+3
+
+3-2+3

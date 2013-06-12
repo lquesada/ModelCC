@@ -14,7 +14,7 @@ import org.modelcc.examples.language.imperativearithmetic.Expression;
  */
 @Priority(value=5)
 @Pattern(regExp="-")
-public class SubstractionOperator extends BinaryOperator implements IModel {
+public class SubtractionOperator extends BinaryOperator implements IModel {
 
     @Override
     public double eval(Expression e1, Expression e2) {

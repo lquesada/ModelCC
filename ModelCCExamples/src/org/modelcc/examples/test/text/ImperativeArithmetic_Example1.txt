@@ -1,0 +1,4 @@
+% A simple output sentence
+
+sentences
+  output (5+5)/10
