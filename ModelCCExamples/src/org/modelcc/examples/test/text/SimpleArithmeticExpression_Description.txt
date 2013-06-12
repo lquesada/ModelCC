@@ -1,0 +1,9 @@
+The Simple Arithmetic Expression language processes arithmetic expressions in infix notation.
+It features the following capabilities:
+
+- Unary operators: +, and -.
+- Binary operators: +, -, *, and /, being - and / left-associative.
+- Operator priorities: * and / precede + and -.
+- Parenthesized expressions.
+- Integer and floating-point literals.
+- Binary operators: +, and -.

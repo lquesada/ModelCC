@@ -1,0 +1,8 @@
+The Canvas Draw language</b> allows the imperative generation of drawings.
+It features the following capabilities:
+
+- Setting the canvas width, height, and background color.
+- Changing the current color.
+- Changing the current stroke width.
+- Drawing lines, rectangles, circles, ovals, polygons, filled rectangles, filled circles, filled ovals, and filled polygons.
+- Each of the elements is described in a particular way (list of coordinates, coordinates and radius, ...).

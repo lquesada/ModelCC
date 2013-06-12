@@ -3,6 +3,7 @@ package org.modelcc.examples.test;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +25,12 @@ import javax.swing.event.TreeWillExpandListener;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,41 +90,46 @@ public class ModelCCExamplesWindow extends JFrame {
 		examplesTree.setShowsRootHandles(true);
 		examplesTree.setRootVisible(false);
 		examplesTree.setModel(new DefaultTreeModel(
-			new InfoMutableTreeNode("Languages",null,null) {
+			new InfoMutableTreeNode("Languages",null,null,null,0) {
 				{
 					InfoMutableTreeNode node_1;
 					Class lang;
 					String langName;
+					String langInfo;
 					
 					lang = org.modelcc.examples.language.simplearithmeticexpression.Expression.class;
 					langName = "Simple Arithmetic Expression";
-					node_1 = new InfoMutableTreeNode(langName,lang,langName);
-						node_1.add(new InfoMutableTreeNode("Addition",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Subtraction",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Nesting",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Assoacitivity",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Decimal",lang,langName));
+					langInfo = "SimpleArithmeticExpression_";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
+						node_1.add(new InfoMutableTreeNode("Addition",lang,langName,langInfo,1));
+						node_1.add(new InfoMutableTreeNode("Subtraction",lang,langName,langInfo,2));
+						node_1.add(new InfoMutableTreeNode("Nesting",lang,langName,langInfo,3));
+						node_1.add(new InfoMutableTreeNode("Assoacitivity",lang,langName,langInfo,4));
+						node_1.add(new InfoMutableTreeNode("Decimal",lang,langName,langInfo,5));
 					add(node_1);
 					
 					lang = org.modelcc.examples.language.canvasdraw.CanvasDraw.class;
 					langName = "CanvasDraw";
-					node_1 = new InfoMutableTreeNode(langName,lang,langName);
-						node_1.add(new InfoMutableTreeNode("Blackboard",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Polygons",lang,langName));
+					langInfo = "CanvasDraw_";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
+						node_1.add(new InfoMutableTreeNode("Blackboard",lang,langName,langInfo,1));
+						node_1.add(new InfoMutableTreeNode("Polygons",lang,langName,langInfo,2));
 					add(node_1);
 					
 					lang = org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class;
-					langName = "ImperativeArithmetic";
-					node_1 = new InfoMutableTreeNode(langName,lang,langName);
-						node_1.add(new InfoMutableTreeNode("Assignment",lang,langName));
+					langName = "Imperative Arithmetic";
+					langInfo = "ImperativeArithmetic_";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
+						node_1.add(new InfoMutableTreeNode("Assignment",lang,langName,langInfo,1));
 					add(node_1);
 					
 					lang = org.modelcc.examples.language.graphdraw3d.Scene.class;
-					langName = "GraphDraw3D";
-					node_1 = new InfoMutableTreeNode(langName,lang,langName);
-						node_1.add(new InfoMutableTreeNode("Snail",lang,langName));
-						node_1.add(new InfoMutableTreeNode("Helix",lang,langName));
-						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName));
+					langName = "Graph Draw 3D";
+					langInfo = "GraphDraw3D_";
+					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
+						node_1.add(new InfoMutableTreeNode("Snail",lang,langName,langInfo,1));
+						node_1.add(new InfoMutableTreeNode("Helix",lang,langName,langInfo,2));
+						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName,langInfo,3));
 					add(node_1);
 				}
 			}
@@ -144,7 +156,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		        if (node == null) return;
 
 		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
-		        switchLanguage(nodeInfo.getLanguageName(),nodeInfo.getLanguageClass());
+		        switchLanguage(nodeInfo);
 		        
 		    }
 
@@ -161,7 +173,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setContinuousLayout(true);
-		splitPane.setResizeWeight(0.6);
+		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 		
@@ -196,6 +208,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputScrollPane.setViewportBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(255, 255, 255)));
 		
 		inputTextArea = new JTextArea();
+		inputTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		inputScrollPane.setViewportView(inputTextArea);
 		
 		JPanel outputPanel = new JPanel();
@@ -226,6 +239,9 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
+		outputTextArea.setLineWrap(true);
+		outputTextArea.setWrapStyleWord(true);
+		
 		outputScrollPane.setViewportView(outputTextArea);
 		
 		outputTextArea.append("Welcome to ModelCC Examples.\n");
@@ -236,8 +252,17 @@ public class ModelCCExamplesWindow extends JFrame {
 	JTextArea inputTextArea;
 	JTextArea outputTextArea;
 	
-	private void switchLanguage(String languageName,Class languageClass) {
+	private void switchLanguage(InfoMutableTreeNode node) {
+		String languageName = node.getLanguageName();
+		Class languageClass = node.getLanguageClass();
+		String languageInfo = node.getLanguageInfo();
+		int textNumber = node.getTextNumber();
 		if (!languageClass.equals(this.languageClass)) {
+			outputTextArea.setText("");
+			outputTextArea.append(readText("text/"+languageInfo+"Description.txt"));
+			outputTextArea.setCaretPosition(0);
+			outputTextArea.append("\n");
+			outputTextArea.append("\n");
 			outputTextArea.append("Generating parser for the "+languageName+" language.\n\n");
 			this.languageClass = languageClass;
 	        parser = null;
@@ -308,12 +333,37 @@ public class ModelCCExamplesWindow extends JFrame {
                 }
             }
         }
+        outputTextArea.setCaretPosition(outputTextArea.getText().length());
 	}
-	
+
+    private String readText(String resourceName) {
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/modelcc/examples/test/"+resourceName);
+        if (is != null) {
+            Writer writer = new StringWriter();
+
+            char[] buffer = new char[1024];
+            try {
+                Reader reader = new BufferedReader(
+                        new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch (Exception e) {
+            } finally {
+                try {
+                    is.close();
+                } catch (Exception ex) {
+                }
+            }
+            return writer.toString();
+        } else {        
+            return "";
+        }
+    }
+
 }
 
-//TODO when generating parser, clean output
-//TODO show description
 //TODO show examples
 //TODO show ambiguities
 //TODO show "opening window"

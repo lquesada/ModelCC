@@ -1,0 +1,6 @@
+The Graph Draw 3D language allows the imperative generation of 3D drawings.
+It features the following capabilities:
+
+- Definition of objects.
+- Translate, rotate, and scale sentences.
+- Repeat sentences.

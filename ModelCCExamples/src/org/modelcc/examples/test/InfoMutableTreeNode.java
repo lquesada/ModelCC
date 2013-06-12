@@ -11,11 +11,15 @@ public class InfoMutableTreeNode extends DefaultMutableTreeNode {
 
 	private Class languageClass;
 	private String languageName;
+	private String langInfo;
+	private int textNumber;
 
-	public InfoMutableTreeNode(String text,Class languageClass,String languageName) {
+	public InfoMutableTreeNode(String text,Class languageClass,String languageName,String langInfo,int textNumber) {
 		super(text);
 		this.languageClass = languageClass;
 		this.languageName = languageName;
+		this.langInfo = langInfo;
+		this.textNumber = textNumber;
 	}
 	
 	public Class getLanguageClass() {
@@ -24,6 +28,14 @@ public class InfoMutableTreeNode extends DefaultMutableTreeNode {
 
 	public String getLanguageName() {
 		return languageName;
+	}
+	
+	public String getLanguageInfo() {
+		return langInfo;
+	}
+	
+	public int getTextNumber() {
+		return textNumber;
 	}
 	
 }
