@@ -8,7 +8,10 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ImageIcon;
 import javax.swing.JSplitPane;
@@ -25,6 +28,8 @@ import javax.swing.event.TreeWillExpandListener;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,6 +50,9 @@ import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class ModelCCExamplesWindow extends JFrame {
 
@@ -86,7 +94,11 @@ public class ModelCCExamplesWindow extends JFrame {
 		leftPanel.add(examplesTreePanel, BorderLayout.CENTER);
 		examplesTreePanel.setLayout(new BorderLayout(0, 0));
 		
+		JScrollPane examplesScrollPane = new JScrollPane();
+		examplesTreePanel.add(examplesScrollPane, BorderLayout.CENTER);
+		
 		JTree examplesTree = new JTree();
+		examplesScrollPane.setViewportView(examplesTree);
 		examplesTree.setShowsRootHandles(true);
 		examplesTree.setRootVisible(false);
 		examplesTree.setModel(new DefaultTreeModel(
@@ -134,9 +146,8 @@ public class ModelCCExamplesWindow extends JFrame {
 				}
 			}
 		));
-	    examplesTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		examplesTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		examplesTree.setBorder(new EmptyBorder(5, 5, 5, 0));
-		examplesTreePanel.add(examplesTree);
 		examplesTree.addTreeWillExpandListener(new TreeWillExpandListener() {
 		    public void treeWillExpand(TreeExpansionEvent e) { }
 		    public void treeWillCollapse(TreeExpansionEvent e)
@@ -144,30 +155,51 @@ public class ModelCCExamplesWindow extends JFrame {
 		     throw new ExpandVetoException(e);
 		     }
 		    });
-		for (int i = 0; i < examplesTree.getRowCount(); i++) {
-			examplesTree.expandRow(i);
-		}
 		final JTree et = examplesTree;
 		examplesTree.addTreeSelectionListener(
 				new TreeSelectionListener() {
+			boolean avoid = false;
 		    public void valueChanged(TreeSelectionEvent e) {
 		        InfoMutableTreeNode node = (InfoMutableTreeNode)et.getLastSelectedPathComponent();
 
 		        if (node == null) return;
+		        if (avoid == true) return;
 
 		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
-		        switchLanguage(nodeInfo);
-		        loadExample(nodeInfo);
+				if (!inputTextArea.getText().equals(originalText)) {
+					int result = JOptionPane.showConfirmDialog(null, "Switching to another example will clear the input. Are you sure?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+					if (result == JOptionPane.OK_OPTION) {
+				        switchLanguage(nodeInfo);
+				        loadExample(nodeInfo);
+					}
+					else {
+						avoid = true;
+						((JTree)e.getSource()).setSelectionPath(e.getOldLeadSelectionPath());
+						avoid = false;
+					}
+				}
+				else { 
+			        switchLanguage(nodeInfo);
+			        loadExample(nodeInfo);
+				}
 		    }
 
 		});
+		examplesTree.setFocusable(false);
 		
+		Component horizontalStrut = Box.createHorizontalStrut(235);
+		examplesTreePanel.add(horizontalStrut, BorderLayout.NORTH);
+		for (int i = 0; i < examplesTree.getRowCount(); i++) {
+			examplesTree.expandRow(i);
+		}
+
 		JPanel logoPanel = new JPanel();
 		logoPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
 		leftPanel.add(logoPanel, BorderLayout.SOUTH);
 		logoPanel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel logoLabel = new JLabel("");
+		logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPanel.add(logoLabel);
 		logoLabel.setIcon(new ImageIcon(ModelCCExamplesWindow.class.getResource("/org/modelcc/examples/test/logo.png")));
 		
@@ -210,7 +242,18 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputTextArea = new JTextArea();
 		inputTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		inputScrollPane.setViewportView(inputTextArea);
-		
+		inputTextArea.addKeyListener(new KeyListener() {
+		    public void keyPressed(KeyEvent e) {
+		    	if (e.getModifiers()==KeyEvent.ALT_MASK && e.getKeyCode() == 10) { 
+		    		process();
+		    	}
+		    }
+
+		    public void keyReleased(KeyEvent e) { }
+
+		    public void keyTyped(KeyEvent e) { }
+		});
+
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		splitPane.setRightComponent(outputPanel);
@@ -234,8 +277,10 @@ public class ModelCCExamplesWindow extends JFrame {
 		processButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				process();
+				inputTextArea.requestFocus();
 			}
 		});
+		processButton.setFocusable(false);
 		
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
@@ -247,6 +292,8 @@ public class ModelCCExamplesWindow extends JFrame {
 		outputTextArea.append("Welcome to ModelCC Examples.\n");
 		outputTextArea.append("Please choose a language or an example from the left menu.\n");
 		outputTextArea.append("\n");
+		outputTextArea.setFocusable(true);
+		inputTextArea.requestFocus();
 	}
 
 	JTextArea inputTextArea;
@@ -362,21 +409,25 @@ public class ModelCCExamplesWindow extends JFrame {
         }
     }
     
+    private String originalText = "";
+    
     private void loadExample(InfoMutableTreeNode node) {
 		String languageInfo = node.getLanguageInfo();
 		int textNumber = node.getTextNumber();
-		//TODO confirm
-		if (textNumber != 0)
+		if (textNumber != 0) {
 			inputTextArea.setText(readText("text/"+languageInfo+"Example"+textNumber+".txt"));
-		else
+			originalText = inputTextArea.getText();
+		}
+		else {
 			inputTextArea.setText("");
-		//TODO mover al principio si se carga
+		}
+		inputTextArea.setCaretPosition(0);
+		
     }
 
 }
 
 //TODO show ambiguities
 //TODO show "opening window"
-//TODO ALT+ENTER
+//TODO retocar graphdraw3d
 //TODO examples de graphdraw3d
-//TODO scroll en tree
