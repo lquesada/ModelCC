@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -328,6 +329,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	    }
 	}
 	
+	JFrame cdframe;
 
 	protected void process() {
         String inp = inputTextArea.getText();
@@ -338,42 +340,51 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		
         if (languageClass.equals(org.modelcc.examples.language.simplearithmeticexpression.Expression.class)) {
-        	org.modelcc.examples.language.simplearithmeticexpression.Expression exp = (org.modelcc.examples.language.simplearithmeticexpression.Expression) parser.parse(inp);
-            if (exp == null)
-            	outputTextArea.append("null\n");
-            else
-            	outputTextArea.append(""+exp.eval()+"\n");
+			Collection<org.modelcc.examples.language.simplearithmeticexpression.Expression> exps = parser.parseAll(inp);
+			outputTextArea.append("\n");
+			outputTextArea.append("Found "+exps.size()+" parse trees.\n");
+			if (exps.size()>0)
+				outputTextArea.append("Expression value: "+exps.iterator().next().eval()+"\n");
         }
         if (languageClass.equals(org.modelcc.examples.language.canvasdraw.CanvasDraw.class)) {
-        	org.modelcc.examples.language.canvasdraw.CanvasDraw cd = (org.modelcc.examples.language.canvasdraw.CanvasDraw) parser.parse(inp);
-            
-            if (cd == null)
-            	outputTextArea.append("null\n");
-            else {
-                JFrame jw = new JFrame("CanvasDraw");
-                jw.setResizable(false);
-                jw.setSize(cd.getSize());
-                Container pane = jw.getContentPane();
+        	Collection<org.modelcc.examples.language.canvasdraw.CanvasDraw> canvases = parser.parseAll(inp);
+			outputTextArea.append("\n");
+			outputTextArea.append("Found "+canvases.size()+" parse trees.\n");
+			if (canvases.size()>0) {
+				outputTextArea.append("Opening canvas window.\n");
+				org.modelcc.examples.language.canvasdraw.CanvasDraw cd = canvases.iterator().next();
+				if (cdframe != null) {
+					cdframe.setVisible(false);
+					cdframe.dispose();
+					cdframe = null;
+				}
+                cdframe = new JFrame("CanvasDraw");
+                cdframe.setResizable(false);
+                cdframe.setSize(cd.getSize());
+                Container pane = cdframe.getContentPane();
                 pane.add(cd, BorderLayout.CENTER);
                 cd.setVisible(true);
-                jw.setVisible(true);
-            }
+                cdframe.setVisible(true);
+			}
         }
         if (languageClass.equals(org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class)) {
-        	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = (org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic) parser.parse(inp);
-            if (imp == null)
-            	outputTextArea.append("null\n");
-            else
-            	outputTextArea.append(imp.run()+"\n");
+        	Collection<org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic> imps = parser.parseAll(inp);
+			outputTextArea.append("\n");
+			outputTextArea.append("Found "+imps.size()+" parse trees.\n");
+        	if (imps.size()>0) {
+		    	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = imps.iterator().next();
+	        	outputTextArea.append("Running program\n");
+	        	outputTextArea.append(imp.run()+"\n");
+        	}
         }
         if (languageClass.equals(org.modelcc.examples.language.graphdraw3d.Scene.class)) {
-            //System.out.println("Results: "+parser.parseAll(inp).size());
-        	org.modelcc.examples.language.graphdraw3d.Scene imp = (org.modelcc.examples.language.graphdraw3d.Scene) parser.parse(inp);
-            if (imp == null)
-            	outputTextArea.append("null\n");
-            else {
+        	Collection<org.modelcc.examples.language.graphdraw3d.Scene> scenes = parser.parseAll(inp);
+			outputTextArea.append("\n");
+			outputTextArea.append("Found "+scenes.size()+" parse trees.\n");
+			if (scenes.size()>0) {
+				org.modelcc.examples.language.graphdraw3d.Scene scene = scenes.iterator().next();
                 try {
-                	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(imp);
+                	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(scene);
                     dw.run();
                 } catch(Exception e) {
                     e.printStackTrace();
