@@ -69,6 +69,18 @@ public class ModelCCExamplesWindow extends JFrame {
 	
 	private JPanel mainPanel;
 
+	private KeyListener processListener = new KeyListener() {
+	    public void keyPressed(KeyEvent e) {
+	    	if (e.getModifiers()==KeyEvent.ALT_MASK && e.getKeyCode() == 10) { 
+	    		process();
+	    	}
+	    }
+
+	    public void keyReleased(KeyEvent e) { }
+
+	    public void keyTyped(KeyEvent e) { }
+	};
+	
 	/**
 	 * Create the frame.
 	 */
@@ -243,17 +255,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputTextArea = new JTextArea();
 		inputTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		inputScrollPane.setViewportView(inputTextArea);
-		inputTextArea.addKeyListener(new KeyListener() {
-		    public void keyPressed(KeyEvent e) {
-		    	if (e.getModifiers()==KeyEvent.ALT_MASK && e.getKeyCode() == 10) { 
-		    		process();
-		    	}
-		    }
-
-		    public void keyReleased(KeyEvent e) { }
-
-		    public void keyTyped(KeyEvent e) { }
-		});
+		inputTextArea.addKeyListener(processListener);
 
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -287,7 +289,8 @@ public class ModelCCExamplesWindow extends JFrame {
 		outputTextArea.setEditable(false);
 		outputTextArea.setLineWrap(true);
 		outputTextArea.setWrapStyleWord(true);
-		
+		outputTextArea.addKeyListener(processListener);
+
 		outputScrollPane.setViewportView(outputTextArea);
 		
 		outputTextArea.append("Welcome to ModelCC Examples.\n");
@@ -373,8 +376,8 @@ public class ModelCCExamplesWindow extends JFrame {
 			outputTextArea.append("Found "+imps.size()+" parse trees.\n");
         	if (imps.size()>0) {
 		    	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = imps.iterator().next();
-	        	outputTextArea.append("Running program\n");
-	        	outputTextArea.append(imp.run()+"\n");
+	        	outputTextArea.append("Running program...\n");
+	        	outputTextArea.append(imp.run());
         	}
         }
         if (languageClass.equals(org.modelcc.examples.language.graphdraw3d.Scene.class)) {
@@ -382,6 +385,7 @@ public class ModelCCExamplesWindow extends JFrame {
 			outputTextArea.append("\n");
 			outputTextArea.append("Found "+scenes.size()+" parse trees.\n");
 			if (scenes.size()>0) {
+				outputTextArea.append("Opening 3D draw window.\n");
 				org.modelcc.examples.language.graphdraw3d.Scene scene = scenes.iterator().next();
                 try {
                 	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(scene);
@@ -427,18 +431,20 @@ public class ModelCCExamplesWindow extends JFrame {
 		int textNumber = node.getTextNumber();
 		if (textNumber != 0) {
 			inputTextArea.setText(readText("text/"+languageInfo+"Example"+textNumber+".txt"));
-			originalText = inputTextArea.getText();
 		}
 		else {
 			inputTextArea.setText("");
 		}
 		inputTextArea.setCaretPosition(0);
-		
+		originalText = inputTextArea.getText();
     }
 
 }
 
-//TODO show ambiguities
-//TODO show "opening window"
-//TODO retocar graphdraw3d
-//TODO examples de graphdraw3d
+//[+] Thread en Graph3D
+// [+] Si ya ventana abierta en Graph3d, o reutilizar o cerrar.
+// [+] ajustar lenguaje graph3d al paper (next)
+// [+++] Corregir lenguaje, quitar autorun de objectname en graph3d
+// [+] Permitir infinitos scopes deshaciendo los cambios en graph3d.
+// ejemplos graphdraw3d
+
