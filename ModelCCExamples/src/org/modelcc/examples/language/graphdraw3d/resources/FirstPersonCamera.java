@@ -82,10 +82,12 @@ public class FirstPersonCamera {
     }  
     
     public void move(float delta,float mouseSensitivity,float acelFactor,float decelFactor) {
-        float dx = Mouse.getDX();
-        float dy = Mouse.getDY();
-        yaw(dx*mouseSensitivity);
-        pitch(-dy*mouseSensitivity);
+    	if (Mouse.isGrabbed()) {
+	        float dx = Mouse.getDX();
+	        float dy = Mouse.getDY();
+	        yaw(dx*mouseSensitivity);
+	        pitch(-dy*mouseSensitivity);
+    	}
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             acelUp(acelFactor*delta);
         }

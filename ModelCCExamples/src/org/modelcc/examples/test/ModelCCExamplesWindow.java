@@ -20,6 +20,9 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -65,7 +68,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	
 	private Class languageClass;
     private Parser parser;
-
+    JTree examplesTree;
 	
 	private JPanel mainPanel;
 
@@ -78,8 +81,47 @@ public class ModelCCExamplesWindow extends JFrame {
 
 	    public void keyReleased(KeyEvent e) { }
 
-	    public void keyTyped(KeyEvent e) { }
+	    public void keyTyped(KeyEvent e) {
+	    }
 	};
+	
+	class ChangeDocumentListener implements DocumentListener {
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			check();
+		}
+		
+		
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			check();
+		}
+		
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			check();
+		}
+		
+		public void check() {
+			if (!autoChange) {
+		    	if (!inputTextArea.getText().equals(originalText)) {
+					if (((InfoMutableTreeNode)examplesTree.getLastSelectedPathComponent()).getTextNumber()!=0)
+						examplesTree.setSelectionPath(examplesTree.getSelectionPath().getParentPath());
+		    	}
+			}
+		}
+		
+		boolean autoChange = false;
+		
+		public void setAutoChange(boolean autoChange) {
+			this.autoChange = autoChange;
+		}
+		public boolean getAutoChange() {
+			return autoChange;
+		}
+	};				
+
+	ChangeDocumentListener changeListener = new ChangeDocumentListener();
 	
 	/**
 	 * Create the frame.
@@ -110,7 +152,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		JScrollPane examplesScrollPane = new JScrollPane();
 		examplesTreePanel.add(examplesScrollPane, BorderLayout.CENTER);
 		
-		JTree examplesTree = new JTree();
+		examplesTree = new JTree();
 		examplesScrollPane.setViewportView(examplesTree);
 		examplesTree.setShowsRootHandles(true);
 		examplesTree.setRootVisible(false);
@@ -180,15 +222,33 @@ public class ModelCCExamplesWindow extends JFrame {
 
 		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
 				if (!inputTextArea.getText().equals(originalText)) {
-					int result = JOptionPane.showConfirmDialog(null, "Switching to another example will clear the input. Are you sure?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-					if (result == JOptionPane.OK_OPTION) {
-				        switchLanguage(nodeInfo);
-				        loadExample(nodeInfo);
+					if (nodeInfo.getTextNumber()!=0) {
+						int result = JOptionPane.showConfirmDialog(null, "Input has been modified. Overwrite it with the example?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+						if (result == JOptionPane.YES_OPTION) {
+					        switchLanguage(nodeInfo);
+					        loadExample(nodeInfo);
+						}
+						else if (result == JOptionPane.NO_OPTION) {
+							if (nodeInfo.getLanguageClass() == languageClass) {
+								avoid = true;
+								if (nodeInfo.getTextNumber()!=0)
+									((JTree)e.getSource()).setSelectionPath(e.getNewLeadSelectionPath().getParentPath());
+								avoid = false;
+							}
+							else {
+								switchLanguage(nodeInfo);
+								if (nodeInfo.getTextNumber()!=0)
+									((JTree)e.getSource()).setSelectionPath(e.getNewLeadSelectionPath().getParentPath());
+							}
+						}
+						else {
+							avoid = true;
+							((JTree)e.getSource()).setSelectionPath(e.getOldLeadSelectionPath());
+							avoid = false;
+						}
 					}
 					else {
-						avoid = true;
-						((JTree)e.getSource()).setSelectionPath(e.getOldLeadSelectionPath());
-						avoid = false;
+				        switchLanguage(nodeInfo);
 					}
 				}
 				else { 
@@ -256,6 +316,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		inputScrollPane.setViewportView(inputTextArea);
 		inputTextArea.addKeyListener(processListener);
+		inputTextArea.getDocument().addDocumentListener(changeListener);
 
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -332,8 +393,37 @@ public class ModelCCExamplesWindow extends JFrame {
 	    }
 	}
 	
-	JFrame cdframe;
-
+	JFrame cdFrame;
+	Graph3DThread graph3dThread;
+	
+	class Graph3DThread extends Thread {
+		org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw;
+		boolean running;
+		
+	    public Graph3DThread(org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw) {
+	    	this.dw = dw;
+	    	running = true;
+	    }
+	    
+	    public void run() {
+	    	while (running) {
+	    		dw.run();
+		    	if (!dw.isRunning())
+		    		running = false;
+	    	}
+	    	dw.stop();
+	    }
+	    	    
+	    public boolean isRunning() {
+	    	return running;
+	    }
+	    
+	    public void setScene(org.modelcc.examples.language.graphdraw3d.Scene sc) {
+	    	this.dw.setScene(sc);
+	    }
+	    
+	}
+	
 	protected void process() {
         String inp = inputTextArea.getText();
         if (languageClass==null) {
@@ -356,18 +446,18 @@ public class ModelCCExamplesWindow extends JFrame {
 			if (canvases.size()>0) {
 				outputTextArea.append("Opening canvas window.\n");
 				org.modelcc.examples.language.canvasdraw.CanvasDraw cd = canvases.iterator().next();
-				if (cdframe != null) {
-					cdframe.setVisible(false);
-					cdframe.dispose();
-					cdframe = null;
+				if (cdFrame != null) {
+					cdFrame.setVisible(false);
+					cdFrame.dispose();
+					cdFrame = null;
 				}
-                cdframe = new JFrame("CanvasDraw");
-                cdframe.setResizable(false);
-                cdframe.setSize(cd.getSize());
-                Container pane = cdframe.getContentPane();
+                cdFrame = new JFrame("CanvasDraw");
+                cdFrame.setResizable(false);
+                cdFrame.setSize(cd.getSize());
+                Container pane = cdFrame.getContentPane();
                 pane.add(cd, BorderLayout.CENTER);
                 cd.setVisible(true);
-                cdframe.setVisible(true);
+                cdFrame.setVisible(true);
 			}
         }
         if (languageClass.equals(org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class)) {
@@ -389,7 +479,13 @@ public class ModelCCExamplesWindow extends JFrame {
 				org.modelcc.examples.language.graphdraw3d.Scene scene = scenes.iterator().next();
                 try {
                 	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(scene);
-                    dw.run();
+                	if (graph3dThread != null && graph3dThread.isRunning()) {
+                		graph3dThread.setScene(dw.getScene());
+                	}
+                	else {
+	                	graph3dThread = new Graph3DThread(dw);
+	                    graph3dThread.start();
+                	}
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
@@ -429,6 +525,7 @@ public class ModelCCExamplesWindow extends JFrame {
     private void loadExample(InfoMutableTreeNode node) {
 		String languageInfo = node.getLanguageInfo();
 		int textNumber = node.getTextNumber();
+		changeListener.setAutoChange(true);
 		if (textNumber != 0) {
 			inputTextArea.setText(readText("text/"+languageInfo+"Example"+textNumber+".txt"));
 		}
@@ -437,12 +534,11 @@ public class ModelCCExamplesWindow extends JFrame {
 		}
 		inputTextArea.setCaretPosition(0);
 		originalText = inputTextArea.getText();
+		changeListener.setAutoChange(false);
     }
 
 }
 
-//[+] Thread en Graph3D
-// [+] Si ya ventana abierta en Graph3d, o reutilizar o cerrar.
 // [+] ajustar lenguaje graph3d al paper (next)
 // [+++] Corregir lenguaje, quitar autorun de objectname en graph3d
 // [+] Permitir infinitos scopes deshaciendo los cambios en graph3d.

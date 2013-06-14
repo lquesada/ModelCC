@@ -52,6 +52,8 @@ public final class DisplayWrapper implements IModel {
     private float hview;
     private float viewmin;
     
+    private boolean running;
+    
     public DisplayWrapper(Scene scene) {
         this.scene = scene;
     }
@@ -60,6 +62,7 @@ public final class DisplayWrapper implements IModel {
         maxFPS = 80;
         width = 1000;
         height = 800;
+        setRunning(true);
         wview = (0.11f)/2f;
         hview = (0.11f*((float)height)/((float)width))/2f;
         viewmin =  0.05f;
@@ -75,22 +78,52 @@ public final class DisplayWrapper implements IModel {
             Logger.getLogger(Scene.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Mouse.setGrabbed(true);
+        Mouse.setGrabbed(false);
         
 	while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             calculateDelta();
             calculateFPS();
             Display.setTitle("Graph Draw 3D - "+((int)fpsSoft)+" fps");
+            manageInput();
             fpc.move(delta,mouseSensitivity,acelFactor,decelFactor);
             glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
             render();
             Display.update();
             Display.sync(maxFPS);
         }
+		stop();
+    }
+    
+    private void manageInput() {
+		while (Keyboard.next()) {
+			if (Keyboard.getEventKeyState()) {
+		        if (Keyboard.getEventKey() ==Keyboard.KEY_Q) {
+		        	if (Mouse.isGrabbed())
+		        		Mouse.setGrabbed(false);
+		        	else
+		        		Mouse.setGrabbed(true);
+		        }
+			}
+		}
+		while (Mouse.next()) {
+			if (Mouse.getEventButtonState()) {
+				if (Mouse.isButtonDown(0) || Mouse.isButtonDown(1) || Mouse.isButtonDown(2)) {
+					if (Mouse.isGrabbed())
+						Mouse.setGrabbed(false);
+					else
+						Mouse.setGrabbed(true);
+				}
+			}
+		}
+
+	}
+
+	public void stop() {
         Mouse.setGrabbed(false);
         Mouse.destroy();
         Keyboard.destroy();
-        Display.destroy();        
+        Display.destroy();
+        setRunning(false);
     }
     
     private void initDisplay(int width, int height) throws LWJGLException, FontFormatException, IOException {
@@ -175,10 +208,25 @@ public final class DisplayWrapper implements IModel {
         glColor3f(1f,1f,1f);
 
 
-        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Move mouse to look around.  Powered by ModelCC.", Color.black);
+        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Press Q or click to grab/release mouse. Move mouse to look around.  Powered by ModelCC.", Color.black);
         
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();        
     }
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+	
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
     
+	public Scene getScene() {
+		return scene;
+	}
 }
