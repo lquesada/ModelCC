@@ -1,0 +1,24 @@
+define snail [
+  draw cube
+  {
+    scale 0.3
+    color blue 1
+    repeat 6 times [
+      draw cube
+      translate y 1
+      rotate z 1 angle -5
+      color relative alpha -0.06
+    ]
+  }
+  translate x 0.8
+  rotate z 1 angle 10
+  scale 0.98
+  color relative
+     red -0.05 green +0.05
+     alpha -0.008
+  draw snail next
+]
+scene [
+  color red 1
+  draw snail 400
+]

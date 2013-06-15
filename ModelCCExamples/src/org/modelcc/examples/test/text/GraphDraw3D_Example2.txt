@@ -1,0 +1,43 @@
+define helix [
+  {
+  scale x 0.4 z 0.4
+  draw cube
+  }
+  {
+    rotate y 1 angle 45
+    scale 0.4
+    scale y 0.2 x 0.2 z 1.5
+    repeat 10 times [
+      draw cube
+      color relative alpha -0.08
+      translate z -1
+    ]
+  }
+  translate y 1
+  translate x -4 z -4
+  rotate y 1 angle 6
+  translate x 4 z 4
+  draw helix next
+]
+scene [
+  {
+    rotate y 1 angle 90
+    color red 1
+    translate x 4 z 4
+    draw helix 40
+  } {
+    rotate y 1 angle 180
+    color green 1
+    translate x 4 z 4
+    draw helix 40
+  } {
+    rotate y 1 angle 270
+    color blue 1
+    translate x 4 z 4
+    draw helix 40
+  } {
+    color red 0 green 0 blue 0
+    translate x 4 z 4
+    draw helix 40
+  }
+]
