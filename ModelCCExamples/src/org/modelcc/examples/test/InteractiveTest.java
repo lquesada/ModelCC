@@ -5,6 +5,7 @@
 
 package org.modelcc.examples.test;
 
+import java.io.File;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -42,7 +43,7 @@ public class InteractiveTest {
      * @param args the arguments.
      */
     public static void main(String args[]) {
-    	System.setProperty("java.library.path", "ModelCCExamples_lib:"+System.getProperty("java.library.path"));
+    	System.setProperty("java.library.path", "lib/lwjgl-2.9.0/native/macosx"+File.pathSeparatorChar+"lib/lwjgl-2.9.0/native/windows"+File.pathSeparatorChar+"lib/lwjgl-2.9.0/native/linux"+File.pathSeparatorChar+"ModelCCExamples_lib"+File.pathSeparatorChar+System.getProperty("java.library.path"));
     	Field fieldSysPath;
 		try {
 			fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
