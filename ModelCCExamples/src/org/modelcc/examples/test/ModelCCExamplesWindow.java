@@ -27,6 +27,8 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeWillExpandListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -46,6 +48,9 @@ import java.util.Set;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeSelectionModel;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
@@ -72,11 +77,25 @@ public class ModelCCExamplesWindow extends JFrame {
 	
 	private JPanel mainPanel;
 
-	private KeyListener processListener = new KeyListener() {
+	protected UndoManager undoManager = new UndoManager();
+
+	private KeyListener keyListener = new KeyListener() {
 	    public void keyPressed(KeyEvent e) {
 	    	if (e.getModifiers()==KeyEvent.ALT_MASK && e.getKeyCode() == 10) { 
 	    		process();
 	    	}
+	    	if (e.getModifiers()==(KeyEvent.CTRL_MASK|KeyEvent.SHIFT_MASK) && e.getKeyCode() == 90) { 
+	    		try {
+	    			undoManager.redo();
+	    		} catch (Exception ex) {
+	    		}
+    		}
+	    	else if (e.getModifiers()==KeyEvent.CTRL_MASK && e.getKeyCode() == 90) { 
+	    		try {
+	    			undoManager.undo();
+	    		} catch (Exception ex) {
+	    		}
+    		}
 	    }
 
 	    public void keyReleased(KeyEvent e) { }
@@ -104,10 +123,12 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		public void check() {
 			if (!autoChange) {
-		    	if (!inputTextArea.getText().equals(originalText)) {
-					if (((InfoMutableTreeNode)examplesTree.getLastSelectedPathComponent()).getTextNumber()!=0)
-						examplesTree.setSelectionPath(examplesTree.getSelectionPath().getParentPath());
-		    	}
+				if (!examplesTree.isSelectionEmpty()) {
+			    	if (!inputTextArea.getText().equals(originalText)) {
+						if (((InfoMutableTreeNode)examplesTree.getLastSelectedPathComponent()).getTextNumber()!=0)
+							examplesTree.setSelectionPath(examplesTree.getSelectionPath().getParentPath());
+			    	}
+				}
 			}
 		}
 		
@@ -127,6 +148,8 @@ public class ModelCCExamplesWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public ModelCCExamplesWindow() {
+		undoManager.setLimit(2000);
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ModelCCExamplesWindow.class.getResource("/org/modelcc/examples/test/icon.png")));
 		setTitle("ModelCC Examples");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -315,9 +338,15 @@ public class ModelCCExamplesWindow extends JFrame {
 		inputTextArea = new JTextArea();
 		inputTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		inputScrollPane.setViewportView(inputTextArea);
-		inputTextArea.addKeyListener(processListener);
+		inputTextArea.addKeyListener(keyListener);
 		inputTextArea.getDocument().addDocumentListener(changeListener);
-
+		inputTextArea.getDocument().addUndoableEditListener(
+		        new UndoableEditListener() {
+		          public void undoableEditHappened(UndoableEditEvent e) {
+		            undoManager.addEdit(e.getEdit());
+		          }
+		        });
+		
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		splitPane.setRightComponent(outputPanel);
@@ -350,7 +379,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		outputTextArea.setEditable(false);
 		outputTextArea.setLineWrap(true);
 		outputTextArea.setWrapStyleWord(true);
-		outputTextArea.addKeyListener(processListener);
+		outputTextArea.addKeyListener(keyListener);
 
 		outputScrollPane.setViewportView(outputTextArea);
 		
@@ -527,9 +556,11 @@ public class ModelCCExamplesWindow extends JFrame {
 		changeListener.setAutoChange(true);
 		if (textNumber != 0) {
 			inputTextArea.setText(readText("text/"+languageInfo+"Example"+textNumber+".txt"));
+			undoManager.discardAllEdits();
 		}
 		else {
 			inputTextArea.setText("");
+			undoManager.discardAllEdits();
 		}
 		inputTextArea.setCaretPosition(0);
 		originalText = inputTextArea.getText();
