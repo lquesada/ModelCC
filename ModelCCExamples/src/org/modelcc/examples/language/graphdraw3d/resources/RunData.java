@@ -7,7 +7,8 @@ package org.modelcc.examples.language.graphdraw3d.resources;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.modelcc.examples.language.graphdraw3d.ObjectName;
+
+import org.modelcc.examples.language.graphdraw3d.objects.ObjectName;
 
 /**
  * Includes run data.

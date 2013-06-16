@@ -6,6 +6,7 @@
 package org.modelcc.examples.language.graphdraw3d;
 
 import org.modelcc.*;
+import org.modelcc.examples.language.graphdraw3d.objects.ObjectName;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 
 /**
@@ -19,8 +20,8 @@ public class Definition implements IModel {
     
     Sentence sentence;
 
-    public void run(RunData rd) {
-        sentence.run(rd);
+    public void run(RunData rd,int iter) {
+        sentence.run(rd,iter);
     }
     
     public ObjectName getName() {

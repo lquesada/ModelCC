@@ -21,13 +21,13 @@ public final class GroupSentence extends Sentence implements IModel {
     Sentence[] sentences;
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         for (int i = 0;i < sentences.length;i++)
-            sentences[i].run(rd);
+            sentences[i].run(rd,iter);
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

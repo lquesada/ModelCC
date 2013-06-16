@@ -18,7 +18,7 @@ import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 public final class AxisObject extends SceneObject implements IModel {
     
     @Override
-    public void draw(RunData rd) {
+    public void draw(RunData rd,int iter) {
         
         glColor4d(1,0,0,1); // X axis is red.
         glBegin(GL_QUADS);

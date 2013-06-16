@@ -14,9 +14,9 @@ import org.modelcc.*;
  */
 public abstract class Sentence implements IModel {
 
-    public abstract void run(RunData rd);
+    public abstract void run(RunData rd,int iter);
 
-    public abstract void undo(RunData rd);
+    public abstract void undo(RunData rd,int iter);
     
 
 }

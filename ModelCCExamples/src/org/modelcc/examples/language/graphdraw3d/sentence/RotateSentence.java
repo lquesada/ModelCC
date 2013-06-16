@@ -54,12 +54,12 @@ public final class RotateSentence extends Sentence implements IModel {
     }
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         glRotated(angle.doubleValue(),x.doubleValue(),y.doubleValue(),z.doubleValue());
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

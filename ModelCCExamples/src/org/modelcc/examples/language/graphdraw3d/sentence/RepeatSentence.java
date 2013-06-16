@@ -23,14 +23,14 @@ public final class RepeatSentence extends Sentence implements IModel {
     Sentence sentence;
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         for (int i = 0;i < times.intValue();i++) {
-            sentence.run(rd);
+            sentence.run(rd,iter);
         }
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

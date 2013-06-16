@@ -51,12 +51,12 @@ public final class TranslateSentence extends Sentence implements IModel {
     }
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         glTranslated(x.doubleValue(),y.doubleValue(),z.doubleValue());
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

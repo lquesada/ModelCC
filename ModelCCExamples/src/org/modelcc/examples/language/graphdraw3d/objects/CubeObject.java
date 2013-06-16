@@ -12,14 +12,14 @@ import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.resources.TextureData;
 
 /**
- * Axis.
+ * Cube.
  * @author elezeta
  */
 @Pattern(regExp="cube")
 public final class CubeObject extends SceneObject implements IModel {
 
     @Override
-    public void draw(RunData rd) {
+    public void draw(RunData rd,int iter) {
         TextureData texin = rd.getCurrentTexture();
 
         glBegin(GL_QUADS);

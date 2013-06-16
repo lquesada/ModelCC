@@ -3,6 +3,7 @@ define snail [
   {
     scale 0.3
     color blue 1
+    translate y 2
     repeat 6 times [
       draw cube
       translate y 1

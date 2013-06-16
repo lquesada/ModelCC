@@ -8,7 +8,6 @@ package org.modelcc.examples.language.graphdraw3d.objects;
 import org.modelcc.examples.language.graphdraw3d.SceneObject;
 import org.modelcc.*;
 import org.modelcc.examples.language.graphdraw3d.Definition;
-import org.modelcc.examples.language.graphdraw3d.ObjectName;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 
 /**
@@ -21,8 +20,8 @@ public final class UserDefinedObject extends SceneObject implements IModel {
     Definition object;
     
     @Override
-    public void draw(RunData rd) {
-        object.run(rd);
+    public void draw(RunData rd,int iter) {
+  		object.run(rd,iter);
     }
     
     @Override

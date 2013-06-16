@@ -72,7 +72,7 @@ public final class ColorSentence extends Sentence implements IModel {
 
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         if (rel != null) {
             ColorData cd = rd.getCurrentColor();
             double oldr = cd.getR();
@@ -109,7 +109,7 @@ public final class ColorSentence extends Sentence implements IModel {
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

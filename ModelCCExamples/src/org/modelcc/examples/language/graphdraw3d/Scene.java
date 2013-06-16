@@ -28,7 +28,7 @@ public final class Scene implements IModel {
         TextureData grass = Resources.getTextures()[0];
         black.draw();
         RunData rd = new RunData(black,grass);
-        sceneContent.run(rd);
+        sceneContent.run(rd,1);
     }
     
 }

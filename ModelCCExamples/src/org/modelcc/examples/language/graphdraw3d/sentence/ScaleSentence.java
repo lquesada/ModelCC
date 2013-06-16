@@ -64,7 +64,7 @@ public final class ScaleSentence extends Sentence implements IModel {
     
 
     @Override
-    public void run(RunData rd) {
+    public void run(RunData rd,int iter) {
         if (considerAll)
             glScaled(all.doubleValue(),all.doubleValue(),all.doubleValue());
         else
@@ -72,7 +72,7 @@ public final class ScaleSentence extends Sentence implements IModel {
     }
 
 	@Override
-	public void undo(RunData rd) {
+	public void undo(RunData rd,int iter) {
 		// TODO Auto-generated method stub
 		
 	}

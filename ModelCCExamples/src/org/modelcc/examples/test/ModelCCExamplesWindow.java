@@ -223,7 +223,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		        InfoMutableTreeNode nodeInfo = (InfoMutableTreeNode)node;
 				if (!inputTextArea.getText().equals(originalText)) {
 					if (nodeInfo.getTextNumber()!=0) {
-						int result = JOptionPane.showConfirmDialog(null, "Input has been modified. Overwrite it with the example?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+						int result = JOptionPane.showConfirmDialog(null, "Input has been modified. Discard changes and load the example?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
 					        switchLanguage(nodeInfo);
 					        loadExample(nodeInfo);
@@ -389,8 +389,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	        	outputTextArea.append("CRITICAL ERROR: "+ex.getMessage()+"\n");
 	        } 
 	        outputTextArea.append("Parser generated.\n");
-	        outputTextArea.append("\n");
-	    }
+		}
 	}
 	
 	JFrame cdFrame;

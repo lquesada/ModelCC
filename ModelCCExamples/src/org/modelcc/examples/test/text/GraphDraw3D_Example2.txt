@@ -20,6 +20,7 @@ define helix [
   draw helix next
 ]
 scene [
+  rotate x 1 angle -90
   {
     rotate y 1 angle 90
     color red 1
