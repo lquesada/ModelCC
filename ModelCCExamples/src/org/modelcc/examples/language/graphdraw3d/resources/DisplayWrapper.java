@@ -125,6 +125,10 @@ public final class DisplayWrapper implements IModel {
 				}
 			}
 		}
+		if (!Display.isActive()) {
+			Mouse.setGrabbed(false);
+		}
+
 	}
     
 	private void setSize() throws LWJGLException {
