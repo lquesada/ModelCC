@@ -37,6 +37,10 @@ public final class DisplayWrapper implements IModel {
     
     /* CONFIG */
     private int maxFPS;
+    private int minWidth;
+    private int minHeight;
+    private int maxWidth;
+    private int maxHeight;
     private int width;
     private int height;
     private float mouseSensitivity;
@@ -47,11 +51,6 @@ public final class DisplayWrapper implements IModel {
     private FirstPersonCamera fpc;
     private Scene scene;
 
-    /* AUX */
-    private float wview;
-    private float hview;
-    private float viewmin;
-    
     private boolean running;
     
     public DisplayWrapper(Scene scene) {
@@ -62,10 +61,11 @@ public final class DisplayWrapper implements IModel {
         maxFPS = 80;
         width = 1000;
         height = 800;
+        minWidth = 320;
+        minHeight = 200;
+        maxWidth = 32000;
+        maxHeight = 20000;
         setRunning(true);
-        wview = (0.11f)/2f;
-        hview = (0.11f*((float)height)/((float)width))/2f;
-        viewmin =  0.05f;
         mouseSensitivity = 0.2f;
         acelFactor = 3.3f;
         decelFactor = 0.6f;
@@ -73,7 +73,7 @@ public final class DisplayWrapper implements IModel {
         
         fpsSoft = maxFPS;
         try {
-            initDisplay(width,height);
+            initDisplay();
         } catch (Exception ex) {
             Logger.getLogger(Scene.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,6 +83,7 @@ public final class DisplayWrapper implements IModel {
 	while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             calculateDelta();
             calculateFPS();
+            checkDisplay();
             Display.setTitle("Graph Draw 3D - "+((int)fpsSoft)+" fps");
             manageInput();
             fpc.move(delta,mouseSensitivity,acelFactor,decelFactor);
@@ -94,7 +95,47 @@ public final class DisplayWrapper implements IModel {
 		stop();
     }
     
-    private void manageInput() {
+    private void checkDisplay() {
+		if (Display.wasResized()) {
+			width = Display.getWidth();
+			height = Display.getHeight();
+			boolean resize = false;
+			if (width < minWidth) {
+				width = minWidth;
+				resize = true;
+			}
+			if (width > maxWidth) {
+				width = maxWidth;
+				resize = true;
+			}
+			if (height < minHeight) {
+				height = minHeight;
+				resize = true;
+			}
+			if (height > maxHeight) {
+				height = maxHeight;
+				resize = true;
+			}
+			if (resize) {
+				try {
+					setSize();
+				} catch (LWJGLException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
+			}
+		}
+	}
+    
+	private void setSize() throws LWJGLException {
+		if (height>Display.getDesktopDisplayMode().getHeight())
+			height = Display.getDesktopDisplayMode().getHeight();
+		if (width>Display.getDesktopDisplayMode().getWidth())
+			width = Display.getDesktopDisplayMode().getWidth();
+		Display.setDisplayMode(new DisplayMode(width, height));
+	}
+
+	private void manageInput() {
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
 		        if (Keyboard.getEventKey() ==Keyboard.KEY_Q) {
@@ -126,9 +167,10 @@ public final class DisplayWrapper implements IModel {
         setRunning(false);
     }
     
-    private void initDisplay(int width, int height) throws LWJGLException, FontFormatException, IOException {
-        Display.setDisplayMode(new DisplayMode(width,height));
+    private void initDisplay() throws LWJGLException, FontFormatException, IOException {
         Display.setTitle("Graph Draw 3D - "+((int)fpsSoft)+" fps");
+		Display.setResizable(true);
+        setSize();
         try {
             Display.create(new PixelFormat(0,8,0,45));
         } catch (LWJGLException e) {
@@ -179,7 +221,13 @@ public final class DisplayWrapper implements IModel {
     
     private void render() {
 
-        // WORLD
+		glViewport(0, 0, width, height);
+
+		float wview = (0.11f)/2f;
+        float hview = (0.11f*((float)height)/((float)width))/2f;
+        float viewmin =  0.05f;
+
+		// WORLD
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glFrustum(-wview,wview,-hview,hview,viewmin, 2000f);
