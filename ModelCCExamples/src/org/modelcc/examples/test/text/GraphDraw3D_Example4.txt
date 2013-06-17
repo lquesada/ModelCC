@@ -1,0 +1,40 @@
+define trunk {
+  color red 0.87 green 0.50 blue 0.10 alpha 1
+  draw cube
+  repeat 10 times [
+    scale x 1.02 z 1.02 y 0.98
+    color relative red -0.03 green -0.02
+                   blue -0.01
+    draw cube
+  ]
+}
+define leaves {
+  color red 0.2 green 0.9 blue 0.3 alpha 0.9
+  translate x -1
+  {
+    scale z 0.6 y 0.05
+    repeat 100 times [
+      color relative alpha -0.005 red +0.005
+      translate x -0.04 y -0.3
+      draw cube
+    ]
+  }
+}
+define palmtree {
+  repeat 8 times [
+    draw trunk
+    translate y 1
+  ]
+  repeat 3 times [
+    translate y -0.5
+    scale 0.7
+    rotate angle 8 y 1
+    repeat 15 times [
+      rotate angle 24 y 1
+      draw leaves
+    ]
+  ]
+}
+scene {
+  draw palmtree
+}

@@ -1,40 +1,32 @@
-define trunk {
-  color red 0.87 green 0.50 blue 0.10 alpha 1
-  draw cube
-  repeat 10 times [
-    scale x 1.02 z 1.02 y 0.98
-    color relative red -0.03 green -0.02
-                   blue -0.01
-    draw cube
-  ]
-}
-define leaves {
-  color red 0.2 green 0.9 blue 0.3 alpha 0.9
-  translate x -1
+define helix [
   {
-    scale z 0.6 y 0.05
-    repeat 100 times [
-      color relative alpha -0.005 red +0.005
-      translate x -0.04 y -0.3
+  scale x 0.4 z 0.4
+  draw cube
+  }
+  {
+    rotate y 1 angle 45
+    scale 0.4
+    scale y 0.2 x 0.2 z 1.5
+    repeat 10 times [
       draw cube
+      color relative alpha -0.08
+      translate z -1
     ]
   }
-}
-define palmtree {
-  repeat 8 times [
-    draw trunk
-    translate y 1
+  translate y 1
+  translate x -4 z -4
+  rotate y 1 angle 6
+  translate x 4 z 4
+  draw helix next
+]
+scene [
+  color red 1
+  rotate x 1 angle -90
+  repeat 10 times [
+    rotate y 1 angle 36
+    {
+      translate x 4 z 4
+      draw helix 100
+    }
   ]
-  repeat 3 times [
-    translate y -0.5
-    scale 0.7
-    rotate angle 8 y 1
-    repeat 15 times [
-      rotate angle 24 y 1
-      draw leaves
-    ]
-  ]
-}
-scene {
-  draw palmtree
-}
+]

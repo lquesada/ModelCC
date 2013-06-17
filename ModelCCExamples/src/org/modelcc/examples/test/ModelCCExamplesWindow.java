@@ -230,7 +230,8 @@ public class ModelCCExamplesWindow extends JFrame {
 					node_1 = new InfoMutableTreeNode(langName,lang,langName,langInfo,0);
 						node_1.add(new InfoMutableTreeNode("Snail",lang,langName,langInfo,1));
 						node_1.add(new InfoMutableTreeNode("Helix",lang,langName,langInfo,2));
-						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName,langInfo,3));
+						node_1.add(new InfoMutableTreeNode("Big Helix",lang,langName,langInfo,3));
+						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName,langInfo,4));
 					add(node_1);
 				}
 			}
