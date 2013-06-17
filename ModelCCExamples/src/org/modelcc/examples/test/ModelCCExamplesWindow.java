@@ -1,7 +1,13 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package org.modelcc.examples.test;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -63,6 +69,10 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.Box;
 
+/**
+ * ModelCC Examples GUI.
+ * @author elezeta
+ */
 public class ModelCCExamplesWindow extends JFrame {
 
 	/**
@@ -150,6 +160,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	public ModelCCExamplesWindow() {
 		undoManager.setLimit(2000);
 
+		setMinimumSize(new Dimension(640,400));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ModelCCExamplesWindow.class.getResource("/org/modelcc/examples/test/icon.png")));
 		setTitle("ModelCC Examples");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

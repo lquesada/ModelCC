@@ -282,5 +282,3 @@ public final class DisplayWrapper implements IModel {
 		return scene;
 	}
 }
-
-//TODO resizable
