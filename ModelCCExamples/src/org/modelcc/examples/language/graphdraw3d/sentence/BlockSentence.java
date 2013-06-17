@@ -27,18 +27,16 @@ public final class BlockSentence extends Sentence implements IModel {
     public void run(RunData rd,int iter) {
         ColorData cd = rd.getCurrentColor();
         TextureData td = rd.getCurrentTexture();
-        glPushMatrix();
         for (int i = 0;i < sentences.length;i++)
             sentences[i].run(rd,iter);
-        glPopMatrix();
+        for (int i = sentences.length-1;i >= 0;i--)
+            sentences[i].undo(rd,iter);
         rd.setCurrentColor(cd);
         rd.setCurrentTexture(td);
     }
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
 	}
         
 }

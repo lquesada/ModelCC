@@ -86,5 +86,8 @@ public final class CubeObject extends SceneObject implements IModel {
         glEnd();
     }
     
+	@Override
+	public void undo(RunData rd, int iter) {
+	}
     
 }

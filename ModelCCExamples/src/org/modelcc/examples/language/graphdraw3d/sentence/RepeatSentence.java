@@ -31,7 +31,8 @@ public final class RepeatSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        for (int i = 0;i < times.intValue();i++) {
+            sentence.undo(rd,iter);
+        }
 	}
 }

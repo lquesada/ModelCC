@@ -23,6 +23,10 @@ public class Definition implements IModel {
     public void run(RunData rd,int iter) {
         sentence.run(rd,iter);
     }
+
+    public void undo(RunData rd,int iter) {
+        sentence.undo(rd,iter);
+    }
     
     public ObjectName getName() {
         return name;

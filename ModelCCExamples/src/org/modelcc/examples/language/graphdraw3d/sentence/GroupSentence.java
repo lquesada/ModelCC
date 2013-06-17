@@ -28,7 +28,7 @@ public final class GroupSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        for (int i = sentences.length-1;i >= 0;i--)
+            sentences[i].undo(rd,iter);
 	}
 }

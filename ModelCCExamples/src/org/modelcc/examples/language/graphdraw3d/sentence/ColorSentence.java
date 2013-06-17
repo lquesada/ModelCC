@@ -110,8 +110,6 @@ public final class ColorSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
 	}
     
 }

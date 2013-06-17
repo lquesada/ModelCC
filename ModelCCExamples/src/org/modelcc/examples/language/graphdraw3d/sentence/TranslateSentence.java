@@ -57,7 +57,6 @@ public final class TranslateSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        glTranslated(-x.doubleValue(),-y.doubleValue(),-z.doubleValue());
 	}
 }

@@ -29,4 +29,9 @@ public final class UserDefinedObject extends SceneObject implements IModel {
         return object.getName();
     }
     
+	@Override
+	public void undo(RunData rd, int iter) {
+  		object.undo(rd,iter);
+	}
+
 }

@@ -17,6 +17,8 @@ public abstract class SceneObject implements IModel {
  
     public abstract void draw(RunData rd,int iter);
     
+    public abstract void undo(RunData rd,int iter);
+    
     public ObjectName getName() {
         return null;
     }

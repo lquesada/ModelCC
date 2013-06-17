@@ -46,7 +46,18 @@ public final class DrawSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        ObjectName name = object.getName();
+        int nextIter = 1;
+        if (iters != null) {
+        	if (Next.class.isAssignableFrom(iters.getClass())) {
+        		nextIter = iter-1;
+        	}
+        	else if (Literal.class.isAssignableFrom(iters.getClass())) {
+        		nextIter = ((Literal)iters).intValue();
+        	}
+        }
+        if (nextIter > 0) {
+            object.undo(rd,nextIter);
+        }
 	}
 }

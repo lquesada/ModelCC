@@ -60,7 +60,6 @@ public final class RotateSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        glRotated(-angle.doubleValue(),x.doubleValue(),y.doubleValue(),z.doubleValue());
 	}
 }

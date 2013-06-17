@@ -43,4 +43,8 @@ public final class SquareObject extends SceneObject implements IModel {
         glEnd();
     }
     
+	@Override
+	public void undo(RunData rd, int iter) {
+	}
+    
 }

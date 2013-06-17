@@ -73,7 +73,9 @@ public final class ScaleSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-		// TODO Auto-generated method stub
-		
+        if (considerAll)
+            glScaled(1f/all.doubleValue(),1f/all.doubleValue(),1f/all.doubleValue());
+        else
+            glScaled(1f/x.doubleValue(),1f/y.doubleValue(),1f/z.doubleValue());
 	}
 }

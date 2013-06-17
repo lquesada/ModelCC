@@ -146,5 +146,9 @@ public final class AxisObject extends SceneObject implements IModel {
 
         rd.getCurrentColor().draw();
     }
+
+	@Override
+	public void undo(RunData rd, int iter) {
+	}
     
 }
