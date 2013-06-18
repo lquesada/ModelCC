@@ -80,7 +80,7 @@ public class FirstPersonCamera {
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         glTranslatef(-x,-y, z);
     }  
-    
+
     public void move(float delta,float mouseSensitivity,float acelFactor,float decelFactor) {
     	if (Mouse.isGrabbed()) {
 	        float dx = Mouse.getDX();

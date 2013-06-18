@@ -160,7 +160,8 @@ public class ModelCCExamplesWindow extends JFrame {
 	public ModelCCExamplesWindow() {
 		undoManager.setLimit(2000);
 
-		setMinimumSize(new Dimension(640,400));
+		setMinimumSize(new Dimension(620,400));
+		setSize(new Dimension(620,400));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ModelCCExamplesWindow.class.getResource("/org/modelcc/examples/test/icon.png")));
 		setTitle("ModelCC Examples");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

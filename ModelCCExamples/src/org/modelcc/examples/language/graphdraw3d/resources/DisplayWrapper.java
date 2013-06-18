@@ -53,11 +53,25 @@ public final class DisplayWrapper implements IModel {
 
     private boolean running;
     
+    /* 3D */
+    private boolean simulate3D;
+    private boolean simulate3Dleft;
+    private float simulate3Dcurrent;
+    private float simulate3Dcycle;
+    private float simulate3Dstrength;
+    private float simulate3Dangle;
+    
     public DisplayWrapper(Scene scene) {
         this.scene = scene;
     }
     
     public void run() {
+    	simulate3D = false;
+    	simulate3Dleft = true;
+    	simulate3Dcurrent = 0;
+    	simulate3Dcycle = 0.1f;
+    	simulate3Dstrength = 0.3f;
+    	simulate3Dangle = 5f;
         maxFPS = 80;
         width = 1000;
         height = 800;
@@ -88,6 +102,7 @@ public final class DisplayWrapper implements IModel {
             manageInput();
             fpc.move(delta,mouseSensitivity,acelFactor,decelFactor);
             glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
+        	checkSimulate3D();
             render();
             Display.update();
             Display.sync(maxFPS);
@@ -95,7 +110,16 @@ public final class DisplayWrapper implements IModel {
 		stop();
     }
     
-    private void checkDisplay() {
+    private void checkSimulate3D() {
+    	simulate3Dcurrent += delta;
+    	if (simulate3Dcurrent>simulate3Dcycle) {
+    		simulate3Dleft = !simulate3Dleft;
+    		simulate3Dcurrent %= simulate3Dcycle;
+    	}
+		
+	}
+
+	private void checkDisplay() {
 		if (Display.wasResized()) {
 			width = Display.getWidth();
 			height = Display.getHeight();
@@ -147,6 +171,9 @@ public final class DisplayWrapper implements IModel {
 		        		Mouse.setGrabbed(false);
 		        	else
 		        		Mouse.setGrabbed(true);
+		        }
+		        if (Keyboard.getEventKey() ==Keyboard.KEY_3) {
+		        	simulate3D = !simulate3D;
 		        }
 			}
 		}
@@ -241,11 +268,20 @@ public final class DisplayWrapper implements IModel {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glLoadIdentity();
 
-        fpc.lookThrough();
+    	fpc.lookThrough();
         
         glTranslatef(0f,0f,-4f);
 
         Resources.getTextureAtlas().bind();
+        //TODO 3D
+        if (simulate3D) {
+        	if (simulate3Dleft) {
+//                glTranslatef(-1f,0f,0f);
+        	}
+        	else {
+//                glTranslatef(1f,0f,0f);
+        	}
+        }
         scene.draw();
 
         // HUD
@@ -260,7 +296,7 @@ public final class DisplayWrapper implements IModel {
         glColor3f(1f,1f,1f);
 
 
-        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Press Q or click to grab/release mouse. Move mouse to look around.  Powered by ModelCC.", Color.black);
+        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Press Q or click to grab/release mouse. Move mouse to look around.  Press 3 for 3D effect.", Color.black);
         
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();        
