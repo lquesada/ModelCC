@@ -6,6 +6,7 @@
 package org.modelcc.types;
 
 import java.io.Serializable;
+import java.lang.Float;
 import org.modelcc.*;
 
 /**
