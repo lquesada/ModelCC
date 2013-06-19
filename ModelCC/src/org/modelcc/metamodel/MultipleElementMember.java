@@ -40,7 +40,6 @@ public final class MultipleElementMember extends ElementMember {
      * @param field the content field
      * @param elementClass the c ontent element class
      * @param optional whether if this content is optional or not
-     * @param floating is floating
      * @param id is id
      * @param reference is reference
      * @param prefix the content prefix
@@ -50,8 +49,8 @@ public final class MultipleElementMember extends ElementMember {
      * @param minimumMultiplicity the minimum multiplicity
      * @param maximumMultiplicity the maximum multiplicity
      */
-    public MultipleElementMember(String field,Class elementClass,boolean optional,boolean floating,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,CollectionType collection,int minimumMultiplicity,int maximumMultiplicity) {
-        super(field,elementClass,optional,floating,id,reference,prefix,suffix,separator);
+    public MultipleElementMember(String field,Class elementClass,boolean optional,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,CollectionType collection,int minimumMultiplicity,int maximumMultiplicity) {
+        super(field,elementClass,optional,id,reference,prefix,suffix,separator);
         this.collection = collection;
         this.minimumMultiplicity = minimumMultiplicity;
         this.maximumMultiplicity = maximumMultiplicity;

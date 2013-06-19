@@ -11,10 +11,22 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Floating constraint.
+ * Position constraint.
  * @author elezeta
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Floating {
+public @interface Position {
+
+    /**
+     * @return the composition constraint value.
+     */
+  public PositionType position();
+
+  //Defines Position:
+  //PositionType.BEFORELAST
+  //PositionType.WITHIN
+
+  public String element();
+  
 }
