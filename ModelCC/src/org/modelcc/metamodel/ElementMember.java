@@ -37,6 +37,11 @@ public class ElementMember implements Serializable {
     private boolean optional;
 
     /**
+     * Whether if this content is floating.
+     */
+    private boolean floating;
+
+    /**
      * Whether if this content is id.
      */
     private boolean id;
@@ -66,16 +71,18 @@ public class ElementMember implements Serializable {
      * @param field the field
      * @param elementClass the element class.
      * @param optional whether if this content is optional or not
+     * @param floating is floating
      * @param id is id
      * @param reference is reference
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the ad hoc separator
      */
-    public ElementMember(String field,Class elementClass,boolean optional,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator) {
+    public ElementMember(String field,Class elementClass,boolean optional,boolean floating,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator) {
         this.field = field;
         this.elementClass = elementClass;
         this.optional = optional;
+        this.floating = floating;
         this.id = id;
         this.reference = reference;
         this.prefix = prefix;
@@ -105,6 +112,14 @@ public class ElementMember implements Serializable {
     }
 
     /**
+     * 
+     * @return whether if the element is floating or not.
+     */
+    public boolean isFloating() {
+		return floating;
+	}
+
+	/**
      * @return the prefix
      */
     public List<PatternRecognizer> getPrefix() {

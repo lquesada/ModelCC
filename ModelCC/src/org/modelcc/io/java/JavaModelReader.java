@@ -757,6 +757,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         boolean optional = false;
         boolean id = false;
         boolean reference = false;
+        boolean floating = false;
         List<PatternRecognizer> prefix = null;
         List<PatternRecognizer> suffix = null;
         List<PatternRecognizer> separator = null;
@@ -798,6 +799,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": A field annotated with @ID cannot be annotated with @Optional.", new Object[]{field.getName(), elementClass.getCanonicalName()});
             }
             
+        }
+
+        if (field.isAnnotationPresent(Floating.class)) {
+            floating = true;
         }
         
         if (field.isAnnotationPresent(Reference.class)) {
@@ -910,9 +915,9 @@ public class JavaModelReader extends ModelReader implements Serializable {
         }
 
         if (collection == null)
-            return new ElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator);
+            return new ElementMember(field.getName(),contentClass,optional,floating,id,reference,prefix,suffix,separator);
         else
-            return new MultipleElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
+            return new MultipleElementMember(field.getName(),contentClass,optional,floating,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
     }
 
     /**
@@ -1345,14 +1350,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
                                 allopt = false;
                         }
                         if (allopt) {
-                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator()));
+                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),false,em.isFloating(),em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Optional and all its contents are also @Optional, the field @Optional annotation is redundant.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }
                     else {
                         MultipleElementMember mem = (MultipleElementMember)em;
                         if (mem.getMinimumMultiplicity()==0 && mem.getPrefix() == null && mem.getSuffix() == null) {
-                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
+                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),false,em.isFloating(),em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field has minimum multiplicity 0 and is redundantly optional because it has not prefixes or suffixes.", new Object[]{mem.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }
@@ -1378,12 +1383,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
                     PreElement peref = classToPreElement.get(em.getElementClass());
                     if (peref.getIds().isEmpty()) {
                         if (!MultipleElementMember.class.isAssignableFrom(em.getClass())) {
-                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator()));
+                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isFloating(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Reference but its field class has no @ID members.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                         else {
                             MultipleElementMember mem = (MultipleElementMember)em;
-                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
+                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isFloating(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Reference but its field class has no @ID members.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }

@@ -748,6 +748,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 List<PatternRecognizer> suffix = rep.getSuffix();
                 List<PatternRecognizer> separator = rep.getSeparator();
                 Class contentClass = sc.getElementClass();
+                boolean floating = rep.isFloating();
                 boolean id = rep.isId();
                 boolean reference = rep.isReference();
 
@@ -757,10 +758,10 @@ public final class LanguageSpecificationFactory implements Serializable {
                     CollectionType collection = ((MultipleElementMember)rep).getCollection();
                     int minimumMultiplicity = ((MultipleElementMember)rep).getMinimumMultiplicity();
                     int maximumMultiplicity = ((MultipleElementMember)rep).getMaximumMultiplicity();
-                    ctx = new MultipleElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
+                    ctx = new MultipleElementMember(field,contentClass,optional,floating,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
                 }
                 else {
-                    ctx = new ElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator);
+                    ctx = new ElementMember(field,contentClass,optional,floating,id,reference,prefix,suffix,separator);
                 }
                 elcc.add(f,ctx);
 
