@@ -11,11 +11,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Float constraint.
+ * Floating constraint.
  * @author elezeta
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Float {
+public @interface Floating {
 
 }
