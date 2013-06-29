@@ -18,15 +18,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Position {
 
-    /**
-     * @return the composition constraint value.
-     */
-  public PositionType position();
+	  public static int BEFORE = 0;
+	  public static int AFTER = 1;
+	  public static int WITHIN = 2;
+	  public static int EXTREME = 3;
+	  public static int BEFORELAST = 4;
+	  public static int AROUND = 5;
 
-  //Defines Position:
-  //PositionType.BEFORELAST
-  //PositionType.WITHIN
+	  public int position();
 
-  public String element();
+	  public String element();
   
+	  public SeparatorPolicy separatorPolicy();
 }
