@@ -7,6 +7,8 @@ package org.modelcc.metamodel;
 
 import java.io.Serializable;
 import java.util.List;
+
+import org.modelcc.Position;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**
@@ -71,6 +73,7 @@ public class ElementMember implements Serializable {
      * @param prefix the prefix
      * @param suffix the suffix
      * @param separator the ad hoc separator
+     * @param positionTag the position tag
      */
     public ElementMember(String field,Class elementClass,boolean optional,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator) {
         this.field = field;
@@ -138,6 +141,7 @@ public class ElementMember implements Serializable {
     public boolean isReference() {
         return reference;
     }
+
 
     
 }

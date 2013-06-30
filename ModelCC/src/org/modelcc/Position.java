@@ -29,5 +29,6 @@ public @interface Position {
 
 	  public String element();
   
-	  public SeparatorPolicy separatorPolicy();
+	  public SeparatorPolicy separatorPolicy() default SeparatorPolicy.AFTER;
+	  
 }

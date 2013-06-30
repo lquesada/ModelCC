@@ -1175,6 +1175,74 @@ public class JavaModelReaderTest {
         }
         assertFalse(true);
     }
+
+    @Test
+    public void modelWrongPositionTest1() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition1.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongPositionTest2() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition2.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongPositionTest3() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition3.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongPositionTest4() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition4.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+
+    @Test
+    public void modelWrongPositionTest5() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition5.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    
     
     @Test
     public void AbstractTest() {

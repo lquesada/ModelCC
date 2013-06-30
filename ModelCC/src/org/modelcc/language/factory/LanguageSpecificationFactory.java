@@ -13,6 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.text.Position;
+
 import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.lexis.LexicalSpecification;
 import org.modelcc.language.lexis.TokenSpecification;
