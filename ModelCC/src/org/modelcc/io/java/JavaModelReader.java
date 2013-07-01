@@ -738,42 +738,54 @@ public class JavaModelReader extends ModelReader implements Serializable {
         for (int i = 0;i < fl.length;i++) {
             Field field = fl[i];
             ElementMember thisElement = null;
-        	for (int j = 0;j < contents.size();j++) {
-        		if (contents.get(j).getField().equals(fl[i].getName())) {
-        			thisElement = contents.get(j);
-        		}
-        	}
+            ElementMember otherElement = null;
+            int indexThis;
+            int indexOther;
+        	indexThis = searchField(contents,fl[i].getName());    
+        	if (indexThis != -1)
+        		thisElement = contents.get(indexThis);
+        	
             if (field.isAnnotationPresent(Position.class)) {
             	Position positionTag = field.getAnnotation(Position.class);
-            	ElementMember element = null;
             	
-            	for (int j = 0;j < contents.size();j++) {
-            		if (contents.get(j).getField().equals(positionTag.element())) {
-            			element = contents.get(j);
-            		}
-            	}
-            	if (element==null) {
+            	indexOther = searchField(contents,positionTag.element());    
+            	if (indexOther != -1)
+            		otherElement = contents.get(indexOther);
+
+            	if (otherElement==null) {
                     log(Level.SEVERE, "In class \"{0}\": The @Position annotation refers to an undefined field.", new Object[]{elementClass.getCanonicalName()});
             	}
-            	else if (element==thisElement) {
+            	else if (otherElement==thisElement) {
                     log(Level.SEVERE, "In class \"{0}\": The @Position annotation refers to the same field.", new Object[]{elementClass.getCanonicalName()});
             	}
             	else if (MultipleElementMember.class.isAssignableFrom(thisElement.getClass()) &&
             			(positionTag.position()==Position.AROUND||positionTag.position()==Position.WITHIN)) {
                         log(Level.SEVERE, "In class \"{0}\": The @Position annotation cannot be applied to a list and have AROUND or WITHIN values.", new Object[]{elementClass.getCanonicalName()});
             	}
-            	else if (!MultipleElementMember.class.isAssignableFrom(element.getClass()) &&
+            	else if (!MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) &&
             			(positionTag.position()==Position.AROUND||positionTag.position()==Position.WITHIN)) {
                         log(Level.SEVERE, "In class \"{0}\": The @Position annotation cannot be applied to AROUND or WITHIN a non-list element.", new Object[]{elementClass.getCanonicalName()});
+            	}
+            	else {
+            		if (positionTag.position()==Position.AFTER) {
+            			//System.out.println(thisElement.getField()+ " AFTER "+otherElement.getField());
+            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+            			contents.remove(indexThis);
+            			contents.add(searchField(contents,positionTag.element())+1,thisElement);
+            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+            		}
+            		if (positionTag.position()==Position.BEFORE) {
+            			//System.out.println(thisElement.getField()+ " BEFORE "+otherElement.getField());
+            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+            			contents.remove(indexThis);
+            			contents.add(searchField(contents,positionTag.element()),thisElement);
+            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+            		}
             	}
             	//TODO store it
             }
         }
 
-        /*
-         * 
-        
-         */
         PreElement pe = new PreElement(elementClass,contents,ids,freeOrder,associativity,composition,prefix,suffix,separator,pattern,valueField,setupMethod,constraintMethods);
 
         classToPreElement.put(elementClass,pe);
@@ -781,8 +793,19 @@ public class JavaModelReader extends ModelReader implements Serializable {
         return pe;
     }
 
+    private int searchField(List<ElementMember> contents, String name) {
+    	int index = 0;
+    	while (index<contents.size()) {
+    		if (contents.get(index).getField().equals(name)) {
+    			return index;
+    		}
+    		index++;
+    	}
+    	return -1;
+	}
 
-    /**
+
+	/**
      * Reads a field information
      * @param relevantClasses the set of relevant classes
      * @param field the field

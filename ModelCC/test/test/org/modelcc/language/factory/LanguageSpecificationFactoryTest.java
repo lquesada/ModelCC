@@ -24,6 +24,9 @@ import test.languages.keys.Keys1;
 import test.languages.autorun.AutorunTests;
 import test.languages.optionaltest2.OptionalTest2Language;
 import test.languages.optionaltest.OptionalTestLanguage;
+import test.languages.positions.Position1;
+import test.languages.positions.Position2;
+
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import test.languages.testlanguage.Test7_2;
@@ -864,6 +867,18 @@ public class LanguageSpecificationFactoryTest {
         o = testFull("",c);
         assertTrue(o.iterator().hasNext());
         assertNotNull(o.iterator().next());
+    }
+    
+    @Test
+    public void PositionTest1() {
+        assertEquals(1,testFull("BA",Position1.class).size());
+        assertEquals(0,testFull("AB",Position1.class).size());
+    }
+
+    @Test
+    public void PositionTest2() {
+        assertEquals(1,testFull("BA",Position2.class).size());
+        assertEquals(0,testFull("AB",Position2.class).size());
     }
 }
 
