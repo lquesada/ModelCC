@@ -501,6 +501,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         Field valueField = null;
         Method setupMethod = null;
         List<Method> constraintMethods = new ArrayList<Method>();
+        Map<ModelElement,PositionInfo> positions = new HashMap<ModelElement,PositionInfo>();
 
         Field[] fl = elementClass.getDeclaredFields();
         //log(Level.INFO, "Reading class \"{0}\".", actname);
@@ -767,20 +768,24 @@ public class JavaModelReader extends ModelReader implements Serializable {
                         log(Level.SEVERE, "In class \"{0}\": The @Position annotation cannot be applied to AROUND or WITHIN a non-list element.", new Object[]{elementClass.getCanonicalName()});
             	}
             	else {
-            		if (positionTag.position()==Position.AFTER) {
-            			//System.out.println(thisElement.getField()+ " AFTER "+otherElement.getField());
-            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
-            			contents.remove(indexThis);
-            			contents.add(searchField(contents,positionTag.element())+1,thisElement);
-            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
-            		}
-            		if (positionTag.position()==Position.BEFORE) {
-            			//System.out.println(thisElement.getField()+ " BEFORE "+otherElement.getField());
-            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
-            			contents.remove(indexThis);
-            			contents.add(searchField(contents,positionTag.element()),thisElement);
-            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
-            		}
+            		//TODO positions.put(thisElement,new PositionInfo(otherElement,positionTag.position(),positionTag.separatorPolicy()));
+            		a
+            		
+            		
+//            		if (positionTag.position()==Position.AFTER) {
+//            			//System.out.println(thisElement.getField()+ " AFTER "+otherElement.getField());
+//            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+//            			contents.remove(indexThis);
+//            			contents.add(searchField(contents,positionTag.element())+1,thisElement);
+//            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+//            		}
+//            		if (positionTag.position()==Position.BEFORE) {
+//            			//System.out.println(thisElement.getField()+ " BEFORE "+otherElement.getField());
+//            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+//            			contents.remove(indexThis);
+//            			contents.add(searchField(contents,positionTag.element()),thisElement);
+//            			//for (int z = 0;z < contents.size();z++) System.out.println(z+"  "+contents.get(z).getField());
+//            		}
             	}
             	//TODO store it
             }
