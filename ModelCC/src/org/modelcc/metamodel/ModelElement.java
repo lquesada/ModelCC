@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**
@@ -64,6 +66,11 @@ public abstract class ModelElement implements Serializable {
      */
     private boolean hasAnyAssociativity;
 
+    /**
+     * Positions.
+     */
+    private Map<ElementMember, PositionInfo> positions;
+    
     /**
      * Constructor.
      * @param elementClass the element class
@@ -148,5 +155,13 @@ public abstract class ModelElement implements Serializable {
     public boolean getHasAnyAssociativity() {
         return hasAnyAssociativity;
     }
+
+	public void setPositions(Map<ElementMember, PositionInfo> positions) {
+		this.positions = positions;
+	}
+	
+	public Map<ElementMember, PositionInfo> getPositions() {
+		return Collections.unmodifiableMap(positions);
+	}
 
 }

@@ -5,28 +5,36 @@
 
 package org.modelcc.metamodel;
 
+import java.io.Serializable;
+
 import org.modelcc.SeparatorPolicy;
 
 /**
  * Position info.
  * @author elezeta
+ * @serial
  */
-public class PositionInfo {
+public class PositionInfo implements Serializable {
 
-	private ModelElement element;
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
+	private ElementMember member;
 	
 	private int position;
 	
 	private SeparatorPolicy separatorPolicy;
 	
-	public PositionInfo(ModelElement element,int position,SeparatorPolicy separatorPolicy) {
-		this.element = element;
+	public PositionInfo(ElementMember member,int position,SeparatorPolicy separatorPolicy) {
+		this.member = member;
 		this.position = position;
 		this.separatorPolicy = separatorPolicy;
 	}
 
-	public ModelElement getElement() {
-		return element;
+	public ElementMember getMember() {
+		return member;
 	}
 
 	public int getPosition() {
