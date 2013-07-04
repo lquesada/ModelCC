@@ -36,6 +36,8 @@ import org.modelcc.parser.ParserFactory;
 
 import test.languages.testlanguage.*;
 import org.modelcc.AssociativityType;
+import org.modelcc.Position;
+
 import test.languages.arithmeticcalculator.*;
 import test.languages.arithmeticcalculator.unaryoperators.*;
 import test.languages.arithmeticcalculator.binaryoperators.*;
@@ -388,6 +390,8 @@ public class JavaModelReaderTest {
         assertTrue(m.getElements().contains(ce));
         assertEquals(BinaryExpression.class,ce.getElementClass());
         assertEquals(3,ce.getContents().size());
+        assertEquals(Position.AFTER,ce.getPositions().get(ce.getContents().get(2)).getPosition());
+        assertEquals(ce.getContents().get(1),ce.getPositions().get(ce.getContents().get(2)).getMember());
         sc = ce.getContents().get(0);
         assertEquals("e1",sc.getField());
         assertEquals(false,sc.isOptional());

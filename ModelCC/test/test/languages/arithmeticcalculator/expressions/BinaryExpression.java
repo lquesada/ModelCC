@@ -15,6 +15,8 @@ import org.modelcc.*;
 public class BinaryExpression extends Expression implements IModel {
     public Expression e1;
     public BinaryOperator op;
+    
+    @Position(element="op",position=Position.AFTER)
     public Expression e2;
 
     @Override
