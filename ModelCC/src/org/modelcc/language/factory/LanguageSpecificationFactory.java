@@ -251,6 +251,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             if (ComplexModelElement.class.isAssignableFrom(el.getClass())) {
                 Set<List<ElementMember>> stage;
                 ComplexModelElement ce = (ComplexModelElement)el;
+                //TODO position
                 if (ce.isFreeOrder()) {
                     stage = recManageFreeOrders(ce.getContents(),new ArrayList<ElementMember>());
                 }
