@@ -248,36 +248,51 @@ public final class LanguageSpecificationFactory implements Serializable {
             ModelElement el = ite.next();
             RuleElement elre = eltore.get(el);
             if (ComplexModelElement.class.isAssignableFrom(el.getClass())) {
-            	List<MemberNode> nodes = new ArrayList<MemberNode>();
+            	List<List<MemberNode>> nodes = new ArrayList<List<MemberNode>>();
+            	nodes.add(new ArrayList<MemberNode>());
                 ComplexModelElement ce = (ComplexModelElement)el;
                 for (Iterator<ElementMember> cite = ce.getContents().iterator();cite.hasNext();) {
                 	ElementMember current = cite.next();
-                	nodes.add(new MemberNode(current,current.isOptional()));
-                }
-                
-            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
-                for (Iterator<MemberNode> nite = nodes.iterator();nite.hasNext();) {
-                	MemberNode node = nite.next();
-                	System.out.print("(");
-                    for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
-                    	ElementMember em = cite.next();
-                    	System.out.print(em.getField());
-                    	if (em.isOptional())
-                    		System.out.print("?");
-                    	if (cite.hasNext())
-                    		System.out.print(" ");
+                	List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
+                    for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                    	List<MemberNode> curNodes = nodesite.next();
+                    	List<MemberNode> noOpt = new ArrayList<MemberNode>();
+                    	noOpt.addAll(curNodes);
+                    	noOpt.add(new MemberNode(current));
+                    	newNodes.add(noOpt);
+                    	if (current.isOptional())
+                    		newNodes.add(curNodes);
                     }
-                	System.out.print(") ");
+                    nodes = newNodes;
                 }
-                System.out.println("");
+
+                System.out.println("OPTIONALS");
+                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                	List<MemberNode> curNodes = nodesite.next();
+	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
+	                for (Iterator<MemberNode> nite = curNodes.iterator();nite.hasNext();) {
+	                	MemberNode node = nite.next();
+	                	System.out.print("(");
+	                    for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
+	                    	ElementMember em = cite.next();
+	                    	System.out.print(em.getField());
+	                    	if (cite.hasNext())
+	                    		System.out.print(" ");
+	                    }
+	                	System.out.print(") ");
+	                }
+	                System.out.println("");
+                }
+                System.out.println("END OPTIONALS");
+                
+                //TODO
+                // Positions:
+                // Para cada position, para cada nodes, hacer enforce si se puede (y si no se borra)
+                
+                // Tercero, si freeorder asociar de todas las formas, si no, no.
 
                 
                 Set<List<ElementMember>> stage;
-
-                //TODO
-                // Primero, hacer divisiones oportunas para los opcionales
-                // Segundo, ajustar los positions.
-                // Tercero, si freeorder asociar de todas las formas, si no, no.
                 if (ce.isFreeOrder()) {
                     stage = recManageFreeOrders(ce.getContents(),new ArrayList<ElementMember>());
                 }

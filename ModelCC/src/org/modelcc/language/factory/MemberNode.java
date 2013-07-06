@@ -25,12 +25,9 @@ public class MemberNode implements Serializable {
 
     private List<ElementMember> contents;
 
-    private boolean optional;
-    
-    public MemberNode(ElementMember em,boolean optional) {
+    public MemberNode(ElementMember em) {
     	contents = new ArrayList<ElementMember>();
     	contents.add(em);
-    	this.optional = optional;
     }
     
 	public List<ElementMember> getContents() {
@@ -53,11 +50,4 @@ public class MemberNode implements Serializable {
 		return contents.get(contents.size()-1);
 	}
 
-	public boolean isOptional() {
-		return optional;
-	}
-
-	public void setOptional(boolean optional) {
-		this.optional = optional;
-	}
 }
