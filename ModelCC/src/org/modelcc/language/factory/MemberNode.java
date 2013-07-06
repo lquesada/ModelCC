@@ -6,6 +6,7 @@
 package org.modelcc.language.factory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelcc.metamodel.ElementMember;
@@ -15,7 +16,7 @@ import org.modelcc.metamodel.ElementMember;
  * @author elezeta
  * @serial
  */
-public abstract class MemberNode implements Serializable {
+public class MemberNode implements Serializable {
 
     /**
      * Serial Version ID
@@ -24,6 +25,14 @@ public abstract class MemberNode implements Serializable {
 
     private List<ElementMember> contents;
 
+    private boolean optional;
+    
+    public MemberNode(ElementMember em,boolean optional) {
+    	contents = new ArrayList<ElementMember>();
+    	contents.add(em);
+    	this.optional = optional;
+    }
+    
 	public List<ElementMember> getContents() {
 		return contents;
 	}
@@ -44,4 +53,11 @@ public abstract class MemberNode implements Serializable {
 		return contents.get(contents.size()-1);
 	}
 
+	public boolean isOptional() {
+		return optional;
+	}
+
+	public void setOptional(boolean optional) {
+		this.optional = optional;
+	}
 }

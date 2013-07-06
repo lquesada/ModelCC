@@ -247,11 +247,33 @@ public final class LanguageSpecificationFactory implements Serializable {
         for (Iterator<ModelElement> ite = m.getElements().iterator();ite.hasNext();) {
             ModelElement el = ite.next();
             RuleElement elre = eltore.get(el);
-
             if (ComplexModelElement.class.isAssignableFrom(el.getClass())) {
-                Set<List<ElementMember>> stage;
+            	List<MemberNode> nodes = new ArrayList<MemberNode>();
                 ComplexModelElement ce = (ComplexModelElement)el;
+                for (Iterator<ElementMember> cite = ce.getContents().iterator();cite.hasNext();) {
+                	ElementMember current = cite.next();
+                	nodes.add(new MemberNode(current,current.isOptional()));
+                }
                 
+            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
+                for (Iterator<MemberNode> nite = nodes.iterator();nite.hasNext();) {
+                	MemberNode node = nite.next();
+                	System.out.print("(");
+                    for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
+                    	ElementMember em = cite.next();
+                    	System.out.print(em.getField());
+                    	if (em.isOptional())
+                    		System.out.print("?");
+                    	if (cite.hasNext())
+                    		System.out.print(" ");
+                    }
+                	System.out.print(") ");
+                }
+                System.out.println("");
+
+                
+                Set<List<ElementMember>> stage;
+
                 //TODO
                 // Primero, hacer divisiones oportunas para los opcionales
                 // Segundo, ajustar los positions.
