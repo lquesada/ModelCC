@@ -24,7 +24,6 @@ public @interface Position {
 	  public static int EXTREME = 3;
 	  public static int BEFORELAST = 4;
 	  public static int AROUND = 5;
-	  public static int ANY = 6;
 
 	  public int position();
 

@@ -321,7 +321,10 @@ public final class LanguageSpecificationFactory implements Serializable {
                     			}
                     		}
                     	}
-
+                    	// TODO EXTREME
+                    	// TODO WITHIN
+                    	// TODO BEFORELAST
+                    	// TODO AROUND
                     }
                 }
 
@@ -345,11 +348,10 @@ public final class LanguageSpecificationFactory implements Serializable {
                 System.out.println("END POSITIONS");
                 
                 //TODO
-                // Positions:
-                // Para cada position, para cada nodes, hacer enforce si se puede (y si no se borra)
-                
                 // Tercero, si freeorder asociar de todas las formas, si no, no.
 
+                //TODO
+                // Prioridades opcionales como aquí abajo
                 
                 Set<List<ElementMember>> stage;
                 if (ce.isFreeOrder()) {

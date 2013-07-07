@@ -1257,7 +1257,7 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
         }
-        assertEquals(1,c.getCount());
+        assertEquals(2,c.getCount());
     }
 
     
