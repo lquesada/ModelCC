@@ -185,24 +185,32 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		        	
 		            if (field.isAnnotationPresent(Position.class)) {
 		            	Position positionTag = field.getAnnotation(Position.class);
-		            	
+		            	Field otherField = null;
+			        	for (int j = 0;j < fl.length;j++) {
+			        		if (fl[j].getName().equals(positionTag.element()))
+			        			otherField = fl[j];
+			        	}
+
 		            	indexOther = searchField(celem.getContents(),positionTag.element());    
 		            	if (indexOther != -1)
 		            		otherElement = celem.getContents().get(indexOther);
 		
 		            	if (otherElement==null) {
-		                    log(Level.SEVERE, "In class \"{0}\": The @Position annotation refers to an undefined field.", new Object[]{elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to an undefined field.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (otherElement==thisElement) {
-		                    log(Level.SEVERE, "In class \"{0}\": The @Position annotation refers to the same field.", new Object[]{elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to the same field.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (MultipleElementMember.class.isAssignableFrom(thisElement.getClass()) &&
 		            			(positionTag.position()==Position.AROUND||positionTag.position()==Position.WITHIN)) {
-		                        log(Level.SEVERE, "In class \"{0}\": The @Position annotation cannot be applied to a list and have AROUND or WITHIN values.", new Object[]{elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list and have AROUND or WITHIN values.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (!MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) &&
 		            			(positionTag.position()==Position.AROUND||positionTag.position()==Position.WITHIN)) {
-		                        log(Level.SEVERE, "In class \"{0}\": The @Position annotation cannot be applied to AROUND or WITHIN a non-list element.", new Object[]{elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to AROUND or WITHIN a non-list element.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            	}
+		            	else if (otherField.isAnnotationPresent(Position.class)) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Position.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else {
 		            		positions.put(thisElement,new PositionInfo(otherElement,positionTag.position(),positionTag.separatorPolicy()));

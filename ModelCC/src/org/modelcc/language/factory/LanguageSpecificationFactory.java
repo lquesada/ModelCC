@@ -12,9 +12,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.swing.text.Position;
 
 import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.lexis.LexicalSpecification;
@@ -30,6 +29,7 @@ import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.*;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
+import org.modelcc.Position;
 import org.modelcc.language.syntax.PostSymbolBuilder;
 import org.modelcc.language.syntax.RuleElementPosition;
 
@@ -257,7 +257,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                     for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                     	List<MemberNode> curNodes = nodesite.next();
                     	List<MemberNode> noOpt = new ArrayList<MemberNode>();
-                    	noOpt.addAll(curNodes);
+                    	for (int i = 0;i < curNodes.size();i++)
+                    		noOpt.add(new MemberNode(curNodes.get(i)));
                     	noOpt.add(new MemberNode(current));
                     	newNodes.add(noOpt);
                     	if (current.isOptional())
@@ -266,7 +267,65 @@ public final class LanguageSpecificationFactory implements Serializable {
                     nodes = newNodes;
                 }
 
-                System.out.println("OPTIONALS");
+                for (Iterator<Entry<ElementMember,PositionInfo>> posite = el.getPositions().entrySet().iterator();posite.hasNext();) {
+                	Entry<ElementMember,PositionInfo> currentPosition = posite.next();
+                	PositionInfo posInfo = currentPosition.getValue();
+                	ElementMember source = currentPosition.getKey();
+                	ElementMember target = posInfo.getMember();
+                    for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                    	System.out.println("DEBUG POSITION FROM "+source.getField()+" TO "+target.getField()+" HAS "+posInfo.getPosition());
+                    	List<MemberNode> curNodes = nodesite.next();
+                    	if (posInfo.getPosition()==Position.BEFORE) {
+                    		System.out.println("BEFORE");
+                    		int sourceIndex = searchBack(curNodes,source);
+                    		int targetIndex = searchFront(curNodes,target);
+                    		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
+                    		if (sourceIndex != -1 && targetIndex != -1) {
+	                    		List<ElementMember> newContents = new ArrayList<ElementMember>();
+	                    		newContents.addAll(curNodes.get(sourceIndex).getContents());
+	                    		newContents.addAll(curNodes.get(targetIndex).getContents());
+	                    		curNodes.get(targetIndex).setContents(newContents);
+	                    		curNodes.remove(sourceIndex);
+                    		}
+                    		else {
+                    			System.out.println("RECHECKING BEFORE");
+                    			int absSourceIndex = searchAbsolute(curNodes,source);
+                    			int absTargetIndex = searchAbsolute(curNodes,target);
+                        		System.out.println("absolute source is "+absSourceIndex+" target is "+absTargetIndex);
+                    			if (absSourceIndex!=absTargetIndex-1) {
+                    				System.out.println("NOT OK");
+                    				nodesite.remove();
+                    			}
+                    		}
+                    	}
+                    	if (posInfo.getPosition()==Position.AFTER) {
+                    		System.out.println("AFTER");
+                    		int sourceIndex = searchFront(curNodes,source);
+                    		int targetIndex = searchBack(curNodes,target);
+                    		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
+                    		if (sourceIndex != -1 && targetIndex != -1) {
+	                    		List<ElementMember> newContents = new ArrayList<ElementMember>();
+	                    		newContents.addAll(curNodes.get(targetIndex).getContents());
+	                    		newContents.addAll(curNodes.get(sourceIndex).getContents());
+	                    		curNodes.get(targetIndex).setContents(newContents);
+	                    		curNodes.remove(sourceIndex);
+                    		}
+                    		else {
+                    			System.out.println("RECHECKING AFTER");
+                    			int absSourceIndex = searchAbsolute(curNodes,source);
+                    			int absTargetIndex = searchAbsolute(curNodes,target);
+                        		System.out.println("absolute source is "+absSourceIndex+" target is "+absTargetIndex);
+                    			if (absSourceIndex!=absTargetIndex+1) {
+                        			System.out.println("NOT OK");
+                    				nodesite.remove();
+                    			}
+                    		}
+                    	}
+
+                    }
+                }
+
+                System.out.println("POSITIONS");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	List<MemberNode> curNodes = nodesite.next();
 	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
@@ -283,7 +342,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                }
 	                System.out.println("");
                 }
-                System.out.println("END OPTIONALS");
+                System.out.println("END POSITIONS");
                 
                 //TODO
                 // Positions:
@@ -541,7 +600,56 @@ public final class LanguageSpecificationFactory implements Serializable {
         return new LanguageSpecification(ls,ss);
     }
 
-    private Set<List<ElementMember>> recManageFreeOrders(List<ElementMember> elcs,List<ElementMember> act) {
+    private int searchBack(List<MemberNode> curNodes, ElementMember source) {
+    	int found = -1;
+		for (int i = 0;i < curNodes.size();i++) {
+			if (curNodes.get(i).getBack() == source) {
+				if (found == -1) {
+					found = i;
+				}
+				else {
+					return -1;
+				}
+			}
+		}
+		return found;		
+	}
+
+    private int searchFront(List<MemberNode> curNodes, ElementMember source) {
+    	int found = -1;
+		for (int i = 0;i < curNodes.size();i++) {
+			if (curNodes.get(i).getFront() == source) {
+				if (found == -1) {
+					found = i;
+				}
+				else {
+					return -1;
+				}
+			}
+		}
+		return found;		
+	}
+    
+    private int searchAbsolute(List<MemberNode> curNodes, ElementMember source) {
+    	int found = -1;
+    	int i = 0;
+    	for (Iterator<MemberNode> itenode = curNodes.iterator();itenode.hasNext();) {
+    		for (Iterator<ElementMember> itemember = itenode.next().getContents().iterator();itemember.hasNext();) {
+    			if (itemember.next()==source) {
+    				if (found == -1) {
+    					found = i;
+    				}
+    				else {
+    					return -1;
+    				}
+    			}
+    			i++;
+    		}
+    	}
+    	return found;
+	}
+
+	private Set<List<ElementMember>> recManageFreeOrders(List<ElementMember> elcs,List<ElementMember> act) {
         Set<List<ElementMember>> ret = new HashSet<List<ElementMember>>();
         int i;
         List<ElementMember> copy,actcopy;

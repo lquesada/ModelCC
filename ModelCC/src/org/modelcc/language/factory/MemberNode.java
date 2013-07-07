@@ -29,6 +29,11 @@ public class MemberNode implements Serializable {
     	contents = new ArrayList<ElementMember>();
     	contents.add(em);
     }
+
+    public MemberNode(MemberNode mn) {
+    	contents = new ArrayList<ElementMember>();
+    	contents.addAll(mn.getContents());
+    }
     
 	public List<ElementMember> getContents() {
 		return contents;
