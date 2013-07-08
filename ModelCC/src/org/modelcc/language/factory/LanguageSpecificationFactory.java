@@ -272,60 +272,28 @@ public final class LanguageSpecificationFactory implements Serializable {
                 	PositionInfo posInfo = currentPosition.getValue();
                 	ElementMember source = currentPosition.getKey();
                 	ElementMember target = posInfo.getMember();
+                    List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
                     for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                     	System.out.println("DEBUG POSITION FROM "+source.getField()+" TO "+target.getField()+" HAS "+posInfo.getPosition());
                     	List<MemberNode> curNodes = nodesite.next();
                     	if (posInfo.getPosition()==Position.BEFORE) {
-                    		System.out.println("BEFORE");
-                    		int sourceIndex = searchBack(curNodes,source);
-                    		int targetIndex = searchFront(curNodes,target);
-                    		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
-                    		if (sourceIndex != -1 && targetIndex != -1) {
-	                    		List<ElementMember> newContents = new ArrayList<ElementMember>();
-	                    		newContents.addAll(curNodes.get(sourceIndex).getContents());
-	                    		newContents.addAll(curNodes.get(targetIndex).getContents());
-	                    		curNodes.get(targetIndex).setContents(newContents);
-	                    		curNodes.remove(sourceIndex);
-                    		}
-                    		else {
-                    			System.out.println("RECHECKING BEFORE");
-                    			int absSourceIndex = searchAbsolute(curNodes,source);
-                    			int absTargetIndex = searchAbsolute(curNodes,target);
-                        		System.out.println("absolute source is "+absSourceIndex+" target is "+absTargetIndex);
-                    			if (absSourceIndex!=absTargetIndex-1) {
-                    				System.out.println("NOT OK");
-                    				nodesite.remove();
-                    			}
-                    		}
+                    		processBefore(newNodes,curNodes,source,target);
                     	}
-                    	if (posInfo.getPosition()==Position.AFTER) {
-                    		System.out.println("AFTER");
-                    		int sourceIndex = searchFront(curNodes,source);
-                    		int targetIndex = searchBack(curNodes,target);
-                    		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
-                    		if (sourceIndex != -1 && targetIndex != -1) {
-	                    		List<ElementMember> newContents = new ArrayList<ElementMember>();
-	                    		newContents.addAll(curNodes.get(targetIndex).getContents());
-	                    		newContents.addAll(curNodes.get(sourceIndex).getContents());
-	                    		curNodes.get(targetIndex).setContents(newContents);
-	                    		curNodes.remove(sourceIndex);
-                    		}
-                    		else {
-                    			System.out.println("RECHECKING AFTER");
-                    			int absSourceIndex = searchAbsolute(curNodes,source);
-                    			int absTargetIndex = searchAbsolute(curNodes,target);
-                        		System.out.println("absolute source is "+absSourceIndex+" target is "+absTargetIndex);
-                    			if (absSourceIndex!=absTargetIndex+1) {
-                        			System.out.println("NOT OK");
-                    				nodesite.remove();
-                    			}
-                    		}
+                    	else if (posInfo.getPosition()==Position.AFTER) {
+                    		processAfter(newNodes,curNodes,source,target);
                     	}
-                    	// TODO EXTREME
+
+                    	else if (posInfo.getPosition()==Position.EXTREME) {
+                    		System.out.print("EXTREME 1 ");
+                    		processBefore(newNodes,curNodes,source,target);
+                    		System.out.print("EXTREME 2 ");
+                    		processAfter(newNodes,curNodes,source,target);
+                    	}
                     	// TODO WITHIN
                     	// TODO BEFORELAST
                     	// TODO AROUND
                     }
+                    nodes = newNodes;
                 }
 
                 System.out.println("POSITIONS");
@@ -602,7 +570,49 @@ public final class LanguageSpecificationFactory implements Serializable {
         return new LanguageSpecification(ls,ss);
     }
 
-    private int searchBack(List<MemberNode> curNodes, ElementMember source) {
+    private void processAfter(List<List<MemberNode>> newNodes,
+			List<MemberNode> curNodes, ElementMember source,
+			ElementMember target) {
+		System.out.println("AFTER");
+		int sourceIndex = searchFront(curNodes,source);
+		int targetIndex = searchBack(curNodes,target);
+		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
+		if (sourceIndex != -1 && targetIndex != -1) {
+    		List<ElementMember> newContents = new ArrayList<ElementMember>();
+    		newContents.addAll(curNodes.get(targetIndex).getContents());
+    		newContents.addAll(curNodes.get(sourceIndex).getContents());
+        	List<MemberNode> curNodesCopy = new ArrayList<MemberNode>();
+        	curNodesCopy.addAll(curNodes);
+        	MemberNode mn = new MemberNode(curNodesCopy.get(targetIndex));
+        	mn.setContents(newContents);
+    		curNodesCopy.set(targetIndex,mn);
+    		curNodesCopy.remove(sourceIndex);
+    		newNodes.add(curNodesCopy);
+		}
+	}
+
+	private void processBefore(List<List<MemberNode>> newNodes,
+			List<MemberNode> curNodes, ElementMember source,
+			ElementMember target) {
+		System.out.println("BEFORE");
+		int sourceIndex = searchBack(curNodes,source);
+		int targetIndex = searchFront(curNodes,target);
+		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
+		if (sourceIndex != -1 && targetIndex != -1) {
+    		List<ElementMember> newContents = new ArrayList<ElementMember>();
+    		newContents.addAll(curNodes.get(sourceIndex).getContents());
+    		newContents.addAll(curNodes.get(targetIndex).getContents());
+        	List<MemberNode> curNodesCopy = new ArrayList<MemberNode>();
+        	curNodesCopy.addAll(curNodes);
+        	MemberNode mn = new MemberNode(curNodesCopy.get(targetIndex));
+        	mn.setContents(newContents);
+    		curNodesCopy.set(targetIndex,mn);
+    		curNodesCopy.remove(sourceIndex);
+    		newNodes.add(curNodesCopy);
+		}
+	}
+
+	private int searchBack(List<MemberNode> curNodes, ElementMember source) {
     	int found = -1;
 		for (int i = 0;i < curNodes.size();i++) {
 			if (curNodes.get(i).getBack() == source) {

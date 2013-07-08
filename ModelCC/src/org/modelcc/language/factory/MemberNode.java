@@ -7,7 +7,9 @@ package org.modelcc.language.factory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelcc.metamodel.ElementMember;
 
@@ -25,14 +27,19 @@ public class MemberNode implements Serializable {
 
     private List<ElementMember> contents;
 
+    private Map<ElementMember,ContentMember> contentMembers;
+    
     public MemberNode(ElementMember em) {
     	contents = new ArrayList<ElementMember>();
     	contents.add(em);
+    	contentMembers = new HashMap<ElementMember,ContentMember>();
     }
 
     public MemberNode(MemberNode mn) {
     	contents = new ArrayList<ElementMember>();
     	contents.addAll(mn.getContents());
+    	contentMembers = new HashMap<ElementMember,ContentMember>();
+    	contentMembers.putAll(mn.getContentMembers());
     }
     
 	public List<ElementMember> getContents() {
@@ -41,6 +48,10 @@ public class MemberNode implements Serializable {
 
 	public void setContents(List<ElementMember> contents) {
 		this.contents = contents;
+	}
+
+	public Map<ElementMember,ContentMember> getContentMembers() {
+		return contentMembers;
 	}
 
 	public ElementMember getFront() {

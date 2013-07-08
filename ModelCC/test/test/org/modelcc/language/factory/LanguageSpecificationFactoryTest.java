@@ -27,6 +27,7 @@ import test.languages.optionaltest.OptionalTestLanguage;
 import test.languages.positions.Position1;
 import test.languages.positions.Position2;
 import test.languages.positions.Position3;
+import test.languages.positions.Position4;
 
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
@@ -886,6 +887,12 @@ public class LanguageSpecificationFactoryTest {
     public void PositionTest3() {
         assertEquals(1,testFull("BAC",Position3.class).size());
         assertEquals(0,testFull("ABC",Position3.class).size());
+    }
+
+    @Test
+    public void PositionTest4() {
+        assertEquals(1,testFull("BAC",Position4.class).size());
+        assertEquals(1,testFull("ABC",Position4.class).size());
     }
 }
 
