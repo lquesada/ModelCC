@@ -218,6 +218,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            	else if (positionTag.position()==Position.BEFORELAST && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have BEFORELAST value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
+		            	else if (!compatible(field,fl)) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            	}
+
 		            	else {
 		            		positions.put(thisElement,new PositionInfo(otherElement,positionTag.position(),positionTag.separatorPolicy()));
 		            	}
@@ -226,6 +230,32 @@ public class JavaModelReader extends ModelReader implements Serializable {
 			}
 			elem.setPositions(positions);
 		}
+	}
+
+
+	private boolean compatible(Field field, Field[] fl) {
+		Position positionTag = field.getAnnotation(Position.class);
+    	for (int j = 0;j < fl.length;j++) {
+    		if (fl[j] != field) {
+	            if (fl[j].isAnnotationPresent(Position.class)) {
+	            	Position otherPositionTag = fl[j].getAnnotation(Position.class);
+	            	if (positionTag.element()==otherPositionTag.element()) {
+
+	            		  if (
+	            				  (positionTag.position()==Position.BEFORE &&  (otherPositionTag.position()==Position.BEFORE || otherPositionTag.position()==Position.EXTREME || otherPositionTag.position()==Position.AROUND)) ||
+	            				  (positionTag.position()==Position.AFTER &&  (otherPositionTag.position()==Position.AFTER || otherPositionTag.position()==Position.EXTREME || otherPositionTag.position()==Position.AROUND)) ||
+	            				  (positionTag.position()==Position.WITHIN &&  (otherPositionTag.position()==Position.WITHIN || otherPositionTag.position()==Position.BEFORELAST || otherPositionTag.position()==Position.AROUND)) ||
+	            				  (positionTag.position()==Position.EXTREME &&  (otherPositionTag.position()==Position.BEFORE || otherPositionTag.position()==Position.AFTER || otherPositionTag.position()==Position.EXTREME || otherPositionTag.position()==Position.AROUND)) ||
+	            				  (positionTag.position()==Position.BEFORELAST &&  (otherPositionTag.position()==Position.WITHIN || otherPositionTag.position()==Position.BEFORELAST || otherPositionTag.position()==Position.AROUND)) ||
+	            				  (positionTag.position()==Position.AROUND &&  (otherPositionTag.position()==Position.BEFORE || otherPositionTag.position()==Position.AFTER || otherPositionTag.position()==Position.EXTREME || otherPositionTag.position()==Position.AROUND || otherPositionTag.position()==Position.WITHIN || otherPositionTag.position()==Position.BEFORELAST))
+	            			)
+	            			  return false;
+	            			  
+	            	}
+	            }
+    		}
+    	}
+		return true;
 	}
 
 

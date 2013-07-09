@@ -298,7 +298,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                     		processBefore(newNodes,curNodes,source,target);
                     		processAfter(newNodes,curNodes,source,target);
                     	}
-                    	//TODO evitar dos con within al mismo o dos con after al mismo o dos con before al mismo... etc.
                     }
                     nodes = newNodes;
                 }
