@@ -30,6 +30,7 @@ import org.modelcc.metamodel.*;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 import org.modelcc.Position;
+import org.modelcc.SeparatorPolicy;
 import org.modelcc.language.syntax.PostSymbolBuilder;
 import org.modelcc.language.syntax.RuleElementPosition;
 
@@ -274,7 +275,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                 	ElementMember target = posInfo.getMember();
                     List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
                     for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
-                    	System.out.println("DEBUG POSITION FROM "+source.getField()+" TO "+target.getField()+" HAS "+posInfo.getPosition());
                     	List<MemberNode> curNodes = nodesite.next();
                     	if (posInfo.getPosition()==Position.BEFORE) {
                     		processBefore(newNodes,curNodes,source,target);
@@ -284,19 +284,26 @@ public final class LanguageSpecificationFactory implements Serializable {
                     	}
 
                     	else if (posInfo.getPosition()==Position.EXTREME) {
-                    		System.out.print("EXTREME 1 ");
                     		processBefore(newNodes,curNodes,source,target);
-                    		System.out.print("EXTREME 2 ");
                     		processAfter(newNodes,curNodes,source,target);
                     	}
-                    	// TODO WITHIN
-                    	// TODO BEFORELAST
-                    	// TODO AROUND
+                    	else if (posInfo.getPosition()==Position.WITHIN) {
+                    		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
+                    	}
+                    	else if (posInfo.getPosition()==Position.BEFORELAST) {
+                    		processInside(newNodes,curNodes,source,target,Position.BEFORELAST,posInfo.getSeparatorPolicy());
+                    	}
+                    	else if (posInfo.getPosition()==Position.AROUND) {
+                    		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
+                    		processBefore(newNodes,curNodes,source,target);
+                    		processAfter(newNodes,curNodes,source,target);
+                    	}
+                    	//TODO evitar dos con within al mismo o dos con after al mismo o dos con before al mismo... etc.
                     }
                     nodes = newNodes;
                 }
 
-                System.out.println("POSITIONS");
+                System.out.println("TODO remove this from languagespecificationfactory");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	List<MemberNode> curNodes = nodesite.next();
 	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
@@ -306,6 +313,17 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
 	                    	ElementMember em = cite.next();
 	                    	System.out.print(em.getField());
+		                    for (Iterator<Entry<ElementMember, ContentMember>> ccite = node.getContentMembers().entrySet().iterator();ccite.hasNext();) {
+		                    	Entry<ElementMember, ContentMember> entry = ccite.next();
+		                    	if (entry.getKey()==em) {
+		                    		System.out.print("+"+entry.getValue().getContent().getField());
+		                    		if (entry.getValue().getPosition()==Position.WITHIN)
+		                    			System.out.print("#POS:WITHIN");
+		                    		else if (entry.getValue().getPosition()==Position.BEFORELAST)
+		                    			System.out.print("#POS:BEFORELAST");
+	                    			System.out.print("#SEP:"+entry.getValue().getSeparatorPolicy());
+		                    	}
+		                    }
 	                    	if (cite.hasNext())
 	                    		System.out.print(" ");
 	                    }
@@ -606,6 +624,31 @@ public final class LanguageSpecificationFactory implements Serializable {
         	curNodesCopy.addAll(curNodes);
         	MemberNode mn = new MemberNode(curNodesCopy.get(targetIndex));
         	mn.setContents(newContents);
+    		curNodesCopy.set(targetIndex,mn);
+    		curNodesCopy.remove(sourceIndex);
+    		newNodes.add(curNodesCopy);
+		}
+	}
+
+	private void processInside(List<List<MemberNode>> newNodes,
+			List<MemberNode> curNodes, ElementMember source,
+			ElementMember target,int position,SeparatorPolicy separatorPolicy) {
+		System.out.print("INSIDE ");
+		if (position==Position.AROUND)
+			System.out.println("AROUND");
+		else if (position==Position.WITHIN)
+			System.out.println("WITHIN");
+		else if (position==Position.BEFORELAST)
+			System.out.println("BEFORELAST");
+
+		int sourceIndex = searchBack(curNodes,source);
+		int targetIndex = searchFront(curNodes,target);
+		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
+		if (sourceIndex != -1 && targetIndex != -1) {
+        	List<MemberNode> curNodesCopy = new ArrayList<MemberNode>();
+        	curNodesCopy.addAll(curNodes);
+        	MemberNode mn = new MemberNode(curNodesCopy.get(targetIndex));
+        	mn.getContentMembers().put(target,new ContentMember(position,separatorPolicy,source));
     		curNodesCopy.set(targetIndex,mn);
     		curNodesCopy.remove(sourceIndex);
     		newNodes.add(curNodesCopy);

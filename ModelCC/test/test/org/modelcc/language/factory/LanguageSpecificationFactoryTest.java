@@ -16,6 +16,8 @@ import test.languages.keys.Keys5Lang;
 import test.languages.keys.Keys4Lang;
 import test.languages.keys.Keys3Lang;
 import test.languages.keys.Keys2Lang;
+
+import org.modelcc.Position;
 import org.modelcc.language.factory.CompositeSymbolBuilder;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
@@ -24,10 +26,18 @@ import test.languages.keys.Keys1;
 import test.languages.autorun.AutorunTests;
 import test.languages.optionaltest2.OptionalTest2Language;
 import test.languages.optionaltest.OptionalTestLanguage;
+import test.languages.positions.A;
+import test.languages.positions.B;
+import test.languages.positions.C;
 import test.languages.positions.Position1;
 import test.languages.positions.Position2;
 import test.languages.positions.Position3;
 import test.languages.positions.Position4;
+import test.languages.positions.Position5;
+import test.languages.positions.Position6;
+import test.languages.positions.Position7;
+import test.languages.positions.Position8;
+import test.languages.positions.Position9;
 
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
@@ -894,6 +904,48 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("BAC",Position4.class).size());
         assertEquals(1,testFull("ABC",Position4.class).size());
     }
+    
+    @Test
+    public void PositionTest5() {
+        assertEquals(1,testFull("ACBCCCC",Position5.class).size());
+        assertEquals(1,testFull("ACCCCBC",Position5.class).size());
+        assertEquals(0,testFull("ACCCCCB",Position5.class).size());
+        assertEquals(0,testFull("ABCCCCC",Position5.class).size());
+    }
+
+    @Test
+    public void PositionTest6() {
+        assertEquals(1,testFull("ACCCCBC",Position6.class).size());
+        assertEquals(0,testFull("ACBCCCC",Position6.class).size());
+        assertEquals(0,testFull("ACCCCCB",Position6.class).size());
+        assertEquals(0,testFull("ABCCCCC",Position6.class).size());
+    }
+
+    @Test
+    public void PositionTest7() {
+        assertEquals(1,testFull("ACCCCBC",Position7.class).size());
+        assertEquals(1,testFull("ACBCCCC",Position7.class).size());
+        assertEquals(1,testFull("ACCCCCB",Position7.class).size());
+        assertEquals(1,testFull("ABCCCCC",Position7.class).size());
+        assertEquals(1,testFull("BACCCCC",Position7.class).size());
+    }
+
+    @Test
+    public void PositionTest8() {
+        assertEquals(1,testFull("AB",Position8.class).size());
+        assertEquals(1,testFull("ACCCCBC",Position8.class).size());
+        assertEquals(0,testFull("ACCCCCB",Position8.class).size());
+        assertEquals(0,testFull("ABCCCCC",Position8.class).size());
+    }
+
+    @Test
+    public void PositionTest9() {
+        assertEquals(1,testFull("ACCBC",Position9.class).size());
+        assertEquals(1,testFull("ACCCCBC",Position9.class).size());
+        assertEquals(0,testFull("ACCCCCB",Position9.class).size());
+        assertEquals(0,testFull("ABC",Position9.class).size());
+        assertEquals(0,testFull("ACBC",Position9.class).size());
+    }    
 }
 
 /*

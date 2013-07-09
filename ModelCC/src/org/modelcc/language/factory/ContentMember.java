@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.modelcc.SeparatorPolicy;
 import org.modelcc.metamodel.ElementMember;
 
 /**
@@ -26,10 +27,26 @@ public class ContentMember implements Serializable {
 
     private int position;
     
+    private SeparatorPolicy separatorPolicy;
+    
     private ElementMember content;
     
-    public ContentMember(int position,ElementMember content) {
+    public ContentMember(int position,SeparatorPolicy separatorPolicy,ElementMember content) {
     	this.position = position;
+    	this.separatorPolicy = separatorPolicy;
     	this.content = content;
     }
+
+	public int getPosition() {
+		return position;
+	}
+
+	public SeparatorPolicy getSeparatorPolicy() {
+		return separatorPolicy;
+	}
+
+	public ElementMember getContent() {
+		return content;
+	}
+
 }

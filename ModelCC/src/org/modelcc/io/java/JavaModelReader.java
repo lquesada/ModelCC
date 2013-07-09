@@ -212,6 +212,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            	else if (otherField.isAnnotationPresent(Position.class)) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Position.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
+		            	else if (otherElement.isOptional()) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Optional.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            	}
+		            	else if (positionTag.position()==Position.BEFORELAST && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have BEFORELAST value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            	}
 		            	else {
 		            		positions.put(thisElement,new PositionInfo(otherElement,positionTag.position(),positionTag.separatorPolicy()));
 		            	}
