@@ -41,6 +41,11 @@ public class MemberNode implements Serializable {
     	contentMembers = new HashMap<ElementMember,ContentMember>();
     	contentMembers.putAll(mn.getContentMembers());
     }
+
+    public MemberNode() {
+    	contents = new ArrayList<ElementMember>();
+    	contentMembers = new HashMap<ElementMember,ContentMember>();
+    }
     
 	public List<ElementMember> getContents() {
 		return contents;

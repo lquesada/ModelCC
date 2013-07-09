@@ -38,6 +38,7 @@ import test.languages.positions.Position6;
 import test.languages.positions.Position7;
 import test.languages.positions.Position8;
 import test.languages.positions.Position9;
+import test.languages.positions.PositionFree1;
 
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
@@ -945,6 +946,14 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0,testFull("ACCCCCB",Position9.class).size());
         assertEquals(0,testFull("ABC",Position9.class).size());
         assertEquals(0,testFull("ACBC",Position9.class).size());
+    }    
+
+    @Test
+    public void PositionFreeTest1() {
+        assertEquals(1,testFull("ACCBC",PositionFree1.class).size());
+        assertEquals(1,testFull("ACCCCBC",PositionFree1.class).size());
+        assertEquals(1,testFull("CCBCA",PositionFree1.class).size());
+        assertEquals(1,testFull("CCCCBCA",PositionFree1.class).size());
     }    
 }
 

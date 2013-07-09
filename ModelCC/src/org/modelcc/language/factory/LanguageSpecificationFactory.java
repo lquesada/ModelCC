@@ -301,6 +301,59 @@ public final class LanguageSpecificationFactory implements Serializable {
                     }
                     nodes = newNodes;
                 }
+                
+                if (ce.isFreeOrder()) {
+                	List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
+                	
+                    for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                    	List<MemberNode> current = nodesite.next();
+                    	
+                    	// Current production
+                    	List<List<MemberNode>> combinations = new ArrayList<List<MemberNode>>(); 
+                    	for (Iterator<MemberNode> mnite = current.iterator();mnite.hasNext();) {
+                    		MemberNode mn = mnite.next();
+                    		
+                    		// If first element, add it
+                    		if (combinations.isEmpty()) {
+                        		List<MemberNode> currentCombination = new ArrayList<MemberNode>();
+                        		currentCombination.add(mn);
+                    			combinations.add(currentCombination);
+                    		}
+                    		else { // If other element, add it to every position
+                            	List<List<MemberNode>> newCombinations = new ArrayList<List<MemberNode>>(); 
+                    			for (Iterator<List<MemberNode>> combite = combinations.iterator();combite.hasNext();) {
+                            		List<MemberNode> currentCombination = combite.next();
+                    				for (int i = 0;i <= currentCombination.size();i++) {
+                                		List<MemberNode> newCombination = new ArrayList<MemberNode>();
+                                		newCombination.addAll(currentCombination);
+                                		newCombination.add(i,mn);
+                                		newCombinations.add(newCombination);
+                    				}
+                    			}
+                    			combinations = newCombinations;
+                    		}
+                    	}
+                    	newNodes.addAll(combinations);
+                    	
+                    	
+                    }
+                    nodes = newNodes;
+                }
+                
+            	List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
+                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                	List<MemberNode> current = nodesite.next();
+                	MemberNode mn = new MemberNode();
+                	for (Iterator<MemberNode> mnite = current.iterator();mnite.hasNext();) {
+                		MemberNode curMemberNode = mnite.next();
+                		mn.getContentMembers().putAll(curMemberNode.getContentMembers());
+                		mn.getContents().addAll(curMemberNode.getContents());
+                	}
+                	List<MemberNode> node = new ArrayList<MemberNode>();
+                	node.add(mn);
+                	newNodes.add(node);
+                }
+                nodes = newNodes;
 
                 System.out.println("TODO remove this from languagespecificationfactory");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
@@ -591,10 +644,8 @@ public final class LanguageSpecificationFactory implements Serializable {
     private void processAfter(List<List<MemberNode>> newNodes,
 			List<MemberNode> curNodes, ElementMember source,
 			ElementMember target) {
-		System.out.println("AFTER");
 		int sourceIndex = searchFront(curNodes,source);
 		int targetIndex = searchBack(curNodes,target);
-		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
 		if (sourceIndex != -1 && targetIndex != -1) {
     		List<ElementMember> newContents = new ArrayList<ElementMember>();
     		newContents.addAll(curNodes.get(targetIndex).getContents());
@@ -612,10 +663,8 @@ public final class LanguageSpecificationFactory implements Serializable {
 	private void processBefore(List<List<MemberNode>> newNodes,
 			List<MemberNode> curNodes, ElementMember source,
 			ElementMember target) {
-		System.out.println("BEFORE");
 		int sourceIndex = searchBack(curNodes,source);
 		int targetIndex = searchFront(curNodes,target);
-		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
 		if (sourceIndex != -1 && targetIndex != -1) {
     		List<ElementMember> newContents = new ArrayList<ElementMember>();
     		newContents.addAll(curNodes.get(sourceIndex).getContents());
@@ -633,17 +682,9 @@ public final class LanguageSpecificationFactory implements Serializable {
 	private void processInside(List<List<MemberNode>> newNodes,
 			List<MemberNode> curNodes, ElementMember source,
 			ElementMember target,int position,SeparatorPolicy separatorPolicy) {
-		System.out.print("INSIDE ");
-		if (position==Position.AROUND)
-			System.out.println("AROUND");
-		else if (position==Position.WITHIN)
-			System.out.println("WITHIN");
-		else if (position==Position.BEFORELAST)
-			System.out.println("BEFORELAST");
 
 		int sourceIndex = searchBack(curNodes,source);
 		int targetIndex = searchFront(curNodes,target);
-		System.out.println("source is "+sourceIndex+" target is "+targetIndex);
 		if (sourceIndex != -1 && targetIndex != -1) {
         	List<MemberNode> curNodesCopy = new ArrayList<MemberNode>();
         	curNodesCopy.addAll(curNodes);
