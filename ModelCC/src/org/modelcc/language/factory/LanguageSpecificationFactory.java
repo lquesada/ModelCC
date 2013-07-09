@@ -336,8 +336,9 @@ public final class LanguageSpecificationFactory implements Serializable {
                 // Tercero, si freeorder asociar de todas las formas, si no, no.
 
                 //TODO
-                // Prioridades opcionales como aquí abajo
+                // Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
                 
+                //TODO generar gramática
                 Set<List<ElementMember>> stage;
                 if (ce.isFreeOrder()) {
                     stage = recManageFreeOrders(ce.getContents(),new ArrayList<ElementMember>());
