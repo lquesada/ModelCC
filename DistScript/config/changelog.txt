@@ -2,8 +2,8 @@
 ModelCC v2.07    (2013-06-17)
 -----------------------------
 
-[FEATURE] New and improved ModelCCExamples GUI.
-[FEATURE] Improved Graph Draw 3D example in ModelCCExamples.
++ [FEATURE] New and improved ModelCCExamples GUI.
++ [FEATURE] Improved Graph Draw 3D example in ModelCCExamples.
 
 -----------------------------
 ModelCC v2.06    (2013-06-09)
