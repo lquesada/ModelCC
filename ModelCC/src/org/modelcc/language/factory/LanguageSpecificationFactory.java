@@ -220,26 +220,6 @@ public final class LanguageSpecificationFactory implements Serializable {
             }
         }
 
-        // Precedences
-        /*
-        for (Iterator<ModelElement> ite = m.getElements().iterator();ite.hasNext();) {
-            ModelElement el = ite.next();
-            if (BasicModelElement.class.isAssignableFrom(el.getClass())) {
-                TokenSpecification ts = elementTokenSpecifications.get(el);
-                if (ts != null) {
-                    if (m.getPrecedences().get(el) != null) {
-                        for (Iterator<ModelElement> ite2 = m.getPrecedences().get(el).iterator();ite2.hasNext();) {
-                            ModelElement el2 = ite2.next();
-                            TokenSpecification ts2 = elementTokenSpecifications.get(el2);
-                            if (ts2 != null) {
-                                lsf.addPrecedence(ts,ts2);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-*/
         // -----------------
         // Syntactic analysis.
         // -----------------
@@ -355,7 +335,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                 }
                 nodes = newNodes;
 
-                System.out.println("TODO remove this from languagespecificationfactory");
+                /*
+                System.out.println("remove this from languagespecificationfactory");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	List<MemberNode> curNodes = nodesite.next();
 	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
@@ -384,14 +365,12 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                System.out.println("");
                 }
                 System.out.println("END POSITIONS");
+                 */
                 
-                //TODO
-                // Tercero, si freeorder asociar de todas las formas, si no, no.
-
-                //TODO
-                // Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
+                //TODO Generar Gramática
+                //TODO Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
+                //TODO Associativities
                 
-                //TODO generar gramática
                 Set<List<ElementMember>> stage;
                 if (ce.isFreeOrder()) {
                     stage = recManageFreeOrders(ce.getContents(),new ArrayList<ElementMember>());
@@ -631,13 +610,6 @@ public final class LanguageSpecificationFactory implements Serializable {
             throw new CannotGenerateLanguageSpecificationException(e);
         }
         
-        /*
-        for (Iterator<Rule> ite = ss.getGrammar().getRules().iterator();ite.hasNext();) {
-            System.out.println(ite.next());
-        }
-        System.out.println("---------------");
-        System.out.println("---------------");
-*/
         return new LanguageSpecification(ls,ss);
     }
 
@@ -726,25 +698,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		return found;		
 	}
     
-    private int searchAbsolute(List<MemberNode> curNodes, ElementMember source) {
-    	int found = -1;
-    	int i = 0;
-    	for (Iterator<MemberNode> itenode = curNodes.iterator();itenode.hasNext();) {
-    		for (Iterator<ElementMember> itemember = itenode.next().getContents().iterator();itemember.hasNext();) {
-    			if (itemember.next()==source) {
-    				if (found == -1) {
-    					found = i;
-    				}
-    				else {
-    					return -1;
-    				}
-    			}
-    			i++;
-    		}
-    	}
-    	return found;
-	}
-
+    //TODO remove
 	private Set<List<ElementMember>> recManageFreeOrders(List<ElementMember> elcs,List<ElementMember> act) {
         Set<List<ElementMember>> ret = new HashSet<List<ElementMember>>();
         int i;
@@ -766,6 +720,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         return ret;
     }
 
+    //TODO remove
     private Set<List<ElementMember>> recManageOptionals(List<ElementMember> elcs,List<ElementMember> act) {
         Set<List<ElementMember>> ret = new HashSet<List<ElementMember>>();
         int i;
