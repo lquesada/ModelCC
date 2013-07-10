@@ -29,15 +29,18 @@ public class ListIdentifier {
     
     private boolean zero;
 
+    private boolean ref;
+
     private ModelElement extra;
    
     private int extraPosition;
     
     private SeparatorPolicy extraSeparatorPolicy;
 
-    public ListIdentifier(ModelElement element,List<PatternRecognizer> separator,boolean zero,ModelElement extra,int extraPosition,SeparatorPolicy extraSeparatorPolicy) {
+    public ListIdentifier(ModelElement element,List<PatternRecognizer> separator,boolean ref,boolean zero,ModelElement extra,int extraPosition,SeparatorPolicy extraSeparatorPolicy) {
     	this.element = element;
     	this.separator = separator;
+    	this.ref = ref;
     	this.zero = zero;
     	this.extra = extra;
     	this.extraPosition = extraPosition;
@@ -50,6 +53,10 @@ public class ListIdentifier {
 
 	public List<PatternRecognizer> getSeparator() {
 		return separator;
+	}
+
+	public boolean isRef() {
+		return ref;
 	}
 
 	public boolean isZero() {
@@ -79,6 +86,7 @@ public class ListIdentifier {
 				* result
 				+ ((extraSeparatorPolicy == null) ? 0 : extraSeparatorPolicy
 						.hashCode());
+		result = prime * result + (ref ? 1231 : 1237);
 		result = prime * result
 				+ ((separator == null) ? 0 : separator.hashCode());
 		result = prime * result + (zero ? 1231 : 1237);
@@ -107,6 +115,8 @@ public class ListIdentifier {
 		if (extraPosition != other.extraPosition)
 			return false;
 		if (extraSeparatorPolicy != other.extraSeparatorPolicy)
+			return false;
+		if (ref != other.ref)
 			return false;
 		if (separator == null) {
 			if (other.separator != null)
