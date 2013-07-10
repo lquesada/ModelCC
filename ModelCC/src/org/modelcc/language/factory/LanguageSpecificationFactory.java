@@ -335,8 +335,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                 }
                 nodes = newNodes;
 
-                /*
-                System.out.println("remove this from languagespecificationfactory");
+
+                /*System.out.println("remove this from languagespecificationfactory");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	List<MemberNode> curNodes = nodesite.next();
 	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
@@ -364,27 +364,46 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                }
 	                System.out.println("");
                 }
-                System.out.println("END POSITIONS");
-                 */
+                System.out.println("END POSITIONS");*/
                 
-                //TODO Generar Gramática
-                //TODO Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
-                //TODO Associativities
-                
-                Set<List<ElementMember>> stage;
-                if (ce.isFreeOrder()) {
-                    stage = recManageFreeOrders(ce.getContents(),new ArrayList<ElementMember>());
-                }
-                else {
-                    stage = recManageOptionals(ce.getContents(),new ArrayList<ElementMember>());
+                List<MemberNode> finalNodes = new ArrayList<MemberNode>();
+                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                	finalNodes.add(nodesite.next().get(0));
                 }
 
-                List<List<ElementMember>> optionals = new ArrayList<List<ElementMember>>();
-                List<List<ElementMember>> nonoptionals = new ArrayList<List<ElementMember>>();
+                System.out.println("remove this from languagespecificationfactory");
+                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
+                	List<MemberNode> curNodes = nodesite.next();
+	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
+                	MemberNode node = curNodes.get(0);
+	                for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
+	                   	ElementMember em = cite.next();
+                    	System.out.print(em.getField());
+	                    for (Iterator<Entry<ElementMember, ContentMember>> ccite = node.getContentMembers().entrySet().iterator();ccite.hasNext();) {
+	                    	Entry<ElementMember, ContentMember> entry = ccite.next();
+	                    	if (entry.getKey()==em) {
+	                    		System.out.print("+"+entry.getValue().getContent().getField());
+	                    		if (entry.getValue().getPosition()==Position.WITHIN)
+	                    			System.out.print("#POS:WITHIN");
+	                    		else if (entry.getValue().getPosition()==Position.BEFORELAST)
+	                    			System.out.print("#POS:BEFORELAST");
+                    			System.out.print("#SEP:"+entry.getValue().getSeparatorPolicy());
+	                    	}
+	                    }
+                    	if (cite.hasNext())
+                    		System.out.print(" ");
+                    }
+	                System.out.println("");
+                }
+                System.out.println("END POSITIONS");
+                
+                List<MemberNode> optionals = new ArrayList<MemberNode>();
+                List<MemberNode> nonoptionals = new ArrayList<MemberNode>();
                 List<Rule> roptionals = new ArrayList<Rule>();
                 List<Rule> rnonoptionals = new ArrayList<Rule>();
-                for (Iterator<List<ElementMember>> itex = stage.iterator();itex.hasNext();) {
-                    List<ElementMember> act = itex.next();
+
+                for (Iterator<MemberNode> itex = finalNodes.iterator();itex.hasNext();) {
+                    MemberNode act = itex.next();
                     if (hasOptional(act)) {
                         optionals.add(act);
                     }
@@ -392,14 +411,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                         nonoptionals.add(act);
                 }
 
-                /*
-                for (int i = 0;i < optionals.size();i++) {
-                    roptionals.add(createRule(m,elre,optionals.get(i),el,deltore, eltore, eltolist, eltolistzero,listRules,csb));
-                }
-                for (int i = 0;i < nonoptionals.size();i++) {
-                    rnonoptionals.add(createRule(m,elre,nonoptionals.get(i),el,deltore, eltore, eltolist, eltolistzero,listRules,csb));
-                }*/
-                
                 for (int i = 0;i < optionals.size();i++) {
                     roptionals.addAll(assocRule(m,ssf,elre,optionals.get(i),el,deltore, eltore, eltoreref,eltolist, eltolistzero,eltolistref,eltolistzeroref,listRules,csb));
                 }
@@ -460,6 +471,9 @@ public final class LanguageSpecificationFactory implements Serializable {
                     }
                     
                 }
+                //TODO Generar Gramática
+                //TODO Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
+                //TODO Associativities
                 
             }
         }
@@ -754,12 +768,17 @@ public final class LanguageSpecificationFactory implements Serializable {
         return ret;
     }
 
-    private boolean hasOptional(List<ElementMember> act) {
+    private boolean hasOptional(MemberNode act) {
         int j;
-        for (j = 0;j < act.size();j++) {
-            if (act.get(j).isOptional())
+        for (j = 0;j < act.getContents().size();j++) {
+            if (act.getContents().get(j).isOptional())
                 return true;
         }
+        for (Iterator<ContentMember> ite = act.getContentMembers().values().iterator();ite.hasNext();) {
+            if (ite.next().getContent().isOptional())
+                return true;
+        }
+
         return false;
     }
 
@@ -887,8 +906,9 @@ public final class LanguageSpecificationFactory implements Serializable {
 
     }
 
-    private Set<Rule> assocRule(Model m,SyntacticSpecificationFactory ssf,RuleElement left,List<ElementMember> elcs,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolist,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistzero,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistref,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistzeroref,Set<Rule> listRules,CompositeSymbolBuilder csb) {
-        Set<Rule> ret = new HashSet<Rule>();
+    private Set<Rule> assocRule(Model m,SyntacticSpecificationFactory ssf,RuleElement left,MemberNode mn,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolist,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistzero,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistref,Map<ModelElement,Map<List<PatternRecognizer>,RuleElement>> eltolistzeroref,Set<Rule> listRules,CompositeSymbolBuilder csb) {
+        List<ElementMember> elcs = mn.getContents();
+    	Set<Rule> ret = new HashSet<Rule>();
         int i;
         int f = -1;
         boolean found = false;
