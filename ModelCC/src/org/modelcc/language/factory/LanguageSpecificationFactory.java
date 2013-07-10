@@ -593,7 +593,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 
 
         
-
+/*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
             System.out.println("token: "+rx);
@@ -605,7 +605,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             System.out.println("regla: "+rx);
         }
 
- 
+ */
  
         // -----------------
         // Build language specification.
