@@ -260,7 +260,7 @@ public final class DisplayWrapper implements IModel {
         glColor3f(1f,1f,1f);
 
 
-        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Press Q or click to grab/release mouse. Move mouse to look around.  Press 3 for 3D effect.", Color.black);
+        Resources.getInfoFont().drawString(3,3,"Press ESC to exit. Press W/A/S/D/space bar/left shift to move. Press Q or click to grab/release mouse. Move mouse to look around.", Color.black);
         
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();        
