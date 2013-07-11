@@ -218,6 +218,9 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            	else if (positionTag.position()==Position.BEFORELAST && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have BEFORELAST value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
+		            	else if (positionTag.position()==Position.WITHIN && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have WITHIN value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            	}
 		            	else if (!compatible(field,fl)) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}

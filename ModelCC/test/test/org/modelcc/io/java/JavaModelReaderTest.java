@@ -1287,6 +1287,19 @@ public class JavaModelReaderTest {
     }
 
     @Test
+    public void modelWrongPositionTest9() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClassPosition9.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
     public void modelWrongPositionClashTest1() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
         CountFilter c = new CountFilter(false);

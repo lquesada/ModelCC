@@ -15,10 +15,10 @@ public class Position8 implements IModel {
 
 	A a;
 
-	@Minimum(0)
+	@Minimum(3)
 	C[] c;
 	
-	@Position(element="c",position=Position.WITHIN)
+	@Position(element="c",position=Position.BEFORELAST)
     B b;
     
 }
