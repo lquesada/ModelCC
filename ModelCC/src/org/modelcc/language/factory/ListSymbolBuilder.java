@@ -30,12 +30,13 @@ public final class ListSymbolBuilder extends SymbolBuilder implements Serializab
      * @return true if the symbol is valid, false if not
      */
     public boolean build(Symbol t,Object data) {
-        Object[] rest = (Object[])t.getContents().get(t.getContents().size()-1).getUserData();
+        ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+        Object[] rest = restContents.getL();
         Object[] l = new Object[rest.length+1];
         l[0] = t.getContents().get(0).getUserData();
         for (int i = 0;i < rest.length;i++)
             l[i+1] = rest[i];
-        t.setUserData(l);
+        t.setUserData(new ListContents(l,restContents.getExtra()));;
         return true;
     }
 }

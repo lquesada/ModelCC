@@ -30,7 +30,7 @@ public final class ListZeroSymbolBuilder extends SymbolBuilder implements Serial
      * @return true if the symbol is valid, false if not
      */
     public boolean build(Symbol t,Object data) {
-        t.setUserData(new Object[0]);
+        t.setUserData(new ListContents(new Object[0]));
         return true;
     }
 }

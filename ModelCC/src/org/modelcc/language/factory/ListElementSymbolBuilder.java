@@ -33,13 +33,13 @@ public final class ListElementSymbolBuilder extends SymbolBuilder implements Ser
     	if (t.getContents().size()>1) {
 	        Object[] l = new Object[1];
 	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
-	        t.setUserData(l);
+	        t.setUserData(new ListContents(l));
 	        return true;
     	}
     	else {
 	        Object[] l = new Object[1];
 	        l[0] = t.getContents().get(0).getUserData();
-	        t.setUserData(l);
+	        t.setUserData(new ListContents(l));
 	        return true;
     	}
     }

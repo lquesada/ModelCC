@@ -98,7 +98,9 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                         }
                         else {
                             MultipleElementMember mc = (MultipleElementMember)ct;
-                            listData = (Object[]) s.getUserData();
+                            ListContents listContents = (ListContents) s.getUserData();
+                            listData = listContents.getL();
+                            //TODO extra
                             if (mc.getMinimumMultiplicity() != -1) {
                                 if (listData.length<mc.getMinimumMultiplicity())
                                     valid = false;
@@ -177,6 +179,7 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                         for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
                             Symbol sym = ite.next();
                             //DEBSystem.out.println("Propagate to "+sym.getType());
+                            
                             propagateChanges(sym,t,usedIn,0);
                             //DEBSystem.out.println("END PROP");
                             //DEBSystem.out.println("");
@@ -199,7 +202,14 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
         if (t.equals(updated))
             return;
         Object tData = t.getUserData();
+        if (tData.getClass().equals(ListContents.class)) { //TODO esto añadido
+        	tData = ((ListContents)tData).getL();
+        }
         Object uData = updated.getUserData();
+        if (uData.getClass().equals(ListContents.class)) { //TODO esto añadido
+        	uData = ((ListContents)uData).getL();
+        }
+
         if (((ElementId)(t.getRule().getLeft().getType())).getElement().getClass().equals(ChoiceModelElement.class)) {
             t.setUserData(uData);
             if (usedIn.get(t) != null) {

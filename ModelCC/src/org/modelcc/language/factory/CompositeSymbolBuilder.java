@@ -95,7 +95,9 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                         }
                         else {
                             MultipleElementMember mc = (MultipleElementMember)ct;
-                            listData = (Object[]) s.getUserData();
+                            ListContents listContents = (ListContents) s.getUserData();
+                            listData = listContents.getL();
+                            //TODO extra
                             if (mc.getMinimumMultiplicity() != -1) {
                                 if (listData.length<mc.getMinimumMultiplicity())
                                     valid = false;

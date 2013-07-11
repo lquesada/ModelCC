@@ -29,7 +29,9 @@ public final class ListAnySymbolBuilder extends SymbolBuilder implements Seriali
      * @return true if the symbol is valid, false if not
      */
     public boolean build(Symbol t,Object data) {
-        t.setUserData(t.getContents().get(0).getUserData());
+        Object[] l = new Object[1];
+        l[0] = t.getContents().get(0).getUserData();
+        t.setUserData(new ListContents(l));
         return true;
     }
 
