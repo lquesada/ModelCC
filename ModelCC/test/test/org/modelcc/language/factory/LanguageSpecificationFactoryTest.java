@@ -17,6 +17,7 @@ import test.languages.keys.Keys4Lang;
 import test.languages.keys.Keys3Lang;
 import test.languages.keys.Keys2Lang;
 
+import org.modelcc.Minimum;
 import org.modelcc.Position;
 import org.modelcc.language.factory.CompositeSymbolBuilder;
 import java.util.logging.Filter;
@@ -928,13 +929,14 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACBCCCC",Position7.class).size());
         assertEquals(1,testFull("ACCCCCB",Position7.class).size());
         assertEquals(1,testFull("ABCCCCC",Position7.class).size());
-        assertEquals(1,testFull("BACCCCC",Position7.class).size());
+        assertEquals(0,testFull("BACCCCC",Position7.class).size());
     }
 
     @Test
     public void PositionTest8() {
-        assertEquals(1,testFull("AB",Position8.class).size());
         assertEquals(1,testFull("ACCCCBC",Position8.class).size());
+        assertEquals(1,testFull("ACCBCCC",Position8.class).size());
+        assertEquals(0,testFull("AB",Position8.class).size());
         assertEquals(0,testFull("ACCCCCB",Position8.class).size());
         assertEquals(0,testFull("ABCCCCC",Position8.class).size());
     }

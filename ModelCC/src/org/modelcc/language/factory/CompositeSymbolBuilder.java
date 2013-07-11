@@ -121,8 +121,9 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                                     case LANGARRAY:
                                         list = Array.newInstance(ct.getElementClass(),listData.length);
                                         if (listData != null)
-                                            for (j = 0;j < listData.length;j++)
+                                            for (j = 0;j < listData.length;j++) {
                                                 Array.set(list, j, listData[j]);
+                                            }
                                         fld.set(o,list);
                                         break;
                                     case SET:
