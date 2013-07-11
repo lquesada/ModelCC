@@ -849,6 +849,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         	pos = cm.getPosition();
         	sepPol = cm.getSeparatorPolicy();
         }
+        ListIdentifier lw = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol);
         ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol);
         ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,elem,pos,sepPol);
 
@@ -867,6 +868,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         }
         RuleElement re = lists.get(l1);
         RuleElement re0 = lists.get(l0);
+        RuleElement rew = lists.get(l0);
         Rule r;
         ArrayList<RuleElement> rct;
         int i;
@@ -917,7 +919,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            return ro;
 	        }
         }
-        else {//if (pos == Position.BEFORELAST) {
+        else if (pos == Position.BEFORELAST) {
 	        if (re == null) {
 	            //L -> E L
 	            //L -> (sepPolicy) extra E
@@ -994,6 +996,92 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            RuleElement ro = new RuleElementPosition(re.getType(),ct);
 	            return ro;
 	        }
+        }
+        else { // if (pos == Position.WITHIN) {
+	        if (re == null) {
+	            //L -> E L
+	            //L -> E
+	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
+	            re = new RuleElement(id);
+	            lists.put(l1,re);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            r = new Rule(re,rct,null,lesb);
+	            listRules.add(r);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            if (separator!=null)
+	                for (i = 0;i < separator.size();i++)
+	                    rct.add(deltore.get(separator.get(i)));
+	            rct.add(re);
+	            r = new Rule(re,rct,null,lsb);
+	            listRules.add(r);
+	        }
+	        
+            if (re0 == null) {
+                //L0 -> L
+                //L0 -> extra
+                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
+                re0 = new RuleElement(id);
+                lists.put(l0,re0);
+
+                rct = new ArrayList<RuleElement>();
+                rct.add(re);
+                r = new Rule(re0,rct,null,lasb);
+                listRules.add(r);
+
+                rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltoreextra.get(elem));
+                r = new Rule(re0,rct,null,lzsb);
+                listRules.add(r);
+            }
+        	if (rew == null) {
+	        	//L -> L0 extra L0
+	            ElementId id = new ElementId(ElementType.LISTWITHIN,el,separator,ref);
+	            rew = new RuleElement(id);
+	            lists.put(l1,rew);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(re0);
+	            switch (sepPol) {
+				case AFTER:
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+		            rct.add(choseneltoreextra.get(elem));
+					break;
+				case BEFORE:
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case EXTRA:
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case REPLACE:
+		            rct.add(choseneltoreextra.get(elem));
+					break;
+				default:
+					break;
+	            
+	            }
+	            rct.add(re0);
+	            r = new Rule(rew,rct,null,lesb);
+	            listRules.add(r);
+	
+	        }
+
+            RuleElement ro = new RuleElementPosition(rew.getType(),ct);
+            return ro;
         }
     }
 
