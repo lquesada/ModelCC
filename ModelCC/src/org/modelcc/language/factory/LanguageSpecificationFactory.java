@@ -836,68 +836,168 @@ public final class LanguageSpecificationFactory implements Serializable {
         else if (el.getSeparator() != null)
             separator = el.getSeparator();
         
-        //System.out.println(cm.getContent()+" "+cm.getPosition()+" "+cm.getSeparatorPolicy());
-        //TODO me ha llegado cm
-        ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,null,-1,null);
-        ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,null,-1,null);
+        ModelElement elem;
+    	int pos;
+    	SeparatorPolicy sepPol;
+        if (cm == null) {
+        	elem = null;
+        	pos = -1;
+        	sepPol = null;
+        }
+        else {
+        	elem = m.getClassToElement().get(cm.getContent().getElementClass());
+        	pos = cm.getPosition();
+        	sepPol = cm.getSeparatorPolicy();
+        }
+        ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol);
+        ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,elem,pos,sepPol);
 
         Map<ModelElement,RuleElement> choseneltore;
+        Map<ModelElement,RuleElement> choseneltoreextra = null;
         
         if (ref)
         	choseneltore = eltoreref;
         else
         	choseneltore = eltore;
+        if (cm != null) { 
+	        if (cm.getContent().isReference())
+	        	choseneltoreextra = eltoreref;
+	        else
+	        	choseneltoreextra = eltore;
+        }
         RuleElement re = lists.get(l1);
         RuleElement re0 = lists.get(l0);
         Rule r;
         ArrayList<RuleElement> rct;
         int i;
-        if (re == null) {
-            //L -> L E
-            //L -> E
-            ElementId id = new ElementId(ElementType.LIST,el,separator,ref);
-            re = new RuleElement(id);
-            lists.put(l1,re);
-
-            rct = new ArrayList<RuleElement>();
-            rct.add(choseneltore.get(el));
-            r = new Rule(re,rct,null,lesb);
-            listRules.add(r);
-
-            rct = new ArrayList<RuleElement>();
-            rct.add(choseneltore.get(el));
-            if (separator!=null)
-                for (i = 0;i < separator.size();i++)
-                    rct.add(deltore.get(separator.get(i)));
-            rct.add(re);
-            r = new Rule(re,rct,null,lsb);
-            listRules.add(r);
+        if (pos == -1) {
+	        if (re == null) {
+	            //L -> E L
+	            //L -> E
+	            ElementId id = new ElementId(ElementType.LIST,el,separator,ref);
+	            re = new RuleElement(id);
+	            lists.put(l1,re);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            r = new Rule(re,rct,null,lesb);
+	            listRules.add(r);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            if (separator!=null)
+	                for (i = 0;i < separator.size();i++)
+	                    rct.add(deltore.get(separator.get(i)));
+	            rct.add(re);
+	            r = new Rule(re,rct,null,lsb);
+	            listRules.add(r);
+	        }
+	        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
+	            if (re0 == null) {
+	                //L0 -> L
+	                //L0 -> epsilon
+	                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
+	                re0 = new RuleElement(id);
+	                lists.put(l0,re0);
+	
+	                rct = new ArrayList<RuleElement>();
+	                rct.add(re);
+	                r = new Rule(re0,rct,null,lasb);
+	                listRules.add(r);
+	
+	                rct = new ArrayList<RuleElement>();
+	                r = new Rule(re0,rct,null,lzsb);
+	                listRules.add(r);
+	            }
+	            RuleElement ro = new RuleElementPosition(re0.getType(),ct);
+	            return ro;
+	        }
+	        else {
+	            RuleElement ro = new RuleElementPosition(re.getType(),ct);
+	            return ro;
+	        }
         }
-        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
-            if (re0 == null) {
-                //L0 -> L
-                //L0 -> epsilon
-                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
-                re0 = new RuleElement(id);
-                lists.put(l0,re0);
-
-                rct = new ArrayList<RuleElement>();
-                rct.add(re);
-                r = new Rule(re0,rct,null,lasb);
-                listRules.add(r);
-
-                rct = new ArrayList<RuleElement>();
-                r = new Rule(re0,rct,null,lzsb);
-                listRules.add(r);
-            }
-            RuleElement ro = new RuleElementPosition(re0.getType(),ct);
-            return ro;
+        else {//if (pos == Position.BEFORELAST) {
+	        if (re == null) {
+	            //L -> E L
+	            //L -> (sepPolicy) extra E
+	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
+	            re = new RuleElement(id);
+	            lists.put(l1,re);
+	
+	            rct = new ArrayList<RuleElement>();
+	            switch (sepPol) {
+				case AFTER:
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+		            rct.add(choseneltoreextra.get(elem));
+					break;
+				case BEFORE:
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case EXTRA:
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case OPTIONAL:
+					//TODO
+					break;
+				case REPLACE:
+		            rct.add(choseneltoreextra.get(elem));
+					break;
+				default:
+					break;
+	            
+	            }
+	            rct.add(choseneltore.get(el));
+	            r = new Rule(re,rct,null,lesb);
+	            listRules.add(r);
+	
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            if (separator!=null)
+	                for (i = 0;i < separator.size();i++)
+	                    rct.add(deltore.get(separator.get(i)));
+	            rct.add(re);
+	            r = new Rule(re,rct,null,lsb);
+	            listRules.add(r);
+	        }
+	        
+	        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
+	            if (re0 == null) {
+	                //L0 -> L
+	                //L0 -> extra
+	                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
+	                re0 = new RuleElement(id);
+	                lists.put(l0,re0);
+	
+	                rct = new ArrayList<RuleElement>();
+	                rct.add(re);
+	                r = new Rule(re0,rct,null,lasb);
+	                listRules.add(r);
+	
+	                rct = new ArrayList<RuleElement>();
+		            rct.add(choseneltoreextra.get(elem));
+	                r = new Rule(re0,rct,null,lzsb);
+	                listRules.add(r);
+	            }
+	            RuleElement ro = new RuleElementPosition(re0.getType(),ct);
+	            return ro;
+	        }
+	        else {
+	            RuleElement ro = new RuleElementPosition(re.getType(),ct);
+	            return ro;
+	        }
         }
-        else {
-            RuleElement ro = new RuleElementPosition(re.getType(),ct);
-            return ro;
-        }
-
     }
 
     private Set<Rule> assocRule(Model m,SyntacticSpecificationFactory ssf,RuleElement left,MemberNode mn,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,CompositeSymbolBuilder csb) {

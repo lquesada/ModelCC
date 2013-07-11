@@ -28,6 +28,16 @@ public enum ElementType {
     LIST,
 
     /**
+     * List with before last element.
+     */
+    LISTBEFORELAST,
+
+    /**
+     * List with within element.
+     */
+    LISTWITHIN,
+
+    /**
      * Zero list element.
      */
     LISTZERO
