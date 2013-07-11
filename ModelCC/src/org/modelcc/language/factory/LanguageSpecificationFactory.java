@@ -466,14 +466,10 @@ public final class LanguageSpecificationFactory implements Serializable {
                     }
                     for (Iterator<List<ElementMember>> itex = stageids.iterator();itex.hasNext();) {
                         List<ElementMember> act = itex.next();
-                        ssf.addRule(createRule(m,elre,act,null,deltore,eltore,eltoreref,lists,listRules,rsb,prsb));
+                        ssf.addRule(createRule(m,elre,act,null,null,deltore,eltore,eltoreref,lists,listRules,rsb,prsb));
                     }
                     
                 }
-                //TODO Generar Gramática
-                //TODO Prioridades opcionales como aquí abajo: cuando se generan los opcionales se ve quién precede a quién y se va propagando.
-                //TODO Associativities
-                
             }
         }
 
@@ -711,7 +707,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 		return found;		
 	}
     
-    //TODO remove
 	private Set<List<ElementMember>> recManageFreeOrders(List<ElementMember> elcs,List<ElementMember> act) {
         Set<List<ElementMember>> ret = new HashSet<List<ElementMember>>();
         int i;
@@ -733,7 +728,6 @@ public final class LanguageSpecificationFactory implements Serializable {
         return ret;
     }
 
-    //TODO remove
     private Set<List<ElementMember>> recManageOptionals(List<ElementMember> elcs,List<ElementMember> act) {
         Set<List<ElementMember>> ret = new HashSet<List<ElementMember>>();
         int i;
@@ -782,18 +776,22 @@ public final class LanguageSpecificationFactory implements Serializable {
     }
 
 
-    private Rule createRule(Model m,RuleElement left,List<ElementMember> cts,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,SymbolBuilder sb) {
-        return createRule(m,left,cts,el,deltore,eltore,eltoreref,lists,listRules,sb,null);
+    private Rule createRule(Model m,RuleElement left,List<ElementMember> cts,Map<ElementMember,ContentMember> contentMembers,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,SymbolBuilder sb) {
+        return createRule(m,left,cts,contentMembers,el,deltore,eltore,eltoreref,lists,listRules,sb,null);
     }
-    private Rule createRule(Model m,RuleElement left,List<ElementMember> cts,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,SymbolBuilder sb,PostSymbolBuilder psb) {
+    private Rule createRule(Model m,RuleElement left,List<ElementMember> cts,Map<ElementMember,ContentMember> contentMembers,ModelElement el,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,SymbolBuilder sb,PostSymbolBuilder psb) {
         List<RuleElement> right = new ArrayList<RuleElement>();
         int i;
         if (el != null)
             if (el.getPrefix()!=null)
                 for (i = 0;i < el.getPrefix().size();i++)
                     right.add(deltore.get(el.getPrefix().get(i)));
-        for (i = 0;i < cts.size();i++)
-            right.addAll(createContent(m,cts.get(i),deltore,eltore,eltoreref,lists,listRules));
+        for (i = 0;i < cts.size();i++) {
+        	ContentMember cm = null;
+        	if (contentMembers != null)
+        		cm = contentMembers.get(cts.get(i));
+            right.addAll(createContent(m,cts.get(i),cm,deltore,eltore,eltoreref,lists,listRules));
+        }
         if (el != null)
             if (el.getSuffix()!=null)
                 for (i = 0;i < el.getSuffix().size();i++)
@@ -803,8 +801,8 @@ public final class LanguageSpecificationFactory implements Serializable {
         return r;
     }
 
-    private List<RuleElement> createContent(Model m,ElementMember ct,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules) {
-        List<RuleElement> lre = new ArrayList<RuleElement>();
+    private List<RuleElement> createContent(Model m,ElementMember ct,ContentMember cm,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules) {
+    	List<RuleElement> lre = new ArrayList<RuleElement>();
         int i;
         ModelElement el = m.getClassToElement().get(ct.getElementClass());
         if (ct.getPrefix()!=null)
@@ -822,7 +820,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             }
         }
         else {
-            lre.add(listElement(m,ct,deltore,eltore,eltoreref,lists,listRules,ct.isReference()));
+            lre.add(listElement(m,ct,cm,deltore,eltore,eltoreref,lists,listRules,ct.isReference()));
         }
         if (ct.getSuffix()!=null)
             for (i = 0;i < ct.getSuffix().size();i++)
@@ -830,7 +828,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         return lre;
     }
 
-    private RuleElement listElement(Model m,ElementMember ct,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,boolean ref) {
+    private RuleElement listElement(Model m,ElementMember ct,ContentMember cm,Map<PatternRecognizer,RuleElement> deltore,Map<ModelElement,RuleElement> eltore,Map<ModelElement,RuleElement> eltoreref,Map<ListIdentifier,RuleElement> lists,Set<Rule> listRules,boolean ref) {
         List<PatternRecognizer> separator = null;
         ModelElement el = m.getClassToElement().get(ct.getElementClass());
         if (ct.getSeparator() != null)
@@ -838,6 +836,8 @@ public final class LanguageSpecificationFactory implements Serializable {
         else if (el.getSeparator() != null)
             separator = el.getSeparator();
         
+        //System.out.println(cm.getContent()+" "+cm.getPosition()+" "+cm.getSeparatorPolicy());
+        //TODO me ha llegado cm
         ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,null,-1,null);
         ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,null,-1,null);
 
@@ -929,8 +929,9 @@ public final class LanguageSpecificationFactory implements Serializable {
              //   }
             }
         }
+       
         if (err || !found)
-            ret.add(createRule(m,left,elcs,el,deltore,eltore,eltoreref,lists,listRules,csb));
+            ret.add(createRule(m,left,elcs,mn.getContentMembers(),el,deltore,eltore,eltoreref,lists,listRules,csb));
         else if (found) {
 
             
@@ -982,7 +983,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 }
                 elcc.add(f,ctx);
 
-                Rule r = createRule(m,left,elcc,el,deltore,eltore,eltoreref,lists,listRules,csb);
+                Rule r = createRule(m,left,elcc,mn.getContentMembers(),el,deltore,eltore,eltoreref,lists,listRules,csb);
                 ret.add(r);
 
                 /*
