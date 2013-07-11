@@ -30,9 +30,17 @@ public final class ListElementSymbolBuilder extends SymbolBuilder implements Ser
      * @return true if the symbol is valid, false if not
      */
     public boolean build(Symbol t,Object data) {
-        Object[] l = new Object[1];
-        l[0] = t.getContents().get(0).getUserData();
-        t.setUserData(l);
-        return true;
+    	if (t.getContents().size()>1) {
+	        Object[] l = new Object[1];
+	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
+	        t.setUserData(l);
+	        return true;
+    	}
+    	else {
+	        Object[] l = new Object[1];
+	        l[0] = t.getContents().get(0).getUserData();
+	        t.setUserData(l);
+	        return true;
+    	}
     }
 }
