@@ -948,9 +948,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 		                for (i = 0;i < separator.size();i++)
 		                    rct.add(deltore.get(separator.get(i)));
 					break;
-				case OPTIONAL:
-					//TODO
-					break;
 				case REPLACE:
 		            rct.add(choseneltoreextra.get(elem));
 					break;

@@ -13,6 +13,5 @@ public enum SeparatorPolicy {
 	REPLACE,
 	BEFORE,
 	AFTER,
-	OPTIONAL,
 	EXTRA
 }
