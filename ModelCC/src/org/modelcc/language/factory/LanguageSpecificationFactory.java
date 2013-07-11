@@ -368,6 +368,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 	finalNodes.add(nodesite.next().get(0));
                 }
 
+                /*
                 System.out.println("remove this from languagespecificationfactory");
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	List<MemberNode> curNodes = nodesite.next();
@@ -393,6 +394,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                System.out.println("");
                 }
                 System.out.println("END POSITIONS");
+                */
                 
                 List<MemberNode> optionals = new ArrayList<MemberNode>();
                 List<MemberNode> nonoptionals = new ArrayList<MemberNode>();
