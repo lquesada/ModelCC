@@ -31,7 +31,18 @@ import test.languages.positions.A;
 import test.languages.positions.B;
 import test.languages.positions.C;
 import test.languages.positions.Position1;
+import test.languages.positions.Position10;
+import test.languages.positions.Position11;
+import test.languages.positions.Position12;
+import test.languages.positions.Position13;
+import test.languages.positions.Position14;
+import test.languages.positions.Position15;
+import test.languages.positions.Position16;
+import test.languages.positions.Position17;
+import test.languages.positions.Position18;
+import test.languages.positions.Position19;
 import test.languages.positions.Position2;
+import test.languages.positions.Position20;
 import test.languages.positions.Position3;
 import test.languages.positions.Position4;
 import test.languages.positions.Position5;
@@ -948,9 +959,96 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0,testFull("ACxyzBwC",Position9.class).size());
         assertEquals(0,testFull("ACxyCxyCxyCxyCzBw",Position9.class).size());
         assertEquals(0,testFull("AzBwC",Position9.class).size());
-        assertEquals(0,testFull("ACxyzBwC",Position9.class).size());
     }    
 
+    @Test
+    public void PositionTest10() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwxyC",Position10.class).size());
+        assertEquals(0,testFull("ACxyzBwC",Position10.class).size());
+        assertEquals(0,testFull("ACxyCxyCxyCxyCzBw",Position10.class).size());
+        assertEquals(0,testFull("AzBwC",Position10.class).size());
+    }    
+
+    @Test
+    public void PositionTest11() {
+        assertEquals(1,testFull("ACxyCxyCxyCxyzBwxyC",Position11.class).size());
+        assertEquals(0,testFull("ACxyzBwxyC",Position11.class).size());
+        assertEquals(0,testFull("ACxyCxyCxyCxyCxyzBw",Position11.class).size());
+        assertEquals(0,testFull("AzBwC",Position11.class).size());
+    }    
+
+    @Test
+    public void PositionTest12() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwC",Position12.class).size());
+        assertEquals(0,testFull("ACzBwC",Position12.class).size());
+        assertEquals(0,testFull("ACxyCxyCxyCxyCzBw",Position12.class).size());
+        assertEquals(0,testFull("AzBwC",Position12.class).size());
+    }    
+
+    @Test
+    public void PositionTest13() {
+        assertEquals(1,testFull("ACxyCxyCxyCxyzBwC",Position13.class).size());
+        assertEquals(1,testFull("ACxyCxyzBwCxyCxyC",Position13.class).size());
+        assertEquals(1,testFull("ACxyzBwCxyCxyCxyC",Position13.class).size());
+    }    
+
+    @Test
+    public void PositionTest14() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwxyC",Position14.class).size());
+        assertEquals(1,testFull("ACxyCzBwxyCxyCxyC",Position14.class).size());
+        assertEquals(1,testFull("ACzBwxyCxyCxyCxyC",Position14.class).size());
+    }    
+
+    @Test
+    public void PositionTest15() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwC",Position15.class).size());
+        assertEquals(1,testFull("ACxyCzBwCxyCxyC",Position15.class).size());
+        assertEquals(1,testFull("ACzBwCxyCxyCxyC",Position15.class).size());
+    }    
+
+    @Test
+    public void PositionTest16() {
+        assertEquals(1,testFull("ACxyCxyCxyCxyzBwxyC",Position16.class).size());
+        assertEquals(1,testFull("ACxyCxyzBwxyCxyCxyC",Position16.class).size());
+        assertEquals(1,testFull("ACxyzBwxyCxyCxyCxyC",Position16.class).size());
+    }    
+
+    @Test
+    public void PositionTest17() {
+        assertEquals(1,testFull("ACxyCxyCxyCxyzBwC",Position17.class).size());
+        assertEquals(1,testFull("ACxyCxyzBwCxyCxyC",Position17.class).size());
+        assertEquals(1,testFull("ACxyzBwCxyCxyCxyC",Position17.class).size());
+        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position17.class).size());
+        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position17.class).size());
+    }    
+
+    @Test
+    public void PositionTest18() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwxyC",Position18.class).size());
+        assertEquals(1,testFull("ACxyCzBwxyCxyCxyC",Position18.class).size());
+        assertEquals(1,testFull("ACzBwxyCxyCxyCxyC",Position18.class).size());
+        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position18.class).size());
+        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position18.class).size());
+    }    
+
+    @Test
+    public void PositionTest19() {
+        assertEquals(1,testFull("ACxyCxyCxyCzBwC",Position19.class).size());
+        assertEquals(1,testFull("ACxyCzBwCxyCxyC",Position19.class).size());
+        assertEquals(1,testFull("ACzBwCxyCxyCxyC",Position19.class).size());
+        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position19.class).size());
+        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position19.class).size());
+    }    
+
+    @Test
+    public void PositionTest20() {
+        assertEquals(1,testFull("ACxyCxyCxyCxyzBwxyC",Position20.class).size());
+        assertEquals(1,testFull("ACxyCxyzBwxyCxyCxyC",Position20.class).size());
+        assertEquals(1,testFull("ACxyzBwxyCxyCxyCxyC",Position20.class).size());
+        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position20.class).size());
+        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position20.class).size());
+    }    
+    
     @Test
     public void PositionFreeTest1() {
         assertEquals(1,testFull("ACCBC",PositionFree1.class).size());
