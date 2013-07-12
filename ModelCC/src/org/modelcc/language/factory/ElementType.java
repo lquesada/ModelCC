@@ -40,6 +40,16 @@ public enum ElementType {
     /**
      * Zero list element.
      */
-    LISTZERO
+    LISTZERO,
+
+    /**
+     * List sep
+     */
+    LISTS,
+    
+    /**
+     * List w
+     */
+    LISTW
 
 }

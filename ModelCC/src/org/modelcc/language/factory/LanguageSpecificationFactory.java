@@ -27,6 +27,7 @@ import org.modelcc.language.syntax.Rule;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.*;
+import org.modelcc.parser.fence.Symbol;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 import org.modelcc.Position;
@@ -52,25 +53,6 @@ public final class LanguageSpecificationFactory implements Serializable {
      */
     private static SymbolBuilder dsb = new DecoratorSymbolBuilder();
 
-    /**
-     * List symbol builder
-     */
-    private static SymbolBuilder lsb = new ListSymbolBuilder();
-
-    /**
-     * List element symbol builder
-     */
-    private static SymbolBuilder lesb = new ListElementSymbolBuilder();
-
-    /**
-     * List any symbol builder
-     */
-    private static SymbolBuilder lasb = new ListAnySymbolBuilder();
-
-    /**
-     * List zero symbol builder
-     */
-    private static SymbolBuilder lzsb = new ListZeroSymbolBuilder();
 
     /**
      * Converts a model into a language specification
@@ -849,9 +831,11 @@ public final class LanguageSpecificationFactory implements Serializable {
         	pos = cm.getPosition();
         	sepPol = cm.getSeparatorPolicy();
         }
-        ListIdentifier lw = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol);
-        ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol);
-        ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,elem,pos,sepPol);
+        ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol,'1');
+        ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,elem,pos,sepPol,'0');
+        ListIdentifier lw = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol,'w');
+        ListIdentifier ls = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol,'s');
+        ListIdentifier lb = new ListIdentifier(el,separator,ref,false,elem,pos,sepPol,'b');
 
         Map<ModelElement,RuleElement> choseneltore;
         Map<ModelElement,RuleElement> choseneltoreextra = null;
@@ -868,48 +852,89 @@ public final class LanguageSpecificationFactory implements Serializable {
         }
         RuleElement re = lists.get(l1);
         RuleElement re0 = lists.get(l0);
-        RuleElement rew = lists.get(l0);
+        RuleElement rew = lists.get(lw);
+        RuleElement res = lists.get(ls);
+        RuleElement reb = lists.get(lb);
         Rule r;
         ArrayList<RuleElement> rct;
         int i;
         if (pos == -1) {
+            //L -> E
+            //L -> E L
+            //L0 -> L
+            //L0 -> epsilon
+
 	        if (re == null) {
-	            //L -> E L
-	            //L -> E
 	            ElementId id = new ElementId(ElementType.LIST,el,separator,ref);
 	            re = new RuleElement(id);
 	            lists.put(l1,re);
 	
+	            //L -> E
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
-	            r = new Rule(re,rct,null,lesb);
+	            r = new Rule(re,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+            	        Object[] l = new Object[1];
+            	        l[0] = t.getContents().get(0).getUserData();
+            	        t.setUserData(new ListContents(l));
+            	        return true;
+	                }
+	            });
 	            listRules.add(r);
 	
+	            //L -> E L
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
 	            if (separator!=null)
 	                for (i = 0;i < separator.size();i++)
 	                    rct.add(deltore.get(separator.get(i)));
 	            rct.add(re);
-	            r = new Rule(re,rct,null,lsb);
+	            r = new Rule(re,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    Object[] rest = restContents.getL();
+	                    Object[] l = new Object[rest.length+1];
+	                    l[0] = t.getContents().get(0).getUserData();
+	                    for (int i = 0;i < rest.length;i++)
+	                        l[i+1] = rest[i];
+	                    t.setUserData(new ListContents(l,restContents.getExtra()));;
+	                    return true;
+	                }
+	            });
+	            
 	            listRules.add(r);
 	        }
 	        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
 	            if (re0 == null) {
-	                //L0 -> L
-	                //L0 -> epsilon
 	                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
 	                re0 = new RuleElement(id);
 	                lists.put(l0,re0);
 	
+	                //L0 -> L
 	                rct = new ArrayList<RuleElement>();
 	                rct.add(re);
-	                r = new Rule(re0,rct,null,lasb);
+	                r = new Rule(re0,rct,null,new SymbolBuilder(){
+		                protected static final long serialVersionUID = 31415926535897932L;
+		                public boolean build(Symbol t,Object data) {
+		                    t.setUserData(t.getContents().get(0).getUserData());
+		                    return true;
+		                }
+		            });
 	                listRules.add(r);
-	
+
+	                //L0 -> epsilon
 	                rct = new ArrayList<RuleElement>();
-	                r = new Rule(re0,rct,null,lzsb);
+	                r = new Rule(re0,rct,null,new SymbolBuilder(){
+		                protected static final long serialVersionUID = 31415926535897932L;
+		                public boolean build(Symbol t,Object data) {
+		                    t.setUserData(new ListContents(new Object[0]));
+		                    return true;
+		                }
+		            });
 	                listRules.add(r);
+
 	            }
 	            RuleElement ro = new RuleElementPosition(re0.getType(),ct);
 	            return ro;
@@ -920,13 +945,39 @@ public final class LanguageSpecificationFactory implements Serializable {
 	        }
         }
         else if (pos == Position.BEFORELAST) {
-	        if (re == null) {
-	            //L -> E L
-	            //L -> (sepPolicy) extra E
-	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
-	            re = new RuleElement(id);
-	            lists.put(l1,re);
-	
+        	//L -> E lsep
+        	//L -> (sepPolicy:extra) E
+        	//Lsep -> sep E Lsep
+        	//Lsep -> (sepPolicy:extra) E
+
+	        if (res == null) {
+                ElementId id = new ElementId(ElementType.LISTS,el,separator,ref);
+                res = new RuleElement(id);
+                lists.put(ls,res);
+
+	        	//Lsep -> sep E Lsep
+	            rct = new ArrayList<RuleElement>();
+	            if (separator!=null)
+	                for (i = 0;i < separator.size();i++)
+	                    rct.add(deltore.get(separator.get(i)));
+	            rct.add(choseneltore.get(el));
+	            rct.add(res);
+	            r = new Rule(res,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    Object[] rest = restContents.getL();
+	                    Object[] l = new Object[rest.length+1];
+	                    l[0] = t.getContents().get(t.getContents().size()-2).getUserData();
+	                    for (int i = 0;i < rest.length;i++)
+	                        l[i+1] = rest[i];
+	                    t.setUserData(new ListContents(l,restContents.getExtra()));;
+	                    return true;
+	                }
+	            });
+	            listRules.add(r);
+
+	        	//Lsep -> (sepPolicy:extra) E
 	            rct = new ArrayList<RuleElement>();
 	            switch (sepPol) {
 				case AFTER:
@@ -958,93 +1009,142 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            
 	            }
 	            rct.add(choseneltore.get(el));
-	            r = new Rule(re,rct,null,lesb);
+	            r = new Rule(res,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                	//TODO extra
+            	        Object[] l = new Object[1];
+            	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
+            	        t.setUserData(new ListContents(l));
+            	        return true;
+	                }
+	            });
 	            listRules.add(r);
-	
-	            rct = new ArrayList<RuleElement>();
-	            rct.add(choseneltore.get(el));
-	            if (separator!=null)
-	                for (i = 0;i < separator.size();i++)
-	                    rct.add(deltore.get(separator.get(i)));
-	            rct.add(re);
-	            r = new Rule(re,rct,null,lsb);
-	            listRules.add(r);
+
 	        }
 	        
-	        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
-	            if (re0 == null) {
-	                //L0 -> L
-	                //L0 -> extra
-	                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
-	                re0 = new RuleElement(id);
-	                lists.put(l0,re0);
+	        if (reb == null) {
+	        	
+
+	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
+	            reb = new RuleElement(id);
+	            lists.put(lb,reb);
 	
-	                rct = new ArrayList<RuleElement>();
-	                rct.add(re);
-	                r = new Rule(re0,rct,null,lasb);
-	                listRules.add(r);
-	
-	                rct = new ArrayList<RuleElement>();
+	        	//L -> E lsep
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(choseneltore.get(el));
+	            rct.add(res);
+	            r = new Rule(reb,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    Object[] rest = restContents.getL();
+	                    Object[] l = new Object[rest.length+1];
+	                    l[0] = t.getContents().get(0).getUserData();
+	                    for (int i = 0;i < rest.length;i++)
+	                        l[i+1] = rest[i];
+	                    t.setUserData(new ListContents(l,restContents.getExtra()));
+	                    return true;
+	                }
+	            });
+	            listRules.add(r);
+
+	        	//L -> (sepPolicy:extra) E
+	            rct = new ArrayList<RuleElement>();
+	            switch (sepPol) {
+				case AFTER:
 		            rct.add(choseneltoreextra.get(elem));
-	                r = new Rule(re0,rct,null,lzsb);
-	                listRules.add(r);
+					break;
+				case BEFORE:
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case EXTRA:
+		            rct.add(choseneltoreextra.get(elem));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case REPLACE:
+		            rct.add(choseneltoreextra.get(elem));
+					break;
+				default:
+					break;
+	            
 	            }
-	            RuleElement ro = new RuleElementPosition(re0.getType(),ct);
-	            return ro;
+	            rct.add(choseneltore.get(el));
+	            r = new Rule(reb,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                	//TODO extra
+            	        Object[] l = new Object[1];
+            	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
+            	        t.setUserData(new ListContents(l));
+            	        return true;
+	                }
+	            });
+	            listRules.add(r);
 	        }
-	        else {
-	            RuleElement ro = new RuleElementPosition(re.getType(),ct);
-	            return ro;
-	        }
+            RuleElement ro = new RuleElementPosition(reb.getType(),ct);
+            return ro;
         }
         else { // if (pos == Position.WITHIN) {
+            //L -> E
+            //L -> E L
+        	//Lw -> L (sepPolicy:extra) L
+
 	        if (re == null) {
-	            //L -> E L
-	            //L -> E
 	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
 	            re = new RuleElement(id);
 	            lists.put(l1,re);
 	
+	            //L -> E
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
-	            r = new Rule(re,rct,null,lesb);
+	            r = new Rule(re,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+            	        Object[] l = new Object[1];
+            	        l[0] = t.getContents().get(0).getUserData();
+            	        t.setUserData(new ListContents(l));
+            	        return true;
+	                }
+	            });
 	            listRules.add(r);
-	
+
+	            //L -> E L
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
 	            if (separator!=null)
 	                for (i = 0;i < separator.size();i++)
 	                    rct.add(deltore.get(separator.get(i)));
 	            rct.add(re);
-	            r = new Rule(re,rct,null,lsb);
+	            r = new Rule(re,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    Object[] rest = restContents.getL();
+	                    Object[] l = new Object[rest.length+1];
+	                    l[0] = t.getContents().get(0).getUserData();
+	                    for (int i = 0;i < rest.length;i++)
+	                        l[i+1] = rest[i];
+	                    t.setUserData(new ListContents(l,restContents.getExtra()));;
+	                    return true;
+	                }
+	            });
 	            listRules.add(r);
+
 	        }
-	        
-            if (re0 == null) {
-                //L0 -> L
-                //L0 -> extra
-                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
-                re0 = new RuleElement(id);
-                lists.put(l0,re0);
-
-                rct = new ArrayList<RuleElement>();
-                rct.add(re);
-                r = new Rule(re0,rct,null,lasb);
-                listRules.add(r);
-
-                rct = new ArrayList<RuleElement>();
-	            rct.add(choseneltoreextra.get(elem));
-                r = new Rule(re0,rct,null,lzsb);
-                listRules.add(r);
-            }
         	if (rew == null) {
-	        	//L -> L0 extra L0
+	        	//Lw -> L (sepPolicy:extra) L
 	            ElementId id = new ElementId(ElementType.LISTWITHIN,el,separator,ref);
 	            rew = new RuleElement(id);
-	            lists.put(l1,rew);
+	            lists.put(lw,rew);
 	
 	            rct = new ArrayList<RuleElement>();
-	            rct.add(re0);
+	            rct.add(re);
 	            switch (sepPol) {
 				case AFTER:
 		            if (separator!=null)
@@ -1074,10 +1174,24 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 	            
 	            }
-	            rct.add(re0);
-	            r = new Rule(rew,rct,null,lesb);
+	            rct.add(re);
+	            r = new Rule(rew,rct,null,new SymbolBuilder(){
+	                protected static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                	//TODO extra
+	        	        ListContents l0 = (ListContents)t.getContents().get(0).getUserData();
+				        ListContents l1 = (ListContents)t.getContents().get(t.getContents().size()-1).getUserData();
+				        Object[] l = new Object[l0.getL().length+l1.getL().length];
+				        Object[] rest = l0.getL();
+				        for (int i = 0;i < rest.length;i++)
+				            l[i] = rest[i];
+				        rest = l1.getL();
+				        for (int i = 0;i < rest.length;i++)
+				            l[i+l0.getL().length] = rest[i];
+				        return true;
+	                }
+	            });
 	            listRules.add(r);
-	
 	        }
 
             RuleElement ro = new RuleElementPosition(rew.getType(),ct);

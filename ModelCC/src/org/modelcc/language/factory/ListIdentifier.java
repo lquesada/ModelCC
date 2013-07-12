@@ -36,8 +36,10 @@ public class ListIdentifier {
     private int extraPosition;
     
     private SeparatorPolicy extraSeparatorPolicy;
+    
+    private char type;
 
-    public ListIdentifier(ModelElement element,List<PatternRecognizer> separator,boolean ref,boolean zero,ModelElement extra,int extraPosition,SeparatorPolicy extraSeparatorPolicy) {
+    public ListIdentifier(ModelElement element,List<PatternRecognizer> separator,boolean ref,boolean zero,ModelElement extra,int extraPosition,SeparatorPolicy extraSeparatorPolicy,char type) {
     	this.element = element;
     	this.separator = separator;
     	this.ref = ref;
@@ -45,6 +47,7 @@ public class ListIdentifier {
     	this.extra = extra;
     	this.extraPosition = extraPosition;
     	this.extraSeparatorPolicy = extraSeparatorPolicy;
+    	this.type = type;
     }
     
 	public ModelElement getElement() {
@@ -75,6 +78,10 @@ public class ListIdentifier {
 		return extraSeparatorPolicy;
 	}
 
+	public char getType() {
+		return type;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,6 +96,7 @@ public class ListIdentifier {
 		result = prime * result + (ref ? 1231 : 1237);
 		result = prime * result
 				+ ((separator == null) ? 0 : separator.hashCode());
+		result = prime * result + type;
 		result = prime * result + (zero ? 1231 : 1237);
 		return result;
 	}
@@ -122,6 +130,8 @@ public class ListIdentifier {
 			if (other.separator != null)
 				return false;
 		} else if (!separator.equals(other.separator))
+			return false;
+		if (type != other.type)
 			return false;
 		if (zero != other.zero)
 			return false;

@@ -18,7 +18,7 @@ public abstract class SymbolBuilder implements Serializable {
     /**
      * Serial Version ID
      */
-    private static final long serialVersionUID = 31415926535897932L;
+    protected static final long serialVersionUID = 31415926535897932L;
 
     /**
      * Builds a symbol, filling its data, and validates it.
