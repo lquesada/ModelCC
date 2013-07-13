@@ -238,24 +238,14 @@ public final class LanguageSpecificationFactory implements Serializable {
                     	if (posInfo.contains(Position.BEFORE)) {
                     		processBefore(newNodes,curNodes,source,target);
                     	}
-                    	else if (posInfo.contains(Position.AFTER)) {
+                    	if (posInfo.contains(Position.AFTER)) {
                     		processAfter(newNodes,curNodes,source,target);
                     	}
-
-                    	else if (posInfo.contains(Position.EXTREME)) {
-                    		processBefore(newNodes,curNodes,source,target);
-                    		processAfter(newNodes,curNodes,source,target);
-                    	}
-                    	else if (posInfo.contains(Position.WITHIN)) {
+                    	if (posInfo.contains(Position.WITHIN)) {
                     		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
                     	}
                     	else if (posInfo.contains(Position.BEFORELAST)) {
                     		processInside(newNodes,curNodes,source,target,Position.BEFORELAST,posInfo.getSeparatorPolicy());
-                    	}
-                    	else if (posInfo.contains(Position.AROUND)) {
-                    		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
-                    		processBefore(newNodes,curNodes,source,target);
-                    		processAfter(newNodes,curNodes,source,target);
                     	}
                     }
                     nodes = newNodes;
@@ -1163,7 +1153,10 @@ public final class LanguageSpecificationFactory implements Serializable {
             //L -> E
             //L -> E L
         	//Lw -> L (sepPolicy:extra) L
-
+        	//Lw -> (sepPolicy:extra) L
+        	//Lw -> L (sepPolicy:extra)
+        	//Lw -> (sepPolicy:extra)
+        	
 	        if (re == null) {
 	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
 	            re = new RuleElement(id);
@@ -1293,7 +1286,162 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                }
 	            });
 	            listRules.add(r);
-	        }
+
+	        	//Lw -> (sepPolicy:extra) L
+	            rct = new ArrayList<RuleElement>();
+	            switch (extraSepPol) {
+				case AFTER:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+					break;
+				case BEFORE:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case EXTRA:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case REPLACE:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+					break;
+				default:
+					break;
+	            
+	            }
+	            rct.add(re);
+	            r = new Rule(rew,rct,null,new SymbolBuilder(){
+	                private static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    Object[] rest = restContents.getL();
+            	        Symbol extra = null;
+            	        RuleElementPosition extraRuleElement = null;
+            	        for (int i = 0;i <= t.getContents().size()-2;i++) {
+            	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
+            	        		extra = t.getContents().get(i);
+            	        		extraRuleElement = (RuleElementPosition)t.getElements().get(i);
+            	        	}
+            	        }
+            	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+				        return true;
+	                }
+	            });
+	            listRules.add(r);
+
+
+	        	//Lw -> L (sepPolicy:extra)
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(re);
+	            switch (extraSepPol) {
+				case AFTER:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+					break;
+				case BEFORE:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case EXTRA:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+		            if (separator!=null)
+		                for (i = 0;i < separator.size();i++)
+		                    rct.add(deltore.get(separator.get(i)));
+					break;
+				case REPLACE:
+		            if (extraPrefix!=null)
+		                for (i = 0;i < extraPrefix.size();i++)
+		                    rct.add(deltore.get(extraPrefix.get(i)));
+		            rct.add(extraRe);
+		            if (extraSuffix!=null)
+		                for (i = 0;i < extraSuffix.size();i++)
+		                    rct.add(deltore.get(extraSuffix.get(i)));
+					break;
+				default:
+					break;
+	            
+	            }
+	            r = new Rule(rew,rct,null,new SymbolBuilder(){
+	                private static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    ListContents restContents = (ListContents) t.getContents().get(0).getUserData();
+	                    Object[] rest = restContents.getL();
+            	        Symbol extra = null;
+            	        RuleElementPosition extraRuleElement = null;
+            	        for (int i = 1;i <= t.getContents().size()-1;i++) {
+            	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
+            	        		extra = t.getContents().get(i);
+            	        		extraRuleElement = (RuleElementPosition)t.getElements().get(i);
+            	        	}
+            	        }
+            	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+				        return true;
+	                }
+	            });
+	            listRules.add(r);
+	            
+	        	//Lw -> (sepPolicy:extra)
+	            rct = new ArrayList<RuleElement>();
+	            rct.add(extraRe);
+	            r = new Rule(rew,rct,null,new SymbolBuilder(){
+	                private static final long serialVersionUID = 31415926535897932L;
+	                public boolean build(Symbol t,Object data) {
+	                    Object[] rest = new Object[0];
+    	        		Symbol extra = t.getContents().get(0);
+    	        		RuleElementPosition extraRuleElement = (RuleElementPosition)t.getElements().get(0);
+            	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+				        return true;
+	                }
+	            });
+	            listRules.add(r);
+
+        	}
 
             RuleElement ro = new RuleElementPosition(rew.getType(),ct);
             return ro;

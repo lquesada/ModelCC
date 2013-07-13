@@ -13,7 +13,7 @@ import org.modelcc.*;
  */
 public class WrongClassPosition7 implements IModel {
 
-	@Minimum(0)
+	@Optional
 	OKClass[] a;
 	
 	@Position(element="a",position=Position.BEFORELAST,separatorPolicy=SeparatorPolicy.REPLACE)

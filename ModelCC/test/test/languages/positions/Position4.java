@@ -18,7 +18,7 @@ public class Position4 implements IModel {
 	@Optional
 	public C c;
 	
-	@Position(element="a",position=Position.EXTREME)
+	@Position(element="a",position={Position.BEFORE,Position.AFTER})
 	public B b;
     
 }

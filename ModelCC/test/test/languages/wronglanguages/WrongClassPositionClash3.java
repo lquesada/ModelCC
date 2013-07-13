@@ -19,7 +19,7 @@ public class WrongClassPositionClash3 implements IModel {
 	@Position(element="a",position=Position.AFTER,separatorPolicy=SeparatorPolicy.REPLACE)
 	OKClass c;
 	
-	@Position(element="a",position=Position.EXTREME,separatorPolicy=SeparatorPolicy.REPLACE)
+	@Position(element="a",position={Position.BEFORE,Position.AFTER},separatorPolicy=SeparatorPolicy.REPLACE)
 	OKClass2 b;
 	
 }

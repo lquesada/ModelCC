@@ -963,8 +963,9 @@ public class LanguageSpecificationFactoryTest {
     public void PositionTest5() {
         assertEquals(1,testFull("ACBCCCC",Position5.class).size());
         assertEquals(1,testFull("ACCCCBC",Position5.class).size());
-        assertEquals(0,testFull("ACCCCCB",Position5.class).size());
-        assertEquals(0,testFull("ABCCCCC",Position5.class).size());
+        assertEquals(1,testFull("ACCCCCB",Position5.class).size());
+        assertEquals(1,testFull("ABCCCCC",Position5.class).size());
+        assertEquals(0,testFull("BACCCCC",Position5.class).size());
         Position5 o = (Position5) testFull("A22C1B12C2C3",Position5.class).iterator().next();
         assertEquals("B12",o.b.value);
         assertEquals("A22",o.a.value);
@@ -990,8 +991,8 @@ public class LanguageSpecificationFactoryTest {
     public void PositionTest7() {
         assertEquals(1,testFull("ACCCCBC",Position7.class).size());
         assertEquals(1,testFull("ACBCCCC",Position7.class).size());
-        assertEquals(1,testFull("ACCCCCB",Position7.class).size());
-        assertEquals(1,testFull("ABCCCCC",Position7.class).size());
+        assertEquals(2,testFull("ACCCCCB",Position7.class).size());
+        assertEquals(2,testFull("ABCCCCC",Position7.class).size());
         assertEquals(0,testFull("BACCCCC",Position7.class).size());
     }
 
@@ -1069,8 +1070,8 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACxyCxyCxyCxyzBwC",Position17.class).size());
         assertEquals(1,testFull("ACxyCxyzBwCxyCxyC",Position17.class).size());
         assertEquals(1,testFull("ACxyzBwCxyCxyCxyC",Position17.class).size());
-        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position17.class).size());
-        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position17.class).size());
+        assertEquals(2,testFull("AzBwCxyCxyCxyCxyC",Position17.class).size());
+        assertEquals(2,testFull("ACxyCxyCxyCxyCzBw",Position17.class).size());
     }    
 
     @Test
@@ -1080,6 +1081,8 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACzBwxyCxyCxyCxyC",Position18.class).size());
         assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position18.class).size());
         assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position18.class).size());
+        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position18.class).size());
+        assertEquals(1,testFull("AzBwxyCxyCxyCxyCxyC",Position18.class).size());
     }    
 
     @Test
@@ -1087,8 +1090,9 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACxyCxyCxyCzBwC",Position19.class).size());
         assertEquals(1,testFull("ACxyCzBwCxyCxyC",Position19.class).size());
         assertEquals(1,testFull("ACzBwCxyCxyCxyC",Position19.class).size());
-        assertEquals(1,testFull("AzBwCxyCxyCxyCxyC",Position19.class).size());
-        assertEquals(1,testFull("ACxyCxyCxyCxyCzBw",Position19.class).size());
+        assertEquals(2,testFull("AzBwCxyCxyCxyCxyC",Position19.class).size());
+        assertEquals(2,testFull("ACxyCxyCxyCxyCzBw",Position19.class).size());
+        assertEquals(0,testFull("AzBwxyCxyCxyCxyCxyC",Position19.class).size());
     }    
 
     @Test

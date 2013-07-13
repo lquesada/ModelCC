@@ -17,7 +17,7 @@ public class Position7 implements IModel {
 
 	public C[] c;
 	
-	@Position(element="c",position=Position.AROUND)
+	@Position(element="c",position={Position.BEFORE,Position.AFTER,Position.WITHIN})
 	public B b;
     
 }

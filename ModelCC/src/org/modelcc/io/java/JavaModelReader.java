@@ -202,24 +202,18 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to the same field.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (MultipleElementMember.class.isAssignableFrom(thisElement.getClass()) &&
-		            			(positionContains(positionTag.position(),Position.AROUND)||positionContains(positionTag.position(),Position.WITHIN))) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list and have AROUND or WITHIN values.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            			(positionContains(positionTag.position(),Position.BEFORELAST)||positionContains(positionTag.position(),Position.WITHIN))) {
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list and have BEFORELAST or WITHIN values.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (!MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) &&
-		            			(positionContains(positionTag.position(),Position.AROUND)||positionContains(positionTag.position(),Position.WITHIN))) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to AROUND or WITHIN a non-list element.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		            			(positionContains(positionTag.position(),Position.BEFORELAST)||positionContains(positionTag.position(),Position.WITHIN))) {
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to BEFORELAST or WITHIN a non-list element.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (otherField.isAnnotationPresent(Position.class)) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Position.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (otherElement.isOptional()) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Optional.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
-		            	}
-		            	else if (positionContains(positionTag.position(),Position.BEFORELAST) && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
-	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have BEFORELAST value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
-		            	}
-		            	else if (positionContains(positionTag.position(),Position.WITHIN) && MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) && ((MultipleElementMember)otherElement).getMinimumMultiplicity()==0) {
-	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list with a minimum of 0 elements and have WITHIN value.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
 		            	}
 		            	else if (!compatible(field,fl)) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
@@ -253,12 +247,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	            	if (positionTag.element()==otherPositionTag.element()) {
 
 	            		  if (
-	            				  (positionContains(positionTag.position(),Position.BEFORE) &&  (positionContains(otherPositionTag.position(),Position.BEFORE) || positionContains(otherPositionTag.position(),Position.EXTREME) || positionContains(otherPositionTag.position(),Position.AROUND))) ||
-	            				  (positionContains(positionTag.position(),Position.AFTER) &&  (positionContains(otherPositionTag.position(),Position.AFTER) || positionContains(otherPositionTag.position(),Position.EXTREME) || positionContains(otherPositionTag.position(),Position.AROUND))) ||
-	            				  (positionContains(positionTag.position(),Position.WITHIN) &&  (positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST) || positionContains(otherPositionTag.position(),Position.AROUND))) ||
-	            				  (positionContains(positionTag.position(),Position.EXTREME) &&  (positionContains(otherPositionTag.position(),Position.BEFORE) || positionContains(otherPositionTag.position(),Position.AFTER) || positionContains(otherPositionTag.position(),Position.EXTREME) || positionContains(otherPositionTag.position(),Position.AROUND))) ||
-	            				  (positionContains(positionTag.position(),Position.BEFORELAST) &&  (positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST) || positionContains(otherPositionTag.position(),Position.AROUND))) ||
-	            				  (positionContains(positionTag.position(),Position.AROUND) &&  (positionContains(otherPositionTag.position(),Position.BEFORE) || positionContains(otherPositionTag.position(),Position.AFTER) || positionContains(otherPositionTag.position(),Position.EXTREME) || positionContains(otherPositionTag.position(),Position.AROUND) || positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST)))
+	            				  (positionContains(positionTag.position(),Position.BEFORE) &&  (positionContains(otherPositionTag.position(),Position.BEFORE))) ||
+	            				  (positionContains(positionTag.position(),Position.AFTER) &&  (positionContains(otherPositionTag.position(),Position.AFTER))) ||
+	            				  (positionContains(positionTag.position(),Position.WITHIN) &&  (positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST))) ||
+	            				  (positionContains(positionTag.position(),Position.BEFORELAST) &&  (positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST)))
 	            			)
 	            			  return false;
 	            			  

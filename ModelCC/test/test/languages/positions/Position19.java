@@ -19,7 +19,7 @@ public class Position19 implements IModel {
 	@Separator(value={"x","y"})
 	public C[] c;
 	
-	@Position(element="c",position=Position.AROUND,separatorPolicy=SeparatorPolicy.REPLACE)
+	@Position(element="c",position={Position.BEFORE,Position.AFTER,Position.WITHIN},separatorPolicy=SeparatorPolicy.REPLACE)
 	@Prefix("z")
 	@Suffix("w")
 	public B b;
