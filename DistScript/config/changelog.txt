@@ -1,4 +1,11 @@
 -----------------------------
+ModelCC v2.08    (2013-07-13)
+-----------------------------
+
++ [FEATURE] @Position annotation.
++ [CHANGE] Language Specification Factory reengineered to support more complex constructions.
+
+-----------------------------
 ModelCC v2.07    (2013-06-17)
 -----------------------------
 
@@ -38,9 +45,9 @@ ModelCC v2.04    (2013-06-07)
 ModelCC v2.03    (2013-05-28)
 -----------------------------
 
++ [FEATURE] Convenience methods provided in ParserFactory and LexerFactory.
 + [CHANGE] ParserGenerator is now called ParserFactory.
 + [CHANGE] LexerGenerator is now called LexerFactory.
-+ [FEATURE] Convenience methods provided in ParserFactory and LexerFactory.
 + [FIX] Patterns can now match the empty string.
 + [FIX] Patterns can now be the empty string.
 
@@ -48,10 +55,10 @@ ModelCC v2.03    (2013-05-28)
 ModelCC v2.02    (2013-05-25)
 -----------------------------
 
-+ [CHANGE] ModelCC is now published at GitHub.
-+ [CHANGE] ModelCC is now provided as an Eclipse project.
 + [FEATURE] Distribution script provided.
 + [FEATURE] Added GraphDraw3D example language.
++ [CHANGE] ModelCC is now published at GitHub.
++ [CHANGE] ModelCC is now provided as an Eclipse project.
 + [FIX] Containers with a minimum of 0 components could cause a parser exception.
 + [FIX] Reference post-propagation in alternations could cause a parser exception.
 + [FIX] Lamb and Fence ignored unexpected characters at the beginning and end of the input.
@@ -175,16 +182,15 @@ ModelCC v1.01    (2011-11-14)
 + [FEATURE] ModelCCExamples application added to the distribution.
 + [FEATURE] CLI added to the ModelCCExamples library.
 + [FEATURE] SimpleArithmeticExpression added to ModelCCExamples.
++ [CHANGE] org.modelcc.patternrecognizer -> org.modelcc.lexer.recognizer.
++ [CHANGE] org.modelcc.patternrecognizer.regexppatternrecognizer -> org.modelcc.lexer.recognizer.regexp.
++ [CHANGE] org.modelcc.language.lexicalspecification -> org.modelcc.language.lexis.
++ [CHANGE] org.modelcc.language.syntacticspecification -> org.modelcc.language.syntax.
++ [CHANGE] org.modelcc.lexer.recognizer.Match -> org.modelcc.lexer.recognizer.MatchedObject.
++ [CHANGE] org.modelcc.lexer.lamb.SyntaxGraphLexer -> org.modelcc.lexer.Lexer.
++ [CHANGE] alternation precedence -> selection precedence.
 + [FIX] Methods annotated with @Autorun were run several times.
 + [FIX] Fixed Run-Time Subclass Identification on Java Model Reader not working with Jar files.
-+ [RENAME] org.modelcc.patternrecognizer -> org.modelcc.lexer.recognizer.
-+ [RENAME] org.modelcc.patternrecognizer.regexppatternrecognizer -> org.modelcc.lexer.recognizer.regexp.
-+ [RENAME] org.modelcc.language.lexicalspecification -> org.modelcc.language.lexis.
-+ [RENAME] org.modelcc.language.syntacticspecification -> org.modelcc.language.syntax.
-+ [RENAME] org.modelcc.lexer.recognizer.Match -> org.modelcc.lexer.recognizer.MatchedObject.
-+ [RENAME] org.modelcc.lexer.lamb.SyntaxGraphLexer -> org.modelcc.lexer.Lexer.
-+ [RENAME] alternation precedence -> selection precedence.
-
 
 -----------------------------
 ModelCC v1.00    (2011-08-27)
