@@ -233,6 +233,7 @@ public class ModelCCExamplesWindow extends JFrame {
 						node_1.add(new InfoMutableTreeNode("Helix",lang,langName,langInfo,2));
 						node_1.add(new InfoMutableTreeNode("Big Helix",lang,langName,langInfo,3));
 						node_1.add(new InfoMutableTreeNode("PalmTree",lang,langName,langInfo,4));
+						node_1.add(new InfoMutableTreeNode("ModelCC Logo",lang,langName,langInfo,5));
 					add(node_1);
 				}
 			}

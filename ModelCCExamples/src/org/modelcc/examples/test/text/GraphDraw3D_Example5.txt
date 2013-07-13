@@ -1,0 +1,65 @@
+define bar {
+  translate x 5
+  scale x 11
+  draw cube
+}
+
+scene {
+  translate x 2 y -5 z -17
+  color blue 1
+  draw bar
+  {
+    rotate z 1 angle 90
+    draw bar
+  }
+  {
+    rotate y 1 angle -90
+    draw bar
+  }
+  translate z 10
+  {
+    rotate z 1 angle 90
+    draw bar
+  }
+  {
+    rotate x 1 angle -90
+    draw bar
+  }
+  translate x 10
+  {
+    rotate z 1 angle 90
+    draw bar
+  }
+  {
+    rotate y 1 angle 90
+    draw bar
+  }
+  translate z -10
+  {
+    rotate z 1 angle 90
+    draw bar
+  }
+  translate y 10
+  {
+    rotate y 1 angle -90
+    draw bar
+  }
+  {
+    rotate y 1 angle -180
+    draw bar
+  }
+  translate x -10 z 10
+  {
+    draw bar
+  }
+  {
+    rotate y 1 angle 90
+    draw bar
+  }
+  translate x 5 z -5 y -5
+  color blue 1 green 0.5 red 0.5
+  {
+    scale 9
+    draw sphere
+  }
+}
