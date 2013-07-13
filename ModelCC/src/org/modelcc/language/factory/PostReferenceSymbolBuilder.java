@@ -212,11 +212,11 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
         if (t.equals(updated))
             return;
         Object tData = t.getUserData();
-        if (tData.getClass().equals(ListContents.class)) { //TODO esto añadido
+        if (tData.getClass().equals(ListContents.class)) {
         	tData = ((ListContents)tData).getL();
         }
         Object uData = updated.getUserData();
-        if (uData.getClass().equals(ListContents.class)) { //TODO esto añadido
+        if (uData.getClass().equals(ListContents.class)) {
         	uData = ((ListContents)uData).getL();
         }
 
