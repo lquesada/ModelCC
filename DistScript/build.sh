@@ -380,7 +380,7 @@ cp -rf ModelCCExamples $exdirs
 mv UserManual.pdf $um
 cp ModelCC.jar $um $mcdirb
 mv doc $mcdirb
-mv ModelCC.jar ModelCCExamples.jar ModelCCExamples_lib $exdirb
+mv ModelCCExamples.jar ModelCCExamples_lib $exdirb
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirs
 cp config/changelog.txt res/license.txt res/readme.txt $mcdirb
 cp config/changelog.txt res/license.txt res/readme.txt $exdirb
