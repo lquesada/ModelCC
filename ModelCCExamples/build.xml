@@ -10,6 +10,7 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
+    <property name="bootclasspath" value="${JAVA_HOME}/jre/lib/rt.jar"/>
     <path id="JUnit 4.libraryclasspath">
         <pathelement location="../lib/junit.jar"/>
         <pathelement location="../lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
@@ -56,7 +57,7 @@
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" bootclasspath="${bootclasspath}">
             <src path="src"/>
             <src path="test"/>
             <classpath refid="ModelCCExamples.classpath"/>
