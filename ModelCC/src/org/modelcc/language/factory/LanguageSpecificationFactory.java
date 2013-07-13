@@ -823,17 +823,27 @@ public final class LanguageSpecificationFactory implements Serializable {
         ModelElement extraElem;
     	int extraPos;
     	SeparatorPolicy extraSepPol;
+    	RuleElementPosition extraRe;
+        Map<ModelElement,RuleElement> choseneltoreextra;
         if (cm == null) {
         	extraElem = null;
         	extraPos = -1;
         	extraSepPol = null;
+        	extraRe = null;
+        	choseneltoreextra = null;
         }
         else {
+	        if (cm.getContent().isReference())
+	        	choseneltoreextra = eltoreref;
+	        else
+	        	choseneltoreextra = eltore;
+
         	extraElem = m.getClassToElement().get(cm.getContent().getElementClass());
         	extraPos = cm.getPosition();
         	extraSepPol = cm.getSeparatorPolicy();
         	extraPrefix = cm.getContent().getPrefix();
-        	extraSuffix = cm.getContent().getSuffix(); 
+        	extraSuffix = cm.getContent().getSuffix();
+        	extraRe = new RuleElementPosition(choseneltoreextra.get(extraElem).getType(),cm.getContent());
         }
         ListIdentifier l1 = new ListIdentifier(el,separator,ref,false,extraElem,extraPos,extraSepPol,'1');
         ListIdentifier l0 = new ListIdentifier(el,separator,ref,true,extraElem,extraPos,extraSepPol,'0');
@@ -842,18 +852,11 @@ public final class LanguageSpecificationFactory implements Serializable {
         ListIdentifier lb = new ListIdentifier(el,separator,ref,false,extraElem,extraPos,extraSepPol,'b');
 
         Map<ModelElement,RuleElement> choseneltore;
-        Map<ModelElement,RuleElement> choseneltoreextra = null;
         
         if (ref)
         	choseneltore = eltoreref;
         else
         	choseneltore = eltore;
-        if (cm != null) { 
-	        if (cm.getContent().isReference())
-	        	choseneltoreextra = eltoreref;
-	        else
-	        	choseneltoreextra = eltore;
-        }
         RuleElement re = lists.get(l1);
         RuleElement re0 = lists.get(l0);
         RuleElement rew = lists.get(lw);
@@ -991,7 +994,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1000,7 +1003,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1015,7 +1018,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1027,7 +1030,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1040,10 +1043,17 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(res,rct,null,new SymbolBuilder(){
 	                protected static final long serialVersionUID = 31415926535897932L;
 	                public boolean build(Symbol t,Object data) {
-	                	//TODO extra
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
-            	        t.setUserData(new ListContents(l));
+            	        Symbol extra = null;
+            	        RuleElement extraRuleElement = null;
+            	        for (int i = 0;i <= t.getContents().size()-2;i++) {
+            	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
+            	        		extra = t.getContents().get(i);
+            	        		extraRuleElement = t.getElements().get(i);
+            	        	}
+            	        }
+            	        t.setUserData(new ListContents(l,extra,extraRuleElement));
             	        return true;
 	                }
 	            });
@@ -1084,7 +1094,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1093,7 +1103,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1105,7 +1115,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1117,7 +1127,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1130,10 +1140,17 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(reb,rct,null,new SymbolBuilder(){
 	                protected static final long serialVersionUID = 31415926535897932L;
 	                public boolean build(Symbol t,Object data) {
-	                	//TODO extra
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
-            	        t.setUserData(new ListContents(l));
+            	        Symbol extra = null;
+            	        RuleElement extraRuleElement = null;
+            	        for (int i = 0;i <= t.getContents().size()-2;i++) {
+            	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
+            	        		extra = t.getContents().get(i);
+            	        		extraRuleElement = t.getElements().get(i);
+            	        	}
+            	        }
+            	        t.setUserData(new ListContents(l,extra,extraRuleElement));
             	        return true;
 	                }
 	            });
@@ -1205,7 +1222,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1214,7 +1231,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1229,7 +1246,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1241,7 +1258,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		            if (extraPrefix!=null)
 		                for (i = 0;i < extraPrefix.size();i++)
 		                    rct.add(deltore.get(extraPrefix.get(i)));
-		            rct.add(choseneltoreextra.get(extraElem));
+		            rct.add(extraRe);
 		            if (extraSuffix!=null)
 		                for (i = 0;i < extraSuffix.size();i++)
 		                    rct.add(deltore.get(extraSuffix.get(i)));
@@ -1254,7 +1271,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                protected static final long serialVersionUID = 31415926535897932L;
 	                public boolean build(Symbol t,Object data) {
-	                	//TODO extra
 	        	        ListContents l0 = (ListContents)t.getContents().get(0).getUserData();
 				        ListContents l1 = (ListContents)t.getContents().get(t.getContents().size()-1).getUserData();
 				        Object[] l = new Object[l0.getL().length+l1.getL().length];
@@ -1264,7 +1280,15 @@ public final class LanguageSpecificationFactory implements Serializable {
 				        rest = l1.getL();
 				        for (int i = 0;i < rest.length;i++)
 				            l[i+l0.getL().length] = rest[i];
-	                    t.setUserData(new ListContents(l));
+            	        Symbol extra = null;
+            	        RuleElement extraRuleElement = null;
+            	        for (int i = 1;i <= t.getContents().size()-2;i++) {
+            	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
+            	        		extra = t.getContents().get(i);
+            	        		extraRuleElement = t.getElements().get(i);
+            	        	}
+            	        }
+            	        t.setUserData(new ListContents(l,extra,extraRuleElement));
 				        return true;
 	                }
 	            });
