@@ -52,6 +52,7 @@ import test.languages.positions.Position8;
 import test.languages.positions.Position8;
 import test.languages.positions.Position9;
 import test.languages.positions.PositionFree1;
+import test.languages.positions.PositionRef1;
 
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
@@ -1105,6 +1106,19 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACCCCBC",PositionFree1.class).size());
         assertEquals(1,testFull("CCBCA",PositionFree1.class).size());
         assertEquals(1,testFull("CCCCBCA",PositionFree1.class).size());
+    }    
+
+    @Test
+    public void PositionRefTest1() {
+        assertEquals(1,testFull("ID1A1 ID2A2   ID2 ID2 aID1 ID1",PositionRef1.class).size());
+        PositionRef1 o = (PositionRef1) testFull("ID1A1 ID2A2   ID2 ID2 aID1 ID1",PositionRef1.class).iterator().next();
+        assertEquals("A1",o.objects[0].content.value);
+        assertEquals("A2",o.objects[1].content.value);
+        assertEquals(o.objects[1],o.reflist[0]);
+        assertEquals(o.objects[1],o.reflist[1]);
+        assertEquals(o.objects[0],o.reflist[2]);
+        assertEquals(o.objects[0],o.ref);
+
     }    
 }
 
