@@ -964,6 +964,12 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,testFull("ACCCCBC",Position5.class).size());
         assertEquals(0,testFull("ACCCCCB",Position5.class).size());
         assertEquals(0,testFull("ABCCCCC",Position5.class).size());
+        Position5 o = (Position5) testFull("A22C1B12C2C3",Position5.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertEquals("C1",o.c[0].value);
+        assertEquals("C2",o.c[1].value);
+        assertEquals("C3",o.c[2].value);
     }
 
     @Test
@@ -972,7 +978,12 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0,testFull("ACBCCCC",Position6.class).size());
         assertEquals(0,testFull("ACCCCCB",Position6.class).size());
         assertEquals(0,testFull("ABCCCCC",Position6.class).size());
-    }
+        Position5 o = (Position5) testFull("A22C1B12C2",Position5.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertEquals("C1",o.c[0].value);
+        assertEquals("C2",o.c[1].value);
+        }
 
     @Test
     public void PositionTest7() {
