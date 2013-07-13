@@ -92,7 +92,17 @@ public final class ReferenceSymbolBuilder extends SymbolBuilder implements Seria
                             MultipleElementMember mc = (MultipleElementMember)ct;
                             ListContents listContents = (ListContents) s.getUserData();
                             listData = listContents.getL();
-                            //TODO extra
+                            Symbol extra = listContents.getExtra();
+                            RuleElementPosition extraRe = listContents.getExtraRuleElement();
+                            if (extraRe != null) {
+	                            ElementMember extraCt = (ElementMember)extraRe.getPositionId();
+	                            Field extraFld = c.getDeclaredField(extraCt.getField());
+	                            filled.add(extraFld);
+	                            if (extraFld != null) {
+	                            	extraFld.setAccessible(true);
+	                            	extraFld.set(o,extra.getUserData());
+	                            }
+                            }
                             if (mc.getMinimumMultiplicity() != -1) {
                                 if (listData.length<mc.getMinimumMultiplicity())
                                     valid = false;
