@@ -8,6 +8,7 @@ package org.modelcc.language.factory;
 import java.util.List;
 
 import org.modelcc.language.syntax.RuleElement;
+import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.parser.fence.Symbol;
 
 /**
@@ -26,15 +27,9 @@ public class ListContents {
     
     Symbol extra;
     
-    RuleElement extraRuleElement;
+    RuleElementPosition extraRuleElement;
 
-    //TODO quita esto
-    public ListContents(Object[] l,Symbol extra) {
-    	this.l = l;
-    	this.extra = extra;
-    }
-    
-    public ListContents(Object[] l,Symbol extra,RuleElement extraRuleElement) {
+    public ListContents(Object[] l,Symbol extra,RuleElementPosition extraRuleElement) {
     	this.l = l;
     	this.extra = extra;
     	this.extraRuleElement = extraRuleElement;
@@ -52,7 +47,7 @@ public class ListContents {
     	return extra;
     }
 
-    public RuleElement getExtraRuleElement() {
+    public RuleElementPosition getExtraRuleElement() {
     	return extraRuleElement;
     }
 }

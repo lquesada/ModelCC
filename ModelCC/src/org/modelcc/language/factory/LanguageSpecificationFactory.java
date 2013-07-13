@@ -906,7 +906,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
-	                    t.setUserData(new ListContents(l,restContents.getExtra()));
+	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
 	                    return true;
 	                }
 	            });
@@ -978,7 +978,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    l[0] = t.getContents().get(t.getContents().size()-2).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
-	                    t.setUserData(new ListContents(l,restContents.getExtra()));
+	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
 	                    return true;
 	                }
 	            });
@@ -1046,11 +1046,11 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
             	        Symbol extra = null;
-            	        RuleElement extraRuleElement = null;
+            	        RuleElementPosition extraRuleElement = null;
             	        for (int i = 0;i <= t.getContents().size()-2;i++) {
             	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
             	        		extra = t.getContents().get(i);
-            	        		extraRuleElement = t.getElements().get(i);
+            	        		extraRuleElement = (RuleElementPosition)t.getElements().get(i);
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
@@ -1081,7 +1081,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
-	                    t.setUserData(new ListContents(l,restContents.getExtra()));
+	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
 	                    return true;
 	                }
 	            });
@@ -1143,11 +1143,11 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
             	        Symbol extra = null;
-            	        RuleElement extraRuleElement = null;
+            	        RuleElementPosition extraRuleElement = null;
             	        for (int i = 0;i <= t.getContents().size()-2;i++) {
             	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
             	        		extra = t.getContents().get(i);
-            	        		extraRuleElement = t.getElements().get(i);
+            	        		extraRuleElement = (RuleElementPosition)t.getElements().get(i);
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
@@ -1199,7 +1199,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
-	                    t.setUserData(new ListContents(l,restContents.getExtra()));
+	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
 	                    return true;
 	                }
 	            });
@@ -1281,11 +1281,11 @@ public final class LanguageSpecificationFactory implements Serializable {
 				        for (int i = 0;i < rest.length;i++)
 				            l[i+l0.getL().length] = rest[i];
             	        Symbol extra = null;
-            	        RuleElement extraRuleElement = null;
+            	        RuleElementPosition extraRuleElement = null;
             	        for (int i = 1;i <= t.getContents().size()-2;i++) {
             	        	if (!PatternRecognizer.class.isAssignableFrom(t.getContents().get(i).getType().getClass())) {
             	        		extra = t.getContents().get(i);
-            	        		extraRuleElement = t.getElements().get(i);
+            	        		extraRuleElement = (RuleElementPosition)t.getElements().get(i);
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
