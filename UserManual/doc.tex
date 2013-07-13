@@ -778,6 +778,49 @@ public class Program implements{\emph IModel} \{
 \end{alltt}
 \end{colframe}
 
+\subsubsection{The @Position annotation}
+
+The \an{@Position} annotation allows the specification of the position of a component element in a composite element.
+
+The default behavior is that the elements appear in the same order that specified. The annotation accepts a mandatory element name, a new position relative to that element, and an optional separator policy in case the element is embedded into a repetition construct.
+
+ModelCC supports the following options for specifying relative positions:
+%
+\begin{itemize}
+\item \an{Position.AFTER}, puts the element after the referred element.
+\item \an{Position.BEFORE}, puts the element before the referred element.
+\item \an{Position.WITHIN}, puts the element in any position of the referred repetition construct.
+\item \an{Position.BEFORELAST}, puts the element before the last element in the referred repetition construct.
+\item \an{Position.AROUND}, puts the element after, before, and/or in any position of the referred repetition construct.
+\end{itemize}
+
+ModelCC supports the following options for specifying separator policies:
+
+\begin{itemize}
+\item \an{SeparatorPolicy.AFTER}, puts the element after the separator.
+\item \an{SeparatorPolicy.BEFORE}, puts the element before the separator.
+\item \an{SeparatorPolicy.EXTRA}, adds an extra separator as if the element was another component of the repetition construct.
+\item \an{SeparatorPolicy.REPLACE}, replaces the separator with the element.
+onstruct.
+\end{itemize}
+
+The following code shows an example of position, in which a \emph{Program} can contain a set of \emph{ProcedureDeclarations} and a separate main \emph{ProcedureDeclaration} that can be intermixed with them:
+
+\begin{colframe}
+\begin{alltt}
+import org.modelcc.*;
+
+public class Program implements{\emph IModel} \{
+
+  Set<ProcedureDeclaration> functions;
+
+  {\bf @Position(element="functions",position=Position.AROUND)}
+  ProcedureDeclaration main;
+
+\}
+\end{alltt}
+\end{colframe}
+
 \subsection{Reference Constraints}
 
 Reference constraints allow specifying references to elements.
