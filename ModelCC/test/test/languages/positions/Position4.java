@@ -13,12 +13,12 @@ import org.modelcc.*;
  */
 public class Position4 implements IModel {
 
-	A a;
+	public A a;
 
 	@Optional
-	C c;
+	public C c;
 	
 	@Position(element="a",position=Position.EXTREME)
-    B b;
+	public B b;
     
 }

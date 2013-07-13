@@ -11,7 +11,8 @@ import org.modelcc.*;
  *
  * @author elezeta
  */
-@Pattern(regExp="A")
+@Pattern(regExp="A[0-9]*")
 public class A implements IModel {
-    
+    @Value
+	public String value;
 }

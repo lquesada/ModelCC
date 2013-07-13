@@ -13,15 +13,15 @@ import org.modelcc.*;
  */
 public class Position14 implements IModel {
 
-	A a;
+	public A a;
 
 	@Minimum(3)
 	@Separator(value={"x","y"})
-	C[] c;
+	public C[] c;
 	
 	@Position(element="c",position=Position.WITHIN,separatorPolicy=SeparatorPolicy.BEFORE)
 	@Prefix("z")
 	@Suffix("w")
-    B b;
+	public B b;
     
 }

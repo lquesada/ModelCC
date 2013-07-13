@@ -899,25 +899,64 @@ public class LanguageSpecificationFactoryTest {
     public void PositionTest1() {
         assertEquals(1,testFull("BA",Position1.class).size());
         assertEquals(0,testFull("AB",Position1.class).size());
+        Position1 o = (Position1)testFull("B12A22",Position1.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+
     }
 
     @Test
     public void PositionTest2() {
         assertEquals(1,testFull("BA",Position2.class).size());
         assertEquals(0,testFull("AB",Position2.class).size());
+        Position2 o = (Position2)testFull("B12A22",Position2.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
     }
 
     @Test
     public void PositionTest3() {
         assertEquals(1,testFull("BAC",Position3.class).size());
         assertEquals(0,testFull("ABC",Position3.class).size());
+        Position3 o = (Position3)testFull("B12A22",Position3.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        o = (Position3)testFull("B12A22C1",Position3.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertEquals("C1",o.c.value);
+        o = (Position3)testFull("B12A22",Position3.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertNull(o.c);
     }
 
     @Test
     public void PositionTest4() {
         assertEquals(1,testFull("BAC",Position4.class).size());
         assertEquals(1,testFull("ABC",Position4.class).size());
-    }
+        Position4 o = (Position4) testFull("B12A22",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        o = (Position4)testFull("B12A22C1",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertEquals("C1",o.c.value);
+        o = (Position4)testFull("B12A22",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertNull(o.c);
+        o = (Position4) testFull("A22B12",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        o = (Position4)testFull("A22B12C1",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertEquals("C1",o.c.value);
+        o = (Position4)testFull("A22B12",Position4.class).iterator().next();
+        assertEquals("B12",o.b.value);
+        assertEquals("A22",o.a.value);
+        assertNull(o.c);    }
     
     @Test
     public void PositionTest5() {

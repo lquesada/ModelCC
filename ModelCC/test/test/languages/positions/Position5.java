@@ -13,11 +13,11 @@ import org.modelcc.*;
  */
 public class Position5 implements IModel {
 
-	A a;
+	public A a;
 
-	C[] c;
+	public C[] c;
 	
 	@Position(element="c",position=Position.WITHIN)
-    B b;
+	public B b;
     
 }

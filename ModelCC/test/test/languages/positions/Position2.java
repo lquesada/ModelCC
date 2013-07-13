@@ -13,9 +13,9 @@ import org.modelcc.*;
  */
 public class Position2 implements IModel {
 
-	A a;
+	public A a;
 
 	@Position(element="a",position=Position.BEFORE)
-    B b;
+	public B b;
     
 }

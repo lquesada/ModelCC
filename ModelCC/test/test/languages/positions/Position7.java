@@ -13,11 +13,11 @@ import org.modelcc.*;
  */
 public class Position7 implements IModel {
 
-	A a;
+	public A a;
 
-	C[] c;
+	public C[] c;
 	
 	@Position(element="c",position=Position.AROUND)
-    B b;
+	public B b;
     
 }
