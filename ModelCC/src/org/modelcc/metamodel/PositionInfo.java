@@ -23,11 +23,11 @@ public class PositionInfo implements Serializable {
 
 	private ElementMember member;
 	
-	private int position;
+	private int[] position;
 	
 	private SeparatorPolicy separatorPolicy;
 	
-	public PositionInfo(ElementMember member,int position,SeparatorPolicy separatorPolicy) {
+	public PositionInfo(ElementMember member,int[] position,SeparatorPolicy separatorPolicy) {
 		this.member = member;
 		this.position = position;
 		this.separatorPolicy = separatorPolicy;
@@ -37,12 +37,18 @@ public class PositionInfo implements Serializable {
 		return member;
 	}
 
-	public int getPosition() {
+	public int[] getPosition() {
 		return position;
 	}
 
 	public SeparatorPolicy getSeparatorPolicy() {
 		return separatorPolicy;
 	}
-	  
+
+	public boolean contains(int needle) {
+		for (int i = 0;i < position.length;i++)
+			if (position[i]==needle)
+				return true;
+		return false;
+	}	  
 }

@@ -235,24 +235,24 @@ public final class LanguageSpecificationFactory implements Serializable {
                     List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
                     for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                     	List<MemberNode> curNodes = nodesite.next();
-                    	if (posInfo.getPosition()==Position.BEFORE) {
+                    	if (posInfo.contains(Position.BEFORE)) {
                     		processBefore(newNodes,curNodes,source,target);
                     	}
-                    	else if (posInfo.getPosition()==Position.AFTER) {
+                    	else if (posInfo.contains(Position.AFTER)) {
                     		processAfter(newNodes,curNodes,source,target);
                     	}
 
-                    	else if (posInfo.getPosition()==Position.EXTREME) {
+                    	else if (posInfo.contains(Position.EXTREME)) {
                     		processBefore(newNodes,curNodes,source,target);
                     		processAfter(newNodes,curNodes,source,target);
                     	}
-                    	else if (posInfo.getPosition()==Position.WITHIN) {
+                    	else if (posInfo.contains(Position.WITHIN)) {
                     		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
                     	}
-                    	else if (posInfo.getPosition()==Position.BEFORELAST) {
+                    	else if (posInfo.contains(Position.BEFORELAST)) {
                     		processInside(newNodes,curNodes,source,target,Position.BEFORELAST,posInfo.getSeparatorPolicy());
                     	}
-                    	else if (posInfo.getPosition()==Position.AROUND) {
+                    	else if (posInfo.contains(Position.AROUND)) {
                     		processInside(newNodes,curNodes,source,target,Position.WITHIN,posInfo.getSeparatorPolicy());
                     		processBefore(newNodes,curNodes,source,target);
                     		processAfter(newNodes,curNodes,source,target);

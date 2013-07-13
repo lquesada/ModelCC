@@ -25,7 +25,15 @@ public @interface Position {
 	  public static int BEFORELAST = 4;
 	  public static int AROUND = 5;
 
-	  public int position();
+/*
+	  public static int BEFORE = 0;
+	  public static int AFTER = 1;
+	  public static int WITHIN = 2;
+	  public static int BEFORELAST = 3;
+	  public static int FIRST = 4;
+	  public static int LAST = 5;
+*/
+	  public int[] position();
 
 	  public String element();
   
