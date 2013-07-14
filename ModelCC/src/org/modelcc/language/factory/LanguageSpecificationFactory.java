@@ -257,8 +257,14 @@ public final class LanguageSpecificationFactory implements Serializable {
                     for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                     	List<MemberNode> current = nodesite.next();
                     	
+                    	
                     	// Current production
                     	List<List<MemberNode>> combinations = new ArrayList<List<MemberNode>>(); 
+
+                    	// Empty production
+                    	if (current.isEmpty())
+                    		combinations.add(new ArrayList<MemberNode>());
+
                     	for (Iterator<MemberNode> mnite = current.iterator();mnite.hasNext();) {
                     		MemberNode mn = mnite.next();
                     		
