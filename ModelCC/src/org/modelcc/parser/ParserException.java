@@ -20,25 +20,9 @@ public class ParserException extends Exception implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Chained exception.
-     */
-    Exception e;
-
-    /**
      * Constructor.
-     * @param e the chained exception.
      */
-    public ParserException(Exception e) {
-        this.e = e;
-    }
-
-    /**
-     * Print stack trace.
-     */
-    @Override
-    public void printStackTrace() {
-        System.out.println(this.getClass().getName()+" -> "+e.getClass().getName()+": "+e.getMessage());
-        e.printStackTrace();
+    public ParserException() {
     }
 
 }

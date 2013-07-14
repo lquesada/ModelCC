@@ -43,13 +43,25 @@ public class ConstraintTest {
     @Test
     public void ConstraintTest1() throws ParserException {
     	assertEquals(1,genParser(test.languages.constraints.Test1.class).parseAll("0").size());
-    	assertEquals(0,genParser(test.languages.constraints.Test1.class).parseAll("10").size());
+    	try {
+    		genParser(test.languages.constraints.Test1.class).parseAll("10");
+    		assertTrue(false);
+    	} catch (ParserException e) {
+    	}
     }
 
     @Test
     public void ConstraintTest2() throws ParserException {
-    	assertEquals(0,genParser(test.languages.constraints.Test2.class).parseAll("0").size());
-    	assertEquals(0,genParser(test.languages.constraints.Test2.class).parseAll("10").size());
+    	try {
+    		genParser(test.languages.constraints.Test2.class).parseAll("0").size();
+    		assertTrue(false);
+    	} catch (ParserException e) {
+    	}
+    	try {
+    		genParser(test.languages.constraints.Test2.class).parseAll("10").size();
+    		assertTrue(false);
+    	} catch (ParserException e) {
+    	}
     	assertEquals(1,genParser(test.languages.constraints.Test2.class).parseAll("9").size());
     }
 

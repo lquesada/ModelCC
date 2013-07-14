@@ -1420,8 +1420,12 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
 		}
-        Collection<test.languages.emptymatchers.prefix.StartPoint> result = parser.parseAll("ab");
-        assertEquals(0,result.size());
+		try {
+			Collection<test.languages.emptymatchers.prefix.StartPoint> result = parser.parseAll("ab");
+			assertTrue(false);
+		} catch (ParserException e) {
+			
+		}
     }
 
     @Test

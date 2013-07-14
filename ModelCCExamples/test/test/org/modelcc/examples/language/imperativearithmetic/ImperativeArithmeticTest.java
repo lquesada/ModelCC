@@ -103,6 +103,10 @@ public class ImperativeArithmeticTest {
     public void InputTest6() throws ParserException {
         Parser<ImperativeArithmetic> parser = parserGen();
         assertEquals("1.0\n3.0\n8.0\n",parser.parse("variables var a var b var c sentences a = 1 b = a+2 c = (a+b)*2 output a output b output c").run());
-        assertNull(parser.parse("sentences output a"));
+        try {
+        	parser.parse("sentences output a");
+        	assertTrue(false);
+        } catch (ParserException e) {
+        }
     } 
 }

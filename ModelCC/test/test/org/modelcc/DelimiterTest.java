@@ -45,42 +45,82 @@ public class DelimiterTest {
     public void PrefixTest1() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test1.class).parseAll("a0").size());
     	assertEquals(1,genParser(test.languages.delimiters.Test1.class).parseAll("A0").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test1.class).parseAll("0").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test1.class).parseAll("a").size());
+    	try {
+    		genParser(test.languages.delimiters.Test1.class).parseAll("0").size();
+    		assertTrue(false);
+    	} catch (ParserException e) {
+    	}
+    	try {
+	    	genParser(test.languages.delimiters.Test1.class).parseAll("a").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 
     @Test
     public void PrefixTest2() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test2.class).parseAll("a42").size());
     	assertEquals(1,genParser(test.languages.delimiters.Test2.class).parseAll("42").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test2.class).parseAll("aa42").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test2.class).parseAll("a").size());
+    	try {
+	    	genParser(test.languages.delimiters.Test2.class).parseAll("aa42").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
+    	try {
+    		genParser(test.languages.delimiters.Test2.class).parseAll("a").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 
     @Test
     public void PrefixTest3() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test3.class).parseAll("ab42").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test3.class).parseAll("42").size());
+    	try {
+    		genParser(test.languages.delimiters.Test3.class).parseAll("42").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 
     @Test
     public void PrefixTest4() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test4.class).parseAll("42").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test4.class).parseAll("a").size());
+    	try {
+    		genParser(test.languages.delimiters.Test4.class).parseAll("a").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 
     @Test
     public void SeparatorTest1() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test5.class).parseAll("xxxx").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test5.class).parseAll("xxxxb").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test5.class).parseAll("xx xx").size());
+    	try {
+    		genParser(test.languages.delimiters.Test5.class).parseAll("xxxxb").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
+    	try {
+    		genParser(test.languages.delimiters.Test5.class).parseAll("xx xx").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 
     @Test
     public void SeparatorTest2() throws ParserException {
     	assertEquals(1,genParser(test.languages.delimiters.Test6.class).parseAll("xabxabx").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test6.class).parseAll("xabxabxa").size());
-    	assertEquals(0,genParser(test.languages.delimiters.Test6.class).parseAll("xabxabxab").size());
+    	try {
+    		genParser(test.languages.delimiters.Test6.class).parseAll("xabxabxa").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
+    	try {
+    		genParser(test.languages.delimiters.Test6.class).parseAll("xabxabxab").size();
+			assertTrue(false);
+		} catch (ParserException e) {
+		}
     }
 }
 

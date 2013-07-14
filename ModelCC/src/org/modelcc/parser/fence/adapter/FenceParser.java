@@ -72,6 +72,9 @@ public class FenceParser<T> extends Parser implements Serializable {
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
             out.add((T)ite.next().getUserData());
         }
+        if (out.isEmpty()) {
+        	throw new ParserException();
+        }
         return out;
     }
 
