@@ -7,6 +7,7 @@ package test.org.modelcc.examples.language.canvasdraw;
 
 import org.modelcc.examples.language.canvasdraw.CanvasDraw;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
 import java.util.HashSet;
@@ -69,37 +70,37 @@ public class CanvasDrawTest {
     
 
     @Test
-    public void CanvasDrawTest1() {
+    public void CanvasDrawTest1() throws ParserException {
             assertEquals(1,parser.parseAll("canvas").size());
     }    
 
     @Test
-    public void CanvasDrawTest2() {
+    public void CanvasDrawTest2() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas width 640").size());
     }    
 
     @Test
-    public void CanvasDrawTest3() {
+    public void CanvasDrawTest3() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas line [(0,0),(10,10)]").size());
     }    
 
     @Test
-    public void CanvasDrawTest4() {
+    public void CanvasDrawTest4() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas width 320 line [(0,0),(10,10)]").size());
     }    
 
     @Test
-    public void CanvasDrawTest5() {
+    public void CanvasDrawTest5() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas width 640 height 480 background (180,255,255) line [(10,10),(20,20)] rectangle [(40,100),(60,120)] circle (400,30),400").size());
     }    
 
     @Test
-    public void CanvasDrawTest6() {
+    public void CanvasDrawTest6() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas width 640 height 480 background (0,0,0) color (255,0,0) line [(10,10),(20,20)] rectangle [(40,100),(60,120)] fill color (0,255,0) circle (400,30),400").size());
     }    
 
     @Test
-    public void CanvasDrawTest7() {
+    public void CanvasDrawTest7() throws ParserException  {
             assertEquals(1,parser.parseAll("canvas %test").size());
     }    
 

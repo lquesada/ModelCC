@@ -8,11 +8,11 @@ package org.modelcc.parser;
 import java.io.Serializable;
 
 /**
- * CannotCreateParser Exception
+ * Parser Exception
  * @author elezeta
  * @serial
  */
-public class CannotCreateParserException extends Exception implements Serializable {
+public class ParserException extends Exception implements Serializable {
     
     /**
      * Serial Version ID
@@ -28,7 +28,7 @@ public class CannotCreateParserException extends Exception implements Serializab
      * Constructor.
      * @param e the chained exception.
      */
-    public CannotCreateParserException(Exception e) {
+    public ParserException(Exception e) {
         this.e = e;
     }
 

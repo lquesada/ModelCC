@@ -32,6 +32,7 @@ import test.languages.patternrecognizertest.*;
 import org.modelcc.metamodel.*;
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
 
 import test.languages.testlanguage.*;
@@ -1401,7 +1402,7 @@ public class JavaModelReaderTest {
     }
 
     @Test
-    public void EmptyPrefixTest() {
+    public void EmptyPrefixTest() throws ParserException {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
         CountFilter c = new CountFilter(false);
         lg.setFilter(c);
@@ -1424,7 +1425,7 @@ public class JavaModelReaderTest {
     }
 
     @Test
-    public void EmptyPrefixTest2() {
+    public void EmptyPrefixTest2() throws ParserException {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
         CountFilter c = new CountFilter(false);
         lg.setFilter(c);

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.lexer.Lexer;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
@@ -26,6 +27,7 @@ import org.modelcc.parser.fence.Fence;
  */
 public class FenceParser<T> extends Parser implements Serializable {
 
+	//TODO ParserException
     /**
      * Serial Version ID
      */
@@ -64,7 +66,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      * @return a collection of parsed objects
      */
     @Override
-     public Collection<T> parseAll(Reader input) {
+     public Collection<T> parseAll(Reader input) throws ParserException {
         SyntaxGraph sg = gp.parse(ls,gl.scan(input));
         Set<T> out = new HashSet<T>();
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
@@ -79,7 +81,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      * @return a parsed object
      */
     @Override
-    public T parse(String input) {
+    public T parse(String input) throws ParserException {
         Iterator<T> ite = parseIterator(input);
         if (ite.hasNext())
             return ite.next();
@@ -93,7 +95,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      * @return a parsed object
      */
     @Override
-    public T parse(Reader input) {
+    public T parse(Reader input) throws ParserException {
         return parseIterator(input).next();
     }
 
@@ -103,7 +105,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      * @return an iterator to the collection of parsed objects
      */
     @Override
-    public Iterator<T> parseIterator(String input) {
+    public Iterator<T> parseIterator(String input) throws ParserException {
         return parseAll(input).iterator();
     }
 
@@ -113,7 +115,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      * @return an iterator to the collection of parsed objects
      */
     @Override
-    public Iterator<T> parseIterator(Reader input) {
+    public Iterator<T> parseIterator(Reader input) throws ParserException {
         return parseAll(input).iterator();
     }
 

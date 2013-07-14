@@ -64,6 +64,7 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
 import javax.swing.SwingConstants;
 import java.awt.Component;
@@ -475,63 +476,79 @@ public class ModelCCExamplesWindow extends JFrame {
 		
 		
         if (languageClass.equals(org.modelcc.examples.language.simplearithmeticexpression.Expression.class)) {
-			Collection<org.modelcc.examples.language.simplearithmeticexpression.Expression> exps = parser.parseAll(inp);
-			outputTextArea.append("\n");
-			outputTextArea.append("Found "+exps.size()+" parse trees.\n");
-			if (exps.size()>0)
-				outputTextArea.append("Expression value: "+exps.iterator().next().eval()+"\n");
+        	try {
+        		Collection<org.modelcc.examples.language.simplearithmeticexpression.Expression> exps = parser.parseAll(inp);
+    			outputTextArea.append("\n");
+    			outputTextArea.append("Found "+exps.size()+" parse trees.\n");
+    			if (exps.size()>0)
+    				outputTextArea.append("Expression value: "+exps.iterator().next().eval()+"\n");
+        	} catch (ParserException e) {
+        		//TODO parserexception show
+        	}
         }
         if (languageClass.equals(org.modelcc.examples.language.canvasdraw.CanvasDraw.class)) {
-        	Collection<org.modelcc.examples.language.canvasdraw.CanvasDraw> canvases = parser.parseAll(inp);
-			outputTextArea.append("\n");
-			outputTextArea.append("Found "+canvases.size()+" parse trees.\n");
-			if (canvases.size()>0) {
-				outputTextArea.append("Opening canvas window.\n");
-				org.modelcc.examples.language.canvasdraw.CanvasDraw cd = canvases.iterator().next();
-				if (cdFrame != null) {
-					cdFrame.setVisible(false);
-					cdFrame.dispose();
-					cdFrame = null;
+        	try {
+	        	Collection<org.modelcc.examples.language.canvasdraw.CanvasDraw> canvases = parser.parseAll(inp);
+				outputTextArea.append("\n");
+				outputTextArea.append("Found "+canvases.size()+" parse trees.\n");
+				if (canvases.size()>0) {
+					outputTextArea.append("Opening canvas window.\n");
+					org.modelcc.examples.language.canvasdraw.CanvasDraw cd = canvases.iterator().next();
+					if (cdFrame != null) {
+						cdFrame.setVisible(false);
+						cdFrame.dispose();
+						cdFrame = null;
+					}
+	                cdFrame = new JFrame("CanvasDraw");
+	                cdFrame.setResizable(false);
+	                cdFrame.setSize(cd.getSize());
+	                Container pane = cdFrame.getContentPane();
+	                pane.add(cd, BorderLayout.CENTER);
+	                cd.setVisible(true);
+	                cdFrame.setVisible(true);
 				}
-                cdFrame = new JFrame("CanvasDraw");
-                cdFrame.setResizable(false);
-                cdFrame.setSize(cd.getSize());
-                Container pane = cdFrame.getContentPane();
-                pane.add(cd, BorderLayout.CENTER);
-                cd.setVisible(true);
-                cdFrame.setVisible(true);
-			}
+	    	} catch (ParserException e) {
+	    		//TODO parserexception show
+	    	}
         }
         if (languageClass.equals(org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class)) {
-        	Collection<org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic> imps = parser.parseAll(inp);
-			outputTextArea.append("\n");
-			outputTextArea.append("Found "+imps.size()+" parse trees.\n");
-        	if (imps.size()>0) {
-		    	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = imps.iterator().next();
-	        	outputTextArea.append("Running program...\n");
-	        	outputTextArea.append(imp.run());
+        	try {
+	        	Collection<org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic> imps = parser.parseAll(inp);
+				outputTextArea.append("\n");
+				outputTextArea.append("Found "+imps.size()+" parse trees.\n");
+	        	if (imps.size()>0) {
+			    	org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic imp = imps.iterator().next();
+		        	outputTextArea.append("Running program...\n");
+		        	outputTextArea.append(imp.run());
+	        	}
+        	} catch (ParserException e) {
+        		//TODO parserexception show
         	}
         }
         if (languageClass.equals(org.modelcc.examples.language.graphdraw3d.Scene.class)) {
-        	Collection<org.modelcc.examples.language.graphdraw3d.Scene> scenes = parser.parseAll(inp);
-			outputTextArea.append("\n");
-			outputTextArea.append("Found "+scenes.size()+" parse trees.\n");
-			if (scenes.size()>0) {
-				outputTextArea.append("Opening 3D draw window.\n");
-				org.modelcc.examples.language.graphdraw3d.Scene scene = scenes.iterator().next();
-                try {
-                	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(scene);
-                	if (graph3dThread != null && graph3dThread.isRunning()) {
-                		graph3dThread.setScene(dw.getScene());
-                	}
-                	else {
-	                	graph3dThread = new Graph3DThread(dw);
-	                    graph3dThread.start();
-                	}
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        	try {
+	        	Collection<org.modelcc.examples.language.graphdraw3d.Scene> scenes = parser.parseAll(inp);
+				outputTextArea.append("\n");
+				outputTextArea.append("Found "+scenes.size()+" parse trees.\n");
+				if (scenes.size()>0) {
+					outputTextArea.append("Opening 3D draw window.\n");
+					org.modelcc.examples.language.graphdraw3d.Scene scene = scenes.iterator().next();
+	                try {
+	                	org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper dw = new org.modelcc.examples.language.graphdraw3d.resources.DisplayWrapper(scene);
+	                	if (graph3dThread != null && graph3dThread.isRunning()) {
+	                		graph3dThread.setScene(dw.getScene());
+	                	}
+	                	else {
+		                	graph3dThread = new Graph3DThread(dw);
+		                    graph3dThread.start();
+	                	}
+	                } catch(Exception e) {
+	                    e.printStackTrace();
+	                }
+	            }
+        	} catch (ParserException e) {
+        		//TODO parserexception show
+        	}
         }
         outputTextArea.setCaretPosition(outputTextArea.getText().length());
 	}

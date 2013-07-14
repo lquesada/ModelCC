@@ -15,6 +15,7 @@ import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
 /**
@@ -35,22 +36,22 @@ public class ScanTest {
         }
     }
 
-    public static void checkMatches(Class<?> source,String input,int matches) {
+    public static void checkMatches(Class<?> source,String input,int matches) throws ParserException {
     	assertEquals(matches,generateParser(source).parseAll(input).size());
     }
 
-    public static  Object parse(Class<?> source,String input) {
+    public static  Object parse(Class<?> source,String input) throws ParserException {
     	return generateParser(source).parse(input);
     }
     
 	@Test
-	public void StringTest() {
+	public void StringTest() throws ParserException {
 		checkMatches(BigString.class,"012",1);
 		
 	}
 
 	@Test
-	public void StringNotContentTest() {
+	public void StringNotContentTest() throws ParserException {
 		BigString a = (BigString)parse(BigString.class,"012");
 		OptionalString value = a.getValue();
 		assertEquals("",value.getValue());

@@ -6,6 +6,7 @@
 package test.org.modelcc.examples.language.simplearithmeticexpression;
 
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.modelcc.examples.language.simplearithmeticexpression.Expression;
+
 import static org.junit.Assert.*;
 
 /**
@@ -67,7 +69,7 @@ public class ExpressionTest {
     
     Parser<Expression> parser;    
     
-    private void checkExpression(String exp,double value) {
+    private void checkExpression(String exp,double value) throws ParserException  {
 
             Expression result = parser.parse(exp);
             double b = result.eval();
@@ -77,49 +79,49 @@ public class ExpressionTest {
     }
     
     @Test
-    public void ExpressionTest1() {
+    public void ExpressionTest1() throws ParserException  {
             checkExpression("(3+2)*2",10);
 
     }    
 
     @Test
-    public void ExpressionTest2() {
+    public void ExpressionTest2() throws ParserException  {
             checkExpression("3+2*2",7);
 
     }    
 
     @Test
-    public void ExpressionTest3() {
+    public void ExpressionTest3() throws ParserException  {
             checkExpression("2*3+2",8);
 
     }    
 
     @Test
-    public void ExpressionTest4() {
+    public void ExpressionTest4() throws ParserException  {
             checkExpression("(2*2)+2",6);
 
     }    
 
     @Test
-    public void ExpressionTest5() {
+    public void ExpressionTest5() throws ParserException  {
             checkExpression("10*5/5",10);
 
     }    
 
     @Test
-    public void ExpressionTest6() {
+    public void ExpressionTest6() throws ParserException  {
             checkExpression("6*2-3*3",3);
 
     }    
 
     @Test
-    public void ExpressionTest7() {
+    public void ExpressionTest7() throws ParserException  {
             checkExpression("1+2+3+4+5+6+7+8+9*10",126);
 
     }    
 
     @Test
-    public void ExpressionTest8() {
+    public void ExpressionTest8() throws ParserException  {
             checkExpression("10*4+5-22+(0.6*52-22)",32.2);
 
     }    

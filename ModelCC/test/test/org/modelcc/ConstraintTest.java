@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.HashSet;
 import org.modelcc.io.ModelReader;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
 import org.modelcc.metamodel.Model;
 import org.modelcc.io.java.JavaModelReader;
@@ -40,20 +41,20 @@ public class ConstraintTest {
     }
     
     @Test
-    public void ConstraintTest1() {
+    public void ConstraintTest1() throws ParserException {
     	assertEquals(1,genParser(test.languages.constraints.Test1.class).parseAll("0").size());
     	assertEquals(0,genParser(test.languages.constraints.Test1.class).parseAll("10").size());
     }
 
     @Test
-    public void ConstraintTest2() {
+    public void ConstraintTest2() throws ParserException {
     	assertEquals(0,genParser(test.languages.constraints.Test2.class).parseAll("0").size());
     	assertEquals(0,genParser(test.languages.constraints.Test2.class).parseAll("10").size());
     	assertEquals(1,genParser(test.languages.constraints.Test2.class).parseAll("9").size());
     }
 
     @Test
-    public void ConstraintTest3() {
+    public void ConstraintTest3() throws ParserException {
     	assertEquals(1,genParser(test.languages.constraints.Test3.class).parseAll("5").size());
     }
         
