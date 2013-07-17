@@ -39,9 +39,7 @@ public final class DrawSentence extends Sentence implements IModel {
         		nextIter = ((Literal)iters).intValue();
         	}
         }
-        if (nextIter > 0) {
-            object.draw(rd,nextIter);
-        }
+        object.draw(rd,nextIter);
     }
 
 	@Override
@@ -56,8 +54,6 @@ public final class DrawSentence extends Sentence implements IModel {
         		nextIter = ((Literal)iters).intValue();
         	}
         }
-        if (nextIter > 0) {
-            object.undo(rd,nextIter);
-        }
+        object.undo(rd,nextIter);
 	}
 }

@@ -20,12 +20,24 @@ public class Definition implements IModel {
     
     Sentence sentence;
 
+    @Optional
+    @Prefix("last")
+    Sentence lastSentence;
+    
     public void run(RunData rd,int iter) {
-        sentence.run(rd,iter);
+    	if (iter>0)
+    		sentence.run(rd,iter);
+    	else
+    		if (lastSentence != null)
+    			lastSentence.run(rd,iter);
     }
 
     public void undo(RunData rd,int iter) {
-        sentence.undo(rd,iter);
+    	if (iter>0)
+    		sentence.undo(rd,iter);
+    	else
+    		if (lastSentence != null)
+    			lastSentence.undo(rd,iter);
     }
     
     public ObjectName getName() {

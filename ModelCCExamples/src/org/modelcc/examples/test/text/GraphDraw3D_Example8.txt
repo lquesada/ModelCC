@@ -1,0 +1,25 @@
+scene {
+  {
+    scale 10
+    draw axis
+  }
+  color red 0 green 0 blue 0
+  repeat 10 times [
+    {
+      repeat 10 times [
+        {
+          repeat 10 times [
+            draw cube
+            translate x 1.8
+            color relative red 0.1
+          ]
+        }
+        translate y 1.8
+        color relative green 0.1
+      ]
+    }
+    translate z 1.8
+    color relative blue 0.1
+  ]
+
+}
