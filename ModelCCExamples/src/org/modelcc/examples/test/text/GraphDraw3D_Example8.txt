@@ -1,25 +1,29 @@
-scene {
+define snail [
+  color red 1 green 0.6 blue 0.2
+  draw tail next
+]
+define tail [
   {
-    scale 10
-    draw axis
+    scale 0.6
+    draw cube
   }
-  color red 0 green 0 blue 0
-  repeat 10 times [
-    {
-      repeat 10 times [
-        {
-          repeat 10 times [
-            draw cube
-            translate x 1.8
-            color relative red 0.1
-          ]
-        }
-        translate y 1.8
-        color relative green 0.1
-      ]
-    }
-    translate z 1.8
-    color relative blue 0.1
-  ]
-
+  {
+    color blue 0.3
+    scale 0.1
+    translate y 2.5
+    repeat 11 times [
+      translate y 1
+      color relative blue +0.01 alpha -0.1
+      draw cube
+    ]
+  }
+  rotate angle 1 z 1
+  translate x 0.3
+  rotate z 1 angle 3
+  scale 0.995
+  color relative red -0.003 green -0.001 blue -0.001
+  draw tail next
+]
+scene {
+  draw snail 700
 }
