@@ -14,8 +14,7 @@ define MengerSlice {
   { translate x 0  y 1  z -1  draw MengerSlice next } % center-top
 } last {
   translate z -0.5
-  scale z 0.01
-  draw cube
+  draw square
 }
 scene {
   scale 4
