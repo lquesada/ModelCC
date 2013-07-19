@@ -17,6 +17,7 @@ import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.lexer.lamb.Token;
 import org.modelcc.metamodel.Model;
+import org.modelcc.tools.FieldSearcher;
 
 /**
  * Common token builder
@@ -58,7 +59,7 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
             o = c.newInstance();
 
             if (be.getValueField() != null) {
-                Field fld = c.getDeclaredField(be.getValueField());
+            	Field fld = FieldSearcher.searchField(c,be.getValueField());
                 if (fld != null) {
                     fld.setAccessible(true);
                     fld.set(o, ObjectCaster.castObject(fld.getType(), t.getValue()));

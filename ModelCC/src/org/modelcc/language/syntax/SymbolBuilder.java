@@ -6,6 +6,11 @@
 package org.modelcc.language.syntax;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.modelcc.language.factory.BasicTokenBuilder;
 import org.modelcc.parser.fence.Symbol;
 
 /**
@@ -28,5 +33,4 @@ public abstract class SymbolBuilder implements Serializable {
      */
     public abstract boolean build(Symbol t,Object data);
     
-
 }

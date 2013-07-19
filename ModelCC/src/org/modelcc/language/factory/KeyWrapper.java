@@ -19,6 +19,7 @@ import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.metamodel.MultipleElementMember;
+import org.modelcc.tools.FieldSearcher;
 
 /**
  * Key Wrapper
@@ -72,7 +73,7 @@ public class KeyWrapper {
             for (int i = 0;i < me.getIds().size();i++) {
                 ElementMember em = me.getIds().get(i);
                 Class c = em.getElementClass();
-                Field fld = me.getElementClass().getDeclaredField(em.getField());
+                Field fld = FieldSearcher.searchField(me.getElementClass(),em.getField());
                 fld.setAccessible(true);
                 Object val = fld.get(o);
                 if (val == null) {
@@ -187,7 +188,7 @@ public class KeyWrapper {
                 for (int i = 0;i < cme.getIds().size();i++) {
                     ElementMember em = cme.getIds().get(i);
                     Class c = em.getElementClass();
-                    Field fld = cme.getElementClass().getDeclaredField(em.getField());
+                    Field fld = FieldSearcher.searchField(cme.getElementClass(),em.getField());
                     fld.setAccessible(true);
                     Object val = fld.get(o);
                     Object val2 = fld.get(other.o);

@@ -27,6 +27,7 @@ import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.Symbol;
+import org.modelcc.tools.FieldSearcher;
 
 /**
  * Reference symbol builder
@@ -85,7 +86,7 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                 proc.add(re);
                 if (re.getClass().equals(RuleElementPosition.class)) {
                     ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
-                    Field fld = c.getDeclaredField(ct.getField());
+                    Field fld = FieldSearcher.searchField(c,ct.getField());
                     filled.add(fld);
                     Object list;
                     Method addm;
@@ -104,7 +105,7 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                             RuleElementPosition extraRe = listContents.getExtraRuleElement();
                             if (extraRe != null) {
 	                            ElementMember extraCt = (ElementMember)extraRe.getPositionId();
-	                            Field extraFld = c.getDeclaredField(extraCt.getField());
+	                            Field extraFld = FieldSearcher.searchField(c,extraCt.getField());
 	                            filled.add(extraFld);
 	                            if (extraFld != null) {
 	                            	extraFld.setAccessible(true);
@@ -283,7 +284,7 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             int index = t.getContents().indexOf(updated);
             RuleElement re = t.getElements().get(index);
             ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
-            Field fld = tData.getClass().getDeclaredField(ct.getField());
+            Field fld = FieldSearcher.searchField(tData.getClass(),ct.getField());
             Object content = fld.get(tData);
             Object[] auData = (Object[])uData;
             Object[] aContent = (Object[])content;
@@ -309,7 +310,7 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             int index = t.getContents().indexOf(updated);
             RuleElement re = t.getElements().get(index);
             ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
-            Field fld = tData.getClass().getDeclaredField(ct.getField());
+            Field fld = FieldSearcher.searchField(tData.getClass(),ct.getField());
             fld.setAccessible(true);
             Object content = fld.get(tData);
             if (!uData.equals(content)) {

@@ -459,7 +459,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         for (Iterator<ModelElement> ite = m.getElements().iterator();ite.hasNext();) {
             ModelElement el = ite.next();
             ElementId eid = eltoeid.get(el);
-            if (ChoiceModelElement.class.isAssignableFrom(el.getClass())) {
+//            if (ChoiceModelElement.class.isAssignableFrom(el.getClass())) {
                 if (m.getSubelements().get(el) != null) {
                     for (Iterator<ModelElement> ite2 = m.getSubelements().get(el).iterator();ite2.hasNext();) {
                         ModelElement el2 = ite2.next();
@@ -498,7 +498,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                         sr.add(r);
 
                     }
-             }
+//             }
             }
         }
 
@@ -568,8 +568,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         ssf.setStartType(eltoeid.get(m.getStart()));
 
 
-        
-/*
+      /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
             System.out.println("token: "+rx);
@@ -580,8 +579,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             Rule rx = iter.next();
             System.out.println("regla: "+rx);
         }
-
- */
+*/
  
         // -----------------
         // Build language specification.

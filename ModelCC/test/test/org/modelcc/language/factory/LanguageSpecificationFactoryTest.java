@@ -6,6 +6,10 @@
 package test.org.modelcc.language.factory;
 
 import test.languages.optionaltest.OptionalTestLanguage2;
+import test.languages.inheritlanguage.Inherit1;
+import test.languages.inheritlanguage.Inherit2;
+import test.languages.inheritlanguage.Inherit3;
+import test.languages.inheritlanguage.Inherit4;
 import test.languages.keys.Keys11Lang;
 import test.languages.keys.Keys10Lang;
 import test.languages.keys.Keys9Lang;
@@ -1123,6 +1127,28 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(o.objects[0],o.reflist[2]);
         assertEquals(o.objects[0],o.ref);
 
+    }    
+
+    @Test
+    public void InheritTest1() {
+        assertEquals(1,testFull("pA",Inherit1.class).size());
+        assertEquals(1,testFull("A",Inherit1.class).size());
+
+    }    
+
+    @Test
+    public void InheritTest2() {
+        assertEquals(2,testFull("A",Inherit2.class).size());
+    }    
+
+    @Test
+    public void InheritTest3() {
+        assertEquals(1,testFull("AB",Inherit3.class).size());
+    }    
+
+    @Test
+    public void InheritTest4() {
+        assertEquals(1,testFull("BA",Inherit4.class).size());
     }    
 }
 

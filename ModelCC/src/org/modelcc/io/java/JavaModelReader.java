@@ -35,6 +35,7 @@ import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
 import org.modelcc.io.ModelReader;
 import org.modelcc.metamodel.*;
+import org.modelcc.tools.FieldSearcher;
 import org.modelcc.*;
 import org.modelcc.io.DefaultFilter;
 import org.modelcc.io.WarningExportHandler;
@@ -136,6 +137,9 @@ public class JavaModelReader extends ModelReader implements Serializable {
         // Reads elements and contents.
         readClasses(relevantClasses,pas,preElements,delimiters,prePrecedences,priorities,preSubclasses,preSuperclasses,classToPreElement);
 
+        // Inherit members.
+        inheritMembers(preElements,preSubclasses);
+        
         // Recursively manage attribute inheritance
         inheritAttributes(preElements,preSubclasses,priorities,prePrecedences);
 
@@ -172,7 +176,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	        Map<ElementMember,PositionInfo> positions = new HashMap<ElementMember,PositionInfo>();
 			if (ComplexModelElement.class.isAssignableFrom(elem.getClass())) {
 				ComplexModelElement celem = (ComplexModelElement)elem;
-		        Field[] fl = elem.getElementClass().getDeclaredFields();
+		        Field[] fl = FieldSearcher.getAllFields(elem.getElementClass());
 		        for (int i = 0;i < fl.length;i++) {
 		            Field field = fl[i];
 		            ElementMember thisElement = null;
@@ -1057,6 +1061,61 @@ public class JavaModelReader extends ModelReader implements Serializable {
     }
 
     /**
+     * Manages the inheritance of the element members
+     * @param elements the set of elements
+     * @param subclasses the subclasses map
+     */
+    private void inheritMembers(Set<PreElement> elements,Map<PreElement,Set<PreElement>> subclasses) {
+        PreElement source;
+        PreElement target;
+        Iterator<PreElement> it1 = elements.iterator();
+        while (it1.hasNext()) {
+            source = it1.next();
+            if (!hasPattern(source.getElementClass())) {
+                Iterator<PreElement> ite;
+                if (subclasses.get(source) != null) {
+                    ite = subclasses.get(source).iterator();
+                        //log(Level.INFO,"Extending attributes from \""+source.getClassName()+"\":");
+                        while (ite.hasNext()) {
+                            target = ite.next();
+                            inheritMemberClass(subclasses,source,target);
+                        }
+                    }
+            }
+            else {
+                //log(Level.INFO,"Class \""+source.getClassName()+"\" has a defined pattern, not extending attributes.");
+            }
+        }
+    }
+
+    /**
+     * Inherits members from a source to a target element
+     * @param subclasses the subclasses map
+     * @param source the source element
+     * @param target the target element
+     */
+    private void inheritMemberClass(Map<PreElement,Set<PreElement>> subclasses,PreElement source,PreElement target) {
+        Iterator<PreElement> ite;
+        PreElement target2;
+
+        int j = 0;
+        for (int i = 0;i < source.getContents().size();i++) {
+        	ElementMember content = source.getContents().get(i);
+        	if (!target.getContents().contains(content)) {
+        		target.getContents().add(j,content);
+        		j++;
+        	}
+        }
+        if (subclasses.get(target) != null) {
+            ite = subclasses.get(target).iterator();
+            while (ite.hasNext()) {
+                target2 = ite.next();
+                inheritMemberClass(subclasses,target,target2);
+            }
+        }
+    }
+    
+    /**
      * Manages the inheritance of the element attributes
      * @param elements the set of elements
      * @param subclasses the subclasses map
@@ -1369,10 +1428,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
             
             e = null;
             if (Modifier.isAbstract(elementClass.getModifiers()) && preSubclasses.get(pe) == null) {
-                 e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
+            	e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
                  log(Level.SEVERE, "In class \"{0}\": Abstract class without subclasses.", new Object[]{elementClass.getCanonicalName()});
             }
-            else if (preSubclasses.get(pe) != null) {
+            else if (pe.getContents().isEmpty() && preSubclasses.get(pe) != null) {
                 e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
             }
             else if (pe.getPattern() != null) {

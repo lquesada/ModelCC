@@ -30,6 +30,7 @@ import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.Symbol;
+import org.modelcc.tools.FieldSearcher;
 
 /**
  * Symbol content builder
@@ -82,7 +83,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                 proc.add(re);
                 if (re.getClass().equals(RuleElementPosition.class)) {
                     ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
-                    Field fld = c.getDeclaredField(ct.getField());
+                    Field fld = FieldSearcher.searchField(c,ct.getField());
                     filled.add(fld);
                     Object list;
                     Method addm;
@@ -101,7 +102,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                             RuleElementPosition extraRe = listContents.getExtraRuleElement();
                             if (extraRe != null) {
 	                            ElementMember extraCt = (ElementMember)extraRe.getPositionId();
-	                            Field extraFld = c.getDeclaredField(extraCt.getField());
+	                            Field extraFld = FieldSearcher.searchField(c,extraCt.getField());
 	                            filled.add(extraFld);
 	                            if (extraFld != null) {
 	                            	extraFld.setAccessible(true);
@@ -186,7 +187,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
             BasicModelElement be = (BasicModelElement) m.getClassToElement().get(c);
             try {
                 if (be.getValueField() != null) {
-                    Field fld = c.getDeclaredField(be.getValueField());
+                    Field fld = FieldSearcher.searchField(c,be.getValueField());
                     if (fld != null) {
                         fld.setAccessible(true);
                         if (fld.getType().equals(String.class))
@@ -205,7 +206,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	        for (int i = 0;i < fields.length;i++) {
 	            ElementMember ct = ce.getFieldToContent().get(fields[i].getName());
 	            if (ct != null) {
-	                Field fld = o.getClass().getDeclaredField(ct.getField());
+	                Field fld = FieldSearcher.searchField(o.getClass(),ct.getField());
 	                if (filled == null || !filled.contains(fields[i])) {
 	                    if (ct != null) {
 	                        if (!ct.isOptional()) {

@@ -1034,7 +1034,7 @@ public class JavaModelReaderTest {
         }
     	//removed
         assertEquals(0,c.getCount());
-        assertEquals(ChoiceModelElement.class,m.getClassToElement().get(CorrectClass13.class).getClass());
+        assertEquals(ComplexModelElement.class,m.getClassToElement().get(CorrectClass13.class).getClass());
     }
 
     @Test
