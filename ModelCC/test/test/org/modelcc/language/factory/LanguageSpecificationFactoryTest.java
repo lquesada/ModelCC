@@ -10,6 +10,7 @@ import test.languages.inheritlanguage.Inherit1;
 import test.languages.inheritlanguage.Inherit2;
 import test.languages.inheritlanguage.Inherit3;
 import test.languages.inheritlanguage.Inherit4;
+import test.languages.inheritlanguage.Inherit5;
 import test.languages.keys.Keys11Lang;
 import test.languages.keys.Keys10Lang;
 import test.languages.keys.Keys9Lang;
@@ -1149,6 +1150,11 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void InheritTest4() {
         assertEquals(1,testFull("BA",Inherit4.class).size());
+    }    
+
+    @Test
+    public void InheritTest5() {
+        assertEquals(1,testFull("A",Inherit5.class).size());
     }    
 }
 

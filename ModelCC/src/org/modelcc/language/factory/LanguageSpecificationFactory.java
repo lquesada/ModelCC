@@ -6,6 +6,7 @@
 package org.modelcc.language.factory;
 
 import java.io.Serializable;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -207,7 +208,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         for (Iterator<ModelElement> ite = m.getElements().iterator();ite.hasNext();) {
             ModelElement el = ite.next();
             RuleElement elre = eltore.get(el);
-            if (ComplexModelElement.class.isAssignableFrom(el.getClass())) {
+            if (ComplexModelElement.class.isAssignableFrom(el.getClass()) && !Modifier.isAbstract(el.getElementClass().getModifiers())) {
             	List<List<MemberNode>> nodes = new ArrayList<List<MemberNode>>();
             	nodes.add(new ArrayList<MemberNode>());
                 ComplexModelElement ce = (ComplexModelElement)el;
