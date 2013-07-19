@@ -1023,17 +1023,18 @@ public class JavaModelReaderTest {
     }
 
     @Test
-    public void modelWrongTest13() {
+    public void modelCorrectTest13() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
         CountFilter c = new CountFilter(false);
         lg.setFilter(c);
-        Model m = modelGen(WrongClass13.class);
+        Model m = modelGen(CorrectClass13.class);
         if (m == null) {
             assertFalse(true);
             return;
         }
-        assertEquals(1,c.getCount());
-        assertEquals(ChoiceModelElement.class,m.getClassToElement().get(WrongClass13.class).getClass());
+    	//removed
+        assertEquals(0,c.getCount());
+        assertEquals(ChoiceModelElement.class,m.getClassToElement().get(CorrectClass13.class).getClass());
     }
 
     @Test

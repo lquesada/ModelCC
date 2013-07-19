@@ -11,7 +11,7 @@ import org.modelcc.*;
  *
  * @author elezeta
  */
-public class WrongClass13A extends WrongClass13 implements IModel {
+public class WrongClass13A extends CorrectClass13 implements IModel {
 
     OKClass aasadf2;
 

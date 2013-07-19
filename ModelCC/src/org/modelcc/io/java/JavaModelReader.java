@@ -1370,15 +1370,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
             e = null;
             if (Modifier.isAbstract(elementClass.getModifiers()) && preSubclasses.get(pe) == null) {
                  e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
-                 if (!contents.isEmpty())
-                     log(Level.SEVERE, "In class \"{0}\": Not empty abstract class.", new Object[]{elementClass.getCanonicalName()});
-                 else
-                     log(Level.SEVERE, "In class \"{0}\": Abstract class without subclasses.", new Object[]{elementClass.getCanonicalName()});
+                 log(Level.SEVERE, "In class \"{0}\": Abstract class without subclasses.", new Object[]{elementClass.getCanonicalName()});
             }
             else if (preSubclasses.get(pe) != null) {
                 e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
-                if (!contents.isEmpty())
-                     log(Level.SEVERE, "In class \"{0}\": Classes that are superclasses cannot be composite.", new Object[]{elementClass.getCanonicalName()});
             }
             else if (pe.getPattern() != null) {
                 if (!hasConstructor(elementClass))
