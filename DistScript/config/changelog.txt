@@ -1,4 +1,16 @@
 -----------------------------
+ModelCC v2.09    (2013-07-20)
+-----------------------------
+
++ [FEATURE] Language elements now inherit members from superelements.
++ [CHANGE] Position values are now combinable.
++ [CHANGE] Fence now throws a ParserException when the parsing fails.
++ [FIX] WITHIN position does not require now a collection of more than two elements.
++ [FIX] WITHIN position now also means at the start or end of a collection.
++ [FIX] @FreeOrder now generates empty productions when all elements are optional.
++ [FIX] ModelCC logo is more precise now.
+
+-----------------------------
 ModelCC v2.08    (2013-07-13)
 -----------------------------
 
