@@ -27,7 +27,6 @@ import org.modelcc.parser.fence.Fence;
  */
 public class FenceParser<T> extends Parser implements Serializable {
 
-	//TODO ParserException
     /**
      * Serial Version ID
      */
@@ -73,6 +72,7 @@ public class FenceParser<T> extends Parser implements Serializable {
             out.add((T)ite.next().getUserData());
         }
         if (out.isEmpty()) {
+        	
         	throw new ParserException();
         }
         return out;

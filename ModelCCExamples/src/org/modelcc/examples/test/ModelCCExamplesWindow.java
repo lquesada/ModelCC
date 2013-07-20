@@ -237,7 +237,7 @@ public class ModelCCExamplesWindow extends JFrame {
 						node_1.add(new InfoMutableTreeNode("ModelCC Logo",lang,langName,langInfo,5));
 						node_1.add(new InfoMutableTreeNode("Menger Sponge Slice",lang,langName,langInfo,6));
 						node_1.add(new InfoMutableTreeNode("Palette Cube",lang,langName,langInfo,7));
-						node_1.add(new InfoMutableTreeNode("Snail Variation",lang,langName,langInfo,8)); //TODO add this
+						node_1.add(new InfoMutableTreeNode("Snail Variation",lang,langName,langInfo,8));
 					add(node_1);
 				}
 			}
@@ -486,7 +486,8 @@ public class ModelCCExamplesWindow extends JFrame {
     			if (exps.size()>0)
     				outputTextArea.append("Expression value: "+exps.iterator().next().eval()+"\n");
         	} catch (ParserException e) {
-        		//TODO parserexception show
+				outputTextArea.append("\n");
+        		outputTextArea.append("Parsing failed.\n");
         	}
         }
         if (languageClass.equals(org.modelcc.examples.language.canvasdraw.CanvasDraw.class)) {
@@ -511,7 +512,8 @@ public class ModelCCExamplesWindow extends JFrame {
 	                cdFrame.setVisible(true);
 				}
 	    	} catch (ParserException e) {
-	    		//TODO parserexception show
+				outputTextArea.append("\n");
+        		outputTextArea.append("Parsing failed.\n");
 	    	}
         }
         if (languageClass.equals(org.modelcc.examples.language.imperativearithmetic.ImperativeArithmetic.class)) {
@@ -525,7 +527,8 @@ public class ModelCCExamplesWindow extends JFrame {
 		        	outputTextArea.append(imp.run());
 	        	}
         	} catch (ParserException e) {
-        		//TODO parserexception show
+				outputTextArea.append("\n");
+        		outputTextArea.append("Parsing failed.\n");
         	}
         }
         if (languageClass.equals(org.modelcc.examples.language.graphdraw3d.Scene.class)) {
@@ -550,7 +553,8 @@ public class ModelCCExamplesWindow extends JFrame {
 	                }
 	            }
         	} catch (ParserException e) {
-        		//TODO parserexception show
+				outputTextArea.append("\n");
+        		outputTextArea.append("Parsing failed.\n");
         	}
         }
         outputTextArea.setCaretPosition(outputTextArea.getText().length());
