@@ -90,6 +90,9 @@ import test.languages.worklanguage.Ini;
 import test.languages.arithmeticcalculator.Expression;
 import test.org.modelcc.io.Serialization;
 
+import org.modelcc.parser.CannotCreateParserException;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.parser.fence.FenceConstraintEnforcer;
@@ -97,11 +100,15 @@ import org.modelcc.parser.fence.ParsedGraph;
 import org.modelcc.parser.fence.FenceGrammarParser;
 import org.modelcc.parser.fence.Fence;
 import org.modelcc.parser.fence.SyntaxGraph;
+import org.modelcc.parser.fence.adapter.FenceParser;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.language.LanguageSpecification;
+import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
+
+import java.util.Collection;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.HashSet;
@@ -161,149 +168,38 @@ public class LanguageSpecificationFactoryTest {
 
     }
 
-    public Set<Object> testFull(String input,Class cl) {
-        return testFull(input,cl,false);
-    }
+    public Collection<Object> testFull(String input,Class cl) {
 
-    public Set<Object> testFull(String input,Class cl,boolean show) {
-
-        JavaModelReader jmr = new JavaModelReader(cl);
-        Model m = null;
-        try {
-            m = jmr.read();
-            m = (Model)Serialization.testSerialize(m);
-        } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
-        }
-
-        LanguageSpecificationFactory mlsc = new LanguageSpecificationFactory();
-        LanguageSpecification ls = null;
-        try {
-            ls = mlsc.create(m);
-        } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
-        }
-
-        LexicalGraph lg = null;
+        ModelReader jmr = new JavaModelReader(cl);
+        Model m;
+		try {
+			m = jmr.read();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return null;
+		}
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
         ignore.add(new RegExpPatternRecognizer("\\t"));
         ignore.add(new RegExpPatternRecognizer(" "));
         ignore.add(new RegExpPatternRecognizer("\n"));
         ignore.add(new RegExpPatternRecognizer("\r"));
-        StringReader sr = new StringReader(input);
-        Lexer l = new LambLexer(ls.getLexicalSpecification(),ignore);
+        Parser parser;
+		try {
+			parser = ParserFactory.create(m,ignore);
+		} catch (CannotCreateParserException e1) {
+			e1.printStackTrace();
+			return null;
+		}
         try {
-            lg = l.scan(sr);
+        	return parser.parseAll(input);
         } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
+        	return new HashSet<Object>();
         }
-
-        
-        Fence p = new Fence();
-        SyntaxGraph sg = null;
-        try {
-            sg = p.parse(ls.getSyntacticSpecification(),lg);
-        } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
-        }
-
-        // Alternative way
-/*        FenceGrammarParser fgp = new FenceGrammarParser();
-        ParsedGraph pg = null;
-        try {
-            pg = fgp.parse(ls.getSyntacticSpecification().getGrammar(),lg);
-        } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
-        }
-
-        FenceConstraintEnforcer fce = new FenceConstraintEnforcer();
-        SyntaxGraph sg2 = null;
-        try {
-            sg2 = fce.enforce(ls.getSyntacticSpecification().getConstraints(),pg);
-        } catch (Exception e) {
-            Logger.getLogger(LanguageSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, e);
-            assertFalse(true);
-            return null;
-        }
-
-        assertTrue(sg.getRoots().size() == sg2.getRoots().size());
-        assertTrue(sg.getSymbols().size() == sg2.getSymbols().size());
-         * 
-         */
-/*
-        System.out.println(ls.getLexicalSpecification().getTokenSpecifications().size()+ " token specifications");
-        System.out.println("Found "+lg.getTokens().size()+ " tokens");
-        System.out.println("Found "+lg.getRoots().size()+ " first tokens");
-
-        for (Iterator<Token> ite = lg.getTokens().iterator();ite.hasNext();) {
-            Token t = ite.next();
-            System.out.println(t.getRoots()+"-"+t.getEnd()+"  "+t.getValue()+"  "+showType(t.getType()));
-
-        }
-
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-*/
-        /*
-        System.out.println("Found "+pg.getSymbols().size()+ " pg symbols");
-        System.out.println("Found "+pg.getRoots().size()+ " pg root symbols");
-        System.out.println(ls.getSyntacticSpecification().getGrammar().getRules().size()+ " rules");
-        System.out.println(ls.getSyntacticSpecification().getGrammar().getEmptyRules().size()+ " empty rules");
-        System.out.println("Found "+sg.getSymbols().size()+ " symbols");
-        System.out.println("Found "+sg.getRoots().size()+ " root symbols");
-*/
-        if (show) {
-            for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
-                System.out.println(" ");
-                System.out.println(" ");
-                System.out.println(" ");
-                System.out.println(" ");
-                System.out.println(" ");
-                recShow(ite.next(),0);
-
-            }
-            //System.out.println(pg.getSymbols().size()+"  "+sg.getSymbols().size());
-        }
-        
-        Set<Object> out = new HashSet<Object>();
-        for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
-            Symbol s = ite.next();
-//            System.out.println("RESULTADO: "+s.getUserData());
-            out.add(s.getUserData());
-           // if (!s.getType().getClass().equals(ElementId.class))
-           //     System.out.println(s.getStartIndex()+"-"+s.getEndIndex()+"  "+s.getUserData()+"  "+((ElementId)s.getType()).getElement().getElementClass().getName());
-        }
-        return out;
     }
 
-    private static void recShow(Symbol t, int tab) {
-        int i;
-        for (i = 0;i < tab;i++)
-            System.out.print("    ");
-        if (t == null)
-            System.out.println("%null%");
-        else {
-            System.out.println(t.getType()+"    "+t.getStartIndex()+"-"+t.getEndIndex());
-/*            for (i = 0;i < t.getContents().size();i++) {
-                recShow(t.getContents().get(i),tab+1);
-            }*/
-        }
-
-    }
-
-    void checkExpression(String str,double value,boolean show) {
-        Set<Object> a = testFull(str,Expression.class,show);
+    void checkExpression(String str,double value) {
+        Collection<Object> a = testFull(str,Expression.class);
         assertTrue(a.size()>=1);
         //System.out.println(str+"  = "+((Expression)a.iterator().next()).eval());
         assertTrue(((Expression)a.iterator().next()).eval()-0.1<value);
@@ -313,18 +209,18 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest1() {
 
-        checkExpression("3+5+5",13,false);
-        checkExpression("3+5",8,false);
-        checkExpression("3",3,false);
-        checkExpression("3+(5+5)",13,false);
-        checkExpression("3-5+6",4,false);
-        checkExpression("3*5+5",20,false);
-        checkExpression("3*(5+5)",30,false);
-        checkExpression("3/5++(2*5)",10.6,false);
-        checkExpression("3*2*5+-2",28,false);
-        checkExpression("3+5*5",28,false);
-        checkExpression("3+2/6/2",3.16,false);
-        checkExpression("3*5*1-5+6*12+5",87,false);
+        checkExpression("3+5+5",13);
+        checkExpression("3+5",8);
+        checkExpression("3",3);
+        checkExpression("3+(5+5)",13);
+        checkExpression("3-5+6",4);
+        checkExpression("3*5+5",20);
+        checkExpression("3*(5+5)",30);
+        checkExpression("3/5++(2*5)",10.6);
+        checkExpression("3*2*5+-2",28);
+        checkExpression("3+5*5",28);
+        checkExpression("3+2/6/2",3.16);
+        checkExpression("3*5*1-5+6*12+5",87);
     }
 
     @Test
@@ -349,7 +245,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest2() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hello",Ini.class);
         assertEquals(1,o.size());
         Ini i = (Ini) o.iterator().next();
@@ -360,7 +256,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest3() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hello",Ini1.class);
         assertEquals(1,o.size());
         Ini1 i = (Ini1) o.iterator().next();
@@ -372,7 +268,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest3a() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohello",Ini1.class);
         assertEquals(1,o.size());
         Ini1 i = (Ini1) o.iterator().next();
@@ -384,7 +280,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest4() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hello",Ini2.class);
         assertEquals(1,o.size());
         Ini2 i = (Ini2) o.iterator().next();
@@ -396,7 +292,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest4a() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohello",Ini1.class);
         assertEquals(1,o.size());
         Ini1 i = (Ini1) o.iterator().next();
@@ -408,7 +304,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest5() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hello",Ini3.class);
         assertEquals(1,o.size());
         Ini3 i = (Ini3) o.iterator().next();
@@ -420,7 +316,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest5a() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohellohello",Ini3.class);
         assertEquals(1,o.size());
         Ini3 i = (Ini3) o.iterator().next();
@@ -432,7 +328,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest6() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohello",Ini4.class);
         assertEquals(1,o.size());
         Ini4 i = (Ini4) o.iterator().next();
@@ -444,7 +340,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest7() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohellohellohello",Ini5.class);
         assertEquals(1,o.size());
         Ini5 i = (Ini5) o.iterator().next();
@@ -456,7 +352,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest8() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohellohellohello",Ini6.class);
         assertEquals(1,o.size());
         Ini6 i = (Ini6) o.iterator().next();
@@ -468,7 +364,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationTest9() {
 
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("hellohellohellohello",Ini61.class);
         assertEquals(1,o.size());
         Ini61 i = (Ini61) o.iterator().next();
@@ -481,7 +377,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest10() {
 
         Class c = Ini7.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(0,testFull("()",c).size());
         assertEquals(1,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -497,7 +393,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest11() {
 
         Class c = Ini8.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(1,testFull("()",c).size());
         assertEquals(1,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -512,7 +408,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest12() {
 
         Class c = Ini9.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(0,testFull("()",c).size());
         assertEquals(0,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -527,7 +423,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest13() {
 
         Class c = Ini10.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(0,testFull("()-hello+",c).size());
         assertEquals(0,testFull("(-hello+)-hello+",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)-hello+",c).size());
@@ -542,7 +438,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest14() {
 
         Class c = Ini11.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(0,testFull("a()hellobcc",c).size());
         assertEquals(0,testFull("a(-hello+)hellobcc",c).size());
         assertEquals(1,testFull("a(-hello+,-hello+)hellobcc",c).size());
@@ -557,7 +453,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest15() {
 
         Class c = Composition1.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(1,testFull("start s end",c).size());
         assertEquals(1,testFull("start if e s end",c).size());
         assertEquals(1,testFull("start if e s else s end",c).size());
@@ -570,7 +466,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest16() {
 
         Class c = Composition2.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(1,testFull("start s end",c).size());
         assertEquals(1,testFull("start if e s end",c).size());
         assertEquals(1,testFull("start if e s else s end",c).size());
@@ -587,7 +483,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest17() {
 
         Class c = Composition3.class;
-        Set<Object> o;
+        Collection<Object> o;
         assertEquals(1,testFull("start s end",c).size());
         assertEquals(1,testFull("start if e s end",c).size());
         assertEquals(1,testFull("start if e s else s end",c).size());
@@ -604,7 +500,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest18() {
 
         Class c = OptionalTestLanguage.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("1",c);
         OptionalTestLanguage cc = (OptionalTestLanguage) o.iterator().next();
         assertNotNull(cc.getTest());
@@ -614,7 +510,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest19() {
 
         Class c = OptionalTest2Language.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("1",c);
         OptionalTest2Language cc = (OptionalTest2Language) o.iterator().next();
         assertNotNull(cc.getTest());
@@ -636,7 +532,7 @@ public class LanguageSpecificationFactoryTest {
     public void AutorunTest2() {
 
         Class c = AutorunTests.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a a a",c);
         assertEquals(1,o.size());
         AutorunTests cc = (AutorunTests) o.iterator().next();
@@ -653,7 +549,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationReferencesWarningTest() {
 
         Class c = Keys1Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         CountFilter cf = new CountFilter(false);
         Logger.getLogger(CompositeSymbolBuilder.class.getName()).setFilter(cf);
         o = testFull("a1 a2 refs a",c);
@@ -666,7 +562,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationReferencesTest1() {
 
         Class c = Keys1Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a1 refs a",c);
         Keys1Lang cc = (Keys1Lang) o.iterator().next();
         assertEquals(cc.keys1[0],cc.refs[0]);
@@ -676,7 +572,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationReferencesTest2() {
 
         Class c = Keys1Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a1 refs a a",c);
         Keys1Lang cc = (Keys1Lang) o.iterator().next();
         assertEquals(cc.keys1[0],cc.refs[0]);
@@ -687,7 +583,7 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationReferencesTest3() {
 
         Class c = Keys1Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a1 b4 refs a a b",c);
         Keys1Lang cc = (Keys1Lang) o.iterator().next();
         assertEquals(cc.keys1[0],cc.refs[0]);
@@ -698,7 +594,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest4() {
         Class c = Keys2Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a1 refs a a b",c);
         assertFalse(o.iterator().hasNext());
     }
@@ -706,7 +602,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest5() {
         Class c = Keys3Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("data a1",c);
         assertTrue(o.iterator().hasNext());
     }
@@ -714,7 +610,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest6() {
         Class c = Keys3Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a data a1",c);
         assertTrue(o.iterator().hasNext());
         Keys3Lang cc = (Keys3Lang) o.iterator().next();
@@ -725,7 +621,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest7() {
         Class c = Keys4Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a data a1",c);
         assertTrue(o.iterator().hasNext());
         Keys4Lang cc = (Keys4Lang) o.iterator().next();
@@ -736,7 +632,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest8() {
         Class c = Keys4Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("b data a1 b2",c);
         assertTrue(o.iterator().hasNext());
         Keys4Lang cc = (Keys4Lang) o.iterator().next();
@@ -747,7 +643,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest9() {
         Class c = Keys3Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("b a a data a1 b2",c);
         assertTrue(o.iterator().hasNext());
         Keys3Lang cc = (Keys3Lang) o.iterator().next();
@@ -761,7 +657,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest10() {
         Class c = Keys3Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a a b data a1 b3",c);
         assertTrue(o.iterator().hasNext());
         Keys3Lang cc = (Keys3Lang) o.iterator().next();
@@ -775,7 +671,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest11() {
         Class c = Keys3Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("a a data a1",c);
         assertTrue(o.iterator().hasNext());
         Keys3Lang cc = (Keys3Lang) o.iterator().next();
@@ -787,7 +683,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest12() {
         Class c = Keys5Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("startref b endref data a1 b2",c);
         assertTrue(o.iterator().hasNext());
         Keys5Lang cc = (Keys5Lang) o.iterator().next();
@@ -798,7 +694,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest13() {
         Class c = Keys6Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("startref kbc endref data kac1 kbc2",c);
         assertTrue(o.iterator().hasNext());
         Keys6Lang cc = (Keys6Lang) o.iterator().next();
@@ -809,7 +705,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest14() {
         Class c = Keys7Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("startref kbc endref data kac1 kbc2",c);
         assertTrue(o.iterator().hasNext());
         Keys7Lang cc = (Keys7Lang) o.iterator().next();
@@ -820,7 +716,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest15() {
         Class c = Keys7Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("startref kac kbc endref data kbc1 kac2",c);
         assertTrue(o.iterator().hasNext());
         Keys7Lang cc = (Keys7Lang) o.iterator().next();
@@ -832,7 +728,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest16() {
         Class c = Keys7Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("startref kac kbc kdc endref data kbc1 kac2",c);
         assertFalse(o.iterator().hasNext());
     }
@@ -840,7 +736,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest17() {
         Class c = Keys8Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("kbc1 kac2 refs kac",c);
         assertTrue(o.iterator().hasNext());
         Keys8Lang cc = (Keys8Lang) o.iterator().next();
@@ -851,7 +747,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest18() {
         Class c = Keys9Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("[b,a,c] data [a,c,b]:1 [b,a,c]:2",c);
         assertTrue(o.iterator().hasNext());
         Keys9Lang cc = (Keys9Lang) o.iterator().next();
@@ -862,7 +758,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest19() {
         Class c = Keys10Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("[c,b,a,c] data [d,a]:1 [b,c,a,c]:2",c);
         assertTrue(o.iterator().hasNext());
         Keys10Lang cc = (Keys10Lang) o.iterator().next();
@@ -873,7 +769,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest20() {
         Class c = Keys10Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("[b,a,c] data [d,a]:1 [b,c,a,c]:2",c);
         assertTrue(o.iterator().hasNext());
         Keys10Lang cc = (Keys10Lang) o.iterator().next();
@@ -884,7 +780,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void ModelToLanguageSpecificationReferencesTest21() {
         Class c = Keys11Lang.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("d1 data cval3endval1 val2endval1d",c);
         assertTrue(o.iterator().hasNext());
         Keys11Lang cc = (Keys11Lang) o.iterator().next();
@@ -895,7 +791,7 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void FullOptionalTest() {
         Class c = OptionalTestLanguage2.class;
-        Set<Object> o;
+        Collection<Object> o;
         o = testFull("",c);
         assertTrue(o.iterator().hasNext());
         assertNotNull(o.iterator().next());
