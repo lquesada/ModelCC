@@ -18,7 +18,7 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
  * @author elezeta
  * @serial
  */
-public class LambLexer extends Lexer implements Serializable {
+public final class ProbabilisticLambLexer extends LambLexer implements Serializable {
 
     /**
      * Serial Version ID
@@ -26,26 +26,10 @@ public class LambLexer extends Lexer implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Lexical Specification.
-     */
-    protected LexicalSpecification ls;
-    
-    /**
-     * Ignore pattern set.
-     */
-    protected Set<PatternRecognizer> ignore;
-
-    /**
-     * Protected constructor.
-     */
-    protected LambLexer() {
-    }
-    
-    /**
      * Constructor.
      * @param ls the lexical specification.
      */
-    public LambLexer(LexicalSpecification ls) {
+    public ProbabilisticLambLexer(LexicalSpecification ls) {
         this.ls = ls;
         this.ignore = null;
     }
@@ -55,7 +39,7 @@ public class LambLexer extends Lexer implements Serializable {
      * @param ls the lexical specification.
      * @param ignore the ignore pattern set.
      */
-    public LambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore) {
+    public ProbabilisticLambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore) {
         this.ls = ls;
         this.ignore = ignore;
     }
@@ -67,7 +51,7 @@ public class LambLexer extends Lexer implements Serializable {
      */    
     @Override
     public LexicalGraph scan(Reader input) {
-        Lamb gl = new Lamb();
+        ProbabilisticLamb gl = new ProbabilisticLamb();
         LexicalGraph sg = gl.scan(ls,ignore,input);
         return sg;
     }

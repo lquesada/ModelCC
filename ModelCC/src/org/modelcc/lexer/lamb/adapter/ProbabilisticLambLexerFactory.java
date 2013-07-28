@@ -27,7 +27,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public class LambLexerFactory extends LexerFactory implements Serializable {
+public class ProbabilisticLambLexerFactory extends LambLexerFactory implements Serializable {
 
     /**
      * Serial Version ID
@@ -40,8 +40,8 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      * @return the created lamb lexer
      * @throws CannotCreateLexerException  
      */
-    public static LambLexer create(Model m) throws CannotCreateLexerException {
-        return LambLexerFactory.create(m,new HashSet<PatternRecognizer>());
+    public static ProbabilisticLambLexer create(Model m) throws CannotCreateLexerException {
+        return ProbabilisticLambLexerFactory.create(m,new HashSet<PatternRecognizer>());
     }
     
     /**
@@ -51,11 +51,11 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      * @return the created lamb lexer
      * @throws CannotCreateLexerException  
      */
-    public static LambLexer create(Model m,Model skip) throws CannotCreateLexerException {
+    public static ProbabilisticLambLexer create(Model m,Model skip) throws CannotCreateLexerException {
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
         if (skip != null)
             fillIgnore(ignore,skip,skip.getStart());
-        return LambLexerFactory.create(m,ignore);
+        return ProbabilisticLambLexerFactory.create(m,ignore);
     }
       
     /**
@@ -65,12 +65,12 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      * @return the created lamb lexer
      * @throws CannotCreateLexerException  
      */
-    public static LambLexer create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateLexerException {
+    public static ProbabilisticLambLexer create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateLexerException {
         try {
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
             LanguageSpecification ls = lsf.create(m);
 
-            LambLexer lexer = new LambLexer(ls.getLexicalSpecification(),ignore);
+            ProbabilisticLambLexer lexer = new ProbabilisticLambLexer(ls.getLexicalSpecification(),ignore);
             return lexer;        
 
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      */
     private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
-            Logger.getLogger(LambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
+            Logger.getLogger(ProbabilisticLambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {
             ignore.add(((BasicModelElement)el).getPattern());
         }

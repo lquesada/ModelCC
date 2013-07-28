@@ -12,11 +12,11 @@ import org.modelcc.language.lexis.LexicalSpecification;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**
- * Lamb - Lexer with AMBiguity Support.
+ * PLamb - Probabilistic Lexer with AMBiguity Support.
  * @author elezeta
  * @serial
  */
-public class Lamb implements Serializable {
+public final class ProbabilisticLamb extends Lamb implements Serializable {
 
     /**
      * Serial Version ID
@@ -24,14 +24,15 @@ public class Lamb implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Performs a lexical analysis.
+     * Performs a probabilistic lexical analysis.
      * @param ls the lexer specification.
      * @param ignore the list of ignore patterns.
      * @param input the input string.
      * @return the obtained lexical graph.
      */
+    @Override
     public LexicalGraph scan(LexicalSpecification ls,Set<PatternRecognizer> ignore,Reader input) {
-        LambSafe lambs = new LambSafe();
+        ProbabilisticLambSafe lambs = new ProbabilisticLambSafe();
         return lambs.scan(ls,ignore,input);
     }
 

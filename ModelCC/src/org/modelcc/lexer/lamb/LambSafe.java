@@ -27,7 +27,7 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
  * @author elezeta
  * @serial
  */
-public final class LambSafe implements Serializable {
+public class LambSafe implements Serializable {
 
     /**
      * Serial Version ID
@@ -49,7 +49,7 @@ public final class LambSafe implements Serializable {
      * @param t token to be built.
      * @return true if the token is valid, false if not
      */
-    private boolean build(TokenSpecification m,Token t) {
+    protected boolean build(TokenSpecification m,Token t) {
         return m.getBuilder().build(t);
     }
 
