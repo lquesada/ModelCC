@@ -10,7 +10,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
+
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
@@ -121,5 +124,20 @@ public class FenceParser<T> extends Parser implements Serializable {
     public Iterator<T> parseIterator(Reader input) throws ParserException {
         return parseAll(input).iterator();
     }
+
+    /**
+     * Object metadata warehouse.
+     */
+    private static Map<Object,Map<String,Object>> objectMetadata = new WeakHashMap<Object,Map<String,Object>>();
+    
+    /**
+     * Returns the parsing metadata for an object.
+     * @param object an object instantiated during the parsing.
+     * @return the parsing metadata.
+     */
+	@Override
+	public Map<String,Object> getParsingMetadata(Object object) {
+		return objectMetadata.get(object);
+	}
 
 }

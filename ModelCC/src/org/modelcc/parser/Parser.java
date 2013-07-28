@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * ModelCC Parser
@@ -72,5 +73,11 @@ public abstract class Parser<T> implements Serializable {
      */
     public abstract Iterator<T> parseIterator(Reader input) throws ParserException;
 
+    /**
+     * Returns the parsing metadata for an object.
+     * @param object an object instantiated during the parsing.
+     * @return the parsing metadata.
+     */
+    public abstract Map<String,Object> getParsingMetadata(Object object);
 
 }
