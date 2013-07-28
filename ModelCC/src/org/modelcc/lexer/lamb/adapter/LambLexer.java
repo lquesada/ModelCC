@@ -26,6 +26,11 @@ public class LambLexer extends Lexer implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
+     * The lamb lexer.
+     */
+    protected Lamb gl;
+
+    /**
      * Lexical Specification.
      */
     protected LexicalSpecification ls;
@@ -43,20 +48,24 @@ public class LambLexer extends Lexer implements Serializable {
     
     /**
      * Constructor.
+     * @param gl the lamb lexer.
      * @param ls the lexical specification.
      */
-    public LambLexer(LexicalSpecification ls) {
+    public LambLexer(LexicalSpecification ls,Lamb gl) {
         this.ls = ls;
+        this.gl = gl;
         this.ignore = null;
     }
     
     /**
      * Constructor.
      * @param ls the lexical specification.
+     * @param gl the lamb lexer.
      * @param ignore the ignore pattern set.
      */
-    public LambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore) {
+    public LambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore,Lamb gl) {
         this.ls = ls;
+        this.gl = gl;
         this.ignore = ignore;
     }
     
@@ -67,7 +76,6 @@ public class LambLexer extends Lexer implements Serializable {
      */    
     @Override
     public LexicalGraph scan(Reader input) {
-        Lamb gl = new Lamb();
         LexicalGraph sg = gl.scan(ls,ignore,input);
         return sg;
     }

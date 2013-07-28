@@ -25,47 +25,47 @@ import org.modelcc.language.syntax.RuleElementPosition;
  * @author elezeta
  * @serial
  */
-public final class FenceConstraintEnforcerSafe implements Serializable {
+public class FenceConstraintEnforcerSafe implements Serializable {
 
-    Constraints constraints;
+    private Constraints constraints;
 
-    Map<Object, Object> superClasses;
+    private Map<Object, Object> superClasses;
 
-    Map<Object, Set<Object>> indirectSuperclasses;
+    private Map<Object, Set<Object>> indirectSuperclasses;
 
-    Map<Object, AssociativityConstraint> indirectAssociativities;
+    private Map<Object, AssociativityConstraint> indirectAssociativities;
 
-    Set<Object> isIndirectAssociative;
+    private Set<Object> isIndirectAssociative;
 
-    Set<Object> hasAnyAssociativity;
+    private Set<Object> hasAnyAssociativity;
 
-    Set<Rule> hasAnyAssociativityRule;
+    private Set<Rule> hasAnyAssociativityRule;
 
-    Map<Object,Set<Object>> subclasses;
+    private Map<Object,Set<Object>> subclasses;
 
-    Map<Object,Set<Object>> indirectSubclasses;
+    private Map<Object,Set<Object>> indirectSubclasses;
 
-    Set<Object> classes;
+    private Set<Object> classes;
 
-    Counter id;
+    private Counter id;
 
-    Set<Symbol> usedSymbols;
+    private Set<Symbol> usedSymbols;
 
-    Map<Symbol,Set<Symbol>> usedIn;
+    private Map<Symbol,Set<Symbol>> usedIn;
 
-    Set<Symbol> start;
+    private Set<Symbol> start;
 
-    ParsedGraph pg;
+    private ParsedGraph pg;
 
-    Set<Symbol> symbols;
+    private Set<Symbol> symbols;
 
-    Map<ParsedSymbol,Set<Symbol>> mapped;
+    private Map<ParsedSymbol,Set<Symbol>> mapped;
 
-    Set<Object> associateds;
+    private Set<Object> associateds;
 
-    Map<ParsedSymbol,Set<ExpandTuple>> mappedtuples;
+    private Map<ParsedSymbol,Set<ExpandTuple>> mappedtuples;
     
-    Object data;
+    protected Object data;
 
     /**
      * Serial Version ID
@@ -77,7 +77,7 @@ public final class FenceConstraintEnforcerSafe implements Serializable {
      * @param s symbol to be built.
      * @return true if the symbol is valid, false if not
      */
-    private boolean build(Rule r,Symbol s) {
+    protected boolean build(Rule r,Symbol s) {
         return r.getBuilder().build(s,data);
     }
 

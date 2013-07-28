@@ -9,6 +9,7 @@ import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import java.io.StringReader;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
+import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.Token;
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.language.lexis.TokenBuilder;
@@ -101,7 +102,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         try {
             lamb = (Lexer) Serialization.testSerialize(lamb);
         } catch (ClassNotFoundException ex) {
@@ -160,7 +161,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -202,7 +203,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(3,lg.getTokens().size());
@@ -245,7 +246,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(10,lg.getTokens().size());
@@ -297,7 +298,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -334,7 +335,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertFalse(lg.getFollowing().get(searchToken(lg,1,3,"Integer")).contains(searchToken(lg,3,3,"Integer")));
@@ -387,7 +388,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(5,lg.getTokens().size());
@@ -443,7 +444,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(5,lg.getTokens().size());
@@ -498,7 +499,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(5,lg.getTokens().size());
@@ -553,7 +554,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(5,lg.getTokens().size());
@@ -608,7 +609,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(5,lg.getTokens().size());
@@ -655,7 +656,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(1,lg.getTokens().size());
@@ -696,7 +697,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -739,7 +740,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls,ignore);
+        Lexer lamb = new LambLexer(ls,ignore,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(4,lg.getTokens().size());
@@ -792,7 +793,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(1,lg.getTokens().size());
@@ -840,7 +841,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -900,7 +901,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(1,tb.getCount());
@@ -944,7 +945,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -983,7 +984,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         assertEquals(2,lg.getTokens().size());
@@ -1031,7 +1032,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
    }
@@ -1060,7 +1061,7 @@ public class LambTest {
         }
         Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
         se.add(new RegExpPatternRecognizer("[ \n\r\t]+"));
-        Lexer lamb = new LambLexer(ls,se);
+        Lexer lamb = new LambLexer(ls,se,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
     assertNotNull(lg.getFollowing().get(lg.getStart().iterator().next()));
 
@@ -1088,7 +1089,7 @@ public class LambTest {
             assertFalse(true);
             return;
         }
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
         assertNull(lg.getFollowing().get(lg.getStart().iterator().next()));
 

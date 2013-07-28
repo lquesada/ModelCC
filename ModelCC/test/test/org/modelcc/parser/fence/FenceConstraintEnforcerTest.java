@@ -27,6 +27,7 @@ import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.GrammarFactory;
 import org.modelcc.language.syntax.Rule;
 import org.modelcc.parser.fence.ParsedGraph;
+import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 
@@ -220,7 +221,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -477,7 +478,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -697,7 +698,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -853,7 +854,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -1030,7 +1031,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -1179,7 +1180,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -1411,7 +1412,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -1661,7 +1662,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -1913,7 +1914,7 @@ public class FenceConstraintEnforcerTest {
             return;
         }
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2243,7 +2244,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2539,7 +2540,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2692,7 +2693,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2780,7 +2781,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2898,7 +2899,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -2994,7 +2995,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3089,7 +3090,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3187,7 +3188,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3282,7 +3283,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3384,7 +3385,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3486,7 +3487,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3591,7 +3592,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3689,7 +3690,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();
@@ -3859,7 +3860,7 @@ public class FenceConstraintEnforcerTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         FenceGrammarParser fgp = new FenceGrammarParser();

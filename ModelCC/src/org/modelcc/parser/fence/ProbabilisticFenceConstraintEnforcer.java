@@ -13,7 +13,7 @@ import org.modelcc.language.syntax.Constraints;
  * @author elezeta
  * @serial
  */
-public class FenceConstraintEnforcer implements Serializable {
+public final class ProbabilisticFenceConstraintEnforcer extends FenceConstraintEnforcer implements Serializable {
 
     /**
      * Serial Version ID
@@ -21,13 +21,13 @@ public class FenceConstraintEnforcer implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Perform syntactical analysis on a lexical graph.
+     * Perform probabilistic syntactical analysis on a lexical graph.
      * @param constraints the constraints.
      * @param pg the input parsed graph.
      * @return a syntactic analysis graph.
      */
     public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg) {
-        FenceConstraintEnforcerSafe fces = new FenceConstraintEnforcerSafe();
+        ProbabilisticFenceConstraintEnforcerSafe fces = new ProbabilisticFenceConstraintEnforcerSafe();
         return fces.enforce(constraints, pg);
     }
 

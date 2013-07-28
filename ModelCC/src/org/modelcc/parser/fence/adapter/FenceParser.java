@@ -42,18 +42,25 @@ public class FenceParser<T> extends Parser implements Serializable {
     /**
      * The generic parser.
      */
-    private Fence gp;
+    protected Fence gp;
 
     /**
      * The generic lexer.
      */
-    private Lexer gl;
+    protected Lexer gl;
 
     /**
      * The syntactic specification.
      */
-    private SyntacticSpecification ls;
+    protected SyntacticSpecification ls;
 
+    /**
+     * Protected constructor.
+     */
+    protected FenceParser() {
+    	
+    }
+    
     /**
      * Constructor
      * @param gl the generic lexer
@@ -96,10 +103,19 @@ public class FenceParser<T> extends Parser implements Serializable {
     		return;
     	symbolMap = new HashMap<String,Object>();
     	objectMetadata.put(symbol.getUserData(),symbolMap);
-    	symbolMap.put("startIndex",symbol.getStartIndex());
-    	symbolMap.put("endIndex",symbol.getEndIndex());
+    	fillMetadata(symbol,symbolMap);
     	for (int i = 0;i < symbol.getContents().size();i++)
     		storeMetadata(symbol.getContents().get(i));
+	}
+
+    /**
+     * Fills symbol metadata.
+     * @param symbol symbol to analyze.
+     * @param symbolMap symbol map in which to store metadata.
+     */
+    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
+    	symbolMap.put("startIndex",symbol.getStartIndex());
+    	symbolMap.put("endIndex",symbol.getEndIndex());
 	}
 
 	/**

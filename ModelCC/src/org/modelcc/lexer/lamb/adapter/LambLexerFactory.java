@@ -15,6 +15,7 @@ import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.CannotCreateLexerException;
 import org.modelcc.lexer.LexerFactory;
+import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -69,8 +70,7 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
         try {
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
             LanguageSpecification ls = lsf.create(m);
-
-            LambLexer lexer = new LambLexer(ls.getLexicalSpecification(),ignore);
+            LambLexer lexer = new LambLexer(ls.getLexicalSpecification(),ignore,new Lamb());
             return lexer;        
 
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      * @param skip the skip model
      * @param el the recursive model element
      */
-    private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
+    protected static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
             Logger.getLogger(LambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {

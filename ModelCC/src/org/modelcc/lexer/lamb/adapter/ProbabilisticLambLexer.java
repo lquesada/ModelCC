@@ -27,20 +27,24 @@ public final class ProbabilisticLambLexer extends LambLexer implements Serializa
 
     /**
      * Constructor.
+     * @param gl the lamb lexer.
      * @param ls the lexical specification.
      */
-    public ProbabilisticLambLexer(LexicalSpecification ls) {
+    public ProbabilisticLambLexer(LexicalSpecification ls,ProbabilisticLamb gl) {
         this.ls = ls;
+        this.gl = gl;
         this.ignore = null;
     }
     
     /**
      * Constructor.
      * @param ls the lexical specification.
+     * @param gl the lamb lexer.
      * @param ignore the ignore pattern set.
      */
-    public ProbabilisticLambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore) {
+    public ProbabilisticLambLexer(LexicalSpecification ls,Set<PatternRecognizer> ignore,ProbabilisticLamb gl) {
         this.ls = ls;
+        this.gl = gl;
         this.ignore = ignore;
     }
     
@@ -51,7 +55,6 @@ public final class ProbabilisticLambLexer extends LambLexer implements Serializa
      */    
     @Override
     public LexicalGraph scan(Reader input) {
-        ProbabilisticLamb gl = new ProbabilisticLamb();
         LexicalGraph sg = gl.scan(ls,ignore,input);
         return sg;
     }

@@ -19,6 +19,7 @@ import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.Rule;
+import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 
@@ -183,7 +184,7 @@ public class FenceTest {
         }
 
 
-        Lexer lamb = new LambLexer(ls);
+        Lexer lamb = new LambLexer(ls,new Lamb());
         LexicalGraph lg = lamb.scan(sr);
 
         Fence f = new Fence();

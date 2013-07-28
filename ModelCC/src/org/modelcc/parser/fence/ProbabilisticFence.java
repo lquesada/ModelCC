@@ -14,7 +14,7 @@ import org.modelcc.language.syntax.SyntacticSpecification;
  * @author elezeta
  * @serial
  */
-public class Fence implements Serializable {
+public final class ProbabilisticFence extends Fence implements Serializable {
 
     /**
      * Serial Version ID
@@ -22,7 +22,7 @@ public class Fence implements Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Perform syntactical analysis on a Lexical Graph.
+     * Perform probabilistic syntactical analysis on a Lexical Graph.
      * @param fs the Fence specification.
      * @param lg the input lexical graph.
      * @return a syntax graph.
@@ -30,7 +30,7 @@ public class Fence implements Serializable {
     public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg) {
         FenceGrammarParser fgp = new FenceGrammarParser();
         ParsedGraph pg = fgp.parse(fs.getGrammar(),lg);
-        FenceConstraintEnforcer fce = new FenceConstraintEnforcer();
+        ProbabilisticFenceConstraintEnforcer fce = new ProbabilisticFenceConstraintEnforcer();
         SyntaxGraph sg = fce.enforce(fs.getConstraints(),pg);
         return sg;
     }

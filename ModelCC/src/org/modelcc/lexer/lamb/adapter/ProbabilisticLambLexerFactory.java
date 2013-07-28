@@ -15,6 +15,7 @@ import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.CannotCreateLexerException;
 import org.modelcc.lexer.LexerFactory;
+import org.modelcc.lexer.lamb.ProbabilisticLamb;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -70,7 +71,7 @@ public class ProbabilisticLambLexerFactory extends LambLexerFactory implements S
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
             LanguageSpecification ls = lsf.create(m);
 
-            ProbabilisticLambLexer lexer = new ProbabilisticLambLexer(ls.getLexicalSpecification(),ignore);
+            ProbabilisticLambLexer lexer = new ProbabilisticLambLexer(ls.getLexicalSpecification(),ignore,new ProbabilisticLamb());
             return lexer;        
 
         } catch (Exception e) {
@@ -78,22 +79,4 @@ public class ProbabilisticLambLexerFactory extends LambLexerFactory implements S
         }
     }
     
-    /**
-     * Fills the ignore set
-     * @param ignore the ignore set
-     * @param skip the skip model
-     * @param el the recursive model element
-     */
-    private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
-        if (el.getClass().equals(ComplexModelElement.class))
-            Logger.getLogger(ProbabilisticLambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
-        else if (el.getClass().equals(BasicModelElement.class)) {
-            ignore.add(((BasicModelElement)el).getPattern());
-        }
-        else if (el.getClass().equals(ChoiceModelElement.class)) {
-            for (Iterator<ModelElement> ite = skip.getSubelements().get(el).iterator();ite.hasNext();)
-            fillIgnore(ignore,skip,ite.next());
-        }
-    }
-
 }
