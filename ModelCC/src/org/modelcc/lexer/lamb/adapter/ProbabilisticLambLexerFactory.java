@@ -23,7 +23,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 
 /**
- * Lamb Lexer Generator
+ * Probabilistic Lamb Lexer Generator
  * @author elezeta
  * @serial
  */

@@ -14,7 +14,7 @@ import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**
- * Lamb - SyntaxGraphLexer with AMBiguity Support.
+ * PLamb - Probabilistic Lexer with AMBiguity Support.
  * @author elezeta
  * @serial
  */
