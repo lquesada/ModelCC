@@ -8,6 +8,8 @@ package org.modelcc.parser.fence.adapter;
 import java.io.Reader;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -86,10 +88,19 @@ public class FenceParser<T> extends Parser implements Serializable {
      * Stores symbol metadata in warehouse
      * @param rootSymbol symbol to store in warehouse.
      */
-    private void storeMetadata(Symbol rootSymbol) {
-    	System.out.println("Storing "+rootSymbol+" metadata in warehouse "+rootSymbol.getStartIndex()+" "+rootSymbol.getEndIndex());
-		// TODO Auto-generated method stub
-		
+    private void storeMetadata(Symbol symbol) {
+    	Map<String,Object> symbolMap = objectMetadata.get(symbol);
+    	if (symbolMap != null)
+    		return;
+    	symbolMap = new HashMap<String,Object>();
+    	objectMetadata.put(symbol,symbolMap);
+    	symbolMap.put("startIndex",symbol.getStartIndex());
+    	symbolMap.put("endIndex",symbol.getEndIndex());
+    	//TODO text
+    	//TODO startLine
+    	//TODO endLine
+    	//TODO startPos
+    	//TODO endPos
 	}
 
 	/**
@@ -148,7 +159,7 @@ public class FenceParser<T> extends Parser implements Serializable {
      */
 	@Override
 	public Map<String,Object> getParsingMetadata(Object object) {
-		return objectMetadata.get(object);
+		return Collections.unmodifiableMap(objectMetadata.get(object));
 	}
 
 }
