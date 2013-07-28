@@ -76,7 +76,7 @@ public final class ProbabilisticFenceParserFactory extends FenceParserFactory im
     }
 
     /**
-     * Creates a parser
+     * Creates a probabilistic parser
      * @param m the model
      * @param ignore the ignore set
      * @return the parser
