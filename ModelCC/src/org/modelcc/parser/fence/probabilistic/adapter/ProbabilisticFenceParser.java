@@ -78,6 +78,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
      public Collection<T> parseAll(Reader input) throws ParserException {
         SyntaxGraph sg = gp.parse(ls,gl.scan(input));
         Set<T> out = new HashSet<T>();
+        // TODO change ordering based on probability
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
         	Symbol rootSymbol = ite.next();
             out.add((T)rootSymbol.getUserData());
