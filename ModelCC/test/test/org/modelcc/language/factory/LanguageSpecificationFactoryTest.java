@@ -72,6 +72,9 @@ import test.languages.composition3.Composition3;
 import test.languages.composition2.Composition2;
 import test.languages.composition.Composition1;
 import test.languages.arithmeticcalculator2.Expression2;
+import test.languages.arithmeticcalculator2.expressions.BinaryExpression;
+import test.languages.arithmeticcalculator2.expressions.ParenthesizedExpression;
+import test.languages.arithmeticcalculator2.expressions.literals.IntegerLiteral;
 import test.languages.worklanguage.Ini11;
 import test.languages.worklanguage.Ini10;
 import test.languages.worklanguage.Ini9;
@@ -176,6 +179,7 @@ public class LanguageSpecificationFactoryTest {
 			m = jmr.read();
 		} catch (Exception e1) {
 			e1.printStackTrace();
+			assertTrue(false);
 			return null;
 		}
         Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
@@ -189,6 +193,7 @@ public class LanguageSpecificationFactoryTest {
 			parser = ParserFactory.create(m,ignore);
 		} catch (CannotCreateParserException e1) {
 			e1.printStackTrace();
+			assertTrue(false);
 			return null;
 		}
         try {
@@ -1052,6 +1057,90 @@ public class LanguageSpecificationFactoryTest {
     public void InheritTest5() {
         assertEquals(1,testFull("A",Inherit5.class).size());
     }    
+    
+    @Test
+    public void startAndEndIndexTest() {
+
+        ModelReader jmr = new JavaModelReader(Expression2.class);
+        Model m;
+		try {
+			m = jmr.read();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return;
+		}
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+        ignore.add(new RegExpPatternRecognizer("\\t"));
+        ignore.add(new RegExpPatternRecognizer(" "));
+        ignore.add(new RegExpPatternRecognizer("\n"));
+        ignore.add(new RegExpPatternRecognizer("\r"));
+        Parser<Expression2> parser;
+        Expression2 exp2;
+		try {
+			parser = ParserFactory.create(m,ignore);
+		} catch (CannotCreateParserException e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return;
+		}
+        try {
+        	//                   0        10
+        	//                   01234567890123456789
+        	exp2 = parser.parse("(3/5++2*5)+(3/5+2*5)");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        
+        BinaryExpression be = (BinaryExpression)exp2;
+        assertEquals(0,parser.getParsingMetadata(be).get("startIndex"));
+        assertEquals(19,parser.getParsingMetadata(be).get("endIndex"));
+
+        assertEquals(0,parser.getParsingMetadata(be.e1).get("startIndex"));
+        assertEquals(9,parser.getParsingMetadata(be.e1).get("endIndex"));
+
+        assertEquals(10,parser.getParsingMetadata(be.op).get("startIndex"));
+        assertEquals(10,parser.getParsingMetadata(be.op).get("endIndex"));
+
+        assertEquals(11,parser.getParsingMetadata(be.e2).get("startIndex"));
+        assertEquals(19,parser.getParsingMetadata(be.e2).get("endIndex"));
+
+        ParenthesizedExpression pe = (ParenthesizedExpression)(be.e1);
+
+        assertEquals(0,parser.getParsingMetadata(pe).get("startIndex"));
+        assertEquals(9,parser.getParsingMetadata(pe).get("endIndex"));
+
+        BinaryExpression be1 = (BinaryExpression)(pe.e);
+        
+        assertEquals(1,parser.getParsingMetadata(be1).get("startIndex"));
+        assertEquals(8,parser.getParsingMetadata(be1).get("endIndex"));
+
+        assertEquals(1,parser.getParsingMetadata(be1.e1).get("startIndex"));
+        assertEquals(3,parser.getParsingMetadata(be1.e1).get("endIndex"));
+
+        assertEquals(4,parser.getParsingMetadata(be1.op).get("startIndex"));
+        assertEquals(4,parser.getParsingMetadata(be1.op).get("endIndex"));
+
+        assertEquals(5,parser.getParsingMetadata(be1.e2).get("startIndex"));
+        assertEquals(8,parser.getParsingMetadata(be1.e2).get("endIndex"));
+
+        BinaryExpression be2 = (BinaryExpression)(be1.e1);
+        
+        assertEquals(1,parser.getParsingMetadata(be2).get("startIndex"));
+        assertEquals(3,parser.getParsingMetadata(be2).get("endIndex"));
+
+        assertEquals(1,parser.getParsingMetadata(be2.e1).get("startIndex"));
+        assertEquals(1,parser.getParsingMetadata(be2.e1).get("endIndex"));
+
+        IntegerLiteral le = (IntegerLiteral)(be2.e1);
+        
+        assertEquals(1,parser.getParsingMetadata(le).get("startIndex"));
+        assertEquals(1,parser.getParsingMetadata(le).get("endIndex"));
+
+        
+    }
 }
 
 /*

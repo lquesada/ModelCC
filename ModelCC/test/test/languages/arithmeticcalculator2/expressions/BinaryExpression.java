@@ -13,9 +13,9 @@ import org.modelcc.*;
  * @author elezeta
  */
 public class BinaryExpression extends Expression2 implements IModel {
-    Expression2 e1;
-    BinaryOperator op;
-    Expression2 e2;
+    public Expression2 e1;
+    public BinaryOperator op;
+    public Expression2 e2;
 
     @Override
     public double eval() {

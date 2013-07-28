@@ -95,12 +95,11 @@ public class FenceParser<T> extends Parser implements Serializable {
     	if (symbolMap != null)
     		return;
     	symbolMap = new HashMap<String,Object>();
-    	objectMetadata.put(symbol,symbolMap);
+    	objectMetadata.put(symbol.getUserData(),symbolMap);
     	symbolMap.put("startIndex",symbol.getStartIndex());
     	symbolMap.put("endIndex",symbol.getEndIndex());
     	for (int i = 0;i < symbol.getContents().size();i++)
     		storeMetadata(symbol.getContents().get(i));
-    	System.out.println("GENERADO "+symbol);
 	}
 
 	/**
@@ -159,7 +158,9 @@ public class FenceParser<T> extends Parser implements Serializable {
      */
 	@Override
 	public Map<String,Object> getParsingMetadata(Object object) {
-		return Collections.unmodifiableMap(objectMetadata.get(object));
+		if (objectMetadata.get(object) != null)
+			return Collections.unmodifiableMap(objectMetadata.get(object));
+		return null;
 	}
 
 }
