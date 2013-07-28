@@ -112,6 +112,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
     	symbolMap.put("startIndex",symbol.getStartIndex());
     	symbolMap.put("endIndex",symbol.getEndIndex());
+    	//TODO store probabilities
 	}
 
 	/**
