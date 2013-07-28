@@ -72,16 +72,27 @@ public class FenceParser<T> extends Parser implements Serializable {
         SyntaxGraph sg = gp.parse(ls,gl.scan(input));
         Set<T> out = new HashSet<T>();
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
-            out.add((T)ite.next().getUserData());
+        	Symbol rootSymbol = ite.next();
+            out.add((T)rootSymbol.getUserData());
+            storeMetadata(rootSymbol);
         }
         if (out.isEmpty()) {
-        	
         	throw new ParserException();
         }
         return out;
     }
 
     /**
+     * Stores symbol metadata in warehouse
+     * @param rootSymbol symbol to store in warehouse.
+     */
+    private void storeMetadata(Symbol rootSymbol) {
+    	System.out.println("Storing "+rootSymbol+" metadata in warehouse "+rootSymbol.getStartIndex()+" "+rootSymbol.getEndIndex());
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
      * Parses an input string
      * @param input the input string
      * @return a parsed object
