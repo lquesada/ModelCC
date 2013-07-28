@@ -52,8 +52,7 @@ public final class ProbabilisticFenceConstraintEnforcerSafe extends FenceConstra
      */
     @Override
     protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
-        symbolMap.put("startIndex",symbol.getStartIndex());
-        symbolMap.put("endIndex",symbol.getEndIndex());
+    	super.fillMetadata(symbol,symbolMap);
         //TODO prob
     }
 

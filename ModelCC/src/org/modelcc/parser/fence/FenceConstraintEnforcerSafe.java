@@ -907,7 +907,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
         symbolMap.put("startIndex",symbol.getStartIndex());
         symbolMap.put("endIndex",symbol.getEndIndex());
-        //TODO prob
     }
 
 }
