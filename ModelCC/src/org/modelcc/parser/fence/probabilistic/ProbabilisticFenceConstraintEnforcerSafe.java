@@ -45,4 +45,16 @@ public final class ProbabilisticFenceConstraintEnforcerSafe extends FenceConstra
         return r.getBuilder().build(s,data);
     }
 
+    /**
+     * Fills symbol metadata.
+     * @param symbol symbol to analyze.
+     * @param symbolMap symbol map in which to store metadata.
+     */
+    @Override
+    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
+        symbolMap.put("startIndex",symbol.getStartIndex());
+        symbolMap.put("endIndex",symbol.getEndIndex());
+        //TODO prob
+    }
+
 }

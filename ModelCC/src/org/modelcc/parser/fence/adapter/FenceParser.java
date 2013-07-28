@@ -80,43 +80,17 @@ public class FenceParser<T> extends Parser implements Serializable {
      */
     @Override
      public Collection<T> parseAll(Reader input) throws ParserException {
-        SyntaxGraph sg = gp.parse(ls,gl.scan(input));
+        SyntaxGraph sg = gp.parse(ls,gl.scan(input),objectMetadata);
         Set<T> out = new HashSet<T>();
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
         	Symbol rootSymbol = ite.next();
             out.add((T)rootSymbol.getUserData());
-            storeMetadata(rootSymbol);
         }
         if (out.isEmpty()) {
         	throw new ParserException();
         }
         return out;
     }
-
-    /**
-     * Stores symbol metadata in warehouse
-     * @param rootSymbol symbol to store in warehouse.
-     */
-    private void storeMetadata(Symbol symbol) {
-    	Map<String,Object> symbolMap = objectMetadata.get(symbol);
-    	if (symbolMap != null)
-    		return;
-    	symbolMap = new HashMap<String,Object>();
-    	objectMetadata.put(symbol.getUserData(),symbolMap);
-    	fillMetadata(symbol,symbolMap);
-    	for (int i = 0;i < symbol.getContents().size();i++)
-    		storeMetadata(symbol.getContents().get(i));
-	}
-
-    /**
-     * Fills symbol metadata.
-     * @param symbol symbol to analyze.
-     * @param symbolMap symbol map in which to store metadata.
-     */
-    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
-    	symbolMap.put("startIndex",symbol.getStartIndex());
-    	symbolMap.put("endIndex",symbol.getEndIndex());
-	}
 
 	/**
      * Parses an input string
@@ -165,7 +139,7 @@ public class FenceParser<T> extends Parser implements Serializable {
     /**
      * Object metadata warehouse.
      */
-    private static Map<Object,Map<String,Object>> objectMetadata = new WeakHashMap<Object,Map<String,Object>>();
+    private Map<Object,Map<String,Object>> objectMetadata = new WeakHashMap<Object,Map<String,Object>>();
     
     /**
      * Returns the parsing metadata for an object.

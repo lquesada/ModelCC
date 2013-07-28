@@ -67,6 +67,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     
     protected Object data;
 
+    private Map<Object,Map<String,Object>> objectMetadata;
+    
     /**
      * Serial Version ID
      */
@@ -103,10 +105,23 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * Perform syntactical analysis on a lexical graph.
      * @param constraints the constraints.
      * @param pg the input parsed graph.
+     * @param objectMetadata the object metadata warehouse
      * @return a syntactic analysis graph.
      */
     public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg) {
+    	return enforce(constraints,pg,null);
+    }
+    
+    /**
+     * Perform syntactical analysis on a lexical graph.
+     * @param constraints the constraints.
+     * @param pg the input parsed graph.
+     * @return a syntactic analysis graph.
+     */
+    public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg,Map<Object,Map<String,Object>> objectMetadata) {
         
+    	this.objectMetadata = objectMetadata;
+    	
         this.pg = pg;
         
         this.constraints = constraints;
@@ -392,6 +407,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             s = new Symbol(id.val,ps);
             s.setUserData(ps.getUserData());
 
+            storeMetadata(s);
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
             if (build(s)) {
@@ -411,6 +427,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             Symbol s;
             s = new Symbol(id.val,ps);
             id.val++;
+
+            storeMetadata(s);
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
@@ -664,6 +682,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 s = new Symbol(id.val,ps,r,relevant,elements,content);
                 id.val++;
                 
+                storeMetadata(s);
+
                 s.setUserData(ps.getUserData());
 
                 
@@ -769,6 +789,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 }
 
                  if (!inhibited) {
+                	 
                     if (build(s.getRule(),s)) {
                         if (r.getRight().size() == 1)
                             if (associateds.contains(content.get(0)))
@@ -863,6 +884,30 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 removeDependent(s2,erase);
             }
         }
+    }
+
+    private void storeMetadata(Symbol symbol) {
+    	if (objectMetadata == null)
+    		return;
+        Map<String,Object> symbolMap = objectMetadata.get(symbol);
+        if (symbolMap != null)
+                return;
+        symbolMap = new HashMap<String,Object>();
+        objectMetadata.put(symbol.getUserData(),symbolMap);
+        fillMetadata(symbol,symbolMap);
+        for (int i = 0;i < symbol.getContents().size();i++)
+                storeMetadata(symbol.getContents().get(i));
+        }
+
+    /**
+     * Fills symbol metadata.
+     * @param symbol symbol to analyze.
+     * @param symbolMap symbol map in which to store metadata.
+     */
+    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
+        symbolMap.put("startIndex",symbol.getStartIndex());
+        symbolMap.put("endIndex",symbol.getEndIndex());
+        //TODO prob
     }
 
 }

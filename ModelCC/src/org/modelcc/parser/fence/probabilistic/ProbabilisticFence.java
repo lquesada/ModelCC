@@ -6,6 +6,8 @@
 package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
+import java.util.Map;
+
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.fence.Fence;
@@ -32,10 +34,21 @@ public final class ProbabilisticFence extends Fence implements Serializable {
      * @return a syntax graph.
      */
     public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg) {
+    	return parse(fs,lg,null);
+    }
+
+    /**
+     * Perform probabilistic syntactical analysis on a Lexical Graph.
+     * @param fs the Fence specification.
+     * @param lg the input lexical graph.
+     * @param objectMetadata the object metadata warehouse
+     * @return a syntax graph.
+     */
+    public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg,Map<Object,Map<String,Object>> objectMetadata) {
         FenceGrammarParser fgp = new FenceGrammarParser();
         ParsedGraph pg = fgp.parse(fs.getGrammar(),lg);
         ProbabilisticFenceConstraintEnforcer fce = new ProbabilisticFenceConstraintEnforcer();
-        SyntaxGraph sg = fce.enforce(fs.getConstraints(),pg);
+        SyntaxGraph sg = fce.enforce(fs.getConstraints(),pg,objectMetadata);
         return sg;
     }
 
