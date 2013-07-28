@@ -3,10 +3,13 @@
  */
 
 
-package org.modelcc.parser.fence;
+package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
 import org.modelcc.language.syntax.Constraints;
+import org.modelcc.parser.fence.FenceConstraintEnforcer;
+import org.modelcc.parser.fence.ParsedGraph;
+import org.modelcc.parser.fence.SyntaxGraph;
 
 /**
  * Fence Constraint Enforcer

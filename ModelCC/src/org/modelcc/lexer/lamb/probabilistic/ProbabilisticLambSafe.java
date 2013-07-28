@@ -3,9 +3,12 @@
  */
 
 
-package org.modelcc.lexer.lamb;
+package org.modelcc.lexer.lamb.probabilistic;
 
 import java.io.Reader;
+
+import org.modelcc.lexer.lamb.LambSafe;
+import org.modelcc.lexer.lamb.Token;
 import org.modelcc.lexer.recognizer.MatchedObject;
 import java.io.Serializable;
 import java.io.StringWriter;

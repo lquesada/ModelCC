@@ -16,7 +16,7 @@ import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.lamb.adapter.LambLexerFactory;
-import org.modelcc.lexer.lamb.adapter.ProbabilisticLambLexerFactory;
+import org.modelcc.lexer.lamb.probabilistic.adapter.ProbabilisticLambLexerFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -42,7 +42,7 @@ public abstract class ProbabilisticLexerFactory implements Serializable {
      * @return the created lexer
      * @throws CannotCreateLexerException  
      */
-    public static Lexer create(Model m) throws CannotCreateLexerException {
+    public static ProbabilisticLexer create(Model m) throws CannotCreateLexerException {
         return ProbabilisticLambLexerFactory.create(m);
     }
     
@@ -53,7 +53,7 @@ public abstract class ProbabilisticLexerFactory implements Serializable {
      * @return the created lexer
      * @throws CannotCreateLexerException  
      */
-    public static Lexer create(Model m,Model skip) throws CannotCreateLexerException {
+    public static ProbabilisticLexer create(Model m,Model skip) throws CannotCreateLexerException {
         return ProbabilisticLambLexerFactory.create(m,skip);
     }
       
@@ -64,7 +64,7 @@ public abstract class ProbabilisticLexerFactory implements Serializable {
      * @return the created lexer
      * @throws CannotCreateLexerException  
      */
-    public static Lexer create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateLexerException {
+    public static ProbabilisticLexer create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateLexerException {
         return ProbabilisticLambLexerFactory.create(m,ignore);
     }
     

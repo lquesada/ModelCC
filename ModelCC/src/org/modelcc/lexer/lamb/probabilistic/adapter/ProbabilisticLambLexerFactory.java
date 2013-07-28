@@ -3,7 +3,7 @@
  */
 
 
-package org.modelcc.lexer.lamb.adapter;
+package org.modelcc.lexer.lamb.probabilistic.adapter;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,7 +15,9 @@ import org.modelcc.language.LanguageSpecification;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.CannotCreateLexerException;
 import org.modelcc.lexer.LexerFactory;
-import org.modelcc.lexer.lamb.ProbabilisticLamb;
+import org.modelcc.lexer.ProbabilisticLexerFactory;
+import org.modelcc.lexer.lamb.adapter.LambLexerFactory;
+import org.modelcc.lexer.lamb.probabilistic.ProbabilisticLamb;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.metamodel.BasicModelElement;
 import org.modelcc.metamodel.ChoiceModelElement;
@@ -28,7 +30,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public class ProbabilisticLambLexerFactory extends LambLexerFactory implements Serializable {
+public class ProbabilisticLambLexerFactory extends ProbabilisticLexerFactory implements Serializable {
 
     /**
      * Serial Version ID
@@ -78,5 +80,23 @@ public class ProbabilisticLambLexerFactory extends LambLexerFactory implements S
             throw new CannotCreateLexerException(e);
         }
     }
-    
+
+    /**
+     * Fills the ignore set
+     * @param ignore the ignore set
+     * @param skip the skip model
+     * @param el the recursive model element
+     */
+    private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
+        if (el.getClass().equals(ComplexModelElement.class))
+            Logger.getLogger(LambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
+        else if (el.getClass().equals(BasicModelElement.class)) {
+            ignore.add(((BasicModelElement)el).getPattern());
+        }
+        else if (el.getClass().equals(ChoiceModelElement.class)) {
+            for (Iterator<ModelElement> ite = skip.getSubelements().get(el).iterator();ite.hasNext();)
+            fillIgnore(ignore,skip,ite.next());
+        }
+    }
+
 }

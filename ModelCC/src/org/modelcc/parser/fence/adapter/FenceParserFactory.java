@@ -104,7 +104,7 @@ public class FenceParserFactory extends ParserFactory implements Serializable {
         }
     }
 
-    protected static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
+    private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
             Logger.getLogger(FenceParserFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {

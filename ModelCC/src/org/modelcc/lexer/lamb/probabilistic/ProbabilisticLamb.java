@@ -3,12 +3,14 @@
  */
 
 
-package org.modelcc.lexer.lamb;
+package org.modelcc.lexer.lamb.probabilistic;
 
 import java.io.Reader;
 import java.io.Serializable;
 import java.util.Set;
 import org.modelcc.language.lexis.LexicalSpecification;
+import org.modelcc.lexer.lamb.Lamb;
+import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**

@@ -3,11 +3,15 @@
  */
 
 
-package org.modelcc.parser.fence;
+package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
 import org.modelcc.lexer.lamb.LexicalGraph;
 import org.modelcc.language.syntax.SyntacticSpecification;
+import org.modelcc.parser.fence.Fence;
+import org.modelcc.parser.fence.FenceGrammarParser;
+import org.modelcc.parser.fence.ParsedGraph;
+import org.modelcc.parser.fence.SyntaxGraph;
 
 /**
  * Fence - SyntaxGraphParser with Lexical and Syntactic Ambiguity Support.

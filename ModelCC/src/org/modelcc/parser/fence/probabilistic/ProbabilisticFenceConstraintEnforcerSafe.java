@@ -3,7 +3,7 @@
  */
 
 
-package org.modelcc.parser.fence;
+package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +19,8 @@ import org.modelcc.language.syntax.Constraints;
 import org.modelcc.language.syntax.Rule;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.RuleElementPosition;
+import org.modelcc.parser.fence.FenceConstraintEnforcerSafe;
+import org.modelcc.parser.fence.Symbol;
 
 /**
  * Fence Constraint Enforcer

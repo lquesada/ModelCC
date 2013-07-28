@@ -84,7 +84,7 @@ public class LambLexerFactory extends LexerFactory implements Serializable {
      * @param skip the skip model
      * @param el the recursive model element
      */
-    protected static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
+    private static void fillIgnore(Set<PatternRecognizer> ignore, Model skip, ModelElement el) {
         if (el.getClass().equals(ComplexModelElement.class))
             Logger.getLogger(LambLexerFactory.class.getName()).log(Level.SEVERE, "The skip model may not contain composite elements. Element {0} is composite.",new Object[]{el.getElementClass().getCanonicalName()});
         else if (el.getClass().equals(BasicModelElement.class)) {

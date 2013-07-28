@@ -26,7 +26,7 @@ import org.modelcc.metamodel.ModelElement;
 import org.modelcc.parser.fence.Fence;
 import org.modelcc.parser.fence.adapter.FenceParser;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
-import org.modelcc.parser.fence.adapter.ProbabilisticFenceParserFactory;
+import org.modelcc.parser.fence.probabilistic.adapter.ProbabilisticFenceParserFactory;
 
 /**
  * ModelCC Parser Generator
@@ -47,7 +47,7 @@ public class ProbabilisticParserFactory implements Serializable {
      * @return the parser
      * @throws CannotCreateParserException
      */
-    public static Parser create(Model m) throws CannotCreateParserException {
+    public static ProbabilisticParser create(Model m) throws CannotCreateParserException {
         return ProbabilisticFenceParserFactory.create(m);
     }
 
@@ -58,7 +58,7 @@ public class ProbabilisticParserFactory implements Serializable {
      * @return the parser
      * @throws CannotCreateParserException
      */
-    public static Parser create(Model m,Lexer lexer) throws CannotCreateParserException {
+    public static ProbabilisticParser create(Model m,Lexer lexer) throws CannotCreateParserException {
     	return ProbabilisticFenceParserFactory.create(m,lexer);
     }
 
@@ -69,7 +69,7 @@ public class ProbabilisticParserFactory implements Serializable {
      * @return the parser
      * @throws CannotCreateParserException
      */
-    public static Parser create(Model m,Model skip) throws CannotCreateParserException {
+    public static ProbabilisticParser create(Model m,Model skip) throws CannotCreateParserException {
     	return ProbabilisticFenceParserFactory.create(m,skip);
     }
 
@@ -80,7 +80,7 @@ public class ProbabilisticParserFactory implements Serializable {
      * @return the parser
      * @throws CannotCreateParserException
      */
-    public static Parser create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateParserException {
+    public static ProbabilisticParser create(Model m,Set<PatternRecognizer> ignore) throws CannotCreateParserException {
     	return ProbabilisticFenceParserFactory.create(m,ignore);
     }
 	
