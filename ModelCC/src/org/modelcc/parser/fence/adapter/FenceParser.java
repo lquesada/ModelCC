@@ -7,6 +7,8 @@ package org.modelcc.parser.fence.adapter;
 
 import java.io.Reader;
 import java.io.Serializable;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -96,11 +98,9 @@ public class FenceParser<T> extends Parser implements Serializable {
     	objectMetadata.put(symbol,symbolMap);
     	symbolMap.put("startIndex",symbol.getStartIndex());
     	symbolMap.put("endIndex",symbol.getEndIndex());
-    	//TODO text
-    	//TODO startLine
-    	//TODO endLine
-    	//TODO startPos
-    	//TODO endPos
+    	for (int i = 0;i < symbol.getContents().size();i++)
+    		storeMetadata(symbol.getContents().get(i));
+    	System.out.println("GENERADO "+symbol);
 	}
 
 	/**
