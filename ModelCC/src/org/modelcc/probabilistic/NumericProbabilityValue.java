@@ -6,7 +6,7 @@
 package org.modelcc.probabilistic;
 
 /**
- * Probability evaluator.
+ * Numeric probability value.
  * @author elezeta
  */
 public class NumericProbabilityValue extends ProbabilityValue {
