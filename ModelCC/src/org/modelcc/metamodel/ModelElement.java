@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
+import org.modelcc.probabilistic.ProbabilityValue;
 
 /**
  * ModelElement.
@@ -70,6 +72,11 @@ public abstract class ModelElement implements Serializable {
      * Positions.
      */
     private Map<ElementMember, PositionInfo> positions;
+    
+    /** 
+     * Probability evaluator
+     */
+    private ProbabilityEvaluator probabilityEvaluator;
     
     /**
      * Constructor.

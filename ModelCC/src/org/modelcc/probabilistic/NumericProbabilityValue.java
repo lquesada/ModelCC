@@ -31,5 +31,10 @@ public class NumericProbabilityValue extends ProbabilityValue {
 	public ProbabilityValue product(ProbabilityValue other) {
 		return new NumericProbabilityValue(value*other.getNumericValue());
 	}
-    
+	
+    @Override
+	public ProbabilityValue complementary() {
+    	return new NumericProbabilityValue(1d-value);
+    }
+
 }

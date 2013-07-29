@@ -14,5 +14,7 @@ public abstract class ProbabilityValue {
 	public abstract double getNumericValue();
 	
 	public abstract ProbabilityValue product(ProbabilityValue other);
+
+	public abstract ProbabilityValue complementary();
 	
 }
