@@ -11,4 +11,8 @@ package org.modelcc.probabilistic;
  */
 public abstract class ProbabilityValue {
 	
+	public abstract double getNumericValue();
+	
+	public abstract ProbabilityValue product(ProbabilityValue other);
+	
 }

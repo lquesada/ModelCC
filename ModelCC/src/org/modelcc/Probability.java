@@ -22,7 +22,7 @@ public @interface Probability {
 
 	public double p() default -1;
 	
-	public int frequency() default -1;
+	//public int frequency() default -1;
 	
 	public Class evaluator() default Probability.class;
 	
