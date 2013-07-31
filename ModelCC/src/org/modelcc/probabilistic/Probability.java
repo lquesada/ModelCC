@@ -19,10 +19,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Probability {
 
-	public double p() default -1;
+	public double p() default -31337;
 	
 	//public int frequency() default -1;
 	
 	public Class evaluator() default Probability.class;
-	
+
+	public String args() default "";
+
 }

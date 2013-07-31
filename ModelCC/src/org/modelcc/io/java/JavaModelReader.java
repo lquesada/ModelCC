@@ -35,6 +35,9 @@ import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
 import org.modelcc.io.ModelReader;
 import org.modelcc.metamodel.*;
+import org.modelcc.probabilistic.NumericProbabilityEvaluator;
+import org.modelcc.probabilistic.Probability;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.tools.FieldSearcher;
 import org.modelcc.*;
 import org.modelcc.io.DefaultFilter;
@@ -602,6 +605,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         Field valueField = null;
         Method setupMethod = null;
         List<Method> constraintMethods = new ArrayList<Method>();
+        ProbabilityEvaluator probabilityEvaluator = null;
 
         Field[] fl = elementClass.getDeclaredFields();
         //log(Level.INFO, "Reading class \"{0}\".", actname);
@@ -626,6 +630,33 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (shownValueError)
             valueField = null;
 
+
+        if (elementClass.isAnnotationPresent(Probability.class)) {
+            Probability an;
+            an = (Probability) elementClass.getAnnotation(Probability.class);
+            if (!an.evaluator().equals(Probability.class)) {
+	            if (!ProbabilityEvaluator.class.isAssignableFrom(an.evaluator()))
+	            	log(Level.SEVERE, "In class \"{0}\": The @Probability class \"{1}\" does not extend ProbabilityEvaluator.", new Object[]{elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
+	            else {
+	                try {
+						probabilityEvaluator = (ProbabilityEvaluator) an.evaluator().getConstructor(String.class).newInstance(an.args());
+					} catch (Exception e) {
+		            	log(Level.SEVERE, "In class \"{0}\": Exception while instancing @Probability class \"{1}\".", new Object[]{elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
+						e.printStackTrace();
+					}
+	            }
+            } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {
+            	if (an.p() >= 0 && an.p() < 1) {
+            		probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+            	}
+            	else {
+	            	log(Level.SEVERE, "In class \"{0}\": Invalid probability p-value.", new Object[]{elementClass.getCanonicalName()});
+            	}
+            } else {
+            	log(Level.SEVERE, "In class \"{0}\": @Probability annotation with neither evaluator nor p-value.", new Object[]{elementClass.getCanonicalName()});
+            }
+        }
+        
         //PatternRecognizer pattern;
         if (elementClass.isAnnotationPresent(Pattern.class)) {
             Pattern p = (Pattern)elementClass.getAnnotation(Pattern.class);
@@ -836,7 +867,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 delimiters.addAll(separator);
         }
 
-        PreElement pe = new PreElement(elementClass,contents,ids,freeOrder,associativity,composition,prefix,suffix,separator,pattern,valueField,setupMethod,constraintMethods);
+        PreElement pe = new PreElement(elementClass,contents,ids,freeOrder,associativity,composition,prefix,suffix,separator,pattern,valueField,setupMethod,constraintMethods,probabilityEvaluator);
 
         classToPreElement.put(elementClass,pe);
 
@@ -873,7 +904,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         List<PatternRecognizer> suffix = null;
         List<PatternRecognizer> separator = null;
         Class contentClass;
-
+        ProbabilityEvaluator probabilityEvaluator = null;
 
         //CollectionType collection = CollectionType.NO_COLLECTION;
         if (List.class.isAssignableFrom(field.getType())) {
@@ -1020,11 +1051,39 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 }
             }
         }
+        
+        //TODO CHECK ERRORS
 
+        if (field.isAnnotationPresent(Probability.class)) {
+            Probability an;
+            an = (Probability) field.getAnnotation(Probability.class);
+            if (!an.evaluator().equals(Probability.class)) {
+	            if (!ProbabilityEvaluator.class.isAssignableFrom(an.evaluator()))
+	            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Probability class \"{2}\" does not extend ProbabilityEvaluator.", new Object[]{field.getName(), elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
+	            else {
+	                try {
+						probabilityEvaluator = (ProbabilityEvaluator) an.evaluator().getConstructor(String.class).newInstance(an.args());
+					} catch (Exception e) {
+		            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Exception while instancing @Probability class \"{2}\".", new Object[]{field.getName(), elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
+						e.printStackTrace();
+					}
+	            }
+            } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {
+            	if (an.p() >= 0 && an.p() < 1) {
+            		probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+            	}
+            	else {
+	            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Invalid probability p-value.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            	}
+            } else {
+            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Probability annotation with neither evaluator nor p-value.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            }
+        }
+        
         if (collection == null)
-            return new ElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator);
+            return new ElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator,probabilityEvaluator);
         else
-            return new MultipleElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
+            return new MultipleElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity,probabilityEvaluator);
     }
 
     /**
@@ -1382,6 +1441,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
             contents = pe.getContents();
             ids = pe.getIds();
             boolean hasAnyAssociativity;
+            ProbabilityEvaluator probabilityEvaluator;
             
             if (pe.isFreeOrder() != null)
                 freeOrder = pe.isFreeOrder();
@@ -1408,10 +1468,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 separator = null;
             else
                 separator = pe.getSeparator();
+
             pattern = pe.getPattern();
             valueField = pe.getValueField();
             setupMethod = pe.getSetupMethod();
             hasAnyAssociativity = pe.getHasAnyAssociativity();
+            probabilityEvaluator = pe.getProbabilityEvaluator();
 
             String valueFieldName = null;
             if (valueField != null)
@@ -1428,19 +1490,19 @@ public class JavaModelReader extends ModelReader implements Serializable {
             
             e = null;
             if (Modifier.isAbstract(elementClass.getModifiers()) && preSubclasses.get(pe) == null) {
-            	e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
+            	e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity,probabilityEvaluator);
                  log(Level.SEVERE, "In class \"{0}\": Abstract class without subclasses.", new Object[]{elementClass.getCanonicalName()});
             }
             else if (pe.getContents().isEmpty() && preSubclasses.get(pe) != null) {
-                e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity);
+                e = new ChoiceModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,hasAnyAssociativity,probabilityEvaluator);
             }
             else if (pe.getPattern() != null) {
                 if (!hasConstructor(elementClass))
                     log(Level.SEVERE, "In class \"{0}\": Elements containing @Pattern or @Value need to implement a public parameterless constructor.", new Object[]{elementClass.getCanonicalName()});
-                    e = new BasicModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,pattern,valueFieldName,hasAnyAssociativity);
+                    e = new BasicModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,pattern,valueFieldName,hasAnyAssociativity,probabilityEvaluator);
             }
             else {
-                e = new ComplexModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,contents,ids,freeOrder,composition,hasAnyAssociativity);
+                e = new ComplexModelElement(elementClass,associativity,prefix,suffix,separator,setupMethodName,constraintMethodNames,contents,ids,freeOrder,composition,hasAnyAssociativity,probabilityEvaluator);
                 if (hasPattern(elementClass)) {
                     contents = new ArrayList<ElementMember>();
                 }
@@ -1507,14 +1569,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
                                 allopt = false;
                         }
                         if (allopt) {
-                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator()));
+                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),em.getProbabilityEvaluator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Optional and all its contents are also @Optional, the field @Optional annotation is redundant.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }
                     else {
                         MultipleElementMember mem = (MultipleElementMember)em;
                         if (mem.getMinimumMultiplicity()==0 && mem.getPrefix() == null && mem.getSuffix() == null) {
-                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
+                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity(),em.getProbabilityEvaluator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field has minimum multiplicity 0 and is redundantly optional because it has not prefixes or suffixes.", new Object[]{mem.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }
@@ -1540,12 +1602,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
                     PreElement peref = classToPreElement.get(em.getElementClass());
                     if (peref.getIds().isEmpty()) {
                         if (!MultipleElementMember.class.isAssignableFrom(em.getClass())) {
-                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator()));
+                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator(),em.getProbabilityEvaluator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Reference but its field class has no @ID members.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                         else {
                             MultipleElementMember mem = (MultipleElementMember)em;
-                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity()));
+                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),em.isOptional(),em.isId(),false,em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity(),em.getProbabilityEvaluator()));
                             log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Reference but its field class has no @ID members.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
                         }
                     }

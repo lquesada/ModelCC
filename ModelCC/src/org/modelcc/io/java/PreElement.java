@@ -6,6 +6,7 @@
 package org.modelcc.io.java;
 
 import org.modelcc.metamodel.ElementMember;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.CompositionType;
 import org.modelcc.AssociativityType;
 import java.io.Serializable;
@@ -83,6 +84,11 @@ public final class PreElement implements Serializable {
      */
     private boolean hasAnyAssociativity;
     
+    /** 
+     * Probability evaluator
+     */
+    private ProbabilityEvaluator probabilityEvaluator;
+    
     /**
      * Constructor
      * @param elementClass the element class
@@ -98,8 +104,9 @@ public final class PreElement implements Serializable {
      * @param valueField the value field
      * @param setupMethod the setup method
      * @param constraintMethods the constraint checking methods
+     * @param probabilityEvaluator probability evaluator
      */
-    public PreElement(Class elementClass, List<ElementMember> contents, List<ElementMember> ids, Boolean freeOrder, AssociativityType associativity, CompositionType composition, List<PatternRecognizer> prefix, List<PatternRecognizer> suffix, List<PatternRecognizer> separator, PatternRecognizer pattern, Field valueField, Method setupMethod,List<Method> constraintMethods) {
+    public PreElement(Class elementClass, List<ElementMember> contents, List<ElementMember> ids, Boolean freeOrder, AssociativityType associativity, CompositionType composition, List<PatternRecognizer> prefix, List<PatternRecognizer> suffix, List<PatternRecognizer> separator, PatternRecognizer pattern, Field valueField, Method setupMethod,List<Method> constraintMethods,ProbabilityEvaluator probabilityEvaluator) {
         this.elementClass = elementClass;
         this.contents = contents;
         this.ids = ids;
@@ -114,6 +121,7 @@ public final class PreElement implements Serializable {
         this.setupMethod = setupMethod;
         this.constraintMethods = constraintMethods;
         this.hasAnyAssociativity = false;
+        this.probabilityEvaluator = probabilityEvaluator;
     }
 
     /**
@@ -304,5 +312,12 @@ public final class PreElement implements Serializable {
     public void setIds(List<ElementMember> ids) {
         this.ids = ids;
     }
-    
+
+    /**
+     * @return the probability evaluator 
+     */
+    public ProbabilityEvaluator getProbabilityEvaluator() {
+    	return probabilityEvaluator;
+    }
+
 }

@@ -19,10 +19,21 @@ public class NumericProbabilityEvaluator extends ProbabilityEvaluator {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
+    private NumericProbabilityValue value;
+    
+    public NumericProbabilityEvaluator(String args) {
+    	super(args);
+    	value = new NumericProbabilityValue(Double.parseDouble(args));
+    }
+
+    public NumericProbabilityEvaluator(double value) {
+    	super("");
+    	this.value = new NumericProbabilityValue(value);
+    }
+
     @Override
 	public ProbabilityValue evaluate(Object object,ModelElement element) {
-		//TODO
-    	return null;
+    	return this.value;
 	}
-	
+
 }
