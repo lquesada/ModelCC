@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 
@@ -65,9 +66,10 @@ public final class ComplexModelElement extends ModelElement {
      * @param freeOrder whether if the element may be placed in free order
      * @param composition the composition type
      * @param hasAnyAssociativity has any associativity 
+     * @param probabilityEvaluator probability evaluator
      */
-    public ComplexModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,List<ElementMember> contents,List<ElementMember> ids,boolean freeOrder,CompositionType composition,boolean hasAnyAssociativity) {
-        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity);
+    public ComplexModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,List<ElementMember> contents,List<ElementMember> ids,boolean freeOrder,CompositionType composition,boolean hasAnyAssociativity,ProbabilityEvaluator probabilityEvaluator) {
+        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity,probabilityEvaluator);
         this.contents = contents;
         this.ids = ids;
         this.freeOrder = freeOrder;

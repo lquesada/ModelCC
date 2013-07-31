@@ -29,6 +29,7 @@ import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.*;
 import org.modelcc.parser.fence.Symbol;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 import org.modelcc.Position;
@@ -1522,6 +1523,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 Class contentClass = sc.getElementClass();
                 boolean id = rep.isId();
                 boolean reference = rep.isReference();
+                ProbabilityEvaluator probabilityEvaluator = rep.getProbabilityEvaluator();
 
                 ElementMember ctx;
 
@@ -1529,10 +1531,10 @@ public final class LanguageSpecificationFactory implements Serializable {
                     CollectionType collection = ((MultipleElementMember)rep).getCollection();
                     int minimumMultiplicity = ((MultipleElementMember)rep).getMinimumMultiplicity();
                     int maximumMultiplicity = ((MultipleElementMember)rep).getMaximumMultiplicity();
-                    ctx = new MultipleElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity);
+                    ctx = new MultipleElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator,collection,minimumMultiplicity,maximumMultiplicity,probabilityEvaluator);
                 }
                 else {
-                    ctx = new ElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator);
+                    ctx = new ElementMember(field,contentClass,optional,id,reference,prefix,suffix,separator,probabilityEvaluator);
                 }
                 elcc.add(f,ctx);
 

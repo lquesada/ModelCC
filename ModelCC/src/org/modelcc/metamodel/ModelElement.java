@@ -88,8 +88,9 @@ public abstract class ModelElement implements Serializable {
      * @param setupMethod the setup method
      * @param constraintMethod the constraint methods
      * @param hasAnyAssociativity has any associativity 
+     * @param probabilityEvaluator probability evaluator
      */
-    public ModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity) {
+    public ModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity,ProbabilityEvaluator probabilityEvaluator) {
         this.elementClass = elementClass;
         this.associativity = associativity;
         this.prefix = prefix;
@@ -104,7 +105,7 @@ public abstract class ModelElement implements Serializable {
         this.setupMethod = setupMethod;
         this.constraintMethods = constraintMethods;
         this.hasAnyAssociativity = hasAnyAssociativity;
-
+        this.probabilityEvaluator = probabilityEvaluator;
     }
 
     /**
@@ -170,5 +171,12 @@ public abstract class ModelElement implements Serializable {
 	public Map<ElementMember, PositionInfo> getPositions() {
 		return Collections.unmodifiableMap(positions);
 	}
+
+    /**
+     * @return the probability evaluator 
+     */
+    public ProbabilityEvaluator getProbabilityEvaluator() {
+    	return probabilityEvaluator;
+    }
 
 }

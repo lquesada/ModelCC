@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.modelcc.Position;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 
 /**
  * Element content
@@ -63,6 +64,11 @@ public class ElementMember implements Serializable {
      */
     private List<PatternRecognizer> separator;
 
+    /** 
+     * Probability evaluator
+     */
+    private ProbabilityEvaluator probabilityEvaluator;
+    
     /**
      * Constructor
      * @param field the field
@@ -74,8 +80,9 @@ public class ElementMember implements Serializable {
      * @param suffix the suffix
      * @param separator the ad hoc separator
      * @param positionTag the position tag
+     * @param probabilityEvaluator probability evaluator
      */
-    public ElementMember(String field,Class elementClass,boolean optional,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator) {
+    public ElementMember(String field,Class elementClass,boolean optional,boolean id,boolean reference,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,ProbabilityEvaluator probabilityEvaluator) {
         this.field = field;
         this.elementClass = elementClass;
         this.optional = optional;
@@ -84,6 +91,7 @@ public class ElementMember implements Serializable {
         this.prefix = prefix;
         this.suffix = suffix;
         this.separator = separator;
+        this.probabilityEvaluator = probabilityEvaluator; 
     }
 
     /**
@@ -140,6 +148,13 @@ public class ElementMember implements Serializable {
      */
     public boolean isReference() {
         return reference;
+    }
+    
+    /**
+     * @return the probability evaluator 
+     */
+    public ProbabilityEvaluator getProbabilityEvaluator() {
+    	return probabilityEvaluator;
     }
 
 

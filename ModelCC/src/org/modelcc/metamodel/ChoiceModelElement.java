@@ -7,6 +7,7 @@ package org.modelcc.metamodel;
 
 import java.util.List;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.AssociativityType;
 
 /**
@@ -31,9 +32,10 @@ public final class ChoiceModelElement extends ModelElement {
      * @param setupMethod the setup method
      * @param constraintMethods the constraint checking methods
      * @param hasAnyAssociativity has any associativity 
+     * @param probabilityEvaluator probability evaluator
      */
-    public ChoiceModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity) {
-        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity);
+    public ChoiceModelElement(Class elementClass,AssociativityType associativity,List<PatternRecognizer> prefix,List<PatternRecognizer> suffix,List<PatternRecognizer> separator,String setupMethod,List<String> constraintMethods,boolean hasAnyAssociativity,ProbabilityEvaluator probabilityEvaluator) {
+        super(elementClass,associativity,prefix,suffix,separator,setupMethod,constraintMethods,hasAnyAssociativity,probabilityEvaluator);
     }
 
     
