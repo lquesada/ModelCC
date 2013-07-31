@@ -35,6 +35,7 @@ import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
 import org.modelcc.io.ModelReader;
 import org.modelcc.metamodel.*;
+import org.modelcc.probabilistic.InvalidProbabilityValueException;
 import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
@@ -112,7 +113,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         warnings.clear();
 
         if (!IModel.class.isAssignableFrom(root))
-            throw new ClassDoesNotExtendIModel("Class "+root+" does not extend IModel.");
+            throw new ClassDoesNotExtendIModelException("Class "+root+" does not extend IModel.");
 
         Map<String,PatternRecognizer> pas = new HashMap<String,PatternRecognizer>();
         Set<ModelElement> elements = new HashSet<ModelElement>();
@@ -645,8 +646,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
 					}
 	            }
             } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {
-            	if (an.p() >= 0 && an.p() < 1) {
-            		probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+            	if (an.p() >= 0 && an.p() <= 1) {
+            		try {
+            			probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+            		} catch (InvalidProbabilityValueException e) {
+    	            	log(Level.SEVERE, "In class \"{0}\": Invalid probability p-value.", new Object[]{elementClass.getCanonicalName()});
+            		}
             	}
             	else {
 	            	log(Level.SEVERE, "In class \"{0}\": Invalid probability p-value.", new Object[]{elementClass.getCanonicalName()});
@@ -1051,8 +1056,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
             }
         }
         
-        //TODO CHECK ERRORS
-
         if (field.isAnnotationPresent(Probability.class)) {
             Probability an;
             an = (Probability) field.getAnnotation(Probability.class);
@@ -1067,8 +1070,12 @@ public class JavaModelReader extends ModelReader implements Serializable {
 					}
 	            }
             } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {
-            	if (an.p() >= 0 && an.p() < 1) {
-            		probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+            	if (an.p() >= 0 && an.p() <= 1) {
+            		try {
+						probabilityEvaluator = new NumericProbabilityEvaluator(an.p());
+					} catch (InvalidProbabilityValueException e) {
+		            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Invalid probability p-value.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+					}
             	}
             	else {
 	            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Invalid probability p-value.", new Object[]{field.getName(), elementClass.getCanonicalName()});

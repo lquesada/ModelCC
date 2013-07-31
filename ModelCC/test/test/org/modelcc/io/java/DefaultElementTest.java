@@ -22,7 +22,7 @@ import test.languages.warnings.AbstNoSubClasses1;
 import test.languages.warnings.AbstNoSubClasses;
 
 import org.modelcc.io.ModelReader;
-import org.modelcc.io.java.ClassDoesNotExtendIModel;
+import org.modelcc.io.java.ClassDoesNotExtendIModelException;
 import org.modelcc.io.java.JavaModelReader;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;

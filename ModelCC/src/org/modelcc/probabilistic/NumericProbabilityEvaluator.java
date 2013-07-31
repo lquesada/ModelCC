@@ -21,18 +21,25 @@ public class NumericProbabilityEvaluator extends ProbabilityEvaluator {
 
     private NumericProbabilityValue value;
     
-    public NumericProbabilityEvaluator(String args) {
+    public NumericProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
     	super(args);
-    	value = new NumericProbabilityValue(Double.parseDouble(args));
+    	double value = Double.parseDouble(args);
+    	if (value < 0 || value>1) {
+    		throw new InvalidProbabilityValueException("Invalid probability value.");
+    	}
+    	this.value = new NumericProbabilityValue(value);
     }
 
-    public NumericProbabilityEvaluator(double value) {
+    public NumericProbabilityEvaluator(double value) throws InvalidProbabilityValueException {
     	super("");
+    	if (value < 0 || value>1) {
+    		throw new InvalidProbabilityValueException("Invalid probability value.");
+    	}
     	this.value = new NumericProbabilityValue(value);
     }
 
     @Override
-	public ProbabilityValue evaluate(Object object,ModelElement element) {
+	public ProbabilityValue evaluate(Object object) {
     	return this.value;
 	}
 

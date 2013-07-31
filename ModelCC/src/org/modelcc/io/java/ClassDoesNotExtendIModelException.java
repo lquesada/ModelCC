@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author elezeta
  * @serial
  */
-public final class ClassDoesNotExtendIModel extends Exception implements Serializable {
+public final class ClassDoesNotExtendIModelException extends Exception implements Serializable {
 
     /**
      * Serial Version ID
@@ -23,7 +23,7 @@ public final class ClassDoesNotExtendIModel extends Exception implements Seriali
      * Constructor
      * @param string the message string
      */
-    public ClassDoesNotExtendIModel(String string) {
+    public ClassDoesNotExtendIModelException(String string) {
         super(string);
     }
 

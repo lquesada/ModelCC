@@ -8,12 +8,15 @@ package test.languages.arithmeticcalculator.binaryoperators;
 import test.languages.arithmeticcalculator.BinaryOperator;
 import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.*;
+import org.modelcc.probabilistic.NumericProbabilityEvaluator;
+import org.modelcc.probabilistic.Probability;
 
 /**
  * @author elezeta
  */
 @Priority(value=4)
 @Pattern(regExp="\\/")
+@Probability(evaluator=FixedProbabilityEvaluator.class,args="0.2")
 public class DivisionOperator extends BinaryOperator implements IModel {
 
     @Override

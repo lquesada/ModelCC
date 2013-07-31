@@ -3,11 +3,13 @@
  */
 
 
-package test.languages.wronglanguages;
+package test.languages.arithmeticcalculator.binaryoperators;
 
 import org.modelcc.*;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.probabilistic.InvalidProbabilityValueException;
+import org.modelcc.probabilistic.NumericProbabilityEvaluator;
+import org.modelcc.probabilistic.NumericProbabilityValue;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.probabilistic.ProbabilityValue;
 
@@ -15,17 +17,15 @@ import org.modelcc.probabilistic.ProbabilityValue;
  *
  * @author elezeta
  */
-@Pattern(regExp="a")
-public class ExceptionProbabilityEvaluator extends ProbabilityEvaluator {
+public class FixedProbabilityEvaluator extends ProbabilityEvaluator {
 
-	public ExceptionProbabilityEvaluator(String args)throws InvalidProbabilityValueException {
+	public FixedProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
 		super(args);
-		int a = 0/0;
 	}
 
 	@Override
 	public ProbabilityValue evaluate(Object object) {
-		return null;
+		return new NumericProbabilityValue(0.1d);
 	}
 
 }

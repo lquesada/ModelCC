@@ -19,20 +19,13 @@ public abstract class ProbabilityEvaluator {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    String args;
-    
     /**
      * Constructor.
      * @param arg the argument.
      */
-    public ProbabilityEvaluator(String args) {
-    	this.args = args;
+    public ProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
     }
 
-	public abstract ProbabilityValue evaluate(Object object,ModelElement element);
-	
-	public String getArgs() {
-		return args;
-	}
+	public abstract ProbabilityValue evaluate(Object object);
 	
 }

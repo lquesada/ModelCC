@@ -23,7 +23,7 @@ import test.languages.warnings.AbstNoSubClasses1;
 import test.languages.warnings.AbstNoSubClasses;
 
 import org.modelcc.io.ModelReader;
-import org.modelcc.io.java.ClassDoesNotExtendIModel;
+import org.modelcc.io.java.ClassDoesNotExtendIModelException;
 import org.modelcc.io.java.JavaModelReader;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
@@ -34,6 +34,7 @@ import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
+import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 
 import test.languages.testlanguage.*;
 import org.modelcc.AssociativityType;
@@ -331,6 +332,8 @@ public class JavaModelReaderTest {
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
         assertNull(be.getSetupMethod());
+        assertEquals(NumericProbabilityEvaluator.class,be.getProbabilityEvaluator().getClass());
+        assertEquals(0.2d,((NumericProbabilityEvaluator)be.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         be = (BasicModelElement) m.getClassToElement().get(DivisionOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -342,6 +345,8 @@ public class JavaModelReaderTest {
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
         assertNull(be.getSetupMethod());
+        assertEquals(FixedProbabilityEvaluator.class,be.getProbabilityEvaluator().getClass());
+        assertEquals(0.1d,((FixedProbabilityEvaluator)be.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         be = (BasicModelElement) m.getClassToElement().get(MultiplicationOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -353,6 +358,8 @@ public class JavaModelReaderTest {
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
         assertNull(be.getSetupMethod());
+        assertEquals(NumericProbabilityEvaluator.class,be.getProbabilityEvaluator().getClass());
+        assertEquals(1d,((NumericProbabilityEvaluator)be.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         be = (BasicModelElement) m.getClassToElement().get(SubstractionOperator.class);
         assertTrue(m.getElements().contains(be));
@@ -364,6 +371,8 @@ public class JavaModelReaderTest {
         assertNotNull(be.getPattern());
         assertNull(be.getValueField());
         assertNull(be.getSetupMethod());
+        assertEquals(NumericProbabilityEvaluator.class,be.getProbabilityEvaluator().getClass());
+        assertEquals(0d,((NumericProbabilityEvaluator)be.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         be = (BasicModelElement) m.getClassToElement().get(IntegerLiteral.class);
         assertTrue(m.getElements().contains(be));
@@ -400,6 +409,8 @@ public class JavaModelReaderTest {
         assertNull(sc.getPrefix());
         assertNull(sc.getSuffix());
         assertNull(sc.getSeparator());
+        assertEquals(NumericProbabilityEvaluator.class,sc.getProbabilityEvaluator().getClass());
+        assertEquals(0.5d,((NumericProbabilityEvaluator)sc.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         sc = ce.getContents().get(1);
         assertEquals("op",sc.getField());
@@ -423,6 +434,8 @@ public class JavaModelReaderTest {
         assertEquals(0,ce.getSuffix().size());
         assertEquals(0,ce.getSeparator().size());
         assertNull(ce.getSetupMethod());
+        assertEquals(NumericProbabilityEvaluator.class,sc.getProbabilityEvaluator().getClass());
+        assertEquals(0.8d,((NumericProbabilityEvaluator)sc.getProbabilityEvaluator()).evaluate(null).getNumericValue(),0.01d);
 
         se = (ChoiceModelElement) m.getClassToElement().get(LiteralExpression.class);
         assertTrue(m.getElements().contains(se));
@@ -1279,7 +1292,7 @@ public class JavaModelReaderTest {
         try {
             m = jmr.read();
         } catch (Exception ex) {
-            assertEquals(ClassDoesNotExtendIModel.class,ex.getClass());
+            assertEquals(ClassDoesNotExtendIModelException.class,ex.getClass());
             assertFalse(false);
             return;
         }
