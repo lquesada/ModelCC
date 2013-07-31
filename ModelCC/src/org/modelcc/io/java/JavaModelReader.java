@@ -642,7 +642,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						probabilityEvaluator = (ProbabilityEvaluator) an.evaluator().getConstructor(String.class).newInstance(an.args());
 					} catch (Exception e) {
 		            	log(Level.SEVERE, "In class \"{0}\": Exception while instancing @Probability class \"{1}\".", new Object[]{elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
-						e.printStackTrace();
 					}
 	            }
             } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {
@@ -1065,7 +1064,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						probabilityEvaluator = (ProbabilityEvaluator) an.evaluator().getConstructor(String.class).newInstance(an.args());
 					} catch (Exception e) {
 		            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Exception while instancing @Probability class \"{2}\".", new Object[]{field.getName(), elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
-						e.printStackTrace();
 					}
 	            }
             } else if (!(an.p() > -31337.1 && an.p() < -31336.9)) {

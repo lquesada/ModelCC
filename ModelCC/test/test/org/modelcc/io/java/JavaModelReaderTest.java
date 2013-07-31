@@ -1155,6 +1155,110 @@ public class JavaModelReaderTest {
     }
 
     @Test
+    public void modelWrongTest24() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass24.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest25() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass25.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest26() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass26.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest27() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass27.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest28() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass28.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest29() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass29.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest30() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass30.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void modelWrongTest31() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(WrongClass31.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
     public void modelWrongPatternTest() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
         CountFilter c = new CountFilter(false);
