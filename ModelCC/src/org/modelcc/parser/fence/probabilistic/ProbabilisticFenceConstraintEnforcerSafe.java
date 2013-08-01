@@ -35,17 +35,6 @@ public final class ProbabilisticFenceConstraintEnforcerSafe extends FenceConstra
     private static final long serialVersionUID = 31415926535897932L;
 
     /**
-     * Builds a symbol, filling its data, and validates it.
-     * @param s symbol to be built.
-     * @return true if the symbol is valid, false if not
-     */
-    @Override
-    protected boolean build(Rule r,Symbol s) {
-    	//TODO probabilities
-        return r.getBuilder().build(s,data);
-    }
-
-    /**
      * Fills symbol metadata.
      * @param symbol symbol to analyze.
      * @param symbolMap symbol map in which to store metadata.
@@ -53,7 +42,6 @@ public final class ProbabilisticFenceConstraintEnforcerSafe extends FenceConstra
     @Override
     protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
     	super.fillMetadata(symbol,symbolMap);
-        //TODO prob
     }
 
 }

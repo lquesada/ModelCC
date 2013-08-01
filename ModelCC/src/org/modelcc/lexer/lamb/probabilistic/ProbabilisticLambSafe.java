@@ -32,15 +32,4 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
  */
 public final class ProbabilisticLambSafe extends LambSafe implements Serializable {
 
-    /**
-     * Builds a token, filling its data, and validates it.
-     * @param t token to be built.
-     * @return true if the token is valid, false if not
-     */
-    @Override
-    protected boolean build(TokenSpecification m,Token t) {
-    	//TODO probabilistic
-        return m.getBuilder().build(t);
-    }
-
 }
