@@ -20,6 +20,7 @@ public class ExceptionProbabilityEvaluator extends ProbabilityEvaluator {
 	public ExceptionProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
 		super(args);
 		int a = 0/0;
+		a = a/0;
 	}
 
 	@Override
