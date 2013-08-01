@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.modelcc.parser.fence.Symbol;
 
 /**
  * Grammar factory.
@@ -106,8 +105,6 @@ public final class GrammarFactory implements Serializable {
         Set<Object> elements = new HashSet<Object>();
         Set<Object> emptyRules = new HashSet<Object>();
         Map<Object,Rule> emptyRuleRules = new HashMap<Object,Rule>();
-        Grammar g;
-
         // -------------
         // Check rule integrity.
         // -------------

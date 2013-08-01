@@ -6,11 +6,6 @@
 package org.modelcc.language.lexis;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.modelcc.language.factory.BasicTokenBuilder;
 import org.modelcc.lexer.lamb.Token;
 
 /**

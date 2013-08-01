@@ -10,7 +10,6 @@ package test.org.modelcc.io.java;
 import test.languages.warnings.ReferenceNotID2;
 import test.languages.warnings.ReferenceNotID;
 import test.languages.warnings.ReferenceNotIModel;
-import test.languages.warnings.CollectionID;
 import test.languages.warnings.IDNotIModel;
 import test.languages.warnings.OptionalID;
 
@@ -22,7 +21,6 @@ import test.languages.warnings.OptionalMain;
 import test.languages.warnings.AbstNoSubClasses1;
 import test.languages.warnings.AbstNoSubClasses;
 
-import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.ClassDoesNotExtendIModelException;
 import org.modelcc.io.java.JavaModelReader;
 import java.util.logging.Filter;
@@ -46,8 +44,6 @@ import test.languages.arithmeticcalculator.binaryoperators.*;
 import test.languages.nestedinheritsexample.*;
 import test.languages.arithmeticcalculator.expressions.*;
 import test.languages.arithmeticcalculator.expressions.literals.*;
-import test.languages.emptymatchers.prefix.StartPoint;
-import test.org.modelcc.ModelCC2_03Test;
 import test.org.modelcc.io.Serialization;
 
 import java.lang.reflect.InvocationTargetException;
@@ -81,7 +77,8 @@ public class JavaModelReaderTest {
             this.show = show;
         }
 
-        public boolean isLoggable(LogRecord record) {
+        @Override
+		public boolean isLoggable(LogRecord record) {
             if (record.getLevel() == Level.SEVERE) {
                 count++;
             }
@@ -136,10 +133,8 @@ public class JavaModelReaderTest {
 
     private List<String> modelWarnings(Class cl) {
         JavaModelReader jmr = new JavaModelReader(cl);
-        Model m = null;
-
         try {
-            m = jmr.read();
+            jmr.read();
         } catch (Exception ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -318,10 +313,6 @@ public class JavaModelReaderTest {
         ChoiceModelElement se;
 
         ElementMember sc;
-        MultipleElementMember mc;
-
-
-
         be = (BasicModelElement) m.getClassToElement().get(AdditionOperator.class);
         assertTrue(m.getElements().contains(be));
         assertEquals(AdditionOperator.class,be.getElementClass());
@@ -592,8 +583,6 @@ public class JavaModelReaderTest {
         ElementMember sc;
         ElementMember scid;
         MultipleElementMember mc;
-        MultipleElementMember mcid;
-        
         be = (BasicModelElement) m.getClassToElement().get(Test1.class);
         assertTrue(m.getElements().contains(be));
         assertEquals(Test1.class,be.getElementClass());
@@ -1287,10 +1276,8 @@ public class JavaModelReaderTest {
     @Test
     public void NotIModelTest() {
         JavaModelReader jmr = new JavaModelReader(WrongClass22.class);
-        Model m = null;
-
         try {
-            m = jmr.read();
+            jmr.read();
         } catch (Exception ex) {
             assertEquals(ClassDoesNotExtendIModelException.class,ex.getClass());
             assertFalse(false);
@@ -1539,7 +1526,7 @@ public class JavaModelReaderTest {
             return;
 		}
 		try {
-			Collection<test.languages.emptymatchers.prefix.StartPoint> result = parser.parseAll("ab");
+			parser.parseAll("ab");
 			assertTrue(false);
 		} catch (ParserException e) {
 			
@@ -1675,11 +1662,9 @@ public class JavaModelReaderTest {
     @Test
     public void WarningExportHandlerTest3() {
         JavaModelReader jmr = new JavaModelReader(OptionalMult.class);
-        Model m = null;
-
         try {
-            m = jmr.read();
-            m = jmr.read();
+            jmr.read();
+            jmr.read();
         } catch (Exception ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);

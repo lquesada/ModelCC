@@ -25,7 +25,8 @@ public final class ModelCCParserDataFactory extends ParserDataFactory implements
      * Generate a parser data object.
      * @return the parser data object.
      */
-    public Object generate() {
+    @Override
+	public Object generate() {
         return new ModelCCParserData();
     }
     

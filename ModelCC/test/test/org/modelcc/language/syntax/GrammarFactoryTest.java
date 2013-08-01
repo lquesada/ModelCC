@@ -168,7 +168,6 @@ public class GrammarFactoryTest {
         gf.addRule(r15);
         gf.setStartType("Start");
 
-        Grammar g;
         try {
             gf = (GrammarFactory)Serialization.testSerialize(gf);
         } catch (ClassNotFoundException ex) {
@@ -177,7 +176,7 @@ public class GrammarFactoryTest {
         }
         
         try {
-            g = gf.create();
+            gf.create();
         } catch (NullRuleElementException ex) {
             Logger.getLogger(GrammarFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -208,9 +207,8 @@ public class GrammarFactoryTest {
         gf.setStartType("Start");
 
 
-        Grammar g;
         try {
-            g = gf.create();
+            gf.create();
         } catch (NullRuleElementException ex) {
             assertFalse(false);
             return;
@@ -236,9 +234,8 @@ public class GrammarFactoryTest {
         gf.setStartType("Start");
 
 
-        Grammar g;
         try {
-            g = gf.create();
+            gf.create();
         } catch (NullRuleElementException ex) {
             assertFalse(false);
             return;

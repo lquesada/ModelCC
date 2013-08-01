@@ -5,12 +5,7 @@
 
 package org.modelcc.parser;
 
-import java.io.Reader;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * ModelCC Probabilistic Parser

@@ -92,7 +92,7 @@ public class ObjectWrapper {
         try {
             for (int i = 0;i < me.getContents().size();i++) {
                 ElementMember em = me.getContents().get(i);
-                Class c = em.getElementClass();
+                em.getElementClass();
                 Field fld = FieldSearcher.searchField(me.getElementClass(),em.getField());
                 fld.setAccessible(true);
                 Object val = fld.get(o);
@@ -212,7 +212,7 @@ public class ObjectWrapper {
             try {
                 for (int i = 0;i < cme.getContents().size();i++) {
                     ElementMember em = cme.getContents().get(i);
-                    Class c = em.getElementClass();
+                    em.getElementClass();
                     Field fld = FieldSearcher.searchField(cme.getElementClass(),em.getField());
                     fld.setAccessible(true);
                     Object val = fld.get(o);

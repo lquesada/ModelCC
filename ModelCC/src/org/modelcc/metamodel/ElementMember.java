@@ -8,7 +8,6 @@ package org.modelcc.metamodel;
 import java.io.Serializable;
 import java.util.List;
 
-import org.modelcc.Position;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 

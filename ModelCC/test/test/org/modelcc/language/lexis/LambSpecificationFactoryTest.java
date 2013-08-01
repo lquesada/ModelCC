@@ -91,10 +91,10 @@ public class LambSpecificationFactoryTest {
 
   @Test
     public void CyclicPrecedenceCheck1() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5,m6;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Set<TokenSpecification> prec1 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec2 = new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
 
         m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
         m2 = new TokenSpecification("Tab",new RegExpPatternRecognizer("\\t+"),TokenOption.IGNORE,null);
@@ -114,8 +114,6 @@ public class LambSpecificationFactoryTest {
         lsf.addPrecedence(m4,m1);
         lsf.addPrecedence(m5,m6);
 
-        String input = " 253+";
-        LexicalSpecification ls;
         try {
             lsf = (LexicalSpecificationFactory) Serialization.testSerialize(lsf);
         } catch (ClassNotFoundException ex) {
@@ -123,7 +121,7 @@ public class LambSpecificationFactoryTest {
             Logger.getLogger(LambSpecificationFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            ls = lsf.create();
+            lsf.create();
             assertTrue(false);
         } catch (TokenSpecificationCyclicPrecedenceException ex) {
             assertFalse(false);
@@ -133,11 +131,11 @@ public class LambSpecificationFactoryTest {
 
   @Test
     public void CyclicPrecedenceCheck2() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5,m6;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Set<TokenSpecification> prec1 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec2 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec3 = new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
 
         m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
         m2 = new TokenSpecification("Tab",new RegExpPatternRecognizer("\\t+"),TokenOption.IGNORE,null);
@@ -157,10 +155,8 @@ public class LambSpecificationFactoryTest {
         lsf.addPrecedence(m2,m1);
         lsf.addPrecedence(m4,m2);
 
-        String input = " 253+";
-        LexicalSpecification ls;
         try {
-            ls = lsf.create();
+            lsf.create();
             assertTrue(false);
         } catch (TokenSpecificationCyclicPrecedenceException ex) {
             assertFalse(false);

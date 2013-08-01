@@ -6,19 +6,7 @@
 package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import org.modelcc.language.syntax.AssociativityConstraint;
-import org.modelcc.language.syntax.Constraints;
-import org.modelcc.language.syntax.Rule;
-import org.modelcc.language.syntax.RuleElement;
-import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.parser.fence.FenceConstraintEnforcerSafe;
 import org.modelcc.parser.fence.Symbol;
 

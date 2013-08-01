@@ -77,9 +77,8 @@ public class ConstraintsFactoryTest {
             Logger.getLogger(ConstraintsFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             assertFalse(false);
             return;
@@ -116,9 +115,8 @@ public class ConstraintsFactoryTest {
         cf.addCompositionPrecedences(r3,r1);
         cf.addCompositionPrecedences(r1,r2);
 
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             assertFalse(false);
             return;
@@ -156,9 +154,8 @@ public class ConstraintsFactoryTest {
         cf.addCompositionPrecedences(r3,r1);
         cf.addCompositionPrecedences(r1,r2);
 
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             assertTrue(false);
             return;
@@ -193,9 +190,8 @@ public class ConstraintsFactoryTest {
         cf.addSelectionPrecedences(r2,r1);
         cf.addSelectionPrecedences(r1,r2);
 
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             Logger.getLogger(GrammarFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
@@ -233,9 +229,8 @@ public class ConstraintsFactoryTest {
         cf.addSelectionPrecedences(r3,r1);
         cf.addSelectionPrecedences(r1,r2);
 
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             Logger.getLogger(GrammarFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
@@ -273,9 +268,8 @@ public class ConstraintsFactoryTest {
         cf.addSelectionPrecedences(r3,r1);
         cf.addSelectionPrecedences(r1,r2);
 
-        Constraints c;
         try {
-            c = cf.create();
+            cf.create();
         } catch (CyclicCompositionPrecedenceException ex) {
             Logger.getLogger(GrammarFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);

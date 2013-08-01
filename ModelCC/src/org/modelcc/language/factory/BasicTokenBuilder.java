@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.language.lexis.TokenBuilder;
@@ -49,7 +48,8 @@ public final class BasicTokenBuilder extends TokenBuilder implements Serializabl
      * @param t token to be built.
      * @return true if the token is valid, false if not
      */
-    public boolean build(Token t) {
+    @Override
+	public boolean build(Token t) {
         ElementId eid = (ElementId)t.getType();
         BasicModelElement be = (BasicModelElement) eid.getElement();
         Class c = be.getElementClass();

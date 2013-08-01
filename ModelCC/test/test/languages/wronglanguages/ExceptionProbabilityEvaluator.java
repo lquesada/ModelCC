@@ -6,7 +6,6 @@
 package test.languages.wronglanguages;
 
 import org.modelcc.*;
-import org.modelcc.metamodel.ModelElement;
 import org.modelcc.probabilistic.InvalidProbabilityValueException;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.probabilistic.ProbabilityValue;
@@ -18,7 +17,7 @@ import org.modelcc.probabilistic.ProbabilityValue;
 @Pattern(regExp="a")
 public class ExceptionProbabilityEvaluator extends ProbabilityEvaluator {
 
-	public ExceptionProbabilityEvaluator(String args)throws InvalidProbabilityValueException {
+	public ExceptionProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
 		super(args);
 		int a = 0/0;
 	}

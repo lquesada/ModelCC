@@ -88,8 +88,8 @@ public class FenceGrammarParserTest {
 
     @Test public void AnalysisTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main main";
         StringReader sr = new StringReader(input);
 
@@ -728,7 +728,7 @@ public class FenceGrammarParserTest {
     @Test public void AnalysisTest4() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15;
+        Rule r1,r2,r3,r4,r5,r6;
         String input = "5+1+2";
         StringReader sr = new StringReader(input);
 
@@ -878,7 +878,7 @@ public class FenceGrammarParserTest {
     @Test public void AnalysisTest5() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15;
+        Rule r1,r2,r3,r4,r5,r6;
         String input = "5+1+2+1";
         StringReader sr = new StringReader(input);
 
@@ -1037,7 +1037,7 @@ public class FenceGrammarParserTest {
 
     @Test public void EmptyRuleTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
         Rule r1,r2,r3;
         String input = "main main";
         StringReader sr = new StringReader(input);
@@ -1123,8 +1123,8 @@ public class FenceGrammarParserTest {
 
     @Test public void EmptyRuleTestMatch() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "";
         StringReader sr = new StringReader(input);
 
@@ -1197,7 +1197,7 @@ public class FenceGrammarParserTest {
 
     @Test public void EmptyRuleTest2() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
         Rule r1,r2,r3;
         String input = "main main";
         StringReader sr = new StringReader(input);
@@ -1284,7 +1284,7 @@ public class FenceGrammarParserTest {
 
     @Test public void ChainedEmptyRuleTest() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
         Rule r1,r2,r3,r4,r5;
         String input = "main main";
         StringReader sr = new StringReader(input);
@@ -1382,8 +1382,8 @@ public class FenceGrammarParserTest {
 
     @Test public void CyclicRuleTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2,r3;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -1466,8 +1466,8 @@ public class FenceGrammarParserTest {
 
     @Test public void CyclicRuleTest2() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2,r3;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -1549,8 +1549,8 @@ public class FenceGrammarParserTest {
 
     @Test public void CyclicRuleTest3() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2,r3;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -1633,8 +1633,7 @@ public class FenceGrammarParserTest {
 
     @Test public void SingleSymbolTest() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -1672,7 +1671,7 @@ public class FenceGrammarParserTest {
 
         //We define the syntactic rules:
         GrammarFactory gf = new GrammarFactory();
-        List<RuleElement> re;
+        
 
         //Statement ::= InputStatement
 

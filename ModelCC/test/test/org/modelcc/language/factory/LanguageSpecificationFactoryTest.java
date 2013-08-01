@@ -22,19 +22,13 @@ import test.languages.keys.Keys4Lang;
 import test.languages.keys.Keys3Lang;
 import test.languages.keys.Keys2Lang;
 
-import org.modelcc.Minimum;
-import org.modelcc.Position;
 import org.modelcc.language.factory.CompositeSymbolBuilder;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 import test.languages.keys.Keys1Lang;
-import test.languages.keys.Keys1;
 import test.languages.autorun.AutorunTests;
 import test.languages.optionaltest2.OptionalTest2Language;
 import test.languages.optionaltest.OptionalTestLanguage;
-import test.languages.positions.A;
-import test.languages.positions.B;
-import test.languages.positions.C;
 import test.languages.positions.Position1;
 import test.languages.positions.Position10;
 import test.languages.positions.Position11;
@@ -54,18 +48,13 @@ import test.languages.positions.Position5;
 import test.languages.positions.Position6;
 import test.languages.positions.Position7;
 import test.languages.positions.Position8;
-import test.languages.positions.Position8;
 import test.languages.positions.Position9;
 import test.languages.positions.PositionFree1;
 import test.languages.positions.PositionRef1;
 
-import org.modelcc.lexer.Lexer;
-import org.modelcc.lexer.lamb.adapter.LambLexer;
 import test.languages.testlanguage.Test7_2;
 import test.languages.testlanguage.Test7_1;
 import test.languages.testlanguage.Test7;
-import java.io.StringReader;
-import org.modelcc.language.factory.LanguageSpecificationFactory;
 import test.languages.composition3.CondSentence3;
 import test.languages.composition2.CondSentence2;
 import test.languages.composition3.Composition3;
@@ -91,29 +80,17 @@ import test.languages.worklanguage.Ini1;
 import test.languages.worklanguage.Ino;
 import test.languages.worklanguage.Ini;
 import test.languages.arithmeticcalculator.Expression;
-import test.org.modelcc.io.Serialization;
-
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
-import org.modelcc.parser.fence.Symbol;
-import org.modelcc.lexer.lamb.LexicalGraph;
-import org.modelcc.parser.fence.FenceConstraintEnforcer;
-import org.modelcc.parser.fence.ParsedGraph;
-import org.modelcc.parser.fence.FenceGrammarParser;
-import org.modelcc.parser.fence.Fence;
-import org.modelcc.parser.fence.SyntaxGraph;
-import org.modelcc.parser.fence.adapter.FenceParser;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
-import org.modelcc.language.LanguageSpecification;
 import org.modelcc.io.ModelReader;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.Iterator;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -156,7 +133,8 @@ public class LanguageSpecificationFactoryTest {
             this.show = show;
         }
 
-        public boolean isLoggable(LogRecord record) {
+        @Override
+		public boolean isLoggable(LogRecord record) {
             if (record.getLevel() == Level.SEVERE) {
                 count++;
             }
@@ -182,7 +160,7 @@ public class LanguageSpecificationFactoryTest {
 			assertTrue(false);
 			return null;
 		}
-        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        new HashSet<PatternRecognizer>();
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
         ignore.add(new RegExpPatternRecognizer("\\t"));
         ignore.add(new RegExpPatternRecognizer(" "));
@@ -382,7 +360,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest10() {
 
         Class c = Ini7.class;
-        Collection<Object> o;
         assertEquals(0,testFull("()",c).size());
         assertEquals(1,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -398,7 +375,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest11() {
 
         Class c = Ini8.class;
-        Collection<Object> o;
         assertEquals(1,testFull("()",c).size());
         assertEquals(1,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -413,7 +389,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest12() {
 
         Class c = Ini9.class;
-        Collection<Object> o;
         assertEquals(0,testFull("()",c).size());
         assertEquals(0,testFull("(-hello+)",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)",c).size());
@@ -428,7 +403,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest13() {
 
         Class c = Ini10.class;
-        Collection<Object> o;
         assertEquals(0,testFull("()-hello+",c).size());
         assertEquals(0,testFull("(-hello+)-hello+",c).size());
         assertEquals(1,testFull("(-hello+,-hello+)-hello+",c).size());
@@ -443,7 +417,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest14() {
 
         Class c = Ini11.class;
-        Collection<Object> o;
         assertEquals(0,testFull("a()hellobcc",c).size());
         assertEquals(0,testFull("a(-hello+)hellobcc",c).size());
         assertEquals(1,testFull("a(-hello+,-hello+)hellobcc",c).size());
@@ -458,7 +431,6 @@ public class LanguageSpecificationFactoryTest {
     public void ModelToLanguageSpecificationTest15() {
 
         Class c = Composition1.class;
-        Collection<Object> o;
         assertEquals(1,testFull("start s end",c).size());
         assertEquals(1,testFull("start if e s end",c).size());
         assertEquals(1,testFull("start if e s else s end",c).size());
@@ -1070,7 +1042,7 @@ public class LanguageSpecificationFactoryTest {
 			assertTrue(false);
 			return;
 		}
-        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        new HashSet<PatternRecognizer>();
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
         ignore.add(new RegExpPatternRecognizer("\\t"));
         ignore.add(new RegExpPatternRecognizer(" "));

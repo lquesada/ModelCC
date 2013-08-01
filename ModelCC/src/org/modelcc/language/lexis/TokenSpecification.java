@@ -46,7 +46,8 @@ public final class TokenSpecification implements Serializable {
      * Default token builder.
      */
     private static TokenBuilder defaultBuilder = new TokenBuilder() {
-        public boolean build(Token t) {
+        @Override
+		public boolean build(Token t) {
             return true;
         }
     };

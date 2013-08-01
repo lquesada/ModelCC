@@ -8,7 +8,6 @@ package test.languages.arithmeticcalculator.binaryoperators;
 import test.languages.arithmeticcalculator.BinaryOperator;
 import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.*;
-import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.probabilistic.Probability;
 
 /**

@@ -5,8 +5,6 @@
 
 package org.modelcc.probabilistic;
 
-import org.modelcc.metamodel.ModelElement;
-
 /**
  * Numeric probability evaluator.
  * @author elezeta

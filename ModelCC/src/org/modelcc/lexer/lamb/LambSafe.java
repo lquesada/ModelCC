@@ -268,8 +268,6 @@ public class LambSafe implements Serializable {
 
             // Auxiliar variables.
             int i,j;
-            Set<Token> s;
-
             // Tokens.
             Token ti,tj;
 

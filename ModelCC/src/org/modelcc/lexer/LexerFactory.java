@@ -6,22 +6,10 @@
 package org.modelcc.lexer;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.modelcc.language.LanguageSpecification;
-import org.modelcc.language.factory.LanguageSpecificationFactory;
-import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.lamb.adapter.LambLexerFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
-import org.modelcc.metamodel.BasicModelElement;
-import org.modelcc.metamodel.ChoiceModelElement;
-import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
-import org.modelcc.metamodel.ModelElement;
 
 /**
  * ModelCC Parser Generator

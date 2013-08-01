@@ -57,7 +57,8 @@ public final class ReferenceSymbolBuilder extends SymbolBuilder implements Seria
      * @param data the parser listData.
      * @return true if the symbol is valid, false if not
      */
-    public boolean build(Symbol t,Object data) {
+    @Override
+	public boolean build(Symbol t,Object data) {
         Map<Class,Map<KeyWrapper,Object>> ids = ((ModelCCParserData)data).getIds();
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         Set<Symbol> lazyReferences = ((ModelCCParserData)data).getLazyReferences();

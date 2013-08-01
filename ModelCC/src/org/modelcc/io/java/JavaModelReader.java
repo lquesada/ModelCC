@@ -28,8 +28,6 @@ import java.util.jar.JarInputStream;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import javax.swing.plaf.basic.BasicEditorPaneUI;
-
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
@@ -109,7 +107,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
      * @return the model
      * @throws Exception
      */
-    public Model read() throws Exception {
+    @Override
+	public Model read() throws Exception {
         warnings.clear();
 
         if (!IModel.class.isAssignableFrom(root))
@@ -563,7 +562,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
             if (elementClass.isAnnotationPresent(Priority.class)) {
                 Priority an;
                 an = (Priority) elementClass.getAnnotation(Priority.class);
-                priority = (Integer) an.value();
+                priority = an.value();
                 for (int i = 0;i < an.precedes().length;i++) {
                     if (!IModel.class.isAssignableFrom(an.precedes()[i]))
                          log(Level.SEVERE, "In class \"{0}\": Preceded by class \"{1}\" but does not implement IModel.", new Object[]{an.precedes()[i].getCanonicalName(),elementClass.getCanonicalName()});
@@ -988,7 +987,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (field.isAnnotationPresent(Prefix.class)) {
             prefix = new ArrayList<PatternRecognizer>();
             Prefix an;
-            an = (Prefix) field.getAnnotation(Prefix.class);
+            an = field.getAnnotation(Prefix.class);
             PatternRecognizer pr;
             int k;
             for (k = 0;k < an.value().length;k++) {
@@ -1012,7 +1011,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (field.isAnnotationPresent(Suffix.class)) {
             suffix = new ArrayList<PatternRecognizer>();
             Suffix an;
-            an = (Suffix) field.getAnnotation(Suffix.class);
+            an = field.getAnnotation(Suffix.class);
             PatternRecognizer pr;
             int k;
             for (k = 0;k < an.value().length;k++) {
@@ -1036,7 +1035,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (field.isAnnotationPresent(Separator.class)) {
             separator = new ArrayList<PatternRecognizer>();
             Separator an;
-            an = (Separator) field.getAnnotation(Separator.class);
+            an = field.getAnnotation(Separator.class);
             PatternRecognizer pr;
             int k;
             for (k = 0;k < an.value().length;k++) {
@@ -1058,7 +1057,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         
         if (field.isAnnotationPresent(Probability.class)) {
             Probability an;
-            an = (Probability) field.getAnnotation(Probability.class);
+            an = field.getAnnotation(Probability.class);
             if (!an.evaluator().equals(Probability.class)) {
 	            if (!ProbabilityEvaluator.class.isAssignableFrom(an.evaluator()))
 	            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Probability class \"{2}\" does not extend ProbabilityEvaluator.", new Object[]{field.getName(), elementClass.getCanonicalName(),an.evaluator().getCanonicalName()});
@@ -1299,11 +1298,11 @@ public class JavaModelReader extends ModelReader implements Serializable {
         PreElement el;
         PreElement el2;
         for (Iterator<PreElement> it1 = elements.iterator();it1.hasNext();) {
-            el = (PreElement) it1.next();
+            el = it1.next();
             Integer prio = priorities.get(el);
             if (prio != null) {
                 for (Iterator<PreElement> it2 = elements.iterator();it2.hasNext();) {
-                    el2 = (PreElement) it2.next();
+                    el2 = it2.next();
                     Integer prio2 = priorities.get(el2);
                     if (prio2 != null) {
                         if (prio < prio2) {

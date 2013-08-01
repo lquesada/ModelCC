@@ -20,7 +20,8 @@ public final class DefaultFilter implements Filter {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    public boolean isLoggable(LogRecord record) {
+    @Override
+	public boolean isLoggable(LogRecord record) {
         return true;
     }
 

@@ -5,10 +5,7 @@
 
 package test.languages.arithmeticcalculator.binaryoperators;
 
-import org.modelcc.*;
-import org.modelcc.metamodel.ModelElement;
 import org.modelcc.probabilistic.InvalidProbabilityValueException;
-import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.probabilistic.NumericProbabilityValue;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.probabilistic.ProbabilityValue;

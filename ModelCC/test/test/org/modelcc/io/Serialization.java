@@ -40,10 +40,9 @@ public abstract class Serialization {
         byte[] pickled = out.toByteArray();
         InputStream in = new ByteArrayInputStream(pickled);
         ObjectInputStream ois;
-        Object o2 = null;
         try {
             ois = new ObjectInputStream(in);
-            o2 = ois.readObject();
+            ois.readObject();
         } catch (IOException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
              assertTrue(false);

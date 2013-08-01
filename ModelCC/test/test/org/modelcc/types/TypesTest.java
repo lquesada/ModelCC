@@ -50,7 +50,7 @@ public class TypesTest {
             Model m;
             JavaModelReader jmr = new JavaModelReader(c);
             m = jmr.read();
-            LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
+            new LanguageSpecificationFactory();
             Parser p = FenceParserFactory.create(m);
             return p.parse(text);
         } catch (Exception e) {
@@ -68,9 +68,9 @@ public class TypesTest {
     
     @Test
     public void IntegerModelTest() {
-        assertEquals((new Integer((int)3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"3")).intValue());
-        assertEquals((new Integer((int)-3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"-3")).intValue());
-        assertEquals((new Integer((int)3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"+3")).intValue());
+        assertEquals((new Integer(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"3")).intValue());
+        assertEquals((new Integer(-3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"-3")).intValue());
+        assertEquals((new Integer(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"+3")).intValue());
     }
     
     @Test
@@ -82,18 +82,18 @@ public class TypesTest {
     
     @Test
     public void LongModelTest() {
-        assertEquals((new Long((long)3)).longValue(),((LongModel)testFull(LongModel.class,"3")).longValue());
-        assertEquals((new Long((long)-3)).longValue(),((LongModel)testFull(LongModel.class,"-3")).longValue());
-        assertEquals((new Long((long)3)).longValue(),((LongModel)testFull(LongModel.class,"+3")).longValue());
+        assertEquals((new Long(3)).longValue(),((LongModel)testFull(LongModel.class,"3")).longValue());
+        assertEquals((new Long(-3)).longValue(),((LongModel)testFull(LongModel.class,"-3")).longValue());
+        assertEquals((new Long(3)).longValue(),((LongModel)testFull(LongModel.class,"+3")).longValue());
     }
     
     @Test
     public void FloatModelTest() {
-        dassertEquals((new Float((float)3)).floatValue(),((FloatModel)testFull(FloatModel.class,"3.")).floatValue());
+        dassertEquals((new Float(3)).floatValue(),((FloatModel)testFull(FloatModel.class,"3.")).floatValue());
         dassertEquals((new Float((float)0.3)).floatValue(),((FloatModel)testFull(FloatModel.class,".3")).floatValue());
-        dassertEquals((new Float((float)3)).floatValue(),((FloatModel)testFull(FloatModel.class,"+3.")).floatValue());
+        dassertEquals((new Float(3)).floatValue(),((FloatModel)testFull(FloatModel.class,"+3.")).floatValue());
         dassertEquals((new Float((float)0.3)).floatValue(),((FloatModel)testFull(FloatModel.class,"+.3")).floatValue());
-        dassertEquals((new Float((float)-3)).floatValue(),((FloatModel)testFull(FloatModel.class,"-3.")).floatValue());
+        dassertEquals((new Float(-3)).floatValue(),((FloatModel)testFull(FloatModel.class,"-3.")).floatValue());
         dassertEquals((new Float((float)-0.3)).floatValue(),((FloatModel)testFull(FloatModel.class,"-.3")).floatValue());
         dassertEquals((new Float((float)124.53)).floatValue(),((FloatModel)testFull(FloatModel.class,"1.2453e2")).floatValue());
         dassertEquals((new Float((float)0.012453)).floatValue(),((FloatModel)testFull(FloatModel.class,"1.2453E-2")).floatValue());
@@ -101,14 +101,14 @@ public class TypesTest {
 
     @Test
     public void DoubleModelTest() {
-        dassertEquals((new Double((double)3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"3.")).doubleValue());
-        dassertEquals((new Double((double)0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,".3")).doubleValue());
-        dassertEquals((new Double((double)3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"+3.")).doubleValue());
-        dassertEquals((new Double((double)0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"+.3")).doubleValue());
-        dassertEquals((new Double((double)-3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"-3.")).doubleValue());
-        dassertEquals((new Double((double)-0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"-.3")).doubleValue());
-        dassertEquals((new Double((double)124.53)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"1.2453e2")).doubleValue());
-        dassertEquals((new Double((double)0.012453)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"1.2453E-2")).doubleValue());
+        dassertEquals((new Double(3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"3.")).doubleValue());
+        dassertEquals((new Double(0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,".3")).doubleValue());
+        dassertEquals((new Double(3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"+3.")).doubleValue());
+        dassertEquals((new Double(0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"+.3")).doubleValue());
+        dassertEquals((new Double(-3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"-3.")).doubleValue());
+        dassertEquals((new Double(-0.3)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"-.3")).doubleValue());
+        dassertEquals((new Double(124.53)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"1.2453e2")).doubleValue());
+        dassertEquals((new Double(0.012453)).doubleValue(),((DoubleModel)testFull(DoubleModel.class,"1.2453E-2")).doubleValue());
     }
 
     private void dassertEquals(double d, double o) {

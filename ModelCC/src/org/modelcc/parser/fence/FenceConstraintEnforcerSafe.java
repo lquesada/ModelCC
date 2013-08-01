@@ -18,7 +18,6 @@ import org.modelcc.language.syntax.AssociativityConstraint;
 import org.modelcc.language.syntax.Constraints;
 import org.modelcc.language.syntax.Rule;
 import org.modelcc.language.syntax.RuleElement;
-import org.modelcc.language.syntax.RuleElementPosition;
 
 /**
  * Fence Constraint Enforcer

@@ -5,8 +5,6 @@
 
 package test.languages.wronglanguages;
 
-import org.modelcc.*;
-
 /**
  *
  * @author elezeta

@@ -42,7 +42,8 @@ public final class TokenSymbolBuilder extends SymbolBuilder implements Serializa
      * @param data the parser listData.
      * @return true if the symbol is valid, false if not
      */
-    public boolean build(Symbol t,Object data) {
+    @Override
+	public boolean build(Symbol t,Object data) {
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         map.put(t.getUserData(),new ObjectWrapper(t.getUserData(),m,t.getParsedSymbol().getString().hashCode(),t.getParsedSymbol().getString()));
         return true;

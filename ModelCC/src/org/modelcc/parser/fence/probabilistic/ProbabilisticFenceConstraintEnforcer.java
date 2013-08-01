@@ -31,7 +31,8 @@ public final class ProbabilisticFenceConstraintEnforcer extends FenceConstraintE
      * @param pg the input parsed graph.
      * @return a syntactic analysis graph.
      */
-    public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg) {
+    @Override
+	public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg) {
     	return enforce(constraints,pg,null);
     }
 
@@ -42,7 +43,8 @@ public final class ProbabilisticFenceConstraintEnforcer extends FenceConstraintE
      * @param objectMetadata the object metadata warehouse
      * @return a syntactic analysis graph.
      */
-    public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg,Map<Object,Map<String,Object>> objectMetadata) {
+    @Override
+	public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg,Map<Object,Map<String,Object>> objectMetadata) {
         ProbabilisticFenceConstraintEnforcerSafe fces = new ProbabilisticFenceConstraintEnforcerSafe();
         return fces.enforce(constraints, pg,objectMetadata);
     }

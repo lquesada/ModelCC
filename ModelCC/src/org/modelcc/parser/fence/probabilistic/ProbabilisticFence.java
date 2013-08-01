@@ -33,7 +33,8 @@ public final class ProbabilisticFence extends Fence implements Serializable {
      * @param lg the input lexical graph.
      * @return a syntax graph.
      */
-    public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg) {
+    @Override
+	public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg) {
     	return parse(fs,lg,null);
     }
 
@@ -44,7 +45,8 @@ public final class ProbabilisticFence extends Fence implements Serializable {
      * @param objectMetadata the object metadata warehouse
      * @return a syntax graph.
      */
-    public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg,Map<Object,Map<String,Object>> objectMetadata) {
+    @Override
+	public SyntaxGraph parse(SyntacticSpecification fs,LexicalGraph lg,Map<Object,Map<String,Object>> objectMetadata) {
         FenceGrammarParser fgp = new FenceGrammarParser();
         ParsedGraph pg = fgp.parse(fs.getGrammar(),lg);
         ProbabilisticFenceConstraintEnforcer fce = new ProbabilisticFenceConstraintEnforcer();

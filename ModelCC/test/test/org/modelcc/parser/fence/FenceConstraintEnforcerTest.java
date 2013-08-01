@@ -140,8 +140,8 @@ public class FenceConstraintEnforcerTest {
 
     @Test public void ConstraintEnforcementTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main main";
         StringReader sr = new StringReader(input);
 
@@ -1512,7 +1512,7 @@ public class FenceConstraintEnforcerTest {
     @Test public void PrecedenceTest3() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
+        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9;
         String input = "5+3*2";
         StringReader sr = new StringReader(input);
 
@@ -1765,7 +1765,7 @@ public class FenceConstraintEnforcerTest {
     @Test public void PrecedenceTest4() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
+        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9;
         String input = "2+3*2";
         StringReader sr = new StringReader(input);
 
@@ -2618,9 +2618,9 @@ public class FenceConstraintEnforcerTest {
     }
 
     @Test public void ChainedSelectionPrecedenceTest() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17;
+        Rule r1,r2,r3;
         String input = "abc";
         StringReader sr = new StringReader(input);
 
@@ -2715,8 +2715,8 @@ public class FenceConstraintEnforcerTest {
 
     @Test public void EmptySymbolTest() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "";
         StringReader sr = new StringReader(input);
 
@@ -2812,8 +2812,8 @@ public class FenceConstraintEnforcerTest {
 
     @Test public void EmptySymbolTest2() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -2931,8 +2931,8 @@ public class FenceConstraintEnforcerTest {
     
     @Test public void OptionalTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main 3";
         StringReader sr = new StringReader(input);
 
@@ -3026,8 +3026,8 @@ public class FenceConstraintEnforcerTest {
     
     @Test public void OptionalTest2() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "3 main";
         StringReader sr = new StringReader(input);
 
@@ -3124,8 +3124,8 @@ public class FenceConstraintEnforcerTest {
     
     @Test public void OptionalTest3() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main 3";
         StringReader sr = new StringReader(input);
 
@@ -3219,8 +3219,8 @@ public class FenceConstraintEnforcerTest {
     
     @Test public void OptionalTest4() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "3 main";
         StringReader sr = new StringReader(input);
 
@@ -3315,8 +3315,8 @@ public class FenceConstraintEnforcerTest {
 
     @Test public void BuilderTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -3417,8 +3417,8 @@ public class FenceConstraintEnforcerTest {
     
     @Test public void BuilderTest2() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -3520,8 +3520,8 @@ public class FenceConstraintEnforcerTest {
 
     @Test public void PostBuilderTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -3624,8 +3624,8 @@ public class FenceConstraintEnforcerTest {
   
     @Test public void BuilderCountTest() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18;
-        Rule r1,r2,r3,r4,r5;
+        TokenSpecification m1,m2,m3,m4,m5,m7,m16,m17,m18;
+        Rule r1,r2;
         String input = "main";
         StringReader sr = new StringReader(input);
 
@@ -3713,7 +3713,7 @@ public class FenceConstraintEnforcerTest {
         }
 
         FenceConstraintEnforcer fce = new FenceConstraintEnforcer();
-        SyntaxGraph sg = fce.enforce(c, pg);
+        fce.enforce(c, pg);
 
         assertEquals(1,csb.getCount());
 
@@ -3723,7 +3723,7 @@ public class FenceConstraintEnforcerTest {
 
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19;
-        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
+        Rule r1,r2,r3,r4,r5,r6,r7,r8,r9;
         String input = "5+3+2+1+2+1+1+1+5+3+2+1+2+1+1+1+5+3+2+1+2+1+1+1+5+3+2+1+2+1+1+1+5+3+2+1+2+1+1+1";
         StringReader sr = new StringReader(input);
 
@@ -3885,7 +3885,7 @@ public class FenceConstraintEnforcerTest {
         }
 
         FenceConstraintEnforcer fce = new FenceConstraintEnforcer();
-        SyntaxGraph sg = fce.enforce(c, pg);
+        fce.enforce(c, pg);
 
         assertTrue(csb.getCount()<100);
     }      

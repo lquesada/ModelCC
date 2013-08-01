@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
-import org.modelcc.probabilistic.ProbabilityValue;
 
 /**
  * ModelElement.

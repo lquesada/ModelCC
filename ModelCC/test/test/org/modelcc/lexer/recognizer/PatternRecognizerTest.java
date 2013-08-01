@@ -43,7 +43,8 @@ public class PatternRecognizerTest {
     public void ObjectMatchCheck1() {
         PatternRecognizer pr = new PatternRecognizer("a") {
 
-            public MatchedObject read(CharSequence cs, int start) {
+            @Override
+			public MatchedObject read(CharSequence cs, int start) {
                 if (cs.subSequence(0,5).equals("hello"))
                     return new MatchedObject(new Integer(1),"hello");
                 else
@@ -61,7 +62,8 @@ public class PatternRecognizerTest {
     public void ObjectMatchCheck2() {
         PatternRecognizer pr = new PatternRecognizer("a") {
 
-            public MatchedObject read(CharSequence cs, int start) {
+            @Override
+			public MatchedObject read(CharSequence cs, int start) {
                 if (cs.subSequence(0,5).equals("hello"))
                     return new MatchedObject(new Integer(1),"hello");
                 else

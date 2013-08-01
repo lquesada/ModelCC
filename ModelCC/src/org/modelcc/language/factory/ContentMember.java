@@ -6,10 +6,6 @@
 package org.modelcc.language.factory;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.modelcc.SeparatorPolicy;
 import org.modelcc.metamodel.ElementMember;
 

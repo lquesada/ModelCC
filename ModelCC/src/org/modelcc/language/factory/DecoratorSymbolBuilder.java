@@ -30,9 +30,10 @@ public final class DecoratorSymbolBuilder extends SymbolBuilder implements Seria
      * @param data the parser data.
      * @return true if the symbol is valid, false if not
      */
-    public boolean build(Symbol t,Object data) {
+    @Override
+	public boolean build(Symbol t,Object data) {
         ElementId eid = (ElementId)t.getType();
-        ModelElement el = eid.getElement();
+        eid.getElement();
         Object o = null;
         boolean valid = true;
         int target = -1;

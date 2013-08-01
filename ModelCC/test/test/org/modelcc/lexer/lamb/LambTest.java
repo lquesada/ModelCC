@@ -628,7 +628,7 @@ public class LambTest {
 
   @Test
     public void IgnoreCheck1() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5,m6;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
@@ -667,7 +667,7 @@ public class LambTest {
 
   @Test
     public void IgnoreCheck2() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5,m6;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
@@ -711,13 +711,13 @@ public class LambTest {
 
   @Test
     public void IgnoreCheck3() {
-        TokenSpecification m1,m2,m3,m4,m5,m6;
+        TokenSpecification m4,m5,m6;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
-        m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
-        m2 = new TokenSpecification("Tab",new RegExpPatternRecognizer("\\t+"),TokenOption.IGNORE,null);
-        m3 = new TokenSpecification("NewLine",new RegExpPatternRecognizer("\\n|\\r+"),TokenOption.IGNORE,null);
+        new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
+        new TokenSpecification("Tab",new RegExpPatternRecognizer("\\t+"),TokenOption.IGNORE,null);
+        new TokenSpecification("NewLine",new RegExpPatternRecognizer("\\n|\\r+"),TokenOption.IGNORE,null);
         m4 = new TokenSpecification("Integer2",new RegExpPatternRecognizer("(-|\\+)?[0-9][0-9]"),TokenOption.CONSIDER,null);
         m5 = new TokenSpecification("Integer",new RegExpPatternRecognizer("(-|\\+)?[0-9]+"),TokenOption.CONSIDER,null);
         m6 = new TokenSpecification("Operator",new RegExpPatternRecognizer("\\+"),TokenOption.CONSIDER,null);
@@ -757,15 +757,16 @@ public class LambTest {
 
   @Test
     public void BuilderCheck1() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Set<TokenSpecification> prec1 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec2 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec3 = new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
 
         TokenBuilder tb = new TokenBuilder() {
 
-            public boolean build(Token t) {
+            @Override
+			public boolean build(Token t) {
                 return false;
             }
 
@@ -805,15 +806,16 @@ public class LambTest {
 
   @Test
     public void BuilderCheck2() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Set<TokenSpecification> prec1 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec2 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec3 = new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
 
         TokenBuilder tb = new TokenBuilder() {
 
-            public boolean build(Token t) {
+            @Override
+			public boolean build(Token t) {
                 return true;
             }
 
@@ -870,11 +872,11 @@ public class LambTest {
   
   @Test
     public void BuilderCountCheck() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
-        Set<TokenSpecification> prec1 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec2 = new HashSet<TokenSpecification>();
-        Set<TokenSpecification> prec3 = new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
+        new HashSet<TokenSpecification>();
 
         CountTokenBuilder tb = new CountTokenBuilder();
         
@@ -902,7 +904,7 @@ public class LambTest {
             return;
         }
         Lexer lamb = new LambLexer(ls,new Lamb());
-        LexicalGraph lg = lamb.scan(sr);
+        lamb.scan(sr);
 
         assertEquals(1,tb.getCount());
     }
@@ -910,7 +912,7 @@ public class LambTest {
 
   @Test
     public void RemoveCheck() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3,m4,m5,m6,m7;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("Space",new RegExpPatternRecognizer(" +"),TokenOption.IGNORE,null);
@@ -959,7 +961,7 @@ public class LambTest {
 
   @Test
     public void ChainedPrecedenceCheck() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2,m3;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("A",new RegExpPatternRecognizer("abc"),TokenOption.CONSIDER,null);
@@ -1033,13 +1035,13 @@ public class LambTest {
             return;
         }
         Lexer lamb = new LambLexer(ls,new Lamb());
-        LexicalGraph lg = lamb.scan(sr);
+        lamb.scan(sr);
 
    }
 
   @Test
     public void IgnoreCheckComplete() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("(",new RegExpPatternRecognizer("\\("),TokenOption.CONSIDER,null);
@@ -1069,7 +1071,7 @@ public class LambTest {
 
   @Test
     public void IgnoreCheckInComplete() {
-        TokenSpecification m1,m2,m3,m4,m5,m6,m7,m8;
+        TokenSpecification m1,m2;
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
 
         m1 = new TokenSpecification("(",new RegExpPatternRecognizer("\\("),TokenOption.CONSIDER,null);

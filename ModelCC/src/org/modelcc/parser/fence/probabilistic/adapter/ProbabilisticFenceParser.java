@@ -7,11 +7,8 @@ package org.modelcc.parser.fence.probabilistic.adapter;
 
 import java.io.Reader;
 import java.io.Serializable;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,13 +16,11 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import org.modelcc.language.syntax.SyntacticSpecification;
-import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.lexer.Lexer;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
-import org.modelcc.parser.fence.Fence;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
 
 /**

@@ -17,7 +17,7 @@ public class IntegerLiteral extends LiteralExpression implements IModel {
 
     @Override
     public double eval() {
-        return (double)value;
+        return value;
     }
 
 }

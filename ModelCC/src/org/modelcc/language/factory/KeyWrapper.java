@@ -72,7 +72,7 @@ public class KeyWrapper {
         try {
             for (int i = 0;i < me.getIds().size();i++) {
                 ElementMember em = me.getIds().get(i);
-                Class c = em.getElementClass();
+                em.getElementClass();
                 Field fld = FieldSearcher.searchField(me.getElementClass(),em.getField());
                 fld.setAccessible(true);
                 Object val = fld.get(o);
@@ -187,7 +187,7 @@ public class KeyWrapper {
             try {
                 for (int i = 0;i < cme.getIds().size();i++) {
                     ElementMember em = cme.getIds().get(i);
-                    Class c = em.getElementClass();
+                    em.getElementClass();
                     Field fld = FieldSearcher.searchField(cme.getElementClass(),em.getField());
                     fld.setAccessible(true);
                     Object val = fld.get(o);

@@ -5,9 +5,6 @@
 
 package org.modelcc.language.factory;
 
-import java.util.List;
-
-import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.parser.fence.Symbol;
 

@@ -41,7 +41,8 @@ public class ShiftingCharSequence implements CharSequence,Serializable {
      * Returns the length of the shifting char sequence.
      * @return The length of the shifting char sequence.
      */
-    public int length() {
+    @Override
+	public int length() {
         return getEnd()-getStart();
     }
 
@@ -50,7 +51,8 @@ public class ShiftingCharSequence implements CharSequence,Serializable {
      * @param index Position of the character to return.
      * @return The character in the index position of the shifting char sequence.
      */
-    public char charAt(int index) {
+    @Override
+	public char charAt(int index) {
         return getData().charAt(getStart()+index);
     }
 
@@ -60,7 +62,8 @@ public class ShiftingCharSequence implements CharSequence,Serializable {
      * @param end New end index.
      * @return A new shifting char sequence object which is a subsequence of this one.
      */
-    public ShiftingCharSequence subSequence(int start, int end) {
+    @Override
+	public ShiftingCharSequence subSequence(int start, int end) {
         ShiftingCharSequence n = new ShiftingCharSequence();
         n.setData(getData());
         n.setStart(this.getStart() + start);

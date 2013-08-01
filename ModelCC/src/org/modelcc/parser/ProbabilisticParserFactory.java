@@ -6,26 +6,10 @@
 package org.modelcc.parser;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.modelcc.language.LanguageSpecification;
-import org.modelcc.language.factory.CannotGenerateLanguageSpecificationException;
-import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.Lexer;
-import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
-import org.modelcc.metamodel.BasicModelElement;
-import org.modelcc.metamodel.ChoiceModelElement;
-import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
-import org.modelcc.metamodel.ModelElement;
-import org.modelcc.parser.fence.Fence;
-import org.modelcc.parser.fence.adapter.FenceParser;
-import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.parser.fence.probabilistic.adapter.ProbabilisticFenceParserFactory;
 
 /**

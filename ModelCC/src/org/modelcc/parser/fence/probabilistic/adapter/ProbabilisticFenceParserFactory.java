@@ -18,7 +18,6 @@ import org.modelcc.metamodel.ChoiceModelElement;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
-import org.modelcc.parser.fence.Fence;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
@@ -27,7 +26,6 @@ import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.parser.CannotCreateParserException;
-import org.modelcc.parser.ParserFactory;
 import org.modelcc.parser.ProbabilisticParserFactory;
 
 /**
