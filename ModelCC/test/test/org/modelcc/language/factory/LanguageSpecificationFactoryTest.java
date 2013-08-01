@@ -83,6 +83,8 @@ import test.languages.arithmeticcalculator.Expression;
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
+import org.modelcc.parser.ProbabilisticParser;
+import org.modelcc.parser.ProbabilisticParserFactory;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.io.ModelReader;
@@ -123,6 +125,62 @@ public class LanguageSpecificationFactoryTest {
     public void tearDown() {
     }
 
+    
+    private Parser genParser(Class c) {
+        ModelReader jmr = new JavaModelReader(c);
+        Model m;
+		try {
+			m = jmr.read();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return null;
+		}
+        new HashSet<PatternRecognizer>();
+        Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+        ignore.add(new RegExpPatternRecognizer("\\t"));
+        ignore.add(new RegExpPatternRecognizer(" "));
+        ignore.add(new RegExpPatternRecognizer("\n"));
+        ignore.add(new RegExpPatternRecognizer("\r"));
+        Parser<Expression2> parser;
+        Expression2 exp2;
+		try {
+			parser = ParserFactory.create(m,ignore);
+		} catch (CannotCreateParserException e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return null;
+		}
+		return parser;
+    }
+
+    private Parser genProbabilisticParser(Class c) {
+        ModelReader jmr = new JavaModelReader(c);
+        Model m;
+		try {
+			m = jmr.read();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return null;
+		}
+        new HashSet<PatternRecognizer>();
+        Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
+        ignore.add(new RegExpPatternRecognizer("\\t"));
+        ignore.add(new RegExpPatternRecognizer(" "));
+        ignore.add(new RegExpPatternRecognizer("\n"));
+        ignore.add(new RegExpPatternRecognizer("\r"));
+        ProbabilisticParser<Expression2> parser;
+        Expression2 exp2;
+		try {
+			parser = ProbabilisticParserFactory.create(m,ignore);
+		} catch (CannotCreateParserException e1) {
+			e1.printStackTrace();
+			assertTrue(false);
+			return null;
+		}
+		return parser;
+    }
     private class CountFilter implements Filter {
 
         boolean show;
@@ -1033,30 +1091,8 @@ public class LanguageSpecificationFactoryTest {
     @Test
     public void startAndEndIndexTest() {
 
-        ModelReader jmr = new JavaModelReader(Expression2.class);
-        Model m;
-		try {
-			m = jmr.read();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			assertTrue(false);
-			return;
-		}
-        new HashSet<PatternRecognizer>();
-        Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
-        ignore.add(new RegExpPatternRecognizer("\\t"));
-        ignore.add(new RegExpPatternRecognizer(" "));
-        ignore.add(new RegExpPatternRecognizer("\n"));
-        ignore.add(new RegExpPatternRecognizer("\r"));
-        Parser<Expression2> parser;
-        Expression2 exp2;
-		try {
-			parser = ParserFactory.create(m,ignore);
-		} catch (CannotCreateParserException e1) {
-			e1.printStackTrace();
-			assertTrue(false);
-			return;
-		}
+    	Parser<Expression2> parser = genParser(Expression2.class);
+    	Expression2 exp2;
         try {
         	//                   0        10
         	//                   01234567890123456789
@@ -1113,24 +1149,20 @@ public class LanguageSpecificationFactoryTest {
 
         
     }
+    
+    
+    @Test
+    public void probabilityTest1() {
+
+    	Parser<test.languages.probabilities.Test1> parser = genProbabilisticParser(test.languages.probabilities.Test1.class);
+    	test.languages.probabilities.Test1 test1;
+        try {
+        	test1 = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.5d,(Double)parser.getParsingMetadata(test1.a).get("probability"),0.01d);
+                
+    }
 }
-
-/*
-        System.out.println(g.getEmptyRules().size()+ " reglas vacías");
-        System.out.println(g.getRules().size()+ " reglas rellenas");
-        System.out.println(pg.getRoots().size()+ " en el pg");
-
-        for (Iterator<Object> iter = g.getEmptyRules().iterator();iter.hasNext();) {
-            System.out.println("vacía: "+iter.next());
-        }
-
-        for (Iterator<Rule> iter = g.getRules().iterator();iter.hasNext();) {
-            Rule r = iter.next();
-            System.out.print("regla: "+r.getLeft().getType()+" ::=");
-            for (Iterator<RuleElement> itere = r.getRight().iterator();itere.hasNext();) {
-                RuleElement rx = itere.next();
-                System.out.print(" "+rx.getType());
-            }
-            System.out.println();
-        }
-*/

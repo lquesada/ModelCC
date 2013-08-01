@@ -406,7 +406,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             s = new Symbol(id.val,ps);
             s.setUserData(ps.getUserData());
 
-            storeMetadata(s);
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
             if (build(s)) {
@@ -414,6 +413,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 symbols.add(s);
                 hs.add(s);
                 mapped.put(ps,hs);
+                storeMetadata(s);
             }
             return hs;
         }
@@ -427,15 +427,16 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             s = new Symbol(id.val,ps);
             id.val++;
 
-            storeMetadata(s);
+            s.setUserData(ps.getUserData());
+
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            s.setUserData(ps.getUserData());
             if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
                 symbols.add(s);
                 hs.add(s);
                 mapped.put(ps,hs);
+                storeMetadata(s);
             }
             return hs;
         }
@@ -681,11 +682,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 s = new Symbol(id.val,ps,r,relevant,elements,content);
                 id.val++;
                 
-                storeMetadata(s);
-
                 s.setUserData(ps.getUserData());
 
-                
                 boolean inhibited,recLeft,recRight;
 
                 //Checks if associate.
@@ -801,6 +799,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                         for (int j = 0;j < s.getContents().size();j++) {
                             addUses(s,s.getContents().get(j));
                         }
+                        storeMetadata(s);
                     }
                 }
             }
@@ -886,9 +885,10 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     }
 
     private void storeMetadata(Symbol symbol) {
-    	if (objectMetadata == null)
+    	if (objectMetadata == null) {
     		return;
-        Map<String,Object> symbolMap = objectMetadata.get(symbol);
+    	}
+        Map<String,Object> symbolMap = objectMetadata.get(symbol.getUserData());
         if (symbolMap != null)
                 return;
         symbolMap = new HashMap<String,Object>();
@@ -903,7 +903,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * @param symbol symbol to analyze.
      * @param symbolMap symbol map in which to store metadata.
      */
-    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
+    private void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
         symbolMap.put("startIndex",symbol.getStartIndex());
         symbolMap.put("endIndex",symbol.getEndIndex());
     }

@@ -85,27 +85,18 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     }
 
     private void calculateProbability(Symbol symbol) {
-        Map<String,Object> symbolMap = objectMetadata.get(symbol);
+        Map<String,Object> symbolMap = objectMetadata.get(symbol.getUserData());
         if (symbolMap == null)
                 return;
         if (symbolMap.get("probability") != null)
         	return;
         for (int i = 0;i < symbol.getContents().size();i++)
         	calculateProbability(symbol.getContents().get(i));
-        System.out.println("Writing probability for "+symbol);
-        // TODO calculate probabilities
+        //TODO probabilidades
+        if (symbol.isToken()) {
+        	//TODO HERE
+        }
         symbolMap.put("probability",1d);
-    }
-
-    /**
-     * Fills symbol metadata.
-     * @param symbol symbol to analyze.
-     * @param symbolMap symbol map in which to store metadata.
-     */
-    private void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
-        symbolMap.put("startIndex",symbol.getStartIndex());
-        symbolMap.put("endIndex",symbol.getEndIndex());
-        // TODO add context information + fenceparser too
     }
 
 	/**

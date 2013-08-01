@@ -22,14 +22,4 @@ public final class ProbabilisticFenceConstraintEnforcerSafe extends FenceConstra
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    /**
-     * Fills symbol metadata.
-     * @param symbol symbol to analyze.
-     * @param symbolMap symbol map in which to store metadata.
-     */
-    @Override
-    protected void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
-    	super.fillMetadata(symbol,symbolMap);
-    }
-
 }
