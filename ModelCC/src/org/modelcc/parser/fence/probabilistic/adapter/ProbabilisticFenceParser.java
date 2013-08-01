@@ -23,7 +23,6 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.lexer.Lexer;
-import org.modelcc.lexer.ProbabilisticLexer;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
 import org.modelcc.parser.fence.Fence;
@@ -50,7 +49,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     /**
      * The generic lexer.
      */
-    protected ProbabilisticLexer gl;
+    protected Lexer gl;
 
     /**
      * The syntactic specification.
@@ -63,7 +62,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
      * @param gp the generic parser
      * @param ls the language specification
      */
-    public ProbabilisticFenceParser(ProbabilisticLexer gl,ProbabilisticFence gp,SyntacticSpecification ls) {
+    public ProbabilisticFenceParser(Lexer gl,ProbabilisticFence gp,SyntacticSpecification ls) {
         this.gl = gl;
         this.gp = gp;
         this.ls = ls;

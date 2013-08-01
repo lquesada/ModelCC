@@ -23,10 +23,8 @@ import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
 import org.modelcc.language.factory.LanguageSpecificationFactory;
 import org.modelcc.lexer.Lexer;
-import org.modelcc.lexer.ProbabilisticLexer;
+import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
-import org.modelcc.lexer.lamb.probabilistic.ProbabilisticLamb;
-import org.modelcc.lexer.lamb.probabilistic.adapter.ProbabilisticLambLexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.ParserFactory;
@@ -51,7 +49,7 @@ public final class ProbabilisticFenceParserFactory extends ProbabilisticParserFa
      * @return the parser
      * @throws CannotCreateParserException
      */
-    public static ProbabilisticFenceParser create(Model m,ProbabilisticLexer lexer) throws CannotCreateParserException {
+    public static ProbabilisticFenceParser create(Model m,Lexer lexer) throws CannotCreateParserException {
         try {
             //Type erasure does not allow comparing the generated parser with a specific parser type. Check http://serdom.eu/ser/2007/03/25/java-generics-instantiating-objects-of-type-parameter-without-using-class-literal
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
@@ -91,7 +89,7 @@ public final class ProbabilisticFenceParserFactory extends ProbabilisticParserFa
             //Type erasure does not allow comparing the generated parser with a specific parser type. Check http://serdom.eu/ser/2007/03/25/java-generics-instantiating-objects-of-type-parameter-without-using-class-literal
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
             LanguageSpecification ls = lsf.create(m);
-            ProbabilisticLambLexer gl = new ProbabilisticLambLexer(ls.getLexicalSpecification(),ignore,new ProbabilisticLamb());
+            LambLexer gl = new LambLexer(ls.getLexicalSpecification(),ignore,new Lamb());
             ProbabilisticFenceParser parser = new ProbabilisticFenceParser(gl,new ProbabilisticFence(),ls.getSyntacticSpecification());
             return parser;
         } catch (CannotGenerateLanguageSpecificationException e) {
