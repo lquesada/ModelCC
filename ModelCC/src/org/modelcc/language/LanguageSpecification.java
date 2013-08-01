@@ -7,6 +7,7 @@ package org.modelcc.language;
 
 import java.io.Serializable;
 import org.modelcc.language.lexis.LexicalSpecification;
+import org.modelcc.language.probabilistic.ProbabilitySpecification;
 import org.modelcc.language.syntax.SyntacticSpecification;
 
 /**
@@ -32,13 +33,20 @@ public final class LanguageSpecification implements Serializable {
     private SyntacticSpecification syntacticSpecification;
 
     /**
+     * Probability specification.
+     */
+    private ProbabilitySpecification probabilitySpecification;
+
+    /**
      * Constructor
      * @param lexicalSpecification the lexical specification.
      * @param syntacticSpecification the syntactic specification.
+     * @param probabilitySpecification the probability specification.
      */
-    public LanguageSpecification(LexicalSpecification lexicalSpecification,SyntacticSpecification syntacticSpecification) {
+    public LanguageSpecification(LexicalSpecification lexicalSpecification,SyntacticSpecification syntacticSpecification,ProbabilitySpecification probabilitySpecification) {
         this.lexicalSpecification = lexicalSpecification;
         this.syntacticSpecification = syntacticSpecification;
+        this.probabilitySpecification = probabilitySpecification;
     }
 
     /**
@@ -53,6 +61,13 @@ public final class LanguageSpecification implements Serializable {
      */
     public SyntacticSpecification getSyntacticSpecification() {
         return syntacticSpecification;
+    }
+
+    /**
+     * @return the probabilitySpecification
+     */
+    public ProbabilitySpecification getProbabilitySpecification() {
+        return probabilitySpecification;
     }
 
 }

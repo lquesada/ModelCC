@@ -54,7 +54,7 @@ public final class ProbabilisticFenceParserFactory extends ProbabilisticParserFa
             LanguageSpecification ls = lsf.create(m);
             ProbabilisticFence gp = new ProbabilisticFence();
 
-            ProbabilisticFenceParser parser = new ProbabilisticFenceParser(lexer,gp,ls.getSyntacticSpecification());
+            ProbabilisticFenceParser parser = new ProbabilisticFenceParser(lexer,gp,ls.getSyntacticSpecification(),ls.getProbabilitySpecification());
             return parser;
         } catch (CannotGenerateLanguageSpecificationException e) {
             throw new CannotCreateParserException(e);
@@ -88,7 +88,7 @@ public final class ProbabilisticFenceParserFactory extends ProbabilisticParserFa
             LanguageSpecificationFactory lsf = new LanguageSpecificationFactory();
             LanguageSpecification ls = lsf.create(m);
             LambLexer gl = new LambLexer(ls.getLexicalSpecification(),ignore,new Lamb());
-            ProbabilisticFenceParser parser = new ProbabilisticFenceParser(gl,new ProbabilisticFence(),ls.getSyntacticSpecification());
+            ProbabilisticFenceParser parser = new ProbabilisticFenceParser(gl,new ProbabilisticFence(),ls.getSyntacticSpecification(),ls.getProbabilitySpecification());
             return parser;
         } catch (CannotGenerateLanguageSpecificationException e) {
             throw new CannotCreateParserException(e);

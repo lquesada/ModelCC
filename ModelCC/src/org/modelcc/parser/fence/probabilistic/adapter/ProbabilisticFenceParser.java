@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.modelcc.language.probabilistic.ProbabilitySpecification;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ProbabilisticParser;
@@ -52,15 +53,22 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     protected SyntacticSpecification ls;
 
     /**
+     * The probability specification.
+     */
+    protected ProbabilitySpecification ps;
+
+    /**
      * Constructor
      * @param gl the generic lexer
      * @param gp the generic parser
      * @param ls the language specification
+     * @param ps the probability specification
      */
-    public ProbabilisticFenceParser(Lexer gl,ProbabilisticFence gp,SyntacticSpecification ls) {
+    public ProbabilisticFenceParser(Lexer gl,ProbabilisticFence gp,SyntacticSpecification ls,ProbabilitySpecification ps) {
         this.gl = gl;
         this.gp = gp;
         this.ls = ls;
+        this.ps = ps;
     }
 
     /**
@@ -94,6 +102,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	calculateProbability(symbol.getContents().get(i));
         //TODO probabilidades
         if (symbol.isToken()) {
+            symbolMap.put("probability",);
         	//TODO HERE
         }
         symbolMap.put("probability",1d);
