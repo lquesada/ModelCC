@@ -6,6 +6,7 @@
 package org.modelcc.language.probabilistic;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
 
@@ -28,23 +29,23 @@ public abstract class ProbabilitySpecification implements Serializable {
     /**
      * Element probability map
      */
-    private Map<ModelElement,ProbabilityEvaluator> elementProbabilities;
+    private Map<Class,ProbabilityEvaluator> elementProbabilities;
 
     /**
      * Element member probability map
      */
-    private Map<ModelElement,Map<ElementMember,ProbabilityEvaluator>> memberProbabilities;
+    private Map<Class,Map<Field,ProbabilityEvaluator>> memberProbabilities;
     
-    public ProbabilitySpecification(Map<ModelElement,ProbabilityEvaluator> elementProbabilities,Map<ModelElement,Map<ElementMember,ProbabilityEvaluator>> memberProbabilities) {
+    public ProbabilitySpecification(Map<Class,ProbabilityEvaluator> elementProbabilities,Map<Class,Map<Field,ProbabilityEvaluator>> memberProbabilities) {
     	this.elementProbabilities = elementProbabilities;
     	this.memberProbabilities = memberProbabilities;
     }
     
-    public Map<ModelElement,ProbabilityEvaluator> getElementProbabilities() {
+    public Map<Class,ProbabilityEvaluator> getElementProbabilities() {
     	return Collections.unmodifiableMap(elementProbabilities);
     }
 
-    public Map<ModelElement,Map<ElementMember,ProbabilityEvaluator>> getMemberProbabilities() {
+    public Map<Class,Map<Field,ProbabilityEvaluator>> getMemberProbabilities() {
     	return Collections.unmodifiableMap(memberProbabilities);
     }
 }

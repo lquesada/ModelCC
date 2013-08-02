@@ -493,22 +493,6 @@ public final class LanguageSpecificationFactory implements Serializable {
             }
         }
 
-        /*
-        Integer start = new Integer(0);
-        ssf.setStartType(start);
-        List<RuleElement> right = new ArrayList<RuleElement>();
-
-        if (m.getStart().getPrefix()!=null)
-            for (int i = 0;i < m.getStart().getPrefix().size();i++)
-                right.add(deltore.get(m.getStart().getPrefix().get(i)));
-        right.add(eltore.get(m.getStart()));
-        if (m.getStart().getSuffix()!=null)
-            for (int i = 0;i < m.getStart().getSuffix().size();i++)
-                right.add(deltore.get(m.getStart().getSuffix().get(i)));
-
-        Rule r = new Rule(new RuleElement(start),right,null,stsb);
-        ssf.addRule(r);*/
-
         ssf.setStartType(eltoeid.get(m.getStart()));
 
 
