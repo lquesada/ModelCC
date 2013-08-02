@@ -13,7 +13,7 @@ import org.modelcc.*;
  */
 @Prefix("\\(")
 @Suffix("\\)")
-public class ParenthesizedExpression extends Expression implements IModel {
+public class ExpressionGroup extends Expression implements IModel {
     Expression e;
 
     @Override
