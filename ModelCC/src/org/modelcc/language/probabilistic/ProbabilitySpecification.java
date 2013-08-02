@@ -19,7 +19,7 @@ import org.modelcc.probabilistic.ProbabilityEvaluator;
  * @author elezeta
  * @serial
  */
-public abstract class ProbabilitySpecification implements Serializable {
+public class ProbabilitySpecification implements Serializable {
 
     /**
      * Serial Version ID
@@ -34,9 +34,9 @@ public abstract class ProbabilitySpecification implements Serializable {
     /**
      * Element member probability map
      */
-    private Map<Class,Map<Field,ProbabilityEvaluator>> memberProbabilities;
+    private Map<Field,ProbabilityEvaluator> memberProbabilities;
     
-    public ProbabilitySpecification(Map<Class,ProbabilityEvaluator> elementProbabilities,Map<Class,Map<Field,ProbabilityEvaluator>> memberProbabilities) {
+    public ProbabilitySpecification(Map<Class,ProbabilityEvaluator> elementProbabilities,Map<Field,ProbabilityEvaluator> memberProbabilities) {
     	this.elementProbabilities = elementProbabilities;
     	this.memberProbabilities = memberProbabilities;
     }
@@ -45,7 +45,7 @@ public abstract class ProbabilitySpecification implements Serializable {
     	return Collections.unmodifiableMap(elementProbabilities);
     }
 
-    public Map<Class,Map<Field,ProbabilityEvaluator>> getMemberProbabilities() {
+    public Map<Field,ProbabilityEvaluator> getMemberProbabilities() {
     	return Collections.unmodifiableMap(memberProbabilities);
     }
 }
