@@ -1235,19 +1235,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (target.getComposition()==null && source.getComposition()!= null) {
             target.setComposition(source.getComposition());
         }
-        /*
-        // Setup
-        if (target.getSetupMethod()==null && source.getSetupMethod()!= null) {
-            target.setAutorunMethod(source.getSetupMethod());
-        }
-        // Constraints
-        if (!source.getConstraintMethods().isEmpty()) {
-        	for (int i = 0;i < source.getConstraintMethods().size();i++) {
-        		Method met = source.getConstraintMethods().get(i);
-        		if (!target.getConstraintMethods().contains(met))
-        			target.getConstraintMethods().add(met);
-        	}
-        }*/
         // FreeOrder
         if (target.isFreeOrder()==null && source.isFreeOrder()!= null) {
             target.setFreeOrder(source.isFreeOrder());
@@ -1256,14 +1243,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (target.getSeparator()==null && source.getSeparator()!= null) {
             target.setSeparator(source.getSeparator());
         }
-        // Prefix
-        //if (target.getPrefix()==null && source.getPrefix()!= null) {
-        //    target.setPrefix(source.getPrefix());
-        //}
-        // Suffix
-        //if (target.getSuffix()==null && source.getSuffix()!= null) {
-        //    target.setSuffix(source.getSuffix());
-        //}
         // Value
         if (target.getValueField()==null && source.getValueField()!= null) {
             target.setValueField(source.getValueField());

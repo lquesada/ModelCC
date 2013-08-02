@@ -313,69 +313,11 @@ public final class LanguageSpecificationFactory implements Serializable {
                 nodes = newNodes;
 
 
-                /*System.out.println("remove this from languagespecificationfactory");
-                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
-                	List<MemberNode> curNodes = nodesite.next();
-	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
-	                for (Iterator<MemberNode> nite = curNodes.iterator();nite.hasNext();) {
-	                	MemberNode node = nite.next();
-	                	System.out.print("(");
-	                    for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
-	                    	ElementMember em = cite.next();
-	                    	System.out.print(em.getField());
-		                    for (Iterator<Entry<ElementMember, ContentMember>> ccite = node.getContentMembers().entrySet().iterator();ccite.hasNext();) {
-		                    	Entry<ElementMember, ContentMember> entry = ccite.next();
-		                    	if (entry.getKey()==em) {
-		                    		System.out.print("+"+entry.getValue().getContent().getField());
-		                    		if (entry.getValue().getPosition()==Position.WITHIN)
-		                    			System.out.print("#POS:WITHIN");
-		                    		else if (entry.getValue().getPosition()==Position.BEFORELAST)
-		                    			System.out.print("#POS:BEFORELAST");
-	                    			System.out.print("#SEP:"+entry.getValue().getSeparatorPolicy());
-		                    	}
-		                    }
-	                    	if (cite.hasNext())
-	                    		System.out.print(" ");
-	                    }
-	                	System.out.print(") ");
-	                }
-	                System.out.println("");
-                }
-                System.out.println("END POSITIONS");*/
-                
                 List<MemberNode> finalNodes = new ArrayList<MemberNode>();
                 for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
                 	finalNodes.add(nodesite.next().get(0));
                 }
 
-                /*
-                System.out.println("remove this from languagespecificationfactory");
-                for (Iterator<List<MemberNode>> nodesite = nodes.iterator();nodesite.hasNext();) {
-                	List<MemberNode> curNodes = nodesite.next();
-	            	System.out.print("DEBUG   "+ce.getElementClass().getCanonicalName()+"  contains ");
-                	MemberNode node = curNodes.get(0);
-	                for (Iterator<ElementMember> cite = node.getContents().iterator();cite.hasNext();) {
-	                   	ElementMember em = cite.next();
-                    	System.out.print(em.getField());
-	                    for (Iterator<Entry<ElementMember, ContentMember>> ccite = node.getContentMembers().entrySet().iterator();ccite.hasNext();) {
-	                    	Entry<ElementMember, ContentMember> entry = ccite.next();
-	                    	if (entry.getKey()==em) {
-	                    		System.out.print("+"+entry.getValue().getContent().getField());
-	                    		if (entry.getValue().getPosition()==Position.WITHIN)
-	                    			System.out.print("#POS:WITHIN");
-	                    		else if (entry.getValue().getPosition()==Position.BEFORELAST)
-	                    			System.out.print("#POS:BEFORELAST");
-                    			System.out.print("#SEP:"+entry.getValue().getSeparatorPolicy());
-	                    	}
-	                    }
-                    	if (cite.hasNext())
-                    		System.out.print(" ");
-                    }
-	                System.out.println("");
-                }
-                System.out.println("END POSITIONS");
-                */
-                
                 List<MemberNode> optionals = new ArrayList<MemberNode>();
                 List<MemberNode> nonoptionals = new ArrayList<MemberNode>();
                 List<Rule> roptionals = new ArrayList<Rule>();
@@ -1500,19 +1442,6 @@ public final class LanguageSpecificationFactory implements Serializable {
         if (err || !found)
             ret.add(createRule(m,left,elcs,mn.getContentMembers(),el,deltore,eltore,eltoreref,lists,listRules,csb));
         else if (found) {
-
-            
-            //Rule rx = createRule(m,left,elcs,el,deltore,eltore,eltolist,eltolistzero,listRules);
-
-            /*System.out.println("PROPAGA FIELD "+f+" EN "+el.getElementClass().getSimpleName());
-            System.out.print("regla original: "+rx.getLeft().getType()+" ::=");
-            for (Iterator<RuleElement> itere = rx.getRight().iterator();itere.hasNext();) {
-                RuleElement rf = itere.next();
-                System.out.print(" "+rf.getType());
-            }
-            System.out.println();
-            */
-
             
             ModelElement sc;
             Iterator<ModelElement> ite;
@@ -1553,14 +1482,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 
                 Rule r = createRule(m,left,elcc,mn.getContentMembers(),el,deltore,eltore,eltoreref,lists,listRules,csb);
                 ret.add(r);
-
-                /*
-                System.out.print("regla producida: "+r.getLeft().getType()+" ::=");
-                for (Iterator<RuleElement> itere = r.getRight().iterator();itere.hasNext();) {
-                    RuleElement rf = itere.next();
-                    System.out.print(" "+rf.getType());
-                }
-                System.out.println();*/
 
                 rules.put(r,m.getClassToElement().get(sc.getElementClass()));
                 ModelElement elrep = m.getClassToElement().get(sc.getElementClass());
