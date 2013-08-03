@@ -21,6 +21,8 @@ import org.modelcc.language.lexis.LexicalSpecification;
 import org.modelcc.language.lexis.TokenSpecification;
 import org.modelcc.language.lexis.LexicalSpecificationFactory;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.language.probabilistic.ProbabilitySpecification;
+import org.modelcc.language.probabilistic.ProbabilitySpecificationFactory;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.language.syntax.AssociativityConstraint;
 import org.modelcc.language.syntax.SyntacticSpecificationFactory;
@@ -30,6 +32,7 @@ import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.*;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
+import org.modelcc.tools.FieldSearcher;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 import org.modelcc.Position;
@@ -74,6 +77,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
         SyntacticSpecificationFactory ssf = new SyntacticSpecificationFactory();
+        ProbabilitySpecificationFactory psf = new ProbabilitySpecificationFactory();
         ssf.setTokenSymbolBuilder(tsb);
         ssf.setDataFactory(new ModelCCParserDataFactory());
 
@@ -495,6 +499,27 @@ public final class LanguageSpecificationFactory implements Serializable {
 
         ssf.setStartType(eltoeid.get(m.getStart()));
 
+        // -----------------
+        // Probabilistic information.
+        // -----------------
+
+        for (Iterator<ModelElement> ite = m.getElements().iterator();ite.hasNext();) {
+            ModelElement el = ite.next();
+            if (el.getProbabilityEvaluator() != null) {
+            	psf.addElementProbability(el.getElementClass(),el.getProbabilityEvaluator());
+            }
+            if (ComplexModelElement.class.isAssignableFrom(el.getClass()) && !Modifier.isAbstract(el.getElementClass().getModifiers())) {
+                ComplexModelElement ce = (ComplexModelElement)el;
+                for (Iterator<ElementMember> cite = ce.getContents().iterator();cite.hasNext();) {
+                	ElementMember current = cite.next();
+                	if (current.getProbabilityEvaluator() != null) {
+                		psf.addMemberProbability(FieldSearcher.searchField(el.getElementClass(),current.getField()),current.getProbabilityEvaluator());
+                	}
+                }
+            }
+            
+        }
+
 
       /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
@@ -515,15 +540,17 @@ public final class LanguageSpecificationFactory implements Serializable {
 
         LexicalSpecification ls = null;
         SyntacticSpecification ss = null;
+        ProbabilitySpecification ps = null;
 
         try {
             ls = lsf.create();
             ss = ssf.create();
+            ps = psf.create();
         } catch (Exception e) {
             throw new CannotGenerateLanguageSpecificationException(e);
         }
         
-        return new LanguageSpecification(ls,ss);
+        return new LanguageSpecification(ls,ss,ps);
     }
 
     private void processAfter(List<List<MemberNode>> newNodes,

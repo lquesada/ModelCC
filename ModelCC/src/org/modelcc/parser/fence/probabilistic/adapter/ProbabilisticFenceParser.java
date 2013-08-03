@@ -102,7 +102,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	calculateProbability(symbol.getContents().get(i));
         //TODO probabilidades
         if (symbol.isToken()) {
-            symbolMap.put("probability",);
+            //symbolMap.put("probability",);
         	//TODO HERE
         }
         symbolMap.put("probability",1d);
