@@ -85,6 +85,7 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.parser.ProbabilisticParserFactory;
+import org.modelcc.probabilistic.ProbabilityValue;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.io.ModelReader;
@@ -1162,7 +1163,7 @@ public class LanguageSpecificationFactoryTest {
 			assertTrue(false);
 			return;
         }
-        assertEquals(0.5d,(Double)parser.getParsingMetadata(test1.a).get("probability"),0.01d);
+        assertEquals(0.5d,((ProbabilityValue)parser.getParsingMetadata(test1.a).get("probability")).getNumericValue(),0.01d);
                 
     }
 }

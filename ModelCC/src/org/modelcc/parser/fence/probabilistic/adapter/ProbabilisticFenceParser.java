@@ -23,6 +23,7 @@ import org.modelcc.lexer.Lexer;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
+import org.modelcc.probabilistic.ProbabilityEvaluator;
 
 /**
  * ModelCC FenceParser
@@ -102,10 +103,14 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	calculateProbability(symbol.getContents().get(i));
         //TODO probabilidades
         if (symbol.isToken()) {
-            //symbolMap.put("probability",);
+        	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
+        	if (pe != null) {
+                symbolMap.put("probability",pe.evaluate(symbol.getUserData()));
+        	}
+        	else
+                symbolMap.put("probability",1d);
         	//TODO HERE
         }
-        symbolMap.put("probability",1d);
     }
 
 	/**
