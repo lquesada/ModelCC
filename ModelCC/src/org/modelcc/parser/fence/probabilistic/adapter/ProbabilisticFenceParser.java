@@ -15,15 +15,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.modelcc.language.factory.ElementId;
 import org.modelcc.language.probabilistic.ProbabilitySpecification;
+import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.lexer.Lexer;
+import org.modelcc.metamodel.ElementMember;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
+import org.modelcc.probabilistic.NumericProbabilityValue;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
+import org.modelcc.probabilistic.ProbabilityValue;
+import org.modelcc.tools.FieldSearcher;
 
 /**
  * ModelCC FenceParser
@@ -101,18 +107,40 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	return;
         for (int i = 0;i < symbol.getContents().size();i++)
         	calculateProbability(symbol.getContents().get(i));
-        //TODO probabilidades
         if (symbol.isToken()) {
         	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
-        	if (pe != null) {
+        	if (pe != null)
                 symbolMap.put("probability",pe.evaluate(symbol.getUserData()));
-        	}
         	else
-                symbolMap.put("probability",1d);
-        	//TODO HERE
+                symbolMap.put("probability",new NumericProbabilityValue(1d));
+        }
+        else {
+        	ProbabilityValue pv = null;
+        	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
+        	if (pe != null)
+        		pv = pe.evaluate(symbol.getUserData());
+        	for (int i = 0;i < symbol.getContents().size();i++) {
+        		Symbol content = symbol.getContents().get(i);
+        		if (!content.isToken()) {
+        			pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content.getUserData()).get("probability"));
+            		pv = addProbability(pv,ps.getMemberProbabilities().get(FieldSearcher.searchField(symbol.getUserData().getClass(),((ElementMember)((RuleElementPosition)symbol.getElements().get(i)).getPositionId()).getField())).evaluate(content.getUserData()));
+        		}
+        	}
+            symbolMap.put("probability",pv);
         }
     }
 
+    public ProbabilityValue addProbability(ProbabilityValue one,ProbabilityValue two) {
+    	if (one == null)
+    		return two;
+    	else {
+    		if (two == null)
+    			return one;
+    		else
+    			return one.product(two);
+    	}
+    }
+        
 	/**
      * Parses an input string
      * @param input the input string

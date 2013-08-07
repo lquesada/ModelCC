@@ -1164,6 +1164,7 @@ public class LanguageSpecificationFactoryTest {
 			return;
         }
         assertEquals(0.5d,((ProbabilityValue)parser.getParsingMetadata(test1.a).get("probability")).getNumericValue(),0.01d);
+        assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(test1).get("probability")).getNumericValue(),0.001d);
                 
     }
 }
