@@ -147,15 +147,36 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         		Field field = fields[i];
         		Object content;
 				try {
+					field.setAccessible(true);
 					content = field.get(symbol.getUserData());
-	        		ProbabilityEvaluator pem = ps.getMemberProbabilities().get(field);
 	        		if (content != null) {
-	        			if (objectMetadata.containsKey(content))
-	        				pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content).get("probability"));
+						ProbabilityEvaluator pem = ps.getMemberProbabilities().get(field);
 	            		if (pem != null)
 	            			pv = addProbability(pv,pem.evaluate(content));
+
+	            		if (Collection.class.isAssignableFrom(content.getClass())) {
+							Collection c = (Collection)content;
+							for (Iterator ite = c.iterator();ite.hasNext();) {
+								Object contentelement = ite.next();
+			        			if (objectMetadata.containsKey(contentelement))
+			        				pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(contentelement).get("probability"));
+								
+							}
+						}
+						else if (content.getClass().isArray()) {
+							Object[] array = (Object[])content;
+							for (int x = 0;x < array.length;x++) {
+			        			if (objectMetadata.containsKey(array[x]))
+			        				pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(array[x]).get("probability"));
+							}
+						}
+						else {
+		        			if (objectMetadata.containsKey(content))
+		        				pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content).get("probability"));
+						}
 	        		}
 	        		else {
+						ProbabilityEvaluator pem = ps.getMemberProbabilities().get(field);
 	        			if (pem != null)
 	            			pv = addProbability(pv,pem.evaluate(content).complementary());
 	        		}

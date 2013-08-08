@@ -1253,5 +1253,98 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.0080d,((ProbabilityValue)parser.getParsingMetadata(test4.iterator().next()).get("probability")).getNumericValue(),0.001d);
 
     }
-    
+
+    @Test
+    public void probabilityTest5() {
+
+    	Parser<test.languages.probabilities.Test5> parser = genProbabilisticParser(test.languages.probabilities.Test5.class);
+    	test.languages.probabilities.Test5 test5;
+        try {
+        	test5 = parser.parse("");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test5).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test5 = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test5).get("probability")).getNumericValue(),0.001d);
+        try {
+        	test5 = parser.parse("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test5).get("probability")).getNumericValue(),0.001d);
+
+    }
+
+    @Test
+    public void probabilityTest6() {
+
+    	Parser<test.languages.probabilities.Test6> parser = genProbabilisticParser(test.languages.probabilities.Test6.class);
+    	test.languages.probabilities.Test6 test6;
+        try {
+        	test6 = parser.parse("");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test6).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test6 = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test6).get("probability")).getNumericValue(),0.001d);
+        try {
+        	test6 = parser.parse("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test6).get("probability")).getNumericValue(),0.001d);
+
+    }
+
+
+    @Test
+    public void probabilityTest7() {
+
+    	Parser<test.languages.probabilities.Test7> parser = genProbabilisticParser(test.languages.probabilities.Test7.class);
+    	test.languages.probabilities.Test7 test7;
+        try {
+        	test7 = parser.parse("");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test7).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test7 = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test7).get("probability")).getNumericValue(),0.001d);
+        try {
+        	test7 = parser.parse("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test7).get("probability")).getNumericValue(),0.001d);
+
+    }
+
+
+
 }
