@@ -5,11 +5,13 @@
 
 package org.modelcc.probabilistic;
 
+import java.io.Serializable;
+
 /**
  * Numeric probability value.
  * @author elezeta
  */
-public class NumericProbabilityValue extends ProbabilityValue {
+public class NumericProbabilityValue extends ProbabilityValue implements Serializable {
 
     /**
      * Serial Version ID

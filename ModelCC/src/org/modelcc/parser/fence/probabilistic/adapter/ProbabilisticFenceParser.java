@@ -7,6 +7,7 @@ package org.modelcc.parser.fence.probabilistic.adapter;
 
 import java.io.Reader;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -141,17 +142,28 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
         	if (pe != null)
         		pv = pe.evaluate(symbol.getUserData());
-        	for (int i = 0;i < symbol.getContents().size();i++) {
-        		Symbol content = symbol.getContents().get(i);
-
-        		if (content.getUserData() != null) {
-	        		if (symbol.getElements().get(i).getClass().equals(RuleElementPosition.class)) {
-	        			pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content.getUserData()).get("probability"));
-	            		ProbabilityEvaluator pem = ps.getMemberProbabilities().get(FieldSearcher.searchField(symbol.getUserData().getClass(),((ElementMember)((RuleElementPosition)symbol.getElements().get(i)).getPositionId()).getField()));
+        	Field[] fields = FieldSearcher.getAllFields(symbol.getUserData().getClass());
+        	for (int i = 0;i < fields.length;i++) {
+        		Field field = fields[i];
+        		Object content;
+				try {
+					content = field.get(symbol.getUserData());
+	        		ProbabilityEvaluator pem = ps.getMemberProbabilities().get(field);
+	        		if (content != null) {
+	        			if (objectMetadata.containsKey(content))
+	        				pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content).get("probability"));
 	            		if (pem != null)
-	            			pv = addProbability(pv,pem.evaluate(content.getUserData()));
+	            			pv = addProbability(pv,pem.evaluate(content));
 	        		}
-        		}
+	        		else {
+	        			if (pem != null)
+	            			pv = addProbability(pv,pem.evaluate(content).complementary());
+	        		}
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
         	}
             symbolMap.put("probability",pv);
         }

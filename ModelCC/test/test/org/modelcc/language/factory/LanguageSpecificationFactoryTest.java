@@ -22,6 +22,8 @@ import test.languages.keys.Keys4Lang;
 import test.languages.keys.Keys3Lang;
 import test.languages.keys.Keys2Lang;
 
+import org.modelcc.IModel;
+import org.modelcc.Optional;
 import org.modelcc.language.factory.CompositeSymbolBuilder;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
@@ -51,6 +53,7 @@ import test.languages.positions.Position8;
 import test.languages.positions.Position9;
 import test.languages.positions.PositionFree1;
 import test.languages.positions.PositionRef1;
+import test.languages.probabilities.OK05Class;
 
 import test.languages.testlanguage.Test7_2;
 import test.languages.testlanguage.Test7_1;
@@ -85,6 +88,7 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.parser.ProbabilisticParserFactory;
+import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityValue;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
@@ -1182,8 +1186,8 @@ public class LanguageSpecificationFactoryTest {
         }
         assertEquals(2,test2.size());
         Iterator<test.languages.probabilities.Test2> ite = test2.iterator();
-        assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
-        assertEquals(0.02d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.0640d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.0040d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
                 
     }
 
@@ -1200,8 +1204,54 @@ public class LanguageSpecificationFactoryTest {
         }
         assertEquals(2,test3.size());
         Iterator<test.languages.probabilities.Test3> ite = test3.iterator();
-        assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
-        assertEquals(0.02d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.0640d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.0040d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
                 
+        try {
+        	test3 = parser.parseAll("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(1,test3.size());
+        assertEquals(0.0080d,((ProbabilityValue)parser.getParsingMetadata(test3.iterator().next()).get("probability")).getNumericValue(),0.001d);
+
+        try {
+        	test3 = parser.parseAll("");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(1,test3.size());
+        assertEquals(0.032d,((ProbabilityValue)parser.getParsingMetadata(test3.iterator().next()).get("probability")).getNumericValue(),0.001d);
     }
+
+
+    @Test
+    public void probabilityTest4() {
+
+    	Parser<test.languages.probabilities.Test4> parser = genProbabilisticParser(test.languages.probabilities.Test4.class);
+    	Collection<test.languages.probabilities.Test4> test4;
+        try {
+        	test4 = parser.parseAll("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(2,test4.size());
+        Iterator<test.languages.probabilities.Test4> ite = test4.iterator();
+        assertEquals(0.0640d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.0040d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test4 = parser.parseAll("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(1,test4.size());
+        assertEquals(0.0080d,((ProbabilityValue)parser.getParsingMetadata(test4.iterator().next()).get("probability")).getNumericValue(),0.001d);
+
+    }
+    
 }

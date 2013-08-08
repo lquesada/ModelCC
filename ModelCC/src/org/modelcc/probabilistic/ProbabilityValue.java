@@ -5,12 +5,19 @@
 
 package org.modelcc.probabilistic;
 
+import java.io.Serializable;
+
 /**
  * Probability value.
  * @author elezeta
  */
-public abstract class ProbabilityValue {
-	
+public abstract class ProbabilityValue implements Serializable {
+
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
 	public abstract double getNumericValue();
 	
 	public abstract ProbabilityValue product(ProbabilityValue other);

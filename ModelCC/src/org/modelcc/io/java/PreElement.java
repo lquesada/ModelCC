@@ -320,4 +320,10 @@ public final class PreElement implements Serializable {
     	return probabilityEvaluator;
     }
 
+    /**
+     * @param probabilityEvaluator the probability evaluator to set
+     */
+    public void setProbabilityEvaluator(ProbabilityEvaluator probabilityEvaluator) {
+    	this.probabilityEvaluator = probabilityEvaluator;
+    }
 }

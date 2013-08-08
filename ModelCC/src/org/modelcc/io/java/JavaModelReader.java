@@ -1256,6 +1256,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
             if (precedences.get(target).contains(target))
                 precedences.remove(target);
         }
+        // Probability
+        if (target.getProbabilityEvaluator()==null && source.getProbabilityEvaluator()!= null) {
+            target.setProbabilityEvaluator(source.getProbabilityEvaluator());
+        }
 
         if (subclasses.get(target) != null) {
             ite = subclasses.get(target).iterator();
