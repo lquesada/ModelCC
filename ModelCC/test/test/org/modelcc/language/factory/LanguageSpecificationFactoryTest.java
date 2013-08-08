@@ -93,6 +93,7 @@ import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -1165,6 +1166,42 @@ public class LanguageSpecificationFactoryTest {
         }
         assertEquals(0.5d,((ProbabilityValue)parser.getParsingMetadata(test1.a).get("probability")).getNumericValue(),0.01d);
         assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(test1).get("probability")).getNumericValue(),0.001d);
+                
+    }
+
+    @Test
+    public void probabilityTest2() {
+
+    	Parser<test.languages.probabilities.Test2> parser = genProbabilisticParser(test.languages.probabilities.Test2.class);
+    	Collection<test.languages.probabilities.Test2> test2;
+        try {
+        	test2 = parser.parseAll("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(2,test2.size());
+        Iterator<test.languages.probabilities.Test2> ite = test2.iterator();
+        assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.02d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+                
+    }
+
+    @Test
+    public void probabilityTest3() {
+
+    	Parser<test.languages.probabilities.Test3> parser = genProbabilisticParser(test.languages.probabilities.Test3.class);
+    	Collection<test.languages.probabilities.Test3> test3;
+        try {
+        	test3 = parser.parseAll("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(2,test3.size());
+        Iterator<test.languages.probabilities.Test3> ite = test3.iterator();
+        assertEquals(0.08d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
+        assertEquals(0.02d,((ProbabilityValue)parser.getParsingMetadata(ite.next()).get("probability")).getNumericValue(),0.001d);
                 
     }
 }

@@ -7,15 +7,15 @@ package org.modelcc.parser.fence.probabilistic.adapter;
 
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.WeakHashMap;
 
-import org.modelcc.language.factory.ElementId;
 import org.modelcc.language.probabilistic.ProbabilitySpecification;
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SyntacticSpecification;
@@ -86,8 +86,9 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     @Override
      public Collection<T> parseAll(Reader input) throws ParserException {
         SyntaxGraph sg = gp.parse(ls,gl.scan(input),objectMetadata);
-        Set<T> out = new HashSet<T>();
-        // TODO change ordering based on probability
+
+        List<T> out = new ArrayList<T>();
+        
         for (Iterator<Symbol> ite = sg.getRoots().iterator();ite.hasNext();) {
         	Symbol rootSymbol = ite.next();
         	calculateProbability(rootSymbol);
@@ -96,10 +97,31 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         if (out.isEmpty()) {
         	throw new ParserException();
         }
+
+        Comparator c = new Comparator() {
+
+        	@Override
+        	public int compare(Object o1, Object o2) {
+        		if (((ProbabilityValue)getParsingMetadata(o1).get("probability")).getNumericValue()
+        		   >((ProbabilityValue)getParsingMetadata(o2).get("probability")).getNumericValue())
+        			return -1;
+        		else if (((ProbabilityValue)getParsingMetadata(o1).get("probability")).getNumericValue()
+        				   <((ProbabilityValue)getParsingMetadata(o2).get("probability")).getNumericValue())
+        			return 1;
+        		else
+        			return 0;
+        	}
+
+        };
+        
+        Collections.sort(out,c);
+        
         return out;
     }
 
     private void calculateProbability(Symbol symbol) {
+        if (symbol.getUserData() == null)
+        	return;
         Map<String,Object> symbolMap = objectMetadata.get(symbol.getUserData());
         if (symbolMap == null)
                 return;
@@ -107,7 +129,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	return;
         for (int i = 0;i < symbol.getContents().size();i++)
         	calculateProbability(symbol.getContents().get(i));
-        if (symbol.isToken()) {
+		if (symbol.isToken()) {
         	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
         	if (pe != null)
                 symbolMap.put("probability",pe.evaluate(symbol.getUserData()));
@@ -121,9 +143,14 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         		pv = pe.evaluate(symbol.getUserData());
         	for (int i = 0;i < symbol.getContents().size();i++) {
         		Symbol content = symbol.getContents().get(i);
-        		if (!content.isToken()) {
-        			pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content.getUserData()).get("probability"));
-            		pv = addProbability(pv,ps.getMemberProbabilities().get(FieldSearcher.searchField(symbol.getUserData().getClass(),((ElementMember)((RuleElementPosition)symbol.getElements().get(i)).getPositionId()).getField())).evaluate(content.getUserData()));
+
+        		if (content.getUserData() != null) {
+	        		if (symbol.getElements().get(i).getClass().equals(RuleElementPosition.class)) {
+	        			pv = addProbability(pv,(ProbabilityValue)objectMetadata.get(content.getUserData()).get("probability"));
+	            		ProbabilityEvaluator pem = ps.getMemberProbabilities().get(FieldSearcher.searchField(symbol.getUserData().getClass(),((ElementMember)((RuleElementPosition)symbol.getElements().get(i)).getPositionId()).getField()));
+	            		if (pem != null)
+	            			pv = addProbability(pv,pem.evaluate(content.getUserData()));
+	        		}
         		}
         	}
             symbolMap.put("probability",pv);
