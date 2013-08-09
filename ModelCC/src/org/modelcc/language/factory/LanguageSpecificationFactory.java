@@ -253,6 +253,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                     	else if (posInfo.contains(Position.BEFORELAST)) {
                     		processInside(newNodes,curNodes,source,target,Position.BEFORELAST,posInfo.getSeparatorPolicy());
                     	}
+                    	processNoSource(newNodes,curNodes,source,target);
                     }
                     nodes = newNodes;
                 }
@@ -606,7 +607,19 @@ public final class LanguageSpecificationFactory implements Serializable {
     		curNodesCopy.remove(sourceIndex);
     		newNodes.add(curNodesCopy);
 		}
+		
 	}
+    private void processNoSource(List<List<MemberNode>> newNodes,
+            List<MemberNode> curNodes,ElementMember source,
+            ElementMember target) {
+	    int sourceIndex = searchBack(curNodes,source);
+	    if (sourceIndex == -1) {
+		    List<MemberNode> curNodesCopy = new ArrayList<MemberNode>();
+		    curNodesCopy.addAll(curNodes);
+		    newNodes.add(curNodesCopy);
+	    }
+	}
+
 
 	private int searchBack(List<MemberNode> curNodes, ElementMember source) {
     	int found = -1;
@@ -1123,7 +1136,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         	//Lw -> L (sepPolicy:extra)
         	//Lw -> (sepPolicy:extra)
         	
-	        if (re == null) {
+	        if (re == null) { //TODO beforelast? l1?
 	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
 	            re = new RuleElement(id);
 	            lists.put(l1,re);
