@@ -528,12 +528,12 @@ public final class LanguageSpecificationFactory implements Serializable {
             System.out.println("token: "+rx);
         }
 
-
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
             System.out.println("regla: "+rx);
         }
 */
+
  
         // -----------------
         // Build language specification.
@@ -1137,9 +1137,9 @@ public final class LanguageSpecificationFactory implements Serializable {
         	//Lw -> (sepPolicy:extra)
         	
 	        if (re == null) { //TODO beforelast? l1?
-	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
+	            ElementId id = new ElementId(ElementType.LISTW,el,separator,ref);
 	            re = new RuleElement(id);
-	            lists.put(l1,re);
+	            lists.put(lw,re);
 
 	            //L -> E
 	            rct = new ArrayList<RuleElement>();
