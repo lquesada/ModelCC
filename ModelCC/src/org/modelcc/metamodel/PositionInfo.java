@@ -50,5 +50,9 @@ public class PositionInfo implements Serializable {
 			if (position[i]==needle)
 				return true;
 		return false;
+	}
+
+	public boolean isEmpty() {
+		return position.length==0;
 	}	  
 }

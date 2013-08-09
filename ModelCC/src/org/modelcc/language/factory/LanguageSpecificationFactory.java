@@ -823,7 +823,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            ElementId id = new ElementId(ElementType.LIST,el,separator,ref);
 	            re = new RuleElement(id);
 	            lists.put(l1,re);
-	
+
 	            //L -> E
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
@@ -838,7 +838,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                }
 	            });
 	            listRules.add(r);
-	
+
 	            //L -> E L
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
@@ -860,7 +860,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    return true;
 	                }
 	            });
-	            
+
 	            listRules.add(r);
 	        }
 	        if (((MultipleElementMember)ct).getMinimumMultiplicity()==0) {
@@ -868,7 +868,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                ElementId id = new ElementId(ElementType.LISTZERO,el,separator,ref);
 	                re0 = new RuleElement(id);
 	                lists.put(l0,re0);
-	
+
 	                //L0 -> L
 	                rct = new ArrayList<RuleElement>();
 	                rct.add(re);
@@ -990,7 +990,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 				default:
 					break;
-	            
+
 	            }
 	            rct.add(choseneltore.get(el));
 	            r = new Rule(res,rct,null,new SymbolBuilder(){
@@ -1014,14 +1014,14 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            listRules.add(r);
 
 	        }
-	        
+
 	        if (reb == null) {
-	        	
+
 
 	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
 	            reb = new RuleElement(id);
 	            lists.put(lb,reb);
-	
+
 	        	//L -> E lsep
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
@@ -1089,7 +1089,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 				default:
 					break;
-	            
+
 	            }
 	            rct.add(choseneltore.get(el));
 	            r = new Rule(reb,rct,null,new SymbolBuilder(){
@@ -1127,7 +1127,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            ElementId id = new ElementId(ElementType.LISTBEFORELAST,el,separator,ref);
 	            re = new RuleElement(id);
 	            lists.put(l1,re);
-	
+
 	            //L -> E
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(choseneltore.get(el));
@@ -1172,7 +1172,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            ElementId id = new ElementId(ElementType.LISTWITHIN,el,separator,ref);
 	            rew = new RuleElement(id);
 	            lists.put(lw,rew);
-	
+
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(re);
 	            switch (extraSepPol) {
@@ -1226,7 +1226,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 				default:
 					break;
-	            
+
 	            }
 	            rct.add(re);
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
@@ -1303,7 +1303,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 				default:
 					break;
-	            
+
 	            }
 	            rct.add(re);
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
@@ -1375,7 +1375,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 					break;
 				default:
 					break;
-	            
+
 	            }
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
@@ -1396,7 +1396,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                }
 	            });
 	            listRules.add(r);
-	            
+
 	        	//Lw -> (sepPolicy:extra)
 	            rct = new ArrayList<RuleElement>();
 	            rct.add(extraRe);

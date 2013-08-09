@@ -89,9 +89,18 @@ public class ElementId implements Serializable {
                 return r+"LIST("+getElement().getElementClass().getSimpleName()+")";
             case LISTZERO:
                 return r+"LISTZERO("+getElement().getElementClass().getSimpleName()+")";
+            case LISTBEFORELAST:
+                return r+"LISTBEFORELAST("+getElement().getElementClass().getSimpleName()+")";
+            case LISTWITHIN:
+                return r+"LISTWITHIN("+getElement().getElementClass().getSimpleName()+")";
+            case LISTS:
+                return r+"LISTS("+getElement().getElementClass().getSimpleName()+")";
+            case LISTW:
+                return r+"LISTW("+getElement().getElementClass().getSimpleName()+")";
             case BASIC:
-            default:
                 return r+"BASIC("+getElement().getElementClass().getSimpleName()+")";
+            default:
+                return r+"UNKNOWN("+getElement().getElementClass().getSimpleName()+")";
         }
     }
 
