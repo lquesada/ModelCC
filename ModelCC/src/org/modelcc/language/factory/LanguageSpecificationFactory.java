@@ -257,6 +257,24 @@ public final class LanguageSpecificationFactory implements Serializable {
                     }
                     nodes = newNodes;
                 }
+                /*
+                for (int i = 0;i < nodes.size();i++) {
+                    List<MemberNode> curNodes = nodes.get(i);
+                    for (int j = 0;j < curNodes.size();j++) {
+                            MemberNode current = curNodes.get(j);
+                            for (int k = 0;k < current.getContents().size();k++) {
+                            System.out.print("(");
+                                    ElementMember em = current.getContents().get(k);
+                            System.out.print(em.getField());
+                            if (current.getContentMembers().get(em) != null)
+                                    System.out.print("+"+current.getContentMembers().get(em).getContent().getField());
+                            System.out.print(") ");
+                            }
+                    }
+                    System.out.print("\n");
+            	}
+            	*/
+
                 
                 if (ce.isFreeOrder()) {
                 	List<List<MemberNode>> newNodes = new ArrayList<List<MemberNode>>();
