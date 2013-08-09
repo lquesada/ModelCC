@@ -922,6 +922,18 @@ public class BoundedInteger implements{\emph IModel} \{
 \end{alltt}
 \end{colframe}
 
+\subsection{Probability constraints}
+
+\subsubsection{The @Probability annotation}
+
+The \emph{@Probability} annotation allows the specification of probability values for language elements and language element members. Probability values can be specified for syntactic elements of the languages and for lexical components, in which case it should be noted that the lexical analyzer behaves as a part-of-speech tagger in natural language processing.
+
+Such probability values can be specified using ttwo alternatives: a probability value as a real number between $0$ and $1$ or a custom probability evaluator that computes the probability value from the analysis of the language element and its context.
+
+Since ModelCC supports lexical and syntactic ambiguities and the combination of language models, one of the main novelties of ModelCC with respect to existing techniques is that it allows the modular specification of probabilistic languages, that is, it is able to produce parsers from composite language specifications even when some of the language elements overlap or conflict.
+
+ModelCC also supports alternative models for the representation of uncertainty, provided that an evaluation operator for language element instances is provided and an evaluation operator for the application of grammar rules is provided.
+Optionally, a casting operator that translates the estimated value in one model into a value valid for a different kind of model allows the specification of modular languages even when different mechanisms for representing natural language ambiguities are employed for different parts of the language model.
 
 \section{Predefined types} \label{sec:predefinedtypes}
 
@@ -1162,11 +1174,39 @@ try \{
   // Parse an input string.
   Expression result = parser.parse("3+(2+5)");
 
-  // Produce output.
-  if (result != null)
-    System.out.println(result.eval());
-  else
-    System.out.println("Invalid string.");
+  // Print output.
+  System.out.println(result.eval());
+
+\} catch (Exception e) \{
+  System.out.println(e.getMessage());
+\}
+\end{alltt}
+\end{colframe}
+
+The following code uses a probabilistic parser:
+
+\begin{colframe}
+\begin{alltt}
+import org.modelcc.io.java.JavaModelReader;
+import org.modelcc.metamodel.Model;
+import org.modelcc.parser.ProbabilisticParser;
+import org.modelcc.parser.ProbabilisticParserFactory;
+
+[...]
+
+try \{
+
+  // Read the language model.
+  Model m = JavaModelReader.read(Sentence.class);
+
+  // Generate a parser from the model.
+  ProbabilisticParser<Sentence> parser = ProbabilisticParserFactory.create(m);
+
+  // Parse an input string and obtain multiple interpretations.
+  Collection<Sentence> result = parser.parseAll("I saw a picture of New York");
+
+  // Keep the most probable interpretation.
+  Sentence mostProbable = result.iterator().next();
 
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
