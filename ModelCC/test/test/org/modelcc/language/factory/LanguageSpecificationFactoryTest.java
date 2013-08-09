@@ -1461,4 +1461,101 @@ public class LanguageSpecificationFactoryTest {
     }
 
 
+    @Test
+    public void probabilityTest8b() {
+
+    	Parser<test.languages.probabilities.Test8b> parser = genProbabilisticParser(test.languages.probabilities.Test8b.class);
+    	test.languages.probabilities.Test8b test8b;
+        try {
+        	test8b = parser.parse("");
+        } catch (Exception e) {
+        	e.printStackTrace();
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test8b = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
+
+        try {
+        	test8b = parser.parse("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
+   
+        try {
+        	test8b = parser.parse("ba");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.0020d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
+
+        try {
+        	test8b = parser.parse("aba");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.0010d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
+
+    }
+
+    @Test
+    public void probabilityTest9b() {
+
+    	Parser<test.languages.probabilities.Test9b> parser = genProbabilisticParser(test.languages.probabilities.Test9b.class);
+    	test.languages.probabilities.Test9b test9b;
+        try {
+        	test9b = parser.parse("");
+        } catch (Exception e) {
+        	e.printStackTrace();
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.036d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
+                
+        try {
+        	test9b = parser.parse("a");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.018d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
+
+        try {
+        	test9b = parser.parse("aa");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.009d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
+
+        try {
+        	test9b = parser.parse("ba");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.00020d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.0001d);
+
+        try {
+        	test9b = parser.parse("aba");
+        } catch (Exception e) {
+			assertTrue(false);
+			return;
+        }
+        assertEquals(0.00010d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.0001d);
+
+    }
+
+
 }
