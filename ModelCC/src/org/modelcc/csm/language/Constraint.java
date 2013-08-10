@@ -22,8 +22,6 @@ public abstract class Constraint implements Serializable {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    public void apply(Model model) {
-    	//TODO
-    }
+    public abstract void apply(Model model);
     
 }
