@@ -22,8 +22,8 @@ public final class Mapping implements Serializable {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    public Model apply(Model original) {
-    	//TODO clone model and apply every constraint
+    public Model apply(Model model) {
+    	//TODO apply every constraint
 		return null;
     }
     
