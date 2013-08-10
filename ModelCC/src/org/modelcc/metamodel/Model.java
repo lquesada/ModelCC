@@ -5,6 +5,11 @@
 
 package org.modelcc.metamodel;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
@@ -16,7 +21,7 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
  * @author elezeta
  * @serial
  */
-public final class Model implements Serializable {
+public final class Model implements Serializable,Cloneable {
 
     /**
      * Serial Version ID
@@ -138,6 +143,35 @@ public final class Model implements Serializable {
      */
     public Map<ModelElement, ModelElement> getDefaultElement() {
         return Collections.unmodifiableMap(defaultElement);
+    }
+
+    @Override
+	public Model clone(){
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+        try {
+            ByteArrayOutputStream bOs = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(bOs);
+            oos.writeObject(this);
+            ois = new ObjectInputStream(new ByteArrayInputStream(bOs.toByteArray()));
+            return  (Model)ois.readObject();
+
+        } catch (Exception e) {
+            return null;
+        }finally {
+            if (oos != null)
+                try {
+                    oos.close();
+                } catch (IOException e) {
+
+                }
+            if (ois != null)
+                try {
+                    ois.close();
+                } catch (IOException e) {
+
+                }
+        }
     }
 
 }

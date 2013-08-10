@@ -29,6 +29,7 @@ public final class CSM implements Serializable {
      * @return constrained model.
      */
     public Model apply(Model model,String input) {
+    	Model clone = model.clone();
     	//TODO
 		return null;
 	}

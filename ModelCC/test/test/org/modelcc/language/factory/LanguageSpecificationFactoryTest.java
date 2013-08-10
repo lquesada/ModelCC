@@ -136,7 +136,7 @@ public class LanguageSpecificationFactoryTest {
         ModelReader jmr = new JavaModelReader(c);
         Model m;
 		try {
-			m = jmr.read();
+			m = jmr.read().clone();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			assertTrue(false);

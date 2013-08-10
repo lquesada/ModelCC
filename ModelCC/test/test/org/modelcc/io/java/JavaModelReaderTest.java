@@ -7,6 +7,7 @@ package test.org.modelcc.io.java;
 
 
 
+import test.languages.warnings.OptionalPart;
 import test.languages.warnings.ReferenceNotID2;
 import test.languages.warnings.ReferenceNotID;
 import test.languages.warnings.ReferenceNotIModel;
@@ -1683,6 +1684,21 @@ public class JavaModelReaderTest {
         } catch (Exception ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Test
+    public void CloningTest() {
+        JavaModelReader jmr = new JavaModelReader(OptionalMult.class);
+        Model m = null;
+
+        try {
+            m = jmr.read();
+        } catch (Exception ex) {
+            Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Model m2 = m.clone();
+        assertNotSame(m.getClassToElement().get(OptionalMult.class),m2.getClassToElement().get(OptionalMult.class));
+        assertNotSame(m.getClassToElement().get(OptionalPart.class),m2.getClassToElement().get(OptionalPart.class));
     }
  
 }
