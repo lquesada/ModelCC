@@ -13,7 +13,6 @@ import org.modelcc.*;
  */
 public class OptionalMult implements IModel {
     @Optional
-    @Prefix("b")
     @Minimum(0)
     OptionalPart[] a;
 }
