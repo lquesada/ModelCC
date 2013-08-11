@@ -23,7 +23,7 @@ public abstract class ElementMappingComponent extends MappingComponent implement
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-	private ElementName elementName;
+	private ElementID elementName;
 	
 	private ElementConstraint constraint;
 	

@@ -30,5 +30,4 @@ public class BooleanModel implements IModel,Serializable {
         return val.booleanValue();
     }
 
-
 }

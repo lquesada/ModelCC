@@ -3,27 +3,36 @@
  */
 
 
-package org.modelcc.csm.language;
+package org.modelcc.csm.language.elementconstraints;
 
 import java.io.Serializable;
 import java.util.List;
 import org.modelcc.*;
 
+import org.modelcc.csm.language.ElementConstraint;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
+import org.modelcc.types.BooleanModel;
 
 /**
  * Element Constraint class.
  * @author elezeta
  * @serial
  */
-public abstract class ElementConstraint implements Serializable {
+@Prefix("(?i)freeorder")
+public class FreeOrderElementConstraint extends ElementConstraint implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
-    
-    public abstract void apply(Model m,ModelElement me);
+
+    private BooleanModel value;
+
+	@Override
+	public void apply(Model m, ModelElement me) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

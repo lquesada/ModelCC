@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import org.modelcc.*;
 
+import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
+import org.modelcc.metamodel.ModelElement;
 
 /**
  * Member Constraint class.
@@ -22,5 +24,7 @@ public abstract class MemberConstraint implements Serializable {
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
+
+    public abstract void apply(Model m,ModelElement me,ElementMember em);
     
 }

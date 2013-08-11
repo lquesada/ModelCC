@@ -7,26 +7,22 @@ package org.modelcc.csm.language;
 
 import java.io.Serializable;
 import java.util.List;
+import org.modelcc.*;
 
 import org.modelcc.metamodel.Model;
 
 /**
- * Mapping class.
+ * Element Name class.
  * @author elezeta
  * @serial
  */
-public final class Mapping implements Serializable {
+public abstract class ElementID extends MappingComponent implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
-
-    private List<MappingComponent> constraints;
-
-    public void apply(Model model) {
-    	for (int i = 0;i < constraints.size();i++)
-    		constraints.get(i).apply(model);
-   }
+	
+    private ElementName elementName;
     
 }

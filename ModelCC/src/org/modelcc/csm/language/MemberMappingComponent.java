@@ -23,11 +23,7 @@ public abstract class MemberMappingComponent extends MappingComponent implements
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    private ElementName elementName;
-	
-	@Prefix("\\[")
-	@Suffix("\\]")
-	private MemberName memberName;
+    private MemberID memberID;
 	
 	private MemberConstraint constraint;
 	
