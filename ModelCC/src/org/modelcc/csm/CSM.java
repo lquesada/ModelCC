@@ -46,11 +46,13 @@ public final class CSM implements Serializable {
      * @throws CannotApplyMappingException when the mapping cannot be applied
      */
     public static Model apply(Model original,String input) throws CannotApplyMappingException {
+    	System.out.println("CSM "+original);
     	Model clone = original.clone();
+    	System.out.println(clone);
  	
 		try {
 	        ModelReader jmr = new JavaModelReader(Mapping.class);
-	        Model m = jmr.read().clone();
+	        Model m = jmr.read();
 	        new HashSet<PatternRecognizer>();
 	        Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
 	        ignore.add(new RegExpPatternRecognizer("[\\t\\ \\n\\r]+"));

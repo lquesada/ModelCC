@@ -25,4 +25,7 @@ public class ElementID implements IModel,Serializable {
 	
     private ElementName elementName;
 
+	public ElementName getElementName() {
+		return elementName;
+	}
 }

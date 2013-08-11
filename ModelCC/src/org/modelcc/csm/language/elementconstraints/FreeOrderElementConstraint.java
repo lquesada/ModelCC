@@ -10,6 +10,7 @@ import java.util.List;
 import org.modelcc.*;
 
 import org.modelcc.csm.language.ElementConstraint;
+import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.types.BooleanModel;
@@ -32,8 +33,13 @@ public class FreeOrderElementConstraint extends ElementConstraint implements IMo
 
 	@Override
 	public void apply(Model m, ModelElement me) {
-		// TODO Auto-generated method stub
-		
+		if (!ComplexModelElement.class.isAssignableFrom(me.getClass())) {
+			//TODO error not valid.
+		}
+		else {
+			ComplexModelElement cme = (ComplexModelElement)me;
+			cme.setFreeOrder(value.booleanValue());
+		}
 	}
     
 }
