@@ -16,7 +16,7 @@ import org.modelcc.metamodel.Model;
  * @author elezeta
  * @serial
  */
-public abstract class ElementID extends MappingComponent implements Serializable {
+public class ElementID implements IModel,Serializable {
 
     /**
      * Serial Version ID
@@ -24,5 +24,5 @@ public abstract class ElementID extends MappingComponent implements Serializable
     private static final long serialVersionUID = 31415926535897932L;
 	
     private ElementName elementName;
-    
+
 }

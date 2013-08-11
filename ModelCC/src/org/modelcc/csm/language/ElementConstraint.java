@@ -17,7 +17,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public abstract class ElementConstraint implements Serializable {
+public abstract class ElementConstraint implements IModel,Serializable {
 
     /**
      * Serial Version ID

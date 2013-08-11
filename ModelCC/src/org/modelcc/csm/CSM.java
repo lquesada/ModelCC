@@ -45,7 +45,7 @@ public final class CSM implements Serializable {
      * @return constrained clone of the model.
      * @throws CannotApplyMappingException when the mapping cannot be applied
      */
-    public Model apply(Model original,String input) throws CannotApplyMappingException {
+    public static Model apply(Model original,String input) throws CannotApplyMappingException {
     	Model clone = original.clone();
  	
 		try {

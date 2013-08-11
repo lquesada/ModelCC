@@ -8,6 +8,7 @@ package org.modelcc.csm.language;
 import java.io.Serializable;
 import java.util.List;
 
+import org.modelcc.IModel;
 import org.modelcc.metamodel.Model;
 
 /**
@@ -15,7 +16,7 @@ import org.modelcc.metamodel.Model;
  * @author elezeta
  * @serial
  */
-public final class Mapping implements Serializable {
+public final class Mapping implements IModel,Serializable {
 
     /**
      * Serial Version ID

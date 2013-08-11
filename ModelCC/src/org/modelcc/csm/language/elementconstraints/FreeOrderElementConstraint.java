@@ -20,13 +20,14 @@ import org.modelcc.types.BooleanModel;
  * @serial
  */
 @Prefix("(?i)freeorder")
-public class FreeOrderElementConstraint extends ElementConstraint implements Serializable {
+public class FreeOrderElementConstraint extends ElementConstraint implements IModel,Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
+    @Prefix("=")
     private BooleanModel value;
 
 	@Override

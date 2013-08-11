@@ -17,7 +17,7 @@ import org.modelcc.metamodel.Model;
  * @serial
  */
 @Pattern(regExp="[a-zA-Z0-9\\_\\-\\.]+")
-public abstract class ElementName extends MappingComponent implements Serializable {
+public class ElementName extends MappingComponent implements IModel,Serializable {
 
     /**
      * Serial Version ID

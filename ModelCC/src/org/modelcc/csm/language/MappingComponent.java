@@ -16,7 +16,8 @@ import org.modelcc.metamodel.Model;
  * @author elezeta
  * @serial
  */
-public abstract class MappingComponent implements Serializable {
+@Suffix(";")
+public abstract class MappingComponent implements IModel,Serializable {
 
 	/**
      * Serial Version ID
