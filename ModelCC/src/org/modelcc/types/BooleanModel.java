@@ -9,8 +9,7 @@ import java.io.Serializable;
 import org.modelcc.*;
 
 /**
- * Boolean:1
- *  Model.
+ * Boolean Model.
  * @author elezeta
  * @serial
  */
