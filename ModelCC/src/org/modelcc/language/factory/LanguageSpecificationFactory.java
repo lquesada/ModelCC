@@ -32,7 +32,7 @@ import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.*;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
-import org.modelcc.tools.FieldSearcher;
+import org.modelcc.tools.FieldFinder;
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
 import org.modelcc.Position;
@@ -532,7 +532,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 for (Iterator<ElementMember> cite = ce.getContents().iterator();cite.hasNext();) {
                 	ElementMember current = cite.next();
                 	if (current.getProbabilityEvaluator() != null) {
-                		psf.addMemberProbability(FieldSearcher.searchField(el.getElementClass(),current.getField()),current.getProbabilityEvaluator());
+                		psf.addMemberProbability(FieldFinder.findField(el.getElementClass(),current.getField()),current.getProbabilityEvaluator());
                 	}
                 }
             }

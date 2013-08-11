@@ -30,7 +30,7 @@ import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;
 import org.modelcc.probabilistic.NumericProbabilityValue;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.probabilistic.ProbabilityValue;
-import org.modelcc.tools.FieldSearcher;
+import org.modelcc.tools.FieldFinder;
 
 /**
  * ModelCC FenceParser
@@ -142,7 +142,7 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
         	if (pe != null)
         		pv = pe.evaluate(symbol.getUserData());
-        	Field[] fields = FieldSearcher.getAllFields(symbol.getUserData().getClass());
+        	Field[] fields = FieldFinder.getAllFields(symbol.getUserData().getClass());
         	for (int i = 0;i < fields.length;i++) {
         		Field field = fields[i];
         		Object content;

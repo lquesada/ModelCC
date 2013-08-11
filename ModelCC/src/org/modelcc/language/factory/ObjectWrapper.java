@@ -20,7 +20,7 @@ import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.metamodel.MultipleElementMember;
-import org.modelcc.tools.FieldSearcher;
+import org.modelcc.tools.FieldFinder;
 
 /**
  * Object Wrapper
@@ -94,7 +94,7 @@ public class ObjectWrapper implements Serializable {
             for (int i = 0;i < me.getContents().size();i++) {
                 ElementMember em = me.getContents().get(i);
                 em.getElementClass();
-                Field fld = FieldSearcher.searchField(me.getElementClass(),em.getField());
+                Field fld = FieldFinder.findField(me.getElementClass(),em.getField());
                 fld.setAccessible(true);
                 Object val = fld.get(o);
                 if (val == null) {
@@ -214,7 +214,7 @@ public class ObjectWrapper implements Serializable {
                 for (int i = 0;i < cme.getContents().size();i++) {
                     ElementMember em = cme.getContents().get(i);
                     em.getElementClass();
-                    Field fld = FieldSearcher.searchField(cme.getElementClass(),em.getField());
+                    Field fld = FieldFinder.findField(cme.getElementClass(),em.getField());
                     fld.setAccessible(true);
                     Object val = fld.get(o);
                     Object val2 = fld.get(other.o);

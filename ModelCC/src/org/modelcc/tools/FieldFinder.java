@@ -17,22 +17,22 @@ import java.util.logging.Logger;
  * @author elezeta
  * @serial
  */
-public class FieldSearcher implements Serializable {
+public class FieldFinder implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    private FieldSearcher() { };
+    private FieldFinder() { };
     
-	public static Field searchField(Class c,String fieldName) {
+	public static Field findField(Class c,String fieldName) {
         try {
 			return c.getDeclaredField(fieldName);
 		} catch (Exception e) {
 			if (c.getSuperclass()!=null)
-				return searchField(c.getSuperclass(),fieldName);
-            Logger.getLogger(FieldSearcher.class.getName()).log(Level.SEVERE, null, e);
+				return findField(c.getSuperclass(),fieldName);
+            Logger.getLogger(FieldFinder.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
 	}

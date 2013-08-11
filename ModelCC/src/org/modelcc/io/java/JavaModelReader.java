@@ -37,7 +37,7 @@ import org.modelcc.probabilistic.InvalidProbabilityValueException;
 import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
-import org.modelcc.tools.FieldSearcher;
+import org.modelcc.tools.FieldFinder;
 import org.modelcc.*;
 import org.modelcc.io.DefaultFilter;
 import org.modelcc.io.WarningExportHandler;
@@ -179,7 +179,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	        Map<ElementMember,PositionInfo> positions = new HashMap<ElementMember,PositionInfo>();
 			if (ComplexModelElement.class.isAssignableFrom(elem.getClass())) {
 				ComplexModelElement celem = (ComplexModelElement)elem;
-		        Field[] fl = FieldSearcher.getAllFields(elem.getElementClass());
+		        Field[] fl = FieldFinder.getAllFields(elem.getElementClass());
 		        for (int i = 0;i < fl.length;i++) {
 		            Field field = fl[i];
 		            ElementMember thisElement = null;

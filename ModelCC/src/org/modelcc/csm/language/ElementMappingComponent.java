@@ -8,10 +8,17 @@ package org.modelcc.csm.language;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.modelcc.*;
 
+import org.modelcc.csm.CSM;
+import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
+import org.modelcc.tools.AmbiguousElementDefinitionException;
+import org.modelcc.tools.ModelElementFinder;
 
 /**
  * Element Mapping Component class.
@@ -27,59 +34,23 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
 
 	private ElementID elementId;
 	
-	private ElementConstraint constraint;
-	
+	private List<ElementConstraint> constraints;
+
+
     @Override
     public void apply(Model model) {
     	ModelElement me = null;
-    	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
-    		ModelElement mec = ite.next();
-    		if (mec.getElementClass().getCanonicalName().endsWith(elementId.getElementName().getName())) {
-    			if (me == null) {
-    				me = mec;
-    			}
-    			else {
-    				//TODO error conflict
-    			}
-    		}
-    	}
+		try {
+			me = ModelElementFinder.findElement(model, elementId.getElementName().getName());
+		} catch (AmbiguousElementDefinitionException e) {
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Ambiguous element definition in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
+		}
     	if (me != null) { 
-        	constraint.apply(model, me);
+    		for (int i = 0;i < constraints.size();i++)
+    			constraints.get(i).apply(model, me);
         	return;
     	}
-    	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
-    		ModelElement mec = ite.next();
-    		if (mec.getElementClass().getName().endsWith(elementId.getElementName().getName())) {
-    			if (me == null) {
-    				me = mec;
-    			}
-    			else {
-    				//TODO error conflict
-    			}
-    		}
-    	}
-    	if (me != null) { 
-        	constraint.apply(model, me);
-        	return;
-    	}
-    	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
-    		ModelElement mec = ite.next();
-    		if (mec.getElementClass().getSimpleName().endsWith(elementId.getElementName().getName())) {
-    			if (me == null) {
-    				me = mec;
-    			}
-    			else {
-    				//TODO error conflict
-    			}
-    		}
-    	}
-    	if (me != null) { 
-        	constraint.apply(model, me);
-        	return;
-    	}
-    	else {
-    		//TODO error not found
-    	}
+		Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Element not found in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
     }
     
 }

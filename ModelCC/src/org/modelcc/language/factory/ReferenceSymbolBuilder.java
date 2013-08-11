@@ -24,7 +24,7 @@ import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.Symbol;
-import org.modelcc.tools.FieldSearcher;
+import org.modelcc.tools.FieldFinder;
 
 /**
  * Reference symbol builder
@@ -79,7 +79,7 @@ public final class ReferenceSymbolBuilder extends SymbolBuilder implements Seria
                 proc.add(re);
                 if (re.getClass().equals(RuleElementPosition.class)) {
                     ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
-                    Field fld = FieldSearcher.searchField(c,ct.getField());
+                    Field fld = FieldFinder.findField(c,ct.getField());
                     filled.add(fld);
                     Object list;
                     Method addm;
@@ -98,7 +98,7 @@ public final class ReferenceSymbolBuilder extends SymbolBuilder implements Seria
                             RuleElementPosition extraRe = listContents.getExtraRuleElement();
                             if (extraRe != null) {
 	                            ElementMember extraCt = (ElementMember)extraRe.getPositionId();
-	                            Field extraFld = FieldSearcher.searchField(c,extraCt.getField());
+	                            Field extraFld = FieldFinder.findField(c,extraCt.getField());
 	                            filled.add(extraFld);
 	                            if (extraFld != null) {
 	                            	extraFld.setAccessible(true);
