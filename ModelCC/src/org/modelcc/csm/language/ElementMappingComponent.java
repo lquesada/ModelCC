@@ -34,7 +34,7 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
     	ModelElement me = null;
     	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
     		ModelElement mec = ite.next();
-    		if (mec.getClass().getCanonicalName().endsWith(elementId.getElementName().getName())) {
+    		if (mec.getElementClass().getCanonicalName().endsWith(elementId.getElementName().getName())) {
     			if (me == null) {
     				me = mec;
     			}
@@ -49,7 +49,7 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
     	}
     	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
     		ModelElement mec = ite.next();
-    		if (mec.getClass().getName().endsWith(elementId.getElementName().getName())) {
+    		if (mec.getElementClass().getName().endsWith(elementId.getElementName().getName())) {
     			if (me == null) {
     				me = mec;
     			}
@@ -64,7 +64,7 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
     	}
     	for (Iterator<ModelElement> ite = model.getElements().iterator();ite.hasNext();) {
     		ModelElement mec = ite.next();
-    		if (mec.getClass().getSimpleName().endsWith(elementId.getElementName().getName())) {
+    		if (mec.getElementClass().getSimpleName().endsWith(elementId.getElementName().getName())) {
     			if (me == null) {
     				me = mec;
     			}

@@ -46,9 +46,7 @@ public final class CSM implements Serializable {
      * @throws CannotApplyMappingException when the mapping cannot be applied
      */
     public static Model apply(Model original,String input) throws CannotApplyMappingException {
-    	System.out.println("CSM "+original);
     	Model clone = original.clone();
-    	System.out.println(clone);
  	
 		try {
 	        ModelReader jmr = new JavaModelReader(Mapping.class);
@@ -63,7 +61,7 @@ public final class CSM implements Serializable {
 			throw new CannotApplyMappingException(e1);
 		}
 
-		return null;
+		return clone;
 	}
 
     /**

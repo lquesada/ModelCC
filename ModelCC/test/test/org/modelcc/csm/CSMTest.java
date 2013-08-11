@@ -49,7 +49,8 @@ public class CSMTest {
     public void CSMTest1() {
     		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
     		Model m2 = CSMapply(m,"BinaryExpression freeorder=true;");
-        	assertTrue(((ComplexModelElement)m2.getClassToElement().get(test.languages.arithmeticcalculator.Expression.class)).isFreeOrder());
+    		//TODO peta
+        	assertTrue(((ComplexModelElement)m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.BinaryExpression.class)).isFreeOrder());
     }
 
 

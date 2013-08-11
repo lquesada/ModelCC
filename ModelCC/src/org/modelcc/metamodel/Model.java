@@ -154,7 +154,8 @@ public final class Model implements Serializable,Cloneable {
             oos = new ObjectOutputStream(bOs);
             oos.writeObject(this);
             ois = new ObjectInputStream(new ByteArrayInputStream(bOs.toByteArray()));
-            return  (Model)ois.readObject();
+        	Model ret = (Model)ois.readObject();
+            return ret;
 
         } catch (Exception e) {
         	e.printStackTrace();
