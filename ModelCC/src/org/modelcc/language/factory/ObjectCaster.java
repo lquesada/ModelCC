@@ -5,12 +5,14 @@
 
 package org.modelcc.language.factory;
 
+import java.io.Serializable;
+
 /**
  * Object Wrapper
  * @author elezeta
  * @serial
  */
-public final class ObjectCaster {
+public final class ObjectCaster implements Serializable {
 
     /**
      * Serial Version ID

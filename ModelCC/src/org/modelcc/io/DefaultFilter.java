@@ -5,6 +5,7 @@
 
 package org.modelcc.io;
 
+import java.io.Serializable;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
@@ -13,7 +14,7 @@ import java.util.logging.LogRecord;
  * @author elezeta
  * @serial
  */
-public final class DefaultFilter implements Filter {
+public final class DefaultFilter implements Filter,Serializable {
     
     /**
      * Serial Version ID

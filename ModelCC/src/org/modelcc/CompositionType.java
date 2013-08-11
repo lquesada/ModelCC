@@ -5,12 +5,14 @@
 
 package org.modelcc;
 
+import java.io.Serializable;
+
 /**
  * Composition type.
  * @author elezeta
  * @serial
  */
-public enum CompositionType {
+public enum CompositionType implements Serializable {
 
     /**
      * Undefined composition constraint

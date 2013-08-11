@@ -5,11 +5,13 @@
 
 package org.modelcc.language.lexis;
 
+import java.io.Serializable;
+
 /**
  * Token Option.
  * @author elezeta
  */
-public enum TokenOption {
+public enum TokenOption implements Serializable {
 
     /**
      * Consider the token.

@@ -5,6 +5,7 @@
 
 package org.modelcc.io;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
@@ -16,7 +17,7 @@ import java.util.logging.LogRecord;
  * @author elezeta
  * @serial
  */
-public final class WarningExportHandler extends Handler {
+public final class WarningExportHandler extends Handler implements Serializable {
 
     /**
      * Serial Version ID

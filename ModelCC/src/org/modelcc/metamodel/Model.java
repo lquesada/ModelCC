@@ -157,6 +157,7 @@ public final class Model implements Serializable,Cloneable {
             return  (Model)ois.readObject();
 
         } catch (Exception e) {
+        	e.printStackTrace();
             return null;
         }finally {
             if (oos != null)

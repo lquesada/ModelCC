@@ -5,12 +5,14 @@
 
 package org.modelcc;
 
+import java.io.Serializable;
+
 /**
  * Associativity type.
  * @author elezeta
  * @serial
  */
-public enum AssociativityType {
+public enum AssociativityType implements Serializable {
 
     /**
      * Undefined associativity.

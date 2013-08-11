@@ -5,6 +5,7 @@
 
 package org.modelcc.io;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * @author elezeta
  * @serial
  */
-public class WarningLogger extends Logger {
+public class WarningLogger extends Logger implements Serializable {
     
     /**
      * Serial Version ID

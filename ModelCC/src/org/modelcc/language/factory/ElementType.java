@@ -5,12 +5,14 @@
 
 package org.modelcc.language.factory;
 
+import java.io.Serializable;
+
 /**
  *
  * @author elezeta
  * @serial
  */
-public enum ElementType {
+public enum ElementType implements Serializable {
 
     /**
      * Element type.

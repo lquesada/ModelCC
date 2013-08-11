@@ -5,12 +5,14 @@
 
 package org.modelcc.parser.fence;
 
+import java.io.Serializable;
+
 /**
  * Referenceable counter.
  * @author elezeta
   * @serial
  */
-public class Counter {
+public class Counter implements Serializable {
 
     /**
      * Serial Version ID

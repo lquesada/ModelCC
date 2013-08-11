@@ -5,12 +5,14 @@
 
 package org.modelcc.probabilistic;
 
+import java.io.Serializable;
+
 /**
  * Probability evaluator.
  * @author elezeta
  * @serial
  */
-public abstract class ProbabilityEvaluator {
+public abstract class ProbabilityEvaluator implements Serializable {
 
     /**
      * Serial Version ID

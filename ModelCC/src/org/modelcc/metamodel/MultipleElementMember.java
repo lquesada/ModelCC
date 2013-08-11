@@ -5,6 +5,7 @@
 
 package org.modelcc.metamodel;
 
+import java.io.Serializable;
 import java.util.List;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
@@ -14,7 +15,7 @@ import org.modelcc.probabilistic.ProbabilityEvaluator;
  * @author elezeta
  * @serial
  */
-public final class MultipleElementMember extends ElementMember {
+public final class MultipleElementMember extends ElementMember implements Serializable {
 
     /**
      * Serial Version ID

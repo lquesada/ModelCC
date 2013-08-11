@@ -5,6 +5,7 @@
 
 package org.modelcc.metamodel;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ import org.modelcc.CompositionType;
  * @author elezeta
  * @serial
  */
-public final class ComplexModelElement extends ModelElement {
+public final class ComplexModelElement extends ModelElement implements Serializable {
 
     /**
      * Serial Version ID
@@ -103,6 +104,13 @@ public final class ComplexModelElement extends ModelElement {
         return freeOrder;
     }
 
+    /**
+     * @param freeOrder the freeOrder to set
+     */
+    public void setFreeOrder(boolean freeOrder) {
+    	this.freeOrder = freeOrder;
+    }
+    
     /**
      * @return the composition
      */

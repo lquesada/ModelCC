@@ -5,11 +5,13 @@
 
 package org.modelcc;
 
+import java.io.Serializable;
+
 /**
  * Separator policy.
  * @author elezeta
  */
-public enum SeparatorPolicy {
+public enum SeparatorPolicy implements Serializable {
 	REPLACE,
 	BEFORE,
 	AFTER,

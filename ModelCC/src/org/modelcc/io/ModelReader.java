@@ -5,6 +5,8 @@
 
 package org.modelcc.io;
 
+import java.io.Serializable;
+
 import org.modelcc.metamodel.Model;
 
 /**
@@ -12,7 +14,7 @@ import org.modelcc.metamodel.Model;
  * @author elezeta
  * @serial
  */
-public abstract class ModelReader {
+public abstract class ModelReader implements Serializable {
 
     /**
      * Serial Version ID

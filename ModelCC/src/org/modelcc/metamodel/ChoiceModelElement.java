@@ -5,6 +5,7 @@
 
 package org.modelcc.metamodel;
 
+import java.io.Serializable;
 import java.util.List;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
@@ -15,7 +16,7 @@ import org.modelcc.AssociativityType;
  * @author elezeta
  * @serial
  */
-public final class ChoiceModelElement extends ModelElement {
+public final class ChoiceModelElement extends ModelElement implements Serializable {
 
     /**
      * Serial Version ID

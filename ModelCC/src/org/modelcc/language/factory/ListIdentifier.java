@@ -5,6 +5,7 @@
 
 package org.modelcc.language.factory;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.modelcc.SeparatorPolicy;
@@ -16,7 +17,7 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public class ListIdentifier {
+public class ListIdentifier implements Serializable {
     
     /**
      * Serial Version ID

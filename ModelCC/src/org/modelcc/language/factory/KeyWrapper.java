@@ -5,6 +5,7 @@
 
 package org.modelcc.language.factory;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ import org.modelcc.tools.FieldSearcher;
  * @author elezeta
  * @serial
  */
-public class KeyWrapper {
+public class KeyWrapper implements Serializable {
     
     /**
      * Serial Version ID

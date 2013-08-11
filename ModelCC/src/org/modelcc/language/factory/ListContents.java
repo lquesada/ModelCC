@@ -5,6 +5,8 @@
 
 package org.modelcc.language.factory;
 
+import java.io.Serializable;
+
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.parser.fence.Symbol;
 
@@ -13,7 +15,7 @@ import org.modelcc.parser.fence.Symbol;
  * @author elezeta
  * @serial
  */
-public class ListContents {
+public class ListContents implements Serializable {
     
     /**
      * Serial Version ID

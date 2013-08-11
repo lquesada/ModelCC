@@ -5,12 +5,14 @@
 
 package org.modelcc.metamodel;
 
+import java.io.Serializable;
+
 /**
  * Collection type.
  * @author elezeta
  * @serial
  */
-public enum CollectionType {
+public enum CollectionType implements Serializable {
 
     /**
      * List collection.

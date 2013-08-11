@@ -5,11 +5,13 @@
 
 package org.modelcc.language.syntax;
 
+import java.io.Serializable;
+
 /**
  * AssociativityConstraint.
  * @author elezeta
  */
-public enum AssociativityConstraint {
+public enum AssociativityConstraint implements Serializable {
 
     /**
      * Left to right associativity.
