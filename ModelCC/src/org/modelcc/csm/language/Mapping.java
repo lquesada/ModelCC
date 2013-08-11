@@ -27,5 +27,5 @@ public final class Mapping implements Serializable {
 		return null;
     }
     
-    private List<Constraint> constraints;
+    private List<MappingComponent> constraints;
 }

@@ -7,23 +7,20 @@ package org.modelcc.csm.language;
 
 import java.io.Serializable;
 import java.util.List;
+import org.modelcc.*;
 
 import org.modelcc.metamodel.Model;
 
 /**
- * Constraint class.
+ * Element Constraint class.
  * @author elezeta
  * @serial
  */
-public class ElementConstraint extends Constraint implements Serializable {
+public abstract class ElementConstraint implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
-
-    public void apply(Model model) {
-    	//TODO
-    }
     
 }

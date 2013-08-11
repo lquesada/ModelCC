@@ -12,15 +12,17 @@ import org.modelcc.*;
 import org.modelcc.metamodel.Model;
 
 /**
- * Member Constraint class.
+ * Mapping Component class.
  * @author elezeta
  * @serial
  */
-public abstract class MemberConstraint implements Serializable {
+public abstract class MappingComponent implements Serializable {
 
-    /**
+	/**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
+
+    public abstract void apply(Model model);
     
 }

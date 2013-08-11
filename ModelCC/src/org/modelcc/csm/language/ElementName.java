@@ -7,21 +7,29 @@ package org.modelcc.csm.language;
 
 import java.io.Serializable;
 import java.util.List;
+import org.modelcc.*;
 
 import org.modelcc.metamodel.Model;
 
 /**
- * Constraint class.
+ * Element Name class.
  * @author elezeta
  * @serial
  */
-public abstract class Constraint implements Serializable {
+@Pattern(regExp="[a-zA-Z0-9\\_\\-\\.]+")
+public abstract class ElementName extends MappingComponent implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    public abstract void apply(Model model);
+    @Value
+    private String name;
+	
+    @Override
+    public void apply(Model model) {
+    	
+    }
     
 }
