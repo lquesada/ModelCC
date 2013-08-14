@@ -549,7 +549,7 @@ public class LanguageSpecificationFactoryTest {
         OptionalTest2Language cc = (OptionalTest2Language) o.iterator().next();
         assertNotNull(cc.getTest());
         assertNotNull(cc.getTest().getTest());
-        assertNull(cc.getTest().getTest().getTest());
+        assertNotNull(cc.getTest().getTest().getTest());
     }
 
     @Test
