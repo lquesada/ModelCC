@@ -484,6 +484,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                     case NON_ASSOCIATIVE:
                         ssf.setAssociativity(eid,AssociativityConstraint.NON_ASSOCIATIVE);
                         break;
+                    case UNDEFINED:
+                    	break;
                 }
             }
         }

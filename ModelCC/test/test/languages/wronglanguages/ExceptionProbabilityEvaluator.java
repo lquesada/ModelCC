@@ -17,6 +17,11 @@ import org.modelcc.probabilistic.ProbabilityValue;
 @Pattern(regExp="a")
 public class ExceptionProbabilityEvaluator extends ProbabilityEvaluator {
 
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
 	public ExceptionProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
 		super(args);
 		int a = 0/0;

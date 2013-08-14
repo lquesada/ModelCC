@@ -765,6 +765,11 @@ public class LambTest {
 
         TokenBuilder tb = new TokenBuilder() {
 
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
+
             @Override
 			public boolean build(Token t) {
                 return false;
@@ -814,6 +819,11 @@ public class LambTest {
 
         TokenBuilder tb = new TokenBuilder() {
 
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
+
             @Override
 			public boolean build(Token t) {
                 return true;
@@ -855,6 +865,11 @@ public class LambTest {
    }
 
   private class CountTokenBuilder extends TokenBuilder {
+
+      /**
+       * Serial Version ID
+       */
+      private static final long serialVersionUID = 31415926535897932L;
 
         private int count = 0;
 

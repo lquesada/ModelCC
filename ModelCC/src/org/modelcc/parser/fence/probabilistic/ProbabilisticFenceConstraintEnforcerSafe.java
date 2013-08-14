@@ -6,9 +6,7 @@
 package org.modelcc.parser.fence.probabilistic;
 
 import java.io.Serializable;
-import java.util.Map;
 import org.modelcc.parser.fence.FenceConstraintEnforcerSafe;
-import org.modelcc.parser.fence.Symbol;
 
 /**
  * Fence Constraint Enforcer

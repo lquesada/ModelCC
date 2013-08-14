@@ -5,7 +5,6 @@
 
 package org.modelcc.examples.language.graphdraw3d.sentence;
 
-import static org.lwjgl.opengl.GL11.*;
 import org.modelcc.*;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.Sentence;

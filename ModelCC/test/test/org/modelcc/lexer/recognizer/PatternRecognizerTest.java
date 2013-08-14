@@ -43,6 +43,11 @@ public class PatternRecognizerTest {
     public void ObjectMatchCheck1() {
         PatternRecognizer pr = new PatternRecognizer("a") {
 
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
+
             @Override
 			public MatchedObject read(CharSequence cs, int start) {
                 if (cs.subSequence(0,5).equals("hello"))
@@ -61,6 +66,11 @@ public class PatternRecognizerTest {
     @Test
     public void ObjectMatchCheck2() {
         PatternRecognizer pr = new PatternRecognizer("a") {
+
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
 
             @Override
 			public MatchedObject read(CharSequence cs, int start) {

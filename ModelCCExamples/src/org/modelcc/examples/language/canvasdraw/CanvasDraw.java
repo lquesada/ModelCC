@@ -16,7 +16,12 @@ import javax.swing.JComponent;
  */
 @Prefix("canvas")
 public class CanvasDraw extends JComponent implements IModel {
-    
+
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
     public Parameters pars;
     
     @Minimum(0)

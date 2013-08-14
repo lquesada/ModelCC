@@ -5,8 +5,6 @@
 
 package org.modelcc.csm;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -20,11 +18,8 @@ import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
-import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
-
-import test.languages.arithmeticcalculator2.Expression2;
 
 /**
  * Simple Mapping Reader class.

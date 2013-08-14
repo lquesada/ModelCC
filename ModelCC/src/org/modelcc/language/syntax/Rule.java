@@ -54,6 +54,11 @@ public final class Rule implements Serializable {
      */
     private static SymbolBuilder defaultBuilder = new SymbolBuilder() {
 
+        /**
+         * Serial Version ID
+         */
+        private static final long serialVersionUID = 31415926535897932L;
+
         @Override
         public boolean build(Symbol t,Object data) {
             return true;
@@ -65,6 +70,11 @@ public final class Rule implements Serializable {
      * Default Builder.
      */
     private static PostSymbolBuilder defaultPostBuilder = new PostSymbolBuilder() {
+
+        /**
+         * Serial Version ID
+         */
+        private static final long serialVersionUID = 31415926535897932L;
 
         @Override
         public boolean build(Symbol t,Object data,Map<Symbol,Set<Symbol>> usedIn) {

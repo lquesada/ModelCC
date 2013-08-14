@@ -57,6 +57,11 @@ public class FenceConstraintEnforcerTest {
 
   private class CountSymbolBuilder extends SymbolBuilder {
 
+      /**
+       * Serial Version ID
+       */
+      private static final long serialVersionUID = 31415926535897932L;
+
         private int count = 0;
 
         @Override
@@ -124,6 +129,7 @@ public class FenceConstraintEnforcerTest {
         return count;
     }
 
+    /*
     private static void recShow(Symbol t, int tab) {
         int i;
         for (i = 0;i < tab;i++)
@@ -136,7 +142,7 @@ public class FenceConstraintEnforcerTest {
                 recShow(t.getContents().get(i),tab+1);
             }
         }
-    }
+    }*/
 
     @Test public void ConstraintEnforcementTest1() {
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
@@ -3364,6 +3370,11 @@ public class FenceConstraintEnforcerTest {
         re = new ArrayList<RuleElement>();
         r2 = new Rule(new RuleElement("Start"),re,null,new SymbolBuilder() {
 
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
+
             @Override
             public boolean build(Symbol t,Object data) {
                 return false;
@@ -3466,6 +3477,11 @@ public class FenceConstraintEnforcerTest {
         re = new ArrayList<RuleElement>();
         r2 = new Rule(new RuleElement("Start"),re,null,new SymbolBuilder() {
 
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
+
             @Override
             public boolean build(Symbol t,Object data) {
                 return true;
@@ -3565,6 +3581,11 @@ public class FenceConstraintEnforcerTest {
         
         re = new ArrayList<RuleElement>();
         r1 = new Rule(new RuleElement("Interm"),re,null,null,new PostSymbolBuilder() {
+
+            /**
+             * Serial Version ID
+             */
+            private static final long serialVersionUID = 31415926535897932L;
 
             @Override
             public boolean build(Symbol t,Object data,Map<Symbol,Set<Symbol>> usedIn) {

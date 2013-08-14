@@ -16,6 +16,11 @@ import org.modelcc.probabilistic.ProbabilityValue;
  */
 public class FixedProbabilityEvaluator extends ProbabilityEvaluator {
 
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
 	public FixedProbabilityEvaluator(String args) throws InvalidProbabilityValueException {
 		super(args);
 	}

@@ -11,7 +11,6 @@ import org.modelcc.language.lexis.TokenSpecificationCyclicPrecedenceException;
 import org.modelcc.language.lexis.TokenOption;
 import org.modelcc.language.lexis.TokenSpecification;
 import org.modelcc.language.lexis.LexicalSpecification;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;

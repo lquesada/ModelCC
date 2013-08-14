@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.language.syntax.SymbolBuilder;
-import org.modelcc.metamodel.ModelElement;
 import org.modelcc.parser.fence.Symbol;
 
 /**

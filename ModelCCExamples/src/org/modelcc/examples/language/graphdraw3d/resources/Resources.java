@@ -17,10 +17,11 @@ import static org.lwjgl.opengl.GL11.*;
  *
  * @author elezeta
  */
+@SuppressWarnings("deprecation")
 public abstract class Resources {
     
     /* RESOURCES */
-    private static TrueTypeFont infoFont;
+	private static TrueTypeFont infoFont;
     private static TextureData[] textures;
     private static org.newdawn.slick.opengl.Texture textureAtlas;
 
@@ -36,7 +37,7 @@ public abstract class Resources {
     /**
      * @return the infoFont
      */
-    public static TrueTypeFont getInfoFont() {
+	public static TrueTypeFont getInfoFont() {
         return infoFont;
     }
     
@@ -59,7 +60,7 @@ public abstract class Resources {
         textures = sliceTexture(textureAtlas,16);
     }
     
-    private static TrueTypeFont loadFont(String resourceName,boolean antialias,float size) throws FontFormatException, IOException {
+	private static TrueTypeFont loadFont(String resourceName,boolean antialias,float size) throws FontFormatException, IOException {
         return new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT,ResourceLoader.getResourceAsStream(resourceName)).deriveFont(size),antialias);
     }
     

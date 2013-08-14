@@ -6,7 +6,6 @@
 package test.languages.probabilities;
 
 import org.modelcc.*;
-import org.modelcc.probabilistic.Probability;
 
 /**
  *

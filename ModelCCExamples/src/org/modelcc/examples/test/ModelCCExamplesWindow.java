@@ -8,16 +8,13 @@ package org.modelcc.examples.test;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ImageIcon;
 import javax.swing.JSplitPane;
@@ -54,8 +51,6 @@ import java.util.Set;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeSelectionModel;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.modelcc.io.ModelReader;
@@ -79,7 +74,7 @@ public class ModelCCExamplesWindow extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 31415926535897932L;
 
 	
 	private Class languageClass;
@@ -193,8 +188,16 @@ public class ModelCCExamplesWindow extends JFrame {
 		examplesTree.setShowsRootHandles(true);
 		examplesTree.setRootVisible(false);
 		examplesTree.setModel(new DefaultTreeModel(
+				
 			new InfoMutableTreeNode("Languages",null,null,null,0) {
-				{
+
+	            /**
+	             * Serial Version ID
+	             */
+	            private static final long serialVersionUID = 31415926535897932L;
+
+	            {
+
 					InfoMutableTreeNode node_1;
 					Class lang;
 					String langName;
@@ -415,7 +418,7 @@ public class ModelCCExamplesWindow extends JFrame {
 		String languageName = node.getLanguageName();
 		Class languageClass = node.getLanguageClass();
 		String languageInfo = node.getLanguageInfo();
-		int textNumber = node.getTextNumber();
+		node.getTextNumber();
 		if (!languageClass.equals(this.languageClass)) {
 			outputTextArea.setText("");
 			outputTextArea.append(readText("text/"+languageInfo+"Description.txt"));

@@ -13,8 +13,6 @@ import org.modelcc.*;
  */
 public class OptionalTestLanguage implements IModel {
     
-    private Test2 val;
-            
     private Test1 a;
     
     public Test1 getTest() {

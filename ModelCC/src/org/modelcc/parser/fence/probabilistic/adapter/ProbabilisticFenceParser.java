@@ -18,12 +18,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.modelcc.language.probabilistic.ProbabilitySpecification;
-import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SyntacticSpecification;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.lexer.Lexer;
-import org.modelcc.metamodel.ElementMember;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.parser.fence.SyntaxGraph;
 import org.modelcc.parser.fence.probabilistic.ProbabilisticFence;

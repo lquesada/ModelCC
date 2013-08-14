@@ -6,7 +6,6 @@
 package org.modelcc.csm.language.elementconstraints;
 
 import java.io.Serializable;
-import java.util.List;
 import org.modelcc.*;
 
 import org.modelcc.csm.language.ElementConstraint;

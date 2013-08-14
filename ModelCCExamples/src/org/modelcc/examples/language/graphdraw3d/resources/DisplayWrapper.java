@@ -223,7 +223,8 @@ public final class DisplayWrapper implements IModel {
         lastFrame = time;
     }
     
-    private void render() {
+    @SuppressWarnings("deprecation")
+	private void render() {
 
 		glViewport(0, 0, width, height);
 

@@ -8,7 +8,6 @@ package test.org.modelcc.language.syntax;
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.GrammarFactory;
 import org.modelcc.language.syntax.NullRuleElementException;
-import org.modelcc.language.syntax.Grammar;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.Rule;
 import java.util.List;

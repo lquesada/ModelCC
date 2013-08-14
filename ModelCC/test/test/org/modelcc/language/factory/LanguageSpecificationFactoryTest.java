@@ -22,8 +22,6 @@ import test.languages.keys.Keys4Lang;
 import test.languages.keys.Keys3Lang;
 import test.languages.keys.Keys2Lang;
 
-import org.modelcc.IModel;
-import org.modelcc.Optional;
 import org.modelcc.language.factory.CompositeSymbolBuilder;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
@@ -53,8 +51,6 @@ import test.languages.positions.Position8;
 import test.languages.positions.Position9;
 import test.languages.positions.PositionFree1;
 import test.languages.positions.PositionRef1;
-import test.languages.probabilities.OK05Class;
-
 import test.languages.testlanguage.Test7_2;
 import test.languages.testlanguage.Test7_1;
 import test.languages.testlanguage.Test7;
@@ -88,7 +84,6 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
 import org.modelcc.parser.ProbabilisticParser;
 import org.modelcc.parser.ProbabilisticParserFactory;
-import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityValue;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
@@ -149,8 +144,7 @@ public class LanguageSpecificationFactoryTest {
         ignore.add(new RegExpPatternRecognizer("\n"));
         ignore.add(new RegExpPatternRecognizer("\r"));
         Parser<Expression2> parser;
-        Expression2 exp2;
-		try {
+        try {
 			parser = ParserFactory.create(m,ignore);
 		} catch (CannotCreateParserException e1) {
 			e1.printStackTrace();
@@ -177,8 +171,7 @@ public class LanguageSpecificationFactoryTest {
         ignore.add(new RegExpPatternRecognizer("\n"));
         ignore.add(new RegExpPatternRecognizer("\r"));
         ProbabilisticParser<Expression2> parser;
-        Expression2 exp2;
-		try {
+        try {
 			parser = ProbabilisticParserFactory.create(m,ignore);
 		} catch (CannotCreateParserException e1) {
 			e1.printStackTrace();

@@ -7,13 +7,6 @@ package org.modelcc.tools;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.modelcc.*;
-
-import org.modelcc.csm.CSM;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 

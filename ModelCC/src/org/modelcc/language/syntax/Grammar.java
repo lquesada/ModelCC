@@ -71,6 +71,11 @@ public final class Grammar implements Serializable {
      */
     private static SymbolBuilder defaultTsb = new SymbolBuilder() {
 
+        /**
+         * Serial Version ID
+         */
+        private static final long serialVersionUID = 31415926535897932L;
+
         @Override
         public boolean build(Symbol t, Object data) {
             return true;
@@ -81,6 +86,11 @@ public final class Grammar implements Serializable {
      * The default token symbol builder.
      */
     private static ParserDataFactory defaultDataFactory = new ParserDataFactory() {
+
+        /**
+         * Serial Version ID
+         */
+        private static final long serialVersionUID = 31415926535897932L;
 
         @Override
         public Object generate() {

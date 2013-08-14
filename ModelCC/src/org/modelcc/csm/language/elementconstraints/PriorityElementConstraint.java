@@ -6,14 +6,11 @@
 package org.modelcc.csm.language.elementconstraints;
 
 import java.io.Serializable;
-import java.util.List;
 import org.modelcc.*;
 
 import org.modelcc.csm.language.ElementConstraint;
-import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
-import org.modelcc.types.BooleanModel;
 
 /**
  * Element Constraint class.

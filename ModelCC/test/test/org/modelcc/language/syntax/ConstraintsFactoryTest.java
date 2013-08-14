@@ -10,7 +10,6 @@ import org.modelcc.language.syntax.ConstraintsFactory;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.modelcc.language.syntax.CyclicCompositionPrecedenceException;
-import org.modelcc.language.syntax.Constraints;
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.Rule;
 import java.util.List;

@@ -14,6 +14,11 @@ import org.modelcc.lexer.recognizer.PatternRecognizer;
  */
 public class PatternRec extends PatternRecognizer {
 
+    /**
+     * Serial Version ID
+     */
+    private static final long serialVersionUID = 31415926535897932L;
+
     public PatternRec(String arg) {
         super(arg);
     }

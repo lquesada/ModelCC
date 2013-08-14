@@ -5,7 +5,6 @@
 
 package test.languages.probabilities;
 
-import java.util.List;
 import java.util.Set;
 
 import org.modelcc.*;

@@ -16,7 +16,6 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
-import org.modelcc.types.NonQuotedTextModel;
 import org.modelcc.types.TextModel;
 
 public class TextTest {

@@ -6,13 +6,11 @@
 package org.modelcc.examples.language.graphdraw3d.sentence;
 
 import org.modelcc.*;
-import org.modelcc.examples.language.graphdraw3d.IntegerLiteral;
 import org.modelcc.examples.language.graphdraw3d.Literal;
 import org.modelcc.examples.language.graphdraw3d.DecimalLiteral;
 import org.modelcc.examples.language.graphdraw3d.resources.ColorData;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.Sentence;
-import org.modelcc.examples.language.graphdraw3d.resources.Resources;
 
 /**
  * Rotate Sentence

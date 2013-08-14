@@ -6,10 +6,7 @@
 package org.modelcc.csm.language;
 
 import java.io.Serializable;
-import java.util.List;
 import org.modelcc.*;
-
-import org.modelcc.metamodel.Model;
 
 /**
  * Element Name class.

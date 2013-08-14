@@ -102,6 +102,7 @@ public class FenceTest {
         return count;
     }
 
+    /*
     private static void recShow(Symbol t, int tab) {
         int i;
         for (i = 0;i < tab;i++)
@@ -114,7 +115,7 @@ public class FenceTest {
                 recShow(t.getContents().get(i),tab+1);
             }
         }
-    }
+    }*/
 
     @Test public void ChainedSelectionPrecedenceTest() {
         TokenSpecification m1,m2,m3;

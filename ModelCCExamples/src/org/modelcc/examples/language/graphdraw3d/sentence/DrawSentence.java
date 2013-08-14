@@ -6,11 +6,9 @@
 package org.modelcc.examples.language.graphdraw3d.sentence;
 
 import org.modelcc.*;
-import org.modelcc.examples.language.graphdraw3d.IntegerLiteral;
 import org.modelcc.examples.language.graphdraw3d.Literal;
 import org.modelcc.examples.language.graphdraw3d.Next;
 import org.modelcc.examples.language.graphdraw3d.Parameter;
-import org.modelcc.examples.language.graphdraw3d.objects.ObjectName;
 import org.modelcc.examples.language.graphdraw3d.resources.RunData;
 import org.modelcc.examples.language.graphdraw3d.SceneObject;
 import org.modelcc.examples.language.graphdraw3d.Sentence;
@@ -29,7 +27,7 @@ public final class DrawSentence extends Sentence implements IModel {
     
     @Override
     public void run(RunData rd,int iter) {
-        ObjectName name = object.getName();
+        object.getName();
         int nextIter = 1;
         if (iters != null) {
         	if (Next.class.isAssignableFrom(iters.getClass())) {
@@ -44,7 +42,7 @@ public final class DrawSentence extends Sentence implements IModel {
 
 	@Override
 	public void undo(RunData rd,int iter) {
-        ObjectName name = object.getName();
+        object.getName();
         int nextIter = 1;
         if (iters != null) {
         	if (Next.class.isAssignableFrom(iters.getClass())) {
