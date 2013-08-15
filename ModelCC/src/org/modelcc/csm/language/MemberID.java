@@ -20,8 +20,9 @@ public class MemberID implements IModel,Serializable {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    @Prefix("\\[")
-	@Suffix("\\]")
 	private MemberName memberName;
 
+	public MemberName getMemberName() {
+		return memberName;
+	}
 }

@@ -879,10 +879,13 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                for (i = 0;i < separator.size();i++)
 	                    rct.add(deltore.get(separator.get(i)));
 	            rct.add(re);
+	            System.out.println(rct.size());
+	            //TODO BUG contents 1 when rule has two elements.
 	            r = new Rule(re,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
 					public boolean build(Symbol t,Object data) {
+	                	System.out.println("RECEIVES "+t.getContents().size());
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];

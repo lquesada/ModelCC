@@ -156,6 +156,10 @@ public class ElementMember implements Serializable {
     	return probabilityEvaluator;
     }
 
+	public void setPrefix(List<PatternRecognizer> prefix) {
+		this.prefix = prefix;
+	}
+
 
     
 }

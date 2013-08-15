@@ -12,6 +12,7 @@ import org.modelcc.csm.language.MemberConstraint;
 import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
+import org.modelcc.types.BooleanModel;
 
 /**
  * Member Constraint class.
@@ -26,6 +27,9 @@ public class SeparatorMemberConstraint extends MemberConstraint implements IMode
      */
     private static final long serialVersionUID = 31415926535897932L;
 
+    //TODO
+    BooleanModel a;
+    
 	@Override
 	public void apply(Model m, ModelElement me,ElementMember em) {
 	}

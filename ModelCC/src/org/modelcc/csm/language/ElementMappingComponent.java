@@ -34,7 +34,6 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
 	
 	private List<ElementConstraint> constraints;
 
-
     @Override
     public void apply(Model model) {
     	ModelElement me = null;

@@ -3,29 +3,27 @@
  */
 
 
-package org.modelcc.csm.language;
+package org.modelcc.tools;
 
 import java.io.Serializable;
-import org.modelcc.*;
 
 /**
- * Member Name class.
+ * Incorrect Member Definition Exception.
  * @author elezeta
  * @serial
  */
-@Pattern(regExp="[a-zA-Z0-9\\_\\-]+")
-public class MemberName implements IModel,Serializable {
+public final class IncorrectMemberDefinitionException extends Exception implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    @Value
-    private String name;
-
-    public String getName() {
-    	return name;
+    /**
+     * Default constructor.
+     */
+    public IncorrectMemberDefinitionException() {
+        super();
     }
-    
+
 }

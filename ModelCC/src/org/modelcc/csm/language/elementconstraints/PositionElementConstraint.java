@@ -11,6 +11,7 @@ import org.modelcc.*;
 import org.modelcc.csm.language.ElementConstraint;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
+import org.modelcc.types.BooleanModel;
 
 /**
  * Element Constraint class.
@@ -25,6 +26,9 @@ public class PositionElementConstraint extends ElementConstraint implements IMod
      */
     private static final long serialVersionUID = 31415926535897932L;
 
+    //TODO
+    BooleanModel a;
+    
 	@Override
 	public void apply(Model m, ModelElement me) {
 	}
