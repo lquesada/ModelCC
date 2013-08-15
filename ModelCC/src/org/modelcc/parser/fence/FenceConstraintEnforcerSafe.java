@@ -680,6 +680,10 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                     relevant = r;
 
                 s = new Symbol(id.val,ps,r,relevant,elements,content);
+                //System.out.println("IN FENCE builder "+s.getRule().getBuilder());
+                //System.out.println("IN FENCE rule "+s.getRule());
+                //System.out.println("IN FENCE elements "+s.getType()+"   "+elements);
+                //System.out.println("IN FENCE contents "+s.getType()+"   "+content);
                 id.val++;
                 
                 s.setUserData(ps.getUserData());

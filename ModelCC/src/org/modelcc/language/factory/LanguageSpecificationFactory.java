@@ -175,6 +175,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 
                 r.setRight(rers);
 
+                System.out.println(eid+"   "+rers);
                 r.setBuilder(dsb);
 
                 ssf.addRule(r);
@@ -547,12 +548,12 @@ public final class LanguageSpecificationFactory implements Serializable {
             TokenSpecification rx = iter.next();
             System.out.println("token: "+rx);
         }
-
-        for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
+*/        for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
             System.out.println("regla: "+rx);
         }
-*/
+
+
 
  
         // -----------------
@@ -869,10 +870,10 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
-                    	System.out.print("1 IS "+t.getType()+" AND HAS");
+                    	/*System.out.print("1 IS "+t.getType()+" AND HAS");
 	                    for (int i = 0;i < ((ListContents)t.getUserData()).getL().length;i++)
 	                    	System.out.print(" "+((ListContents)t.getUserData()).getL()[i]);
-	                    System.out.println("");
+	                    System.out.println("");*/
             	        return true;
 	                }
 	            });
@@ -889,11 +890,11 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
 					public boolean build(Symbol t,Object data) {
-	                	System.out.println("PROBLEM "+t.getType());
+	                	/*System.out.println("PROBLEM "+t.getType());
 	                	System.out.println("ELEMENTS "+t.getElements());
 	                	System.out.println("CONTENTS "+t.getContents());
 	                	System.out.println("RULE "+t.getRule()+" "+t.getRelevantRule());
-	                	System.out.println("RECEIVES "+t.getContents().size()+" "+t.getContents().get(0).getUserData());
+	                	System.out.println("RECEIVES "+t.getContents().size()+" "+t.getContents().get(0).getUserData());*/
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];

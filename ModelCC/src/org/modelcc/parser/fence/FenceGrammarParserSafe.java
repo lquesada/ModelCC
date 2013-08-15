@@ -303,8 +303,8 @@ public final class FenceGrammarParserSafe implements Serializable {
         do {
             skip++;
             nextType = r.getRight().get(matched+skip).getType();
-            //out("Looking for nextType: "+nextType);
-            //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
+            //System.out.println("GRAMMARPARSER Looking for nextType: "+nextType);
+            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
             Set<Handle> tc = thisCore.get(nextType);
             h = new Handle(r,matched+skip,first.getStartIndex(),first);
             if (tc == null || !tc.contains(h)) {
