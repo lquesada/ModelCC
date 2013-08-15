@@ -880,7 +880,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                    rct.add(deltore.get(separator.get(i)));
 	            rct.add(re);
 	            System.out.println(rct.size());
-	            //TODO BUG contents 1 when rule has two elements.
 	            r = new Rule(re,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
