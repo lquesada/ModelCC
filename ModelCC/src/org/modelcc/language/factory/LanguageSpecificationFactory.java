@@ -175,7 +175,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 
                 r.setRight(rers);
 
-                System.out.println(eid+"   "+rers);
                 r.setBuilder(dsb);
 
                 ssf.addRule(r);
