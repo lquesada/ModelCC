@@ -43,6 +43,7 @@ public class PrefixMemberConstraint extends MemberConstraint implements IModel,S
         PatternRecognizer pr;
         for (int i = 0;i < prefixes.size();i++) {
         	pr = new RegExpPatternRecognizer(prefixes.get(i).getValue());
+        	prefix.add(pr);
         }
     	em.setPrefix(prefix);
 	}

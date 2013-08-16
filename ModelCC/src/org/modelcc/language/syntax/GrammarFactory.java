@@ -33,6 +33,11 @@ public final class GrammarFactory implements Serializable {
     private Set<Rule> rules;
 
     /**
+     * Set of empty elements.
+     */
+    private Set<Object> emptyElements;
+
+    /**
      * Start type.
      */
     private Object startType;
@@ -52,6 +57,7 @@ public final class GrammarFactory implements Serializable {
      */
     public GrammarFactory() {
         rules = new HashSet<Rule>();
+        emptyElements = new HashSet<Object>();
         startType = null;
         dataFactory = null;
         tsb = null;
@@ -104,6 +110,7 @@ public final class GrammarFactory implements Serializable {
         Set<Object> lefts = new HashSet<Object>();
         Set<Object> elements = new HashSet<Object>();
         Set<Object> emptyRules = new HashSet<Object>();
+        Set<Object> emptyElements = new HashSet<Object>();
         Map<Object,Rule> emptyRuleRules = new HashMap<Object,Rule>();
         // -------------
         // Check rule integrity.
@@ -190,7 +197,8 @@ public final class GrammarFactory implements Serializable {
             } while (found);
 
         }
-        return new Grammar(emptyRules,rules,startType,emptyRuleRules,dataFactory,tsb);
+        emptyElements.addAll(this.emptyElements);
+        return new Grammar(emptyRules,emptyElements,rules,startType,emptyRuleRules,dataFactory,tsb);
 
     }
 
@@ -215,5 +223,9 @@ public final class GrammarFactory implements Serializable {
     public void setTokenSymbolBuilder(SymbolBuilder sb) {
         this.tsb = sb;
     }
+
+	public void addEmptyElement(Object re) {
+		emptyElements.add(re);		
+	}
 
 }

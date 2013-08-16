@@ -188,15 +188,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                 BasicModelElement bel = (BasicModelElement)el;
 
                 // Hack: pattern matches empty string
-            	
                 if (bel.getPattern().read("",0)!=null) {
-                    RuleElement rel2 = new RuleElement(eid);
-                	Rule er = new Rule();
-                	er.setLeft(rel2);
-                	er.setRight(new ArrayList<RuleElement>());
-                	er.setBuilder(dsb);
-                	ssf.addRule(er);
-                	sr.add(er);
+                	ssf.addEmptyElement(eid);
                 }
                 
                 TokenSpecification ts = new TokenSpecification(beid,bel.getPattern(),btb);
@@ -547,10 +540,11 @@ public final class LanguageSpecificationFactory implements Serializable {
             TokenSpecification rx = iter.next();
             System.out.println("token: "+rx);
         }
-*/        for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
+        for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
             System.out.println("regla: "+rx);
         }
+        */
 
 
 
