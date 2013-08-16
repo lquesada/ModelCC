@@ -18,7 +18,8 @@ import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.types.BooleanModel;
-import org.modelcc.types.TextModel;
+import org.modelcc.types.QuotedStringModel;
+import org.modelcc.types.StringModel;
 
 /**
  * Member Constraint class.
@@ -35,7 +36,8 @@ public class PrefixMemberConstraint extends MemberConstraint implements IModel,S
 
     @Prefix("=")
     @Minimum(0)
-    private List<TextModel> prefixes;
+    @Separator(",")
+    private List<QuotedStringModel> prefixes;
  
 	@Override
  	public void apply(Model m, ModelElement me,ElementMember em) {

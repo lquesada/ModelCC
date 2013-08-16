@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.modelcc.*;
 
 @Pattern(regExp="([a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\,\\.\\<\\>\\/\\?]([a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\ ]*[a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\,\\.\\<\\>\\/\\?])?)?")
-public class NonQuotedTextModel extends TextModel implements IModel,Serializable {
+public class NonQuotedStringModel extends StringModel implements IModel,Serializable {
 
     /**
      * Serial Version ID

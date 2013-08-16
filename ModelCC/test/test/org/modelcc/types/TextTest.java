@@ -16,7 +16,7 @@ import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
-import org.modelcc.types.TextModel;
+import org.modelcc.types.StringModel;
 
 public class TextTest {
 
@@ -52,26 +52,26 @@ public class TextTest {
     }
 	@Test
 	public void TextsTest() {
-		checkMatches(TextModel.class,"a",1);
-		checkMatches(TextModel.class,"a$1!$&)=!)",1);
-		checkMatches(TextModel.class,"\"a$1!$&)=!)\"",1);
-		checkMatches(TextModel.class,"\"a$1!\"$&)=!)\"",0);
-		checkMatches(TextModel.class,"a+",1);
-		checkMatches(TextModel.class,"+8\"919",1);
-		checkMatches(TextModel.class,"-",1);
-		checkMatches(TextModel.class,"a    asdiof",1);
-		checkMatches(TextModel.class,"",1);
-		checkMatches(TextModel.class,"    asdiof",1);
-		checkMatches(TextModel.class,"a;asdf",0);
-		checkMatches(TextModel.class,"a;",0);
-		checkMatches(TextModel.class,"a\n",1);
-		checkMatches(TextModel.class,"a\nad",0);
-		checkMatches(TextModel.class,"a\r",1);
+		checkMatches(StringModel.class,"a",1);
+		checkMatches(StringModel.class,"a$1!$&)=!)",1);
+		checkMatches(StringModel.class,"\"a$1!$&)=!)\"",1);
+		checkMatches(StringModel.class,"\"a$1!\"$&)=!)\"",0);
+		checkMatches(StringModel.class,"a+",1);
+		checkMatches(StringModel.class,"+8\"919",1);
+		checkMatches(StringModel.class,"-",1);
+		checkMatches(StringModel.class,"a    asdiof",1);
+		checkMatches(StringModel.class,"",1);
+		checkMatches(StringModel.class,"    asdiof",1);
+		checkMatches(StringModel.class,"a;asdf",0);
+		checkMatches(StringModel.class,"a;",0);
+		checkMatches(StringModel.class,"a\n",1);
+		checkMatches(StringModel.class,"a\nad",0);
+		checkMatches(StringModel.class,"a\r",1);
 
-		assertEquals("testvalue",((TextModel)parse(TextModel.class,"testvalue")).getValue());
-		assertEquals("testvalue",((TextModel)parse(TextModel.class,"     testvalue    ")).getValue());
-		assertEquals("     testvalue    ",((TextModel)parse(TextModel.class,"\"     testvalue    \"")).getValue());
-		assertEquals("     testv\"alue    ",((TextModel)parse(TextModel.class,"\"     testv\\\"alue    \"")).getValue());
+		assertEquals("testvalue",((StringModel)parse(StringModel.class,"testvalue")).getValue());
+		assertEquals("testvalue",((StringModel)parse(StringModel.class,"     testvalue    ")).getValue());
+		assertEquals("     testvalue    ",((StringModel)parse(StringModel.class,"\"     testvalue    \"")).getValue());
+		assertEquals("     testv\"alue    ",((StringModel)parse(StringModel.class,"\"     testv\\\"alue    \"")).getValue());
 	}
 
 }

@@ -13,7 +13,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-public abstract class TextModel implements IModel,Serializable {
+public abstract class StringModel implements IModel,Serializable {
     
     /**
      * Serial Version ID

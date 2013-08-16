@@ -56,7 +56,7 @@ public class CSMTest {
     @Test
     public void CSMTest2() {
     		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
-    		Model m2 = CSMapply(m,"UnaryExpression[op] prefix=a;");
+    		Model m2 = CSMapply(m,"UnaryExpression[op] prefix=\"a\";");
         	assertEquals("a",((RegExpPatternRecognizer)((ComplexModelElement)m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.UnaryExpression.class)).getContents().get(0).getPrefix().get(0)).getRegExp());
     }
 
