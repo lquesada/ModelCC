@@ -18,7 +18,7 @@ import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.types.StringModel;
 
-public class TextTest {
+public class StringTest {
 
     public static Parser<?> generateParser(Class<?> source) {
          try {
@@ -29,7 +29,7 @@ public class TextTest {
             se.add(new RegExpPatternRecognizer("%.*\n"));
             return FenceParserFactory.create(m,se);
         } catch (Exception ex) {
-            Logger.getLogger(TextTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StringTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
             return null;
         }
