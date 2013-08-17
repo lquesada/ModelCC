@@ -37,9 +37,10 @@ public class StringTest {
 
     public static void checkMatches(Class<?> source,String input,int matches) {
     	try {
-			assertEquals(matches,generateParser(source).parseAll(input).size());
+    		int nmatches = generateParser(source).parseAll(input).size();
+			assertEquals(matches,nmatches);
 		} catch (ParserException e) {
-			assertEquals(0,matches);
+			assertEquals(matches,0);
 		}
     }
 

@@ -197,6 +197,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 elementTokenSpecifications.put(bel,ts);
             }
         }
+    	ssf.addEmptyElementBuilder(dsb);
 
         // -----------------
         // Syntactic analysis.

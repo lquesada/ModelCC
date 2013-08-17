@@ -176,4 +176,11 @@ public final class SyntacticSpecificationFactory implements Serializable {
     public SyntacticSpecification create() throws NullRuleElementException, CyclicCompositionPrecedenceException, CyclicSelectionPrecedenceException {
         return new SyntacticSpecification(gf.create(),cf.create());
     }
+
+    /**
+     * @param builder the builder to set
+     */
+	public void addEmptyElementBuilder(SymbolBuilder dsb) {
+		gf.setEmptyElementBuilder(dsb);		
+	}
 }

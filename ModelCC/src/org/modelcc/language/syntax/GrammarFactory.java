@@ -38,6 +38,11 @@ public final class GrammarFactory implements Serializable {
     private Set<Object> emptyElements;
 
     /**
+     * Empty element builder.
+     */
+    private SymbolBuilder emptyElementBuilder;
+    
+    /**
      * Start type.
      */
     private Object startType;
@@ -198,7 +203,7 @@ public final class GrammarFactory implements Serializable {
 
         }
         emptyElements.addAll(this.emptyElements);
-        return new Grammar(emptyRules,emptyElements,rules,startType,emptyRuleRules,dataFactory,tsb);
+        return new Grammar(emptyRules,emptyElements,emptyElementBuilder,rules,startType,emptyRuleRules,dataFactory,tsb);
 
     }
 
@@ -228,4 +233,9 @@ public final class GrammarFactory implements Serializable {
 		emptyElements.add(re);		
 	}
 
+	public void setEmptyElementBuilder(SymbolBuilder emptyElementBuilder) {
+		this.emptyElementBuilder = emptyElementBuilder;
+		
+	}
+	
 }

@@ -432,7 +432,16 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
+            if (pg.getGrammar().getEmptyElements().contains(ps.getType())) {
+            	if (build(new Rule(null,null,null,pg.getGrammar().getEmptyElementBuilder()),s)) {
+	            	System.out.println("EMPTY ELEMENT "+s.getType()); //TODO generar
+	            	symbols.add(s);
+	            	hs.add(s);
+	                mapped.put(ps,hs);
+	                storeMetadata(s);
+            	}
+            }
+            else if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
                 symbols.add(s);
                 hs.add(s);
                 mapped.put(ps,hs);
@@ -645,6 +654,16 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 ExpandTuple n = new ExpandTuple(r, nl);
                 searchTuples(ps,tuples,r,i+1,ps2,n);
             }
+            if (pg.getGrammar().getEmptyElements().contains(r.getRight().get(i).getType())) {
+            	//TODO check
+                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
+                nl.addAll(act.getSymbols());
+                nl.add(new ParsedSymbol(r.getRight().get(i).getType(),-1,-1));
+                System.out.println("ADDED "+r.getRight().get(i).getType());
+                ExpandTuple n = new ExpandTuple(r, nl);
+                searchTuples(ps,tuples,r,i+1,ps2,n);
+            }
+
             if (ps2 != null) {
                 if (r.getRight().get(i).getType().equals(ps2.getType())) {
                     List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
@@ -846,6 +865,10 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             else if(pg.getGrammar().getEmptyRules().contains(r.getRight().get(i).getType())) {
                 i++;
             }
+            //else if(pg.getGrammar().getEmptyElements().contains(r.getRight().get(i).getType())) { //TODO check bien?
+            //	System.out.println("SKIP");
+            //    i++;
+            //}
             else
                 return false;
         }
