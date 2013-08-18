@@ -168,20 +168,30 @@ public final class GrammarFactory implements Serializable {
                 eles.addAll(r.getRight());
                 rulesCopy.add(new Rule(r.getLeft(),eles,r.getUserData(),r.getBuilder(),r.getPostBuilder()));
             }
+    		boolean single; 
             do {
                 found = false;
                 for (iter = rulesCopy.iterator();iter.hasNext();) {
                     r = iter.next();
-                    if (!emptyRules.containsKey(r.getLeft().getType())) {
-                        for (itee = r.getRight().iterator();itee.hasNext();) {
-                            e = itee.next();
-                            if (emptyRules.containsKey(e.getType())) {
-                                itee.remove();
-                                if (r.getRight().isEmpty()) {
-                                    found = true;
-                                    emptyRules.put(r.getLeft().getType(),null);
-                                    emptyRuleRules.put(r.getLeft().getType(),r);
+                	single = (r.getRight().size()==1);
+                    for (itee = r.getRight().iterator();itee.hasNext();) {
+                        e = itee.next();
+                        if (emptyRules.containsKey(e.getType())) {
+                            itee.remove();
+                            if (r.getRight().isEmpty()) {
+                                found = true;
+                                if (single) {
+                                	Set<Object> singles = emptyRules.get(r.getLeft().getType());
+                                	if (singles==null) {
+                                		singles = new HashSet<Object>();
+                                    	emptyRules.put(r.getLeft().getType(),singles);
+                                	}
+                                	singles.add(e.getType());
+                                	//System.out.println(r.getLeft().getType()+" --> "+e.getType());
                                 }
+                                else if (!emptyRules.containsKey(r.getLeft().getType()))
+                                	emptyRules.put(r.getLeft().getType(),null);
+                                emptyRuleRules.put(r.getLeft().getType(),r);
                             }
                         }
                     }
