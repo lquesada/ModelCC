@@ -204,7 +204,7 @@ public final class Grammar implements Serializable {
      * @param i
      * @param emptyRules 
      */
-    private void firstStarFill(Set<Object> se, Rule r, int i,Map<Object,Set<Object>> emptyRules,Set<Object> objs) {
+    private void firstStarFill(Set<Object> se, Rule r, int i, Map<Object,Set<Object>> emptyRules,Set<Object> objs) {
         se.add(r.getRight().get(i).getType());
         objs.add(r.getLeft().getType());
         objs.add(r.getRight().get(i).getType());

@@ -155,6 +155,7 @@ public final class GrammarFactory implements Serializable {
                 if (r.getRight().isEmpty()) {
                     emptyRules.put(r.getLeft().getType(),null);
                     emptyRuleRules.put(r.getLeft().getType(),r);
+                    //System.out.println("GrammarFactory.java empty rule"+r);
                     iter.remove();
                 }
             }
@@ -171,22 +172,16 @@ public final class GrammarFactory implements Serializable {
                 found = false;
                 for (iter = rulesCopy.iterator();iter.hasNext();) {
                     r = iter.next();
-                	Set<Object> interp = null;
-                	if (emptyRules.containsKey(r.getLeft().getType()))
-                		interp = emptyRules.get(r.getLeft().getType());
-                    for (itee = r.getRight().iterator();itee.hasNext();) {
-                        e = itee.next();
-                        if (emptyRules.containsKey(e.getType())) {
-                        	if (interp == null) {
-                        		interp = new HashSet<Object>();
-                        		emptyRules.put(r.getLeft().getType(),interp);
-                        	}
-                    		interp.add(e.getType());
-                            itee.remove();
-                            if (r.getRight().isEmpty()) {
-                                found = true;
-                                emptyRules.put(r.getLeft().getType(),null);
-                                emptyRuleRules.put(r.getLeft().getType(),r);
+                    if (!emptyRules.containsKey(r.getLeft().getType())) {
+                        for (itee = r.getRight().iterator();itee.hasNext();) {
+                            e = itee.next();
+                            if (emptyRules.containsKey(e.getType())) {
+                                itee.remove();
+                                if (r.getRight().isEmpty()) {
+                                    found = true;
+                                    emptyRules.put(r.getLeft().getType(),null);
+                                    emptyRuleRules.put(r.getLeft().getType(),r);
+                                }
                             }
                         }
                     }
