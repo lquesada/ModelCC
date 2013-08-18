@@ -58,6 +58,7 @@ public final class LanguageSpecificationFactory implements Serializable {
      */
     private static SymbolBuilder dsb = new DecoratorSymbolBuilder();
 
+
     /**
      * Converts a model into a language specification
      * @param m the model
@@ -72,7 +73,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         TokenSymbolBuilder tsb = new TokenSymbolBuilder(m);
         
         BasicTokenBuilder btb = new BasicTokenBuilder(m);
-        SymbolBuilder esb = new EmptySymbolBuilder(m);
+        EmptySymbolBuilder esb = new EmptySymbolBuilder(m);
 
 
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
@@ -188,8 +189,15 @@ public final class LanguageSpecificationFactory implements Serializable {
                 BasicModelElement bel = (BasicModelElement)el;
 
                 // Hack: pattern matches empty string
+            	
                 if (bel.getPattern().read("",0)!=null) {
-                	ssf.addEmptyElement(eid);
+                    RuleElement rel2 = new RuleElement(eid);
+                	Rule er = new Rule();
+                	er.setLeft(rel2);
+                	er.setRight(new ArrayList<RuleElement>());
+                	er.setBuilder(esb);
+                	ssf.addRule(er);
+                	sr.add(er);
                 }
                 
                 TokenSpecification ts = new TokenSpecification(beid,bel.getPattern(),btb);
@@ -197,7 +205,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                 elementTokenSpecifications.put(bel,ts);
             }
         }
-    	ssf.addEmptyElementBuilder(esb);
 
         // -----------------
         // Syntactic analysis.
@@ -541,13 +548,12 @@ public final class LanguageSpecificationFactory implements Serializable {
             TokenSpecification rx = iter.next();
             System.out.println("token: "+rx);
         }
+
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
             System.out.println("regla: "+rx);
         }
-        */
-
-
+*/
 
  
         // -----------------
@@ -864,10 +870,6 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
-                    	/*System.out.print("1 IS "+t.getType()+" AND HAS");
-	                    for (int i = 0;i < ((ListContents)t.getUserData()).getL().length;i++)
-	                    	System.out.print(" "+((ListContents)t.getUserData()).getL()[i]);
-	                    System.out.println("");*/
             	        return true;
 	                }
 	            });
@@ -884,12 +886,8 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
 					public boolean build(Symbol t,Object data) {
-	                	/*System.out.println("PROBLEM "+t.getType());
-	                	System.out.println("ELEMENTS "+t.getElements());
-	                	System.out.println("CONTENTS "+t.getContents());
-	                	System.out.println("RULE "+t.getRule()+" "+t.getRelevantRule());
-	                	System.out.println("RECEIVES "+t.getContents().size()+" "+t.getContents().get(0).getUserData());*/
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    System.out.println(t.getContents());
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(0).getUserData();

@@ -104,6 +104,13 @@ public final class Symbol implements Serializable {
     public ParsedSymbol getParsedSymbol() {
         return ps;
     }
+
+    /**
+     * @return the id.
+     */
+    public int getId() {
+        return id;
+    }
     
     /**
      * @return the type

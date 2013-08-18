@@ -116,14 +116,6 @@ public final class SyntacticSpecificationFactory implements Serializable {
     }
 
     /**
-     * Adds an empty element
-     * @param r the empty element to add.
-     */
-    public void addEmptyElement(Object re) {
-        gf.addEmptyElement(re);
-    }
-
-    /**
      * Removes a rule.
      * @param r the rule to remove.
      */
@@ -176,11 +168,4 @@ public final class SyntacticSpecificationFactory implements Serializable {
     public SyntacticSpecification create() throws NullRuleElementException, CyclicCompositionPrecedenceException, CyclicSelectionPrecedenceException {
         return new SyntacticSpecification(gf.create(),cf.create());
     }
-
-    /**
-     * @param builder the builder to set
-     */
-	public void addEmptyElementBuilder(SymbolBuilder dsb) {
-		gf.setEmptyElementBuilder(dsb);		
-	}
 }

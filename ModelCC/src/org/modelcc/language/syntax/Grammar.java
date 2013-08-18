@@ -32,16 +32,6 @@ public final class Grammar implements Serializable {
     private Set<Object> emptyRules;
 
     /**
-     * Set of empty elements.
-     */
-    private Set<Object> emptyElements;
-
-    /**
-     * Empty element builder.
-     */
-    private SymbolBuilder emptyElementBuilder;
-    
-    /**
      * Map of empty rule rules.
      */
     private Map<Object,Rule> emptyRuleRules;
@@ -112,16 +102,14 @@ public final class Grammar implements Serializable {
     /**
      * Constructor.
      * @param emptyRules the set of empty rules.
-     * @param emptyElements the set of empty elements.
-     * @param emptyElementBuilder the empty element builder.
      * @param rules the rules list.
      * @param startType the start type.
      * @param emptyRuleRules the empty rule rules map.
      * @param dataFactory the parser data factory. 
      * @param tsb the token symbol builder.
      */
-    public Grammar(Set<Object> emptyRules,Set<Object> emptyElements,SymbolBuilder emptyElementBuilder,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules,ParserDataFactory dataFactory,SymbolBuilder tsb) {
-        this(emptyRules,emptyElements,emptyElementBuilder,rules,startType,emptyRuleRules);
+    public Grammar(Set<Object> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules,ParserDataFactory dataFactory,SymbolBuilder tsb) {
+        this(emptyRules,rules,startType,emptyRuleRules);
         this.dataFactory = dataFactory;
         this.tsb = tsb;
         if (this.dataFactory == null)
@@ -133,17 +121,13 @@ public final class Grammar implements Serializable {
     /**
      * Constructor.
      * @param emptyRules the set of empty rules.
-     * @param emptyElements the set of empty elements.
-     * @param emptyElementBuilder the empty element builder.
      * @param rules the rules list.
      * @param startType the start type.
      * @param emptyRuleRules the empty rule rules map.
      */
-    public Grammar(Set<Object> emptyRules,Set<Object> emptyElements,SymbolBuilder emptyElementBuilder,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules) {
+    public Grammar(Set<Object> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules) {
         try {
             this.emptyRules = emptyRules;
-            this.emptyElements = emptyElements;
-            this.emptyElementBuilder = emptyElementBuilder;
             this.rules = rules;
             this.startType = startType;
             this.emptyRuleRules = emptyRuleRules;
@@ -250,13 +234,6 @@ public final class Grammar implements Serializable {
     }
 
     /**
-     * @return the set of empty elements
-     */
-    public Set<Object> getEmptyElements() {
-        return Collections.unmodifiableSet(emptyElements);
-    }
-
-    /**
      * @return the empty rule rules.
      */
     public Map<Object,Rule> getEmptyRuleRules() {
@@ -306,10 +283,4 @@ public final class Grammar implements Serializable {
     public SymbolBuilder getTsb() {
         return tsb;
     }
-
-
-	public SymbolBuilder getEmptyElementBuilder() {
-		return emptyElementBuilder;
-	}
-	
 }

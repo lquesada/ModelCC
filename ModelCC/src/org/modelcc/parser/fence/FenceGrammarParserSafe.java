@@ -237,11 +237,12 @@ public final class FenceGrammarParserSafe implements Serializable {
             }
 
             // If start symbol is in emptyrules, add it.
-            if ((g.getEmptyRules().contains(g.getStartType()) || g.getEmptyElements().contains(g.getStartType())) && lg.getStart().isEmpty()) {
+            if (g.getEmptyRules().contains(g.getStartType()) && lg.getStart().isEmpty()) {
                 s = new ParsedSymbol(g.getStartType(),-1,-1);
                 symbolSet.add(s);
                 starts.add(s);
             }
+
 
             // Processes waiting handle pool.
             while (!waitingHandlePool.isEmpty()) {
@@ -269,10 +270,10 @@ public final class FenceGrammarParserSafe implements Serializable {
                             nextType = wh.getRule().getRight().get(wh.getMatched()+skip).getType();
                             //out("Looking for nextType: "+nextType);
                             //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
-                            if ((g.getEmptyRules().contains(nextType) || g.getEmptyElements().contains(nextType)) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
+                            if (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
                                 generateSymbol(g.getStartType(),wh,lg.getInputStart(),lg.getInputEnd());
                             }
-                        } while ((g.getEmptyRules().contains(nextType) || g.getEmptyElements().contains(nextType)) && wh.getMatched()+skip+1<wh.getRule().getRight().size());
+                        } while (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1<wh.getRule().getRight().size());
                     }
                 }
                 //out("END PROCESSING "+wh);
@@ -302,8 +303,8 @@ public final class FenceGrammarParserSafe implements Serializable {
         do {
             skip++;
             nextType = r.getRight().get(matched+skip).getType();
-            //System.out.println("GRAMMARPARSER Looking for nextType: "+nextType);
-            //System.out.println("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
+            //out("Looking for nextType: "+nextType);
+            //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
             Set<Handle> tc = thisCore.get(nextType);
             h = new Handle(r,matched+skip,first.getStartIndex(),first);
             if (tc == null || !tc.contains(h)) {
@@ -333,7 +334,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                     }
                 }
             }
-        } while ((g.getEmptyRules().contains(r.getRight().get(matched+skip).getType()) || g.getEmptyElements().contains(r.getRight().get(matched+skip).getType())) && matched+skip+1<r.getRight().size());
+        } while (g.getEmptyRules().contains(r.getRight().get(matched+skip).getType()) && matched+skip+1<r.getRight().size());
     }
 
     /**
@@ -363,7 +364,7 @@ public final class FenceGrammarParserSafe implements Serializable {
         int count = 0;
         for (itee = wh.getRule().getRight().iterator();itee.hasNext();) {
         	RuleElement e = itee.next();
-            if (!g.getEmptyRules().contains(e.getType()) || !g.getEmptyElements().contains(e.getType())) {
+            if (!g.getEmptyRules().contains(e.getType())) {
                 count++;
             }
         }
