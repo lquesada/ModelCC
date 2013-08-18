@@ -132,7 +132,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
         Map<PreElement,PreElement> preSuperclasses = new HashMap<PreElement,PreElement>();
         Map<PreElement,Integer> priorities = new HashMap<PreElement,Integer>();
 
-        Map<ModelElement,ModelElement> defaultElement = new HashMap<ModelElement,ModelElement>();
+        Map<ModelElement, Set<ModelElement>> defaultElement = new HashMap<ModelElement, Set<ModelElement>>();
 
         // Detects relevants classes.
         relevantClasses = detectRelevantClasses(root);
@@ -1608,19 +1608,25 @@ public class JavaModelReader extends ModelReader implements Serializable {
      * @param elements Element list
      * @param defaultElement Output default element list
      */
-    private void findDefaultElements(Set<ModelElement> elements,Map<Class,ModelElement> classToElement,Map<ModelElement,Set<ModelElement>> subclasses,Map<ModelElement, ModelElement> defaultElement) {
+    private void findDefaultElements(Set<ModelElement> elements,Map<Class,ModelElement> classToElement,Map<ModelElement,Set<ModelElement>> subclasses,Map<ModelElement, Set<ModelElement>> defaultElement) {
     	for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
     		ModelElement e = ite.next();
+    		Set<ModelElement> defaultElements = null;
     		if (Modifier.isAbstract(e.getElementClass().getModifiers())) {
     			if (subclasses.containsKey(e)) {
 	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
 	    	    		ModelElement es = ites.next();
 	    	    		if (canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>())) {
-	    	    			defaultElement.put(e,es);
+	    	    			if (defaultElements == null)
+	    	    				defaultElements = new HashSet<ModelElement>();
+	    	    			defaultElements.add(es);
 	    	    		}
 	    	    	}
     			}
     		}
+    		if (defaultElements != null)
+    			defaultElement.put(e, defaultElements);
+    			defaultElements = null;
     	}
 	}
 

@@ -66,7 +66,7 @@ public final class Model implements Serializable,Cloneable {
     /**
      * ModelElement default element map.
      */
-    private Map<ModelElement,ModelElement> defaultElement;
+    private Map<ModelElement, Set<ModelElement>> defaultElement;
 
     /**
      * Constructor.
@@ -78,7 +78,7 @@ public final class Model implements Serializable,Cloneable {
      * @param superelements the element superclass map
      * @param classToElement the class to element map
      */
-    public Model(Set<ModelElement> elements,ModelElement start,Set<PatternRecognizer> delimiters,Map<ModelElement,Set<ModelElement>> precedences,Map<ModelElement,Set<ModelElement>> subelements,Map<ModelElement,ModelElement> superelements,Map<Class,ModelElement> classToElement,Map<ModelElement,ModelElement> defaultElement) {
+    public Model(Set<ModelElement> elements,ModelElement start,Set<PatternRecognizer> delimiters,Map<ModelElement,Set<ModelElement>> precedences,Map<ModelElement,Set<ModelElement>> subelements,Map<ModelElement,ModelElement> superelements,Map<Class,ModelElement> classToElement,Map<ModelElement, Set<ModelElement>> defaultElement) {
         this.elements = elements;
         this.start = start;
         this.delimiters = delimiters;
@@ -141,7 +141,7 @@ public final class Model implements Serializable,Cloneable {
     /**
      * @return the defaultElement
      */
-    public Map<ModelElement, ModelElement> getDefaultElement() {
+    public Map<ModelElement, Set<ModelElement>> getDefaultElement() {
         return Collections.unmodifiableMap(defaultElement);
     }
 
