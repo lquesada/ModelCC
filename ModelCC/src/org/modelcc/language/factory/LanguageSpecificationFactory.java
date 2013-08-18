@@ -887,7 +887,6 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
-	                    System.out.println(t.getContents());
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(0).getUserData();

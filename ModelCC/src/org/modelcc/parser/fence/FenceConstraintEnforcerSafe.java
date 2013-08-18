@@ -16,10 +16,8 @@ import java.util.Set;
 import java.util.Stack;
 import org.modelcc.language.syntax.AssociativityConstraint;
 import org.modelcc.language.syntax.Constraints;
-import org.modelcc.language.syntax.Grammar;
 import org.modelcc.language.syntax.Rule;
 import org.modelcc.language.syntax.RuleElement;
-import org.modelcc.language.syntax.SymbolBuilder;
 
 /**
  * Fence Constraint Enforcer
@@ -407,7 +405,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             HashSet<Symbol> hs = new HashSet<Symbol>();
             s = new Symbol(id.val,ps);
             s.setUserData(ps.getUserData());
-            s = fixEmptyUserData(s);
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
@@ -431,7 +428,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             id.val++;
 
             s.setUserData(ps.getUserData());
-            s = fixEmptyUserData(s);
 
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
@@ -687,7 +683,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 id.val++;
                 
                 s.setUserData(ps.getUserData());
-                s = fixEmptyUserData(s);
 
                 boolean inhibited,recLeft,recRight;
 
@@ -913,73 +908,4 @@ public class FenceConstraintEnforcerSafe implements Serializable {
         symbolMap.put("startIndex",symbol.getStartIndex());
         symbolMap.put("endIndex",symbol.getEndIndex());
     }
-
-    private Symbol fixEmptyUserData(Symbol s) {
-    	//TODO CLEAN
-    	
-    	System.out.println("CHECKING SYMBOL "+s.getType()+" from "+s.getStartIndex()+" to "+s.getEndIndex());
-		System.out.println("RULE IS "+s.getRule());
-		System.out.println("CONTENTS ARE "+s.getContents());
-		System.out.println("ELEMENTS ARE "+s.getElements());
-		System.out.println("");
-		int j = 0;
-		boolean change = false;
-		boolean lacks = false;
-		List<Symbol> contents = s.getContents();
-		List<RuleElement> elements = s.getElements();
-		
-		if (s.getRule() != null) {
-	    	for (int i = 0;i < s.getRule().getRight().size();i++) {
-	    		RuleElement re = s.getRule().getRight().get(i);
-	    		System.out.println("NOW CHECKING "+re.getType());
-	    		if (j < contents.size() && j < elements.size()) {
-	    			Symbol con = contents.get(j);
-	    			RuleElement res = elements.get(j);
-		    		System.out.println("CURRENT ELEMENT "+res.getType()+" "+con.getType());
-		    		if (re.getType()==res.getType())
-		    			j++;
-		    		else
-		    			lacks = true;
-	    		}
-	    		else
-	    			lacks = true;
-	    		if (lacks) {
-	    			if (!change) {
-	    				change = true;
-	    				contents = new ArrayList<Symbol>();
-	    				contents.addAll(s.getContents());
-	    				elements = new ArrayList<RuleElement>();
-	    				elements.addAll(s.getElements());
-	    			}
-	    			System.out.println("LACKS");
-	    			System.out.println("CREATED "+re.getType());
-	    			Rule sr = pg.getGrammar().getEmptyRuleRules().get(re.getType());
-	    			Symbol sn = new Symbol(-1,new ParsedSymbol(re.getType(),-1,-1,""),sr,sr,new ArrayList<RuleElement>(),new ArrayList<Symbol>());
-	    			contents.add(j,sn);
-	    			elements.add(j,re);
-	    			if (sr != null) {
-		    			SymbolBuilder sb = pg.getGrammar().getEmptyRuleRules().get(re.getType()).getBuilder(); 
-		    			if (sb != null)
-		    				sb.build(sn,null);
-		    			fixEmptyUserData(sn);
-	    			}
-	    			j++;
-	    		}
-	    	}
-		}
-		System.out.println("");
-		if (!change) {
-			System.out.println("");
-			System.out.println("");
-			return s;
-		}
-		else {
-			System.out.println("NEW");
-			System.out.println("CONTENTS ARE "+contents);
-			System.out.println("ELEMENTS ARE "+elements);
-			System.out.println("");
-			System.out.println("");
-			return new Symbol(s.getId(),s.getParsedSymbol(),s.getRule(),s.getRelevantRule(),elements,contents);
-		}
-	}
 }
