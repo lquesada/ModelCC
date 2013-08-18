@@ -27,10 +27,9 @@ public abstract class SymbolBuilder implements Serializable {
      * Builds a symbol, filling its data, and validates it.
      * @param t symbol to be built.
      * @param data parser data.
-     * @param emptyRules 
      * @return true if the symbol is valid, false if not
      */
-    public boolean build(Symbol t,Object data, Map<Object, Set<Object>> emptyRules) {
+    public boolean build(Symbol t,Object data) {
     	return true;
     }
 

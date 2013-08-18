@@ -79,7 +79,7 @@ public final class Grammar implements Serializable {
         private static final long serialVersionUID = 31415926535897932L;
 
         @Override
-        public boolean build(Symbol t, Object data,Map<Object, Set<Object>> emptyRules) {
+        public boolean build(Symbol t,Object data) {
             return true;
         }
     };

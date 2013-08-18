@@ -53,7 +53,7 @@ public final class EmptySymbolBuilder extends SymbolBuilder implements Serializa
      * @return true if the empty symbol is valid, false if not
      */
     @Override
-	public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+	public boolean build(Symbol t,Object data) {
     	ElementId eid = (ElementId)t.getType();
         BasicModelElement be = (BasicModelElement) eid.getElement();
         Class c = be.getElementClass();

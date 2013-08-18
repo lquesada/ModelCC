@@ -866,7 +866,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(re,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
@@ -885,7 +885,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(re,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
@@ -911,7 +911,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                r = new Rule(re0,rct,null,new SymbolBuilder(){
 		                private static final long serialVersionUID = 31415926535897932L;
 		                @Override
-						public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+						public boolean build(Symbol t,Object data) {
 		                    t.setUserData(t.getContents().get(0).getUserData());
 		                    return true;
 		                }
@@ -923,7 +923,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                r = new Rule(re0,rct,null,new SymbolBuilder(){
 		                private static final long serialVersionUID = 31415926535897932L;
 		                @Override
-						public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+						public boolean build(Symbol t,Object data) {
 		                    t.setUserData(new ListContents(new Object[0]));
 		                    return true;
 		                }
@@ -960,7 +960,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(res,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
@@ -1032,7 +1032,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(res,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
             	        Symbol extra = null;
@@ -1065,7 +1065,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(reb,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
@@ -1131,7 +1131,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(reb,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(t.getContents().size()-1).getUserData();
             	        Symbol extra = null;
@@ -1170,7 +1170,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rea,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
@@ -1189,7 +1189,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rea,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
@@ -1268,7 +1268,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	        	        ListContents l0 = (ListContents)t.getContents().get(0).getUserData();
 				        ListContents l1 = (ListContents)t.getContents().get(t.getContents().size()-1).getUserData();
 				        Object[] l = new Object[l0.getL().length+l1.getL().length];
@@ -1345,7 +1345,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
 	                    Object[] rest = restContents.getL();
             	        Symbol extra = null;
@@ -1416,7 +1416,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(0).getUserData();
 	                    Object[] rest = restContents.getL();
             	        Symbol extra = null;
@@ -1439,7 +1439,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	            r = new Rule(rew,rct,null,new SymbolBuilder(){
 	                private static final long serialVersionUID = 31415926535897932L;
 	                @Override
-					public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+					public boolean build(Symbol t,Object data) {
 	                    Object[] rest = new Object[0];
     	        		Symbol extra = t.getContents().get(0);
     	        		RuleElementPosition extraRuleElement = (RuleElementPosition)t.getElements().get(0);

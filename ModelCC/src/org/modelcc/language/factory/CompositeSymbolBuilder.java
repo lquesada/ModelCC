@@ -62,7 +62,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
      * @return true if the symbol is valid, false if not
      */
     @Override
-    public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+    public boolean build(Symbol t,Object data) {
         Map<Class,Map<KeyWrapper,Object>> ids = ((ModelCCParserData)data).getIds();
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         ElementId eid = (ElementId)t.getType();

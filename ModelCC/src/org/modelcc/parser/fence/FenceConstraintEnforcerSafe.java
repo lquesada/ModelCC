@@ -79,8 +79,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * @param s symbol to be built.
      * @return true if the symbol is valid, false if not
      */
-    protected boolean build(Rule r,Map<Object, Set<Object>> emptyRules, Symbol s) {
-        return r.getBuilder().build(s,data,emptyRules);
+    protected boolean build(Rule r,Symbol s) {
+        return r.getBuilder().build(s,data);
     }
 
     /**
@@ -88,8 +88,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * @param s symbol to be built.
      * @return true if the symbol is valid, false if not
      */
-    private boolean build(Symbol s,Map<Object, Set<Object>> emptyRules) {
-        return pg.getGrammar().getTsb().build(s,data,emptyRules);
+    private boolean build(Symbol s) {
+        return pg.getGrammar().getTsb().build(s,data);
     }
     
     /**
@@ -409,12 +409,16 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            if (build(s,pg.getGrammar().getEmptyRules())) {
-                id.val++;
-                symbols.add(s);
-                hs.add(s);
-                mapped.put(ps,hs);
-                storeMetadata(s);
+            Set<Symbol> ss = manageEmptiesSymbol(s);
+            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
+            	Symbol s1 = ite.next();
+                if (build(s1)) {
+                    id.val++;
+                    symbols.add(s1);
+                    hs.add(s1);
+                    mapped.put(ps,hs);
+                    storeMetadata(s1);
+                }
             }
             return hs;
         }
@@ -433,12 +437,15 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            
-            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),pg.getGrammar().getEmptyRules(),s)) {
-                symbols.add(s);
-                hs.add(s);
-                mapped.put(ps,hs);
-                storeMetadata(s);
+            Set<Symbol> ss = manageEmptiesSymbol(s);
+            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
+            	Symbol s1 = ite.next();
+	            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s1)) {
+	                symbols.add(s1);
+	                hs.add(s1);
+	                mapped.put(ps,hs);
+	                storeMetadata(s1);
+	            }
             }
             return hs;
         }
@@ -513,7 +520,14 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     }
 
 
-    private Set<ExpandTuple> searchAllTuples(ParsedSymbol ps) {
+    private Set<Symbol> manageEmptiesSymbol(Symbol s) {
+		// TODO
+    	Set<Symbol> ret = new HashSet<Symbol>();
+    	ret.add(s);
+		return ret;
+	}
+
+	private Set<ExpandTuple> searchAllTuples(ParsedSymbol ps) {
         Set<ExpandTuple> ma = mappedtuples.get(ps);
         if (ma != null)
             return ma;
@@ -789,7 +803,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
                  if (!inhibited) {
                 	 
-                    if (build(s.getRule(),pg.getGrammar().getEmptyRules(),s)) {
+                    if (build(s.getRule(),s)) {
                         if (r.getRight().size() == 1)
                             if (associateds.contains(content.get(0)))
                                 associateds.add(s);

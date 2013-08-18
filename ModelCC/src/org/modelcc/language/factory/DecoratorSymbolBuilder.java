@@ -32,7 +32,7 @@ public final class DecoratorSymbolBuilder extends SymbolBuilder implements Seria
      * @return true if the symbol is valid, false if not
      */
     @Override
-	public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
+	public boolean build(Symbol t,Object data) {
         ElementId eid = (ElementId)t.getType();
         eid.getElement();
         Object o = null;
