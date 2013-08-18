@@ -53,6 +53,7 @@ public class StringTest {
     }
 	@Test
 	public void TextsTest() {
+		checkMatches(StringModel.class,"",1);
 		checkMatches(StringModel.class,"a",1);
 		checkMatches(StringModel.class,"a$1!$&)=!)",1);
 		checkMatches(StringModel.class,"\"a$1!$&)=!)\"",1);
@@ -61,7 +62,6 @@ public class StringTest {
 		checkMatches(StringModel.class,"+8\"919",1);
 		checkMatches(StringModel.class,"-",1);
 		checkMatches(StringModel.class,"a    asdiof",1);
-		checkMatches(StringModel.class,"",1);
 		checkMatches(StringModel.class,"    asdiof",1);
 		checkMatches(StringModel.class,"a;asdf",0);
 		checkMatches(StringModel.class,"a;",0);
