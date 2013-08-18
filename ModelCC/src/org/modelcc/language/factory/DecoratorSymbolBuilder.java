@@ -6,6 +6,8 @@
 package org.modelcc.language.factory;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.modelcc.language.syntax.SymbolBuilder;
@@ -30,7 +32,7 @@ public final class DecoratorSymbolBuilder extends SymbolBuilder implements Seria
      * @return true if the symbol is valid, false if not
      */
     @Override
-	public boolean build(Symbol t,Object data) {
+	public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
         ElementId eid = (ElementId)t.getType();
         eid.getElement();
         Object o = null;

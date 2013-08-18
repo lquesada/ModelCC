@@ -10,6 +10,8 @@ import java.util.Map;
 import org.modelcc.language.syntax.SymbolBuilder;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.Symbol;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Symbol content builder
@@ -43,7 +45,7 @@ public final class TokenSymbolBuilder extends SymbolBuilder implements Serializa
      * @return true if the symbol is valid, false if not
      */
     @Override
-	public boolean build(Symbol t,Object data) {
+	public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         map.put(t.getUserData(),new ObjectWrapper(t.getUserData(),m,t.getParsedSymbol().getString().hashCode(),t.getParsedSymbol().getString()));
         return true;

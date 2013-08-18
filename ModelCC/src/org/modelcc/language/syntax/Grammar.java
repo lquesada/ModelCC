@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.modelcc.parser.fence.Symbol;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Grammar.
@@ -77,7 +79,7 @@ public final class Grammar implements Serializable {
         private static final long serialVersionUID = 31415926535897932L;
 
         @Override
-        public boolean build(Symbol t, Object data) {
+        public boolean build(Symbol t, Object data,Map<Object, Set<Object>> emptyRules) {
             return true;
         }
     };

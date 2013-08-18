@@ -6,6 +6,9 @@
 package org.modelcc.language.syntax;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
+
 import org.modelcc.parser.fence.Symbol;
 
 /**
@@ -24,8 +27,11 @@ public abstract class SymbolBuilder implements Serializable {
      * Builds a symbol, filling its data, and validates it.
      * @param t symbol to be built.
      * @param data parser data.
+     * @param emptyRules 
      * @return true if the symbol is valid, false if not
      */
-    public abstract boolean build(Symbol t,Object data);
-    
+    public boolean build(Symbol t,Object data, Map<Object, Set<Object>> emptyRules) {
+    	return true;
+    }
+
 }

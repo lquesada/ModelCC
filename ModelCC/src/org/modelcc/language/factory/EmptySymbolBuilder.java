@@ -19,6 +19,8 @@ import org.modelcc.lexer.lamb.Token;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.Symbol;
 import org.modelcc.tools.FieldFinder;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Common empty symbol builder
@@ -51,7 +53,7 @@ public final class EmptySymbolBuilder extends SymbolBuilder implements Serializa
      * @return true if the empty symbol is valid, false if not
      */
     @Override
-	public boolean build(Symbol t,Object data) {
+	public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
     	ElementId eid = (ElementId)t.getType();
         BasicModelElement be = (BasicModelElement) eid.getElement();
         Class c = be.getElementClass();

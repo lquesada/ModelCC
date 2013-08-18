@@ -75,11 +75,12 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
     /**
      * Builds a symbol, filling its data, and validates it.
+     * @param emptyRules 
      * @param s symbol to be built.
      * @return true if the symbol is valid, false if not
      */
-    protected boolean build(Rule r,Symbol s) {
-        return r.getBuilder().build(s,data);
+    protected boolean build(Rule r,Map<Object, Set<Object>> emptyRules, Symbol s) {
+        return r.getBuilder().build(s,data,emptyRules);
     }
 
     /**
@@ -87,8 +88,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * @param s symbol to be built.
      * @return true if the symbol is valid, false if not
      */
-    private boolean build(Symbol s) {
-        return pg.getGrammar().getTsb().build(s,data);
+    private boolean build(Symbol s,Map<Object, Set<Object>> emptyRules) {
+        return pg.getGrammar().getTsb().build(s,data,emptyRules);
     }
     
     /**
@@ -408,7 +409,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            if (build(s)) {
+            if (build(s,pg.getGrammar().getEmptyRules())) {
                 id.val++;
                 symbols.add(s);
                 hs.add(s);
@@ -432,7 +433,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
+            
+            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),pg.getGrammar().getEmptyRules(),s)) {
                 symbols.add(s);
                 hs.add(s);
                 mapped.put(ps,hs);
@@ -787,7 +789,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
                  if (!inhibited) {
                 	 
-                    if (build(s.getRule(),s)) {
+                    if (build(s.getRule(),pg.getGrammar().getEmptyRules(),s)) {
                         if (r.getRight().size() == 1)
                             if (associateds.contains(content.get(0)))
                                 associateds.add(s);

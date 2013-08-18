@@ -65,7 +65,7 @@ public class FenceConstraintEnforcerTest {
         private int count = 0;
 
         @Override
-        public boolean build(Symbol t,Object data) {
+        public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
             count++;
             return true;
         }
@@ -3376,7 +3376,7 @@ public class FenceConstraintEnforcerTest {
             private static final long serialVersionUID = 31415926535897932L;
 
             @Override
-            public boolean build(Symbol t,Object data) {
+            public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
                 return false;
             }
         });
@@ -3483,7 +3483,7 @@ public class FenceConstraintEnforcerTest {
             private static final long serialVersionUID = 31415926535897932L;
 
             @Override
-            public boolean build(Symbol t,Object data) {
+            public boolean build(Symbol t,Object data,Map<Object, Set<Object>> emptyRules) {
                 return true;
             }
         });
