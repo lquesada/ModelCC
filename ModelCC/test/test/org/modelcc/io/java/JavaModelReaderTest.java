@@ -1557,6 +1557,33 @@ public class JavaModelReaderTest {
         assertEquals(1,result.size());
     }
 
+
+    @Test
+    public void EmptyMultipleTest() throws ParserException {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.multiple.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+        se.add(new RegExpPatternRecognizer(" "));
+        Parser<test.languages.emptymatchers.multiple.StartPoint> parser;
+		try {
+			parser = ParserFactory.create(m,se);
+		} catch (CannotCreateParserException e) {
+            assertFalse(true);
+            return;
+		}
+		try {
+			assertEquals(2,parser.parseAll("").size());
+		} catch (ParserException e) {
+			
+		}
+    }
+
     @Test
     public void PrefixLoopTest() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
