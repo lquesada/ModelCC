@@ -237,7 +237,7 @@ public final class FenceGrammarParserSafe implements Serializable {
             }
 
             // If start symbol is in emptyrules, add it.
-            if (g.getEmptyRules().contains(g.getStartType()) && lg.getStart().isEmpty()) {
+            if (g.getEmptyRules().containsKey(g.getStartType()) && lg.getStart().isEmpty()) {
                 s = new ParsedSymbol(g.getStartType(),-1,-1);
                 symbolSet.add(s);
                 starts.add(s);
@@ -270,10 +270,10 @@ public final class FenceGrammarParserSafe implements Serializable {
                             nextType = wh.getRule().getRight().get(wh.getMatched()+skip).getType();
                             //out("Looking for nextType: "+nextType);
                             //out("Is it in empty rules? "+g.getEmptyRules().contains(nextType));
-                            if (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
+                            if (g.getEmptyRules().containsKey(nextType) && wh.getMatched()+skip+1==wh.getRule().getRight().size()) {
                                 generateSymbol(g.getStartType(),wh,lg.getInputStart(),lg.getInputEnd());
                             }
-                        } while (g.getEmptyRules().contains(nextType) && wh.getMatched()+skip+1<wh.getRule().getRight().size());
+                        } while (g.getEmptyRules().containsKey(nextType) && wh.getMatched()+skip+1<wh.getRule().getRight().size());
                     }
                 }
                 //out("END PROCESSING "+wh);
@@ -334,7 +334,7 @@ public final class FenceGrammarParserSafe implements Serializable {
                     }
                 }
             }
-        } while (g.getEmptyRules().contains(r.getRight().get(matched+skip).getType()) && matched+skip+1<r.getRight().size());
+        } while (g.getEmptyRules().containsKey(r.getRight().get(matched+skip).getType()) && matched+skip+1<r.getRight().size());
     }
 
     /**
@@ -364,7 +364,7 @@ public final class FenceGrammarParserSafe implements Serializable {
         int count = 0;
         for (itee = wh.getRule().getRight().iterator();itee.hasNext();) {
         	RuleElement e = itee.next();
-            if (!g.getEmptyRules().contains(e.getType())) {
+            if (!g.getEmptyRules().containsKey(e.getType())) {
                 count++;
             }
         }

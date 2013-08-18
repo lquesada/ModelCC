@@ -638,7 +638,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             return;
         }
         else {
-            if (pg.getGrammar().getEmptyRules().contains(r.getRight().get(i).getType())) {
+            if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
                 List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
                 nl.addAll(act.getSymbols());
                 nl.add(null);
@@ -840,7 +840,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
         while (i < r.getRight().size()) {
             if (type.equals(r.getRight().get(i).getType()))
                 return true;
-            else if(pg.getGrammar().getEmptyRules().contains(r.getRight().get(i).getType())) {
+            else if(pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
                 i++;
             }
             else

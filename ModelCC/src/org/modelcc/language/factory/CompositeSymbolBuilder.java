@@ -212,7 +212,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                                Class c = fields[i].getType();
 	                                Object o2;
 	                                while (Modifier.isAbstract( c.getModifiers())) {
-	                                	c = m.getDefaultElement().get(m.getClassToElement().get(c)).getElementClass();
+	                                	c = m.getDefaultElement().get(m.getClassToElement().get(c)).iterator().next().getElementClass(); //TODO
 	                                }
                                 	o2 = c.newInstance();
 	                                fixOptionals(o2,m,null);

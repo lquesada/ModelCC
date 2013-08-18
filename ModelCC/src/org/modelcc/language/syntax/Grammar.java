@@ -29,7 +29,7 @@ public final class Grammar implements Serializable {
     /**
      * Set of empty rules.
      */
-    private Set<Object> emptyRules;
+    private Map<Object,Set<Object>> emptyRules;
 
     /**
      * Map of empty rule rules.
@@ -108,7 +108,7 @@ public final class Grammar implements Serializable {
      * @param dataFactory the parser data factory. 
      * @param tsb the token symbol builder.
      */
-    public Grammar(Set<Object> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules,ParserDataFactory dataFactory,SymbolBuilder tsb) {
+    public Grammar(Map<Object,Set<Object>> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules,ParserDataFactory dataFactory,SymbolBuilder tsb) {
         this(emptyRules,rules,startType,emptyRuleRules);
         this.dataFactory = dataFactory;
         this.tsb = tsb;
@@ -125,7 +125,7 @@ public final class Grammar implements Serializable {
      * @param startType the start type.
      * @param emptyRuleRules the empty rule rules map.
      */
-    public Grammar(Set<Object> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules) {
+    public Grammar(Map<Object,Set<Object>> emptyRules,Set<Rule> rules,Object startType,Map<Object,Rule> emptyRuleRules) {
         try {
             this.emptyRules = emptyRules;
             this.rules = rules;
@@ -144,7 +144,7 @@ public final class Grammar implements Serializable {
 	                }
 	                se.add(r);
 	                i++;
-                } while (emptyRules.contains(r.getRight().get(i-1).getType()) && i < r.getRight().size());
+                } while (emptyRules.containsKey(r.getRight().get(i-1).getType()) && i < r.getRight().size());
             }
 
             // Calculate firstStar:
@@ -204,11 +204,11 @@ public final class Grammar implements Serializable {
      * @param i
      * @param emptyRules 
      */
-    private void firstStarFill(Set<Object> se, Rule r, int i, Set<Object> emptyRules,Set<Object> objs) {
+    private void firstStarFill(Set<Object> se, Rule r, int i,Map<Object,Set<Object>> emptyRules,Set<Object> objs) {
         se.add(r.getRight().get(i).getType());
         objs.add(r.getLeft().getType());
         objs.add(r.getRight().get(i).getType());
-        if (emptyRules.contains(r.getRight().get(i).getType()) && r.getRight().size()>i+1) 
+        if (emptyRules.containsKey(r.getRight().get(i).getType()) && r.getRight().size()>i+1) 
             firstStarFill(se,r,i+1,emptyRules,objs);
     }
 
@@ -229,8 +229,8 @@ public final class Grammar implements Serializable {
     /**
      * @return the set of empty rules
      */
-    public Set<Object> getEmptyRules() {
-        return Collections.unmodifiableSet(emptyRules);
+    public Map<Object,Set<Object>> getEmptyRules() {
+        return Collections.unmodifiableMap(emptyRules);
     }
 
     /**
@@ -264,7 +264,7 @@ public final class Grammar implements Serializable {
         for (Iterator<Rule> ite = rules.iterator();ite.hasNext();)
             ret += ite.next()+"\n";
         ret += "\n";
-        for (Iterator<Object> ite = emptyRules.iterator();ite.hasNext();)
+        for (Iterator<Object> ite = emptyRules.keySet().iterator();ite.hasNext();)
             ret += "empty: "+ite.next()+"\n";
         return ret;
         

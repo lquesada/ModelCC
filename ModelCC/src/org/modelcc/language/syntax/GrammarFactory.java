@@ -103,7 +103,7 @@ public final class GrammarFactory implements Serializable {
     public Grammar create() throws NullRuleElementException {
         Set<Object> lefts = new HashSet<Object>();
         Set<Object> elements = new HashSet<Object>();
-        Set<Object> emptyRules = new HashSet<Object>();
+        Map<Object,Set<Object>> emptyRules = new HashMap<Object,Set<Object>>();
         Map<Object,Rule> emptyRuleRules = new HashMap<Object,Rule>();
         // -------------
         // Check rule integrity.
@@ -153,9 +153,8 @@ public final class GrammarFactory implements Serializable {
             for (iter = rules.iterator();iter.hasNext();) {
                 r = iter.next();
                 if (r.getRight().isEmpty()) {
-                    emptyRules.add(r.getLeft().getType());
+                    emptyRules.put(r.getLeft().getType(),null);
                     emptyRuleRules.put(r.getLeft().getType(),r);
-                    //System.out.println("GrammarFactory.java empty rule"+r);
                     iter.remove();
                 }
             }
@@ -172,16 +171,22 @@ public final class GrammarFactory implements Serializable {
                 found = false;
                 for (iter = rulesCopy.iterator();iter.hasNext();) {
                     r = iter.next();
-                    if (!emptyRules.contains(r.getLeft().getType())) {
-                        for (itee = r.getRight().iterator();itee.hasNext();) {
-                            e = itee.next();
-                            if (emptyRules.contains(e.getType())) {
-                                itee.remove();
-                                if (r.getRight().isEmpty()) {
-                                    found = true;
-                                    emptyRules.add(r.getLeft().getType());
-                                    emptyRuleRules.put(r.getLeft().getType(),r);
-                                }
+                	Set<Object> interp = null;
+                	if (emptyRules.containsKey(r.getLeft().getType()))
+                		interp = emptyRules.get(r.getLeft().getType());
+                    for (itee = r.getRight().iterator();itee.hasNext();) {
+                        e = itee.next();
+                        if (emptyRules.containsKey(e.getType())) {
+                        	if (interp == null) {
+                        		interp = new HashSet<Object>();
+                        		emptyRules.put(r.getLeft().getType(),interp);
+                        	}
+                    		interp.add(e.getType());
+                            itee.remove();
+                            if (r.getRight().isEmpty()) {
+                                found = true;
+                                emptyRules.put(r.getLeft().getType(),null);
+                                emptyRuleRules.put(r.getLeft().getType(),r);
                             }
                         }
                     }
