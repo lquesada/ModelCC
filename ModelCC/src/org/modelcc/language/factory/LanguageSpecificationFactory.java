@@ -58,7 +58,6 @@ public final class LanguageSpecificationFactory implements Serializable {
      */
     private static SymbolBuilder dsb = new DecoratorSymbolBuilder();
 
-
     /**
      * Converts a model into a language specification
      * @param m the model
@@ -73,6 +72,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         TokenSymbolBuilder tsb = new TokenSymbolBuilder(m);
         
         BasicTokenBuilder btb = new BasicTokenBuilder(m);
+        SymbolBuilder esb = new EmptySymbolBuilder(m);
 
 
         LexicalSpecificationFactory lsf = new LexicalSpecificationFactory();
@@ -197,7 +197,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                 elementTokenSpecifications.put(bel,ts);
             }
         }
-    	ssf.addEmptyElementBuilder(dsb);
+    	ssf.addEmptyElementBuilder(esb);
 
         // -----------------
         // Syntactic analysis.

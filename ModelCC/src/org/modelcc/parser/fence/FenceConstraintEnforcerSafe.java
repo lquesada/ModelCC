@@ -119,6 +119,12 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      */
     public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg,Map<Object,Map<String,Object>> objectMetadata) {
         
+    	System.out.println("listing parsedSymbols");
+    	for (Iterator<ParsedSymbol> ite = pg.getSymbols().iterator();ite.hasNext();) {
+    		ParsedSymbol ps1 = ite.next();
+    		System.out.println(""+ps1.getType()+" in "+ps1.getStartIndex()+"-"+ps1.getEndIndex());
+    	}
+    	System.out.println("end listing parsedSymbols");
     	this.objectMetadata = objectMetadata;
     	
         this.pg = pg;
@@ -430,7 +436,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             s.setUserData(ps.getUserData());
 
 
-            //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+            System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
             if (pg.getGrammar().getEmptyElements().contains(ps.getType())) {
             	if (build(new Rule(null,null,null,pg.getGrammar().getEmptyElementBuilder()),s)) {
