@@ -405,20 +405,19 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             // Generate the token.
             HashSet<Symbol> hs = new HashSet<Symbol>();
             s = new Symbol(id.val,ps);
-            s.setUserData(ps.getUserData());
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
-
-            Set<Symbol> ss = manageEmptiesSymbol(s);
+            mapped.put(ps,hs);
+            Set<Symbol> ss = fixEmpties(s);
             for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
             	Symbol s1 = ite.next();
-                if (build(s1)) {
-                    id.val++;
-                    symbols.add(s1);
-                    hs.add(s1);
-                    mapped.put(ps,hs);
-                    storeMetadata(s1);
-                }
+                s1.setUserData(ps.getUserData());
+	            if (build(s1)) {
+	                id.val++;
+	                symbols.add(s1);
+	                hs.add(s1);
+	                storeMetadata(s1);
+	            }
             }
             return hs;
         }
@@ -430,22 +429,23 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             HashSet<Symbol> hs = new HashSet<Symbol>();
             Symbol s;
             s = new Symbol(id.val,ps);
-            id.val++;
 
-            s.setUserData(ps.getUserData());
 
 
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
-            Set<Symbol> ss = manageEmptiesSymbol(s);
+            
+            mapped.put(ps,hs);
+            Set<Symbol> ss = fixEmpties(s);
             for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
             	Symbol s1 = ite.next();
-	            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s1)) {
-	                symbols.add(s1);
+                s1.setUserData(ps.getUserData());
+            	if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
+            		id.val++;
+                	symbols.add(s1);
 	                hs.add(s1);
-	                mapped.put(ps,hs);
 	                storeMetadata(s1);
-	            }
+                }
             }
             return hs;
         }
@@ -520,10 +520,39 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     }
 
 
-    private Set<Symbol> manageEmptiesSymbol(Symbol s) {
-		// TODO
+    private Set<Symbol> fixEmpties(Symbol s) {
+    	
+    	//TODO
     	Set<Symbol> ret = new HashSet<Symbol>();
-    	ret.add(s);
+
+		ret.add(s);
+		/*
+    	if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
+    		Set<Object> rules = pg.getGrammar().getEmptyRules().get(r.getRight().get(i).getType());
+        	if (rules==null) {
+                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
+                nl.addAll(act.getSymbols());
+                nl.add(null);
+                ExpandTuple n = new ExpandTuple(r, nl);
+                searchTuples(ps,tuples,r,i+1,ps2,n);
+        	}
+        	else {
+                for (Iterator<Object> ite = rules.iterator();ite.hasNext();) {
+                	Object id = ite.next();
+	                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
+	                ParsedSymbol nps = new ParsedSymbol(id,-1,-1,"");
+	                for (Iterator<ParsedSymbol> itep = fixEmpties(nps).iterator();itep.hasNext();) {
+	                	ParsedSymbol npsp = itep.next();
+		                nl.addAll(act.getSymbols());
+		                nl.add(npsp);
+		                ExpandTuple n = new ExpandTuple(r, nl);
+		                searchTuples(ps,tuples,r,i+1,ps2,n);
+	                }
+                }
+        	}
+        }
+*/
+    	
 		return ret;
 	}
 
@@ -654,12 +683,26 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             return;
         }
         else {
-            if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
-                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
-                nl.addAll(act.getSymbols());
-                nl.add(null);
-                ExpandTuple n = new ExpandTuple(r, nl);
-                searchTuples(ps,tuples,r,i+1,ps2,n);
+        	if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
+        		Set<Object> rules = pg.getGrammar().getEmptyRules().get(r.getRight().get(i).getType());
+            	if (rules==null) {
+	                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
+	                nl.addAll(act.getSymbols());
+	                nl.add(null);
+	                ExpandTuple n = new ExpandTuple(r, nl);
+	                searchTuples(ps,tuples,r,i+1,ps2,n);
+            	}
+            	else {
+	                for (Iterator<Object> ite = rules.iterator();ite.hasNext();) {
+	                	Object id = ite.next();
+		                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
+		                ParsedSymbol nps = new ParsedSymbol(id,-1,-1,"");
+		                nl.addAll(act.getSymbols());
+		                nl.add(nps);
+		                ExpandTuple n = new ExpandTuple(r, nl);
+		                searchTuples(ps,tuples,r,i+1,ps2,n);
+	                }
+            	}
             }
             if (ps2 != null) {
                 if (r.getRight().get(i).getType().equals(ps2.getType())) {
@@ -696,127 +739,132 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                     relevant = r;
 
                 s = new Symbol(id.val,ps,r,relevant,elements,content);
-                id.val++;
-                
-                s.setUserData(ps.getUserData());
 
-                boolean inhibited,recLeft,recRight;
-
-                //Checks if associate.
-                boolean associate = false;
-                for (i = 0;i < s.getContents().size();i++) {
-                    if (constraints.getAssociativities().get(s.getContents().get(i).getType()) != null) {
-                        associate = true;
-                        if (i > 0) {
-                            if (s.getRule() != null && s.getContents().get(i-1).getRelevantRule() != null) {
-                                if (s.getRule().getLeft().equals(s.getContents().get(i-1).getRelevantRule().getLeft()) || s.getRule().equals(s.getContents().get(i-1).getRelevantRule())) {
-                                   associate = true;
-                                }
-                            }
-                        }
-                        if (i < s.getContents().size()-1) {
-                            if (s.getRule() != null && s.getContents().get(i+1).getRelevantRule() != null) {
-                                if (s.getRule().getLeft().equals(s.getContents().get(i+1).getRelevantRule().getLeft()) || s.getRule().equals(s.getContents().get(i+1).getRelevantRule())) {
-                                    associate = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (associate) {
-                    associateds.add(s);
-                }
-               
-                inhibited = false;
-
-                boolean aux;
-                for (i = 0;i < s.getContents().size();i++) {
-
-                    
-                    if (constraints.getAssociativities().get(s.getContents().get(i).getType()) != null) {
-                        recLeft = false;
-                        recRight = false;
-                        if (i > 0) {
-                            if (s.getRule().equals(s.getContents().get(i-1).getRelevantRule()))
-                                recLeft = true;
-                            if (associateds.contains(s.getContents().get(i-1))) {
-                                aux = recLeft;
-                                recLeft = true;
-                                Set<Rule> compc = constraints.getCompositionPrecedences().get(s.getContents().get(i-1).getRelevantRule());
-                                if (compc != null) {
-                                    if (compc.contains(r)) {
-                                        recLeft = aux;
-                                    }
-                                }
-                            }
-                        }
-                        if (i < s.getContents().size()-1) {
-                            if (s.getRule().equals(s.getContents().get(i+1).getRelevantRule()))
-                                recRight = true;
-                            if (associateds.contains(s.getContents().get(i+1))) {
-                                aux = recRight;
-                                recRight = true;
-                                Set<Rule> compc = constraints.getCompositionPrecedences().get(s.getContents().get(i+1).getRelevantRule());
-                                if (compc != null) {
-                                    if (compc.contains(r)) {
-                                        recRight = aux;
-                                    }
-                                }
-                            }
-                        }
-
-                        switch (constraints.getAssociativities().get(s.getContents().get(i).getType())) {
-                            case LEFT_TO_RIGHT:
-                                if (recRight) {
-                                    inhibited = true;
-                                }
-                                break;
-                            case RIGHT_TO_LEFT:
-                                if (recLeft) {
-                                    inhibited = true;
-                                }
-                                break;
-                            case NON_ASSOCIATIVE:
-                                if (recRight || recLeft) {
-                                    inhibited = true;
-                                }
-                                break;
-                            default:
-                                break;
-                            }
-                    }
-                }
-
-
-                if (!inhibited) {
-                    Set<Rule> compc = constraints.getCompositionPrecedences().get(r);
-                    if (compc != null) {
-                        for (int j = 0;j < s.getContents().size();j++) {
-                            if (s.getContents().get(j).getRelevantRule() != null) {
-                                if (compc.contains(s.getContents().get(j).getRelevantRule())) {
-                                    inhibited = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                 if (!inhibited) {
-                	 
-                    if (build(s.getRule(),s)) {
-                        if (r.getRight().size() == 1)
-                            if (associateds.contains(content.get(0)))
-                                associateds.add(s);
-                        if (r.getRelevant() != -1)
-                            if (associateds.contains(content.get(r.getRelevant())))
-                                associateds.add(s);
-                        symbols.add(s);
-                        ret.add(s);
-                        for (int j = 0;j < s.getContents().size();j++) {
-                            addUses(s,s.getContents().get(j));
-                        }
-                        storeMetadata(s);
-                    }
+                Set<Symbol> ss = fixEmpties(s);
+                for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
+                	Symbol s1 = ite.next();
+	                id.val++;
+	                
+	                s1.setUserData(ps.getUserData());
+	
+	                boolean inhibited,recLeft,recRight;
+	
+	                //Checks if associate.
+	                boolean associate = false;
+	                for (i = 0;i < s1.getContents().size();i++) {
+	                    if (constraints.getAssociativities().get(s1.getContents().get(i).getType()) != null) {
+	                        associate = true;
+	                        if (i > 0) {
+	                            if (s1.getRule() != null && s1.getContents().get(i-1).getRelevantRule() != null) {
+	                                if (s1.getRule().getLeft().equals(s1.getContents().get(i-1).getRelevantRule().getLeft()) || s1.getRule().equals(s1.getContents().get(i-1).getRelevantRule())) {
+	                                   associate = true;
+	                                }
+	                            }
+	                        }
+	                        if (i < s1.getContents().size()-1) {
+	                            if (s1.getRule() != null && s1.getContents().get(i+1).getRelevantRule() != null) {
+	                                if (s1.getRule().getLeft().equals(s1.getContents().get(i+1).getRelevantRule().getLeft()) || s1.getRule().equals(s1.getContents().get(i+1).getRelevantRule())) {
+	                                    associate = true;
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	                if (associate) {
+	                    associateds.add(s1);
+	                }
+	               
+	                inhibited = false;
+	
+	                boolean aux;
+	                for (i = 0;i < s1.getContents().size();i++) {
+	
+	                    
+	                    if (constraints.getAssociativities().get(s1.getContents().get(i).getType()) != null) {
+	                        recLeft = false;
+	                        recRight = false;
+	                        if (i > 0) {
+	                            if (s1.getRule().equals(s1.getContents().get(i-1).getRelevantRule()))
+	                                recLeft = true;
+	                            if (associateds.contains(s1.getContents().get(i-1))) {
+	                                aux = recLeft;
+	                                recLeft = true;
+	                                Set<Rule> compc = constraints.getCompositionPrecedences().get(s1.getContents().get(i-1).getRelevantRule());
+	                                if (compc != null) {
+	                                    if (compc.contains(r)) {
+	                                        recLeft = aux;
+	                                    }
+	                                }
+	                            }
+	                        }
+	                        if (i < s1.getContents().size()-1) {
+	                            if (s1.getRule().equals(s1.getContents().get(i+1).getRelevantRule()))
+	                                recRight = true;
+	                            if (associateds.contains(s1.getContents().get(i+1))) {
+	                                aux = recRight;
+	                                recRight = true;
+	                                Set<Rule> compc = constraints.getCompositionPrecedences().get(s1.getContents().get(i+1).getRelevantRule());
+	                                if (compc != null) {
+	                                    if (compc.contains(r)) {
+	                                        recRight = aux;
+	                                    }
+	                                }
+	                            }
+	                        }
+	
+	                        switch (constraints.getAssociativities().get(s1.getContents().get(i).getType())) {
+	                            case LEFT_TO_RIGHT:
+	                                if (recRight) {
+	                                    inhibited = true;
+	                                }
+	                                break;
+	                            case RIGHT_TO_LEFT:
+	                                if (recLeft) {
+	                                    inhibited = true;
+	                                }
+	                                break;
+	                            case NON_ASSOCIATIVE:
+	                                if (recRight || recLeft) {
+	                                    inhibited = true;
+	                                }
+	                                break;
+	                            default:
+	                                break;
+	                            }
+	                    }
+	                }
+	
+	
+	                if (!inhibited) {
+	                    Set<Rule> compc = constraints.getCompositionPrecedences().get(r);
+	                    if (compc != null) {
+	                        for (int j = 0;j < s1.getContents().size();j++) {
+	                            if (s1.getContents().get(j).getRelevantRule() != null) {
+	                                if (compc.contains(s1.getContents().get(j).getRelevantRule())) {
+	                                    inhibited = true;
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	
+	                 if (!inhibited) {
+	                	 
+	                    if (build(s1.getRule(),s1)) {
+	                        if (r.getRight().size() == 1)
+	                            if (associateds.contains(content.get(0)))
+	                                associateds.add(s1);
+	                        if (r.getRelevant() != -1)
+	                            if (associateds.contains(content.get(r.getRelevant())))
+	                                associateds.add(s1);
+	                        symbols.add(s1);
+	                        ret.add(s1);
+	                        for (int j = 0;j < s1.getContents().size();j++) {
+	                            addUses(s1,s1.getContents().get(j));
+	                        }
+	                        storeMetadata(s1);
+	                    }
+	                }
                 }
             }
         }
