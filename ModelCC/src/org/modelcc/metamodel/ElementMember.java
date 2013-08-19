@@ -160,6 +160,14 @@ public class ElementMember implements Serializable {
 		this.prefix = prefix;
 	}
 
+	public void setSuffix(List<PatternRecognizer> suffix) {
+		this.suffix = suffix;
+	}
+
+	public void setSeparator(List<PatternRecognizer> separator) {
+		this.separator = separator;
+	}
+
 
     
 }
