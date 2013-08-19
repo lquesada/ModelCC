@@ -18,6 +18,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
+@Prefix("(?i)prefix")
 public class PrefixElementConstraint extends ElementConstraint implements IModel,Serializable {
 
 	//TODO implement 

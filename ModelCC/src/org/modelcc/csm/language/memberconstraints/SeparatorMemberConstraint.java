@@ -19,6 +19,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
+@Prefix("(?i)separator")
 public class SeparatorMemberConstraint extends MemberConstraint implements IModel,Serializable {
 
 	//TODO implement 

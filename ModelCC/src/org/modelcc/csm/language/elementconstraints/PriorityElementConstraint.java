@@ -18,6 +18,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
+@Prefix("(?i)priority")
 public class PriorityElementConstraint extends ElementConstraint implements IModel,Serializable {
 
 	//TODO implement 

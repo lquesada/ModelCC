@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
+import org.modelcc.csm.language.MemberMappingComponent;
 import org.modelcc.io.ModelReader;
 import org.modelcc.metamodel.*;
 import org.modelcc.probabilistic.InvalidProbabilityValueException;
@@ -1716,6 +1717,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 					}
 				}
 			}
+
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
 				boolean anything = false;
@@ -1730,24 +1732,23 @@ public class JavaModelReader extends ModelReader implements Serializable {
 				if (!anything)
 					return true;
 			}
+
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
 				boolean anything = false;
 				if (!em.isOptional()) {
 					ModelElement emc = classToElement.get(em.getElementClass());
-					if ((!ComplexModelElement.class.isAssignableFrom(emc.getClass()))) {
-						Set<ModelElement> history2 = new HashSet<ModelElement>();
-						history2.addAll(history);
-						history2.add(es);
-						if (!canMatchEmptyString(emc,subclasses,classToElement,history2)) {
-							anything = true;
-							return false;
-						}
+					Set<ModelElement> history2 = new HashSet<ModelElement>();
+					history2.addAll(history);
+					history2.add(es);
+					if (!canMatchEmptyString(emc,subclasses,classToElement,history2)) {
+						anything = true;
 					}
 				}
 				if (!anything)
 					return true;
 			}
+
 
 		}
 		return false;

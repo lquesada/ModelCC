@@ -18,6 +18,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
+@Prefix("(?i)suffix")
 public class SuffixElementConstraint extends ElementConstraint implements IModel,Serializable {
 
 	//TODO implement 

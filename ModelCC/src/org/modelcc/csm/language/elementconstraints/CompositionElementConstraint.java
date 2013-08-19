@@ -18,6 +18,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
+@Prefix("(?i)composition")
 public class CompositionElementConstraint extends ElementConstraint implements IModel,Serializable {
 
 	//TODO implement 
