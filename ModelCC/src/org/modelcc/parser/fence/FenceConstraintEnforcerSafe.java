@@ -409,6 +409,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             //System.out.println("------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
             mapped.put(ps,hs);
             Set<Symbol> ss = fixEmpties(s);
+            if (ss.isEmpty())
+            	ss.add(s);
             for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
             	Symbol s1 = ite.next();
                 s1.setUserData(ps.getUserData());
@@ -437,6 +439,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             
             mapped.put(ps,hs);
             Set<Symbol> ss = fixEmpties(s);
+            if (ss.isEmpty())
+            	ss.add(s);
             for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
             	Symbol s1 = ite.next();
                 s1.setUserData(ps.getUserData());
@@ -522,38 +526,64 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
     private Set<Symbol> fixEmpties(Symbol s) {
     	
-    	//TODO
-    	Set<Symbol> ret = new HashSet<Symbol>();
+    	System.out.println("Ay hooo "+s.getType());
+    	System.out.println("contenidos "+s.getContents());
+    	if (!s.getContents().isEmpty()) {
+        	Set<Symbol> ret = new HashSet<Symbol>();
+    		ret.add(s);
+    		return ret;
+    	}
+    	if (pg.getGrammar().getEmptyRules().containsKey(s.getType())) {
+    		System.out.println("Está en empty rules");
+    		Set<Object> rules = pg.getGrammar().getEmptyRules().get(s.getType());
+    		if (rules == null) {
+        		System.out.println("Está ahí por gusto");
+            	Set<Symbol> ret = new HashSet<Symbol>();
+        		return ret;
+        	}
+    		else {
+            	Set<Symbol> ret = new HashSet<Symbol>();
+    			for (Iterator<Object> iter = rules.iterator();iter.hasNext();) {
+    				Object type = iter.next();
+    				System.out.println("FOUND "+type);
+    				Symbol sn = new Symbol(id.val,new ParsedSymbol(type,-1,-1,""));
+    				System.out.println("RECURSIVE IN");
+    	            Set<Symbol> ss = fixEmpties(sn);
+    				System.out.println("RECURSIVE OUT");
+    	            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
+    	            	Symbol s1 = ite.next();
+    	                //s1.setUserData(s.getParsedSymbol().getUserData());
+    		            if (build(s1)) {
+    		                id.val++;
+    		                symbols.add(s1);
+    		                storeMetadata(s1);
 
-		ret.add(s);
-		/*
-    	if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
-    		Set<Object> rules = pg.getGrammar().getEmptyRules().get(r.getRight().get(i).getType());
-        	if (rules==null) {
-                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
-                nl.addAll(act.getSymbols());
-                nl.add(null);
-                ExpandTuple n = new ExpandTuple(r, nl);
-                searchTuples(ps,tuples,r,i+1,ps2,n);
-        	}
-        	else {
-                for (Iterator<Object> ite = rules.iterator();ite.hasNext();) {
-                	Object id = ite.next();
-	                List<ParsedSymbol> nl = new ArrayList<ParsedSymbol>();
-	                ParsedSymbol nps = new ParsedSymbol(id,-1,-1,"");
-	                for (Iterator<ParsedSymbol> itep = fixEmpties(nps).iterator();itep.hasNext();) {
-	                	ParsedSymbol npsp = itep.next();
-		                nl.addAll(act.getSymbols());
-		                nl.add(npsp);
-		                ExpandTuple n = new ExpandTuple(r, nl);
-		                searchTuples(ps,tuples,r,i+1,ps2,n);
-	                }
-                }
-        	}
-        }
-*/
-    	
-		return ret;
+    		                List<RuleElement> elements = new ArrayList<RuleElement>();
+    		                elements.add(new RuleElement(type)); //Position?
+    		                List<Symbol> contents = new ArrayList<Symbol>();
+    		                contents.add(s1);
+    		                Symbol snew = new Symbol(id.val,sn.getParsedSymbol(),pg.getGrammar().getEmptyRuleRules().get(type),pg.getGrammar().getEmptyRuleRules().get(type),elements,contents);
+    		                //snew.setUserData(s.getParsedSymbol().getUserData());
+        		            if (build(pg.getGrammar().getEmptyRuleRules().get(type),snew)) {
+        		            	id.val++;
+        		            	symbols.add(snew);
+        		            	storeMetadata(snew);
+        		            	System.out.println("ACABO DE DEVOLVER UN "+s.getParsedSymbol().getType()+"   con "+s1.getType()+"  "+pg.getGrammar().getEmptyRuleRules().get(type));
+        		            	ret.add(snew);
+        		            }
+    		            }
+    	            }
+    				id.val++;
+    			}
+            	ret.add(s);
+    			return ret;
+    		}
+    	}
+    	else {
+        	Set<Symbol> ret = new HashSet<Symbol>();
+    		ret.add(s);
+    		return ret;
+    	}
 	}
 
 	private Set<ExpandTuple> searchAllTuples(ParsedSymbol ps) {
@@ -683,6 +713,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             return;
         }
         else {
+        	//TODO quita esto?
         	if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
         		Set<Object> rules = pg.getGrammar().getEmptyRules().get(r.getRight().get(i).getType());
             	if (rules==null) {
