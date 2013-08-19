@@ -36,6 +36,7 @@ public class PrefixMemberConstraint extends MemberConstraint implements IModel,S
 
     @Prefix("=")
     @Minimum(0)
+    @Separator(",")
     private List<QuotedStringModel> prefixes;
  
 	@Override

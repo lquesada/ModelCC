@@ -178,4 +178,16 @@ public abstract class ModelElement implements Serializable {
     	return probabilityEvaluator;
     }
 
+	public void setPrefix(List<PatternRecognizer> prefix) {
+		this.prefix = prefix;
+	}
+
+	public void setSuffix(List<PatternRecognizer> suffix) {
+		this.suffix = suffix;
+	}
+
+	public void setSeparator(List<PatternRecognizer> separator) {
+		this.separator = separator;
+	}
+
 }
