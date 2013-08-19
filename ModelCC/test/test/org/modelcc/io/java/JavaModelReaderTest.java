@@ -1558,7 +1558,7 @@ public class JavaModelReaderTest {
         assertEquals(1,result.size());
     }
 
-
+/*
     @Test
     public void EmptyMultipleTest() throws ParserException {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
@@ -1594,7 +1594,7 @@ public class JavaModelReaderTest {
 			
 		}
     }
-
+*/
     @Test
     public void PrefixLoopTest() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
