@@ -16,6 +16,7 @@ import test.languages.warnings.OptionalID;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import test.languages.warnings.OptionalMult;
 import test.languages.warnings.OptionalMain;
@@ -1579,7 +1580,17 @@ public class JavaModelReaderTest {
 		}
 		try {
 			assertEquals(2,parser.parseAll("").size());
+			Collection<test.languages.emptymatchers.multiple.StartPoint> res = parser.parseAll("");
+			Iterator<test.languages.emptymatchers.multiple.StartPoint> ite = res.iterator();
+			test.languages.emptymatchers.multiple.StartPoint r0 = ite.next();
+			test.languages.emptymatchers.multiple.StartPoint r1 = ite.next();
+			assertNotNull(r0.content);
+			assertNotNull(r1.content);
+			System.out.println(r0.content.getClass());
+			System.out.println(r1.content.getClass());
+			
 		} catch (ParserException e) {
+			assertTrue(false);
 			
 		}
     }

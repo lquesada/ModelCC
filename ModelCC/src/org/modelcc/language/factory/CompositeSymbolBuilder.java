@@ -63,6 +63,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
      */
     @Override
     public boolean build(Symbol t,Object data) {
+    	System.out.println("PUT THE LIME IN THE COCONUT FOR "+t.getType());
         Map<Class,Map<KeyWrapper,Object>> ids = ((ModelCCParserData)data).getIds();
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         ElementId eid = (ElementId)t.getType();
@@ -75,14 +76,16 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
             o = c.newInstance();
             Set<RuleElement> proc = new HashSet<RuleElement>();
             Set<Field> filled = new HashSet<Field>();
+            System.out.println("ELEMENTS "+t.getElements().size());
             for (int i = 0;i < t.getElements().size();i++) {
                 Symbol s = t.getContents().get(i);
                 RuleElement re = t.getElements().get(i);
                 proc.add(re);
+                System.out.println("ACTUAL "+re.getType());
                 if (re.getClass().equals(RuleElementPosition.class)) {
                     ElementMember ct = (ElementMember)((RuleElementPosition)re).getPositionId();
                     Field fld = FieldFinder.findField(c,ct.getField());
-                    filled.add(fld);
+                    System.out.println("MARCO COMO FILLED "+fld.getName());
                     Object list;
                     Method addm;
                     int j;
@@ -90,9 +93,14 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                     if (fld != null) {
                         fld.setAccessible(true);
                         if (!ct.getClass().equals(MultipleElementMember.class)) {
-                            fld.set(o,s.getUserData());
+                        	Object content = s.getUserData();
+                            fld.set(o,content);
+                            if (content!=null)
+                            	filled.add(fld);
+                            System.out.println("Y LO PONGO AAAA "+content);
                         }
                         else {
+                        	filled.add(fld);
                             MultipleElementMember mc = (MultipleElementMember)ct;
                             ListContents listContents = (ListContents) s.getUserData();
                             listData = listContents.getL();

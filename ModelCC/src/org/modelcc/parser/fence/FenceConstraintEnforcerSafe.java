@@ -413,8 +413,10 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             	ss.add(s);
             for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
             	Symbol s1 = ite.next();
+            	System.out.println("ASSIGNING "+s1.getType()+"  "+ps.getType()+"  "+ps.getUserData());
                 s1.setUserData(ps.getUserData());
 	            if (build(s1)) {
+            		System.out.println("1Symbol  "+s1+"   "+s1.getUserData());
 	                id.val++;
 	                symbols.add(s1);
 	                hs.add(s1);
@@ -445,6 +447,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             	Symbol s1 = ite.next();
                 s1.setUserData(ps.getUserData());
             	if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
+            		System.out.println("2Symbol  "+s1+"   "+s1.getUserData());
             		id.val++;
                 	symbols.add(s1);
 	                hs.add(s1);
@@ -526,56 +529,72 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
     private Set<Symbol> fixEmpties(Symbol s) {
     	
+    	System.out.println("");
+    	System.out.println("");
     	System.out.println("Ay hooo "+s.getType());
-    	System.out.println("contenidos "+s.getContents());
     	if (!s.getContents().isEmpty()) {
         	Set<Symbol> ret = new HashSet<Symbol>();
     		ret.add(s);
     		return ret;
     	}
     	if (pg.getGrammar().getEmptyRules().containsKey(s.getType())) {
-    		System.out.println("Está en empty rules");
     		Set<Object> rules = pg.getGrammar().getEmptyRules().get(s.getType());
     		if (rules == null) {
-        		System.out.println("Está ahí por gusto");
             	Set<Symbol> ret = new HashSet<Symbol>();
+            	ret.add(s);
         		return ret;
         	}
     		else {
             	Set<Symbol> ret = new HashSet<Symbol>();
+            	ret.add(s);
+            	/*
     			for (Iterator<Object> iter = rules.iterator();iter.hasNext();) {
     				Object type = iter.next();
-    				System.out.println("FOUND "+type);
+    				//System.out.println("FOUND "+type+"  "+rules);
     				Symbol sn = new Symbol(id.val,new ParsedSymbol(type,-1,-1,""));
-    				System.out.println("RECURSIVE IN");
+    				//System.out.println("RECURSIVE IN");
     	            Set<Symbol> ss = fixEmpties(sn);
-    				System.out.println("RECURSIVE OUT");
-    	            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
-    	            	Symbol s1 = ite.next();
-    	                //s1.setUserData(s.getParsedSymbol().getUserData());
-    		            if (build(s1)) {
-    		                id.val++;
-    		                symbols.add(s1);
-    		                storeMetadata(s1);
-
-    		                List<RuleElement> elements = new ArrayList<RuleElement>();
-    		                elements.add(new RuleElement(type)); //Position?
-    		                List<Symbol> contents = new ArrayList<Symbol>();
-    		                contents.add(s1);
-    		                Symbol snew = new Symbol(id.val,sn.getParsedSymbol(),pg.getGrammar().getEmptyRuleRules().get(type),pg.getGrammar().getEmptyRuleRules().get(type),elements,contents);
-    		                //snew.setUserData(s.getParsedSymbol().getUserData());
-        		            if (build(pg.getGrammar().getEmptyRuleRules().get(type),snew)) {
-        		            	id.val++;
-        		            	symbols.add(snew);
-        		            	storeMetadata(snew);
-        		            	System.out.println("ACABO DE DEVOLVER UN "+s.getParsedSymbol().getType()+"   con "+s1.getType()+"  "+pg.getGrammar().getEmptyRuleRules().get(type));
-        		            	ret.add(snew);
-        		            }
-    		            }
+    	            if (ss.size()==0)
+    	            	ret.add(s);
+    	            else if (ss.size()==1)
+    	            	ret.add(s);
+    	            else {
+    	            	
+    	                System.out.println("MORE "+ss.size());
+	    	            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
+	    	            	Symbol s1 = ite.next();
+	    	            	//System.out.println("TIENE CONTENIDOS "+s1.getContents().size());
+	    	                //s1.setUserData(s.getParsedSymbol().getUserData());
+	    	            	System.out.println("Vamos a ver el "+s1.getType());
+	    		            if (build(pg.getGrammar().getEmptyRuleRules().get(s1.getType()),s1)) {
+	    		            	System.out.println("SI");
+	    		                id.val++;
+	    		                symbols.add(s1);
+	    		                storeMetadata(s1);
+	
+	    		                List<RuleElement> elements1 = new ArrayList<RuleElement>();
+	    		                elements1.add(new RuleElement(type)); //Position?
+	    		                List<Symbol> contents1 = new ArrayList<Symbol>();
+	    		                contents1.add(s1);
+	    		                Symbol snew = new Symbol(id.val,s.getParsedSymbol(),pg.getGrammar().getEmptyRuleRules().get(type),pg.getGrammar().getEmptyRuleRules().get(type),elements1,contents1);
+	    		                System.out.println("VOY A GENERAR AL BICHO ESTE"+snew.getType());
+	    		                snew.setUserData(s.getParsedSymbol().getUserData());
+	//        		            if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),snew)) {
+	//        		            	id.val++;
+	//        		            	symbols.add(snew);
+	//        		            	storeMetadata(snew);
+	        		            	//System.out.println("ACABO DE DEVOLVER UN "+snew.getType()+"   con "+s1.getType()+"  "+pg.getGrammar().getEmptyRuleRules().get(type));
+	    		            	ret.add(snew);
+	//        		            }
+	    		            }
+	    	            }
+	    	            id.val++;
     	            }
-    				id.val++;
     			}
-            	ret.add(s);
+            	System.out.println("I WOULD RETURN "+s.getType());
+    			System.out.println("FINALLY RETURNING "+ret+" FOR"+s.getType());
+    			System.out.println("FINALLY RETURNING "+ret.iterator().next().getType()+" FOR"+s.getType());
+    			*/
     			return ret;
     		}
     	}
@@ -882,6 +901,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 	                 if (!inhibited) {
 	                	 
 	                    if (build(s1.getRule(),s1)) {
+	                		System.out.println("3Symbol  "+s1+"   "+s1.getUserData());
 	                        if (r.getRight().size() == 1)
 	                            if (associateds.contains(content.get(0)))
 	                                associateds.add(s1);
