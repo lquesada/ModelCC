@@ -1276,6 +1276,19 @@ public class JavaModelReaderTest {
     }
 
     @Test
+    public void modelWrongEmptyTest() {
+        Logger lg = Logger.getLogger(JavaModelReader.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.emptymatchers.multiple.StartPoint.class);
+        if (m == null) {
+            assertFalse(true);
+            return;
+        }
+        assertEquals(2,c.getCount());
+    }
+    
+    @Test
     public void NotIModelTest() {
         JavaModelReader jmr = new JavaModelReader(WrongClass22.class);
         try {

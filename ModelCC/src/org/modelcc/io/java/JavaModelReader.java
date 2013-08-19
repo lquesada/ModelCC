@@ -1611,7 +1611,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
     private void findDefaultElements(Set<ModelElement> elements,Map<Class,ModelElement> classToElement,Map<ModelElement,Set<ModelElement>> subclasses,Map<ModelElement, Set<ModelElement>> defaultElement) {
     	for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
     		ModelElement e = ite.next();
-    		Set<ModelElement> defaultElements = null;
+    		Set<ModelElement> defaultElements = defaultElement.get(e);
     		if (Modifier.isAbstract(e.getElementClass().getModifiers())) {
     			if (subclasses.containsKey(e)) {
 	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
@@ -1627,6 +1627,17 @@ public class JavaModelReader extends ModelReader implements Serializable {
     		if (defaultElements != null)
     			defaultElement.put(e, defaultElements);
     			defaultElements = null;
+    	}
+    	for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
+    		ModelElement e = ite.next();
+    		Set<ModelElement> defaultElements = defaultElement.get(e);
+    		if (defaultElements != null) {
+    			if (defaultElements.size()>1) {
+    				for (Iterator<ModelElement> iten = defaultElements.iterator();iten.hasNext();) {
+                        log(Level.SEVERE, "In class \"{0}\": Multiple empty matching patterns: {1}.", new Object[]{e.getElementClass().getCanonicalName(), iten.next().getElementClass().getCanonicalName()});
+    				}
+    			}
+    		}
     	}
 	}
 
