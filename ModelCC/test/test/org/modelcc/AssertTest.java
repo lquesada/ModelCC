@@ -5,12 +5,18 @@
 
 package test.org.modelcc;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Test;
 import org.modelcc.io.java.JavaModelReader;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.Model;
+import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserFactory;
 
 import test.languages.arithmeticcalculator.Expression;
 
@@ -30,19 +36,56 @@ public class AssertTest {
         try {
 
             Model model = JavaModelReader.read(Expression.class);
+            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+            se.add(new RegExpPatternRecognizer(" "));
+            Parser<Expression> parser = ParserFactory.create(model,se);
 
-            assertValid(model,"1+2");
-            
+            assertValid(parser,"1+2");
+            assertValid(parser,"1+ 2");
+            assertInvalid(parser,"a1+2");
+            assertAmbiguityFree(parser,"1+2");
+            assertInterpretations(1,parser,"1+2+5");
+
         } catch (Exception ex) {
-            Logger.getLogger(AssertTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
             return;
         }
 
+
+        {
+            Model model;
+            Parser<Expression> parser;
+            try {
+				model = JavaModelReader.read(Expression.class);
+	            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+	            se.add(new RegExpPatternRecognizer(" "));
+	            parser = ParserFactory.create(model,se);
+			} catch (Exception e) {
+				assertFalse(true);
+				return;
+			}
+	
+	        try {
+	            assertInvalid(parser,"1+2");
+	            assertFalse(true);
+	        } catch (AssertionError ex) {
+	        }
+
+	        try {
+	            assertValid(parser,"ab");
+	            assertFalse(true);
+	        } catch (AssertionError ex) {
+	        }
+
+	        try {
+	            assertInterpretations(2,parser,"1+2+5");
+	            assertFalse(true);
+	        } catch (AssertionError ex) {
+	        }
+
+        }
+
     }
-      
+
 }
-
-
-
 
