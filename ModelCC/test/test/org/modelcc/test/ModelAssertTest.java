@@ -3,7 +3,7 @@
  */
 
 
-package test.org.modelcc;
+package test.org.modelcc.test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,14 +19,14 @@ import org.modelcc.parser.ParserFactory;
 import test.languages.arithmeticcalculator.Expression;
 
 import static org.junit.Assert.*;
-import static org.modelcc.Assert.*;
+import static org.modelcc.test.ModelAssert.*;
 
 /**
  *
  *
  * @author elezeta
  */
-public class AssertTest {
+public class ModelAssertTest {
 
     @Test
     public void AssertTest1() {
@@ -34,9 +34,7 @@ public class AssertTest {
         try {
 
             Model model = JavaModelReader.read(Expression.class);
-            Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
-            se.add(new RegExpPatternRecognizer(" "));
-            Parser<Expression> parser = ParserFactory.create(model,se);
+            Parser<Expression> parser = ParserFactory.create(model,ParserFactory.WHITESPACE);
 
             assertValid(parser,"1+2");
             assertValid(parser,"1+ 2");

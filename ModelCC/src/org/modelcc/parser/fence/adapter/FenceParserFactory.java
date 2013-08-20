@@ -6,6 +6,7 @@
 package org.modelcc.parser.fence.adapter;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -24,6 +25,8 @@ import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.lamb.Lamb;
 import org.modelcc.lexer.lamb.adapter.LambLexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExps;
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.ParserFactory;
 

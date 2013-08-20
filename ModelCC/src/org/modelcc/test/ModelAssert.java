@@ -3,7 +3,7 @@
  */
 
 
-package org.modelcc;
+package org.modelcc.test;
 
 import java.util.Collection;
 
@@ -14,14 +14,14 @@ import org.modelcc.parser.Parser;
  * @author elezeta
  * @serial
  */
-public class Assert {
+public class ModelAssert {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    private Assert() { }
+    private ModelAssert() { }
 
     public static void assertValid(Parser parser,String string) {
     	boolean exception = false;
