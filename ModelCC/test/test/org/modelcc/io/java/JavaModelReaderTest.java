@@ -35,6 +35,7 @@ import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
 import org.modelcc.probabilistic.NumericProbabilityEvaluator;
+import org.modelcc.tools.RuntimeSubclassFinder;
 
 import test.languages.testlanguage.*;
 import org.modelcc.AssociativityType;
@@ -147,13 +148,12 @@ public class JavaModelReaderTest {
 
     @Test
     public void runTimeFindSubClassesCheck1() {
-        JavaModelReader jmr = new JavaModelReader(this.getClass());
         Method m;
         try {
             Class[] args = new Class[2];
             args[0] = String.class;
             args[1] = Class.class;
-            m = jmr.getClass().getDeclaredMethod("runTimeFindSubclasses", args);
+            m = RuntimeSubclassFinder.class.getDeclaredMethod("runTimeFindSubclasses", args);
         } catch (NoSuchMethodException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -168,7 +168,7 @@ public class JavaModelReaderTest {
         
         Set<Class> classes;
         try {
-            classes = (Set<Class>) m.invoke(jmr,Expression.class.getPackage().getName(),Expression.class);
+            classes = (Set<Class>) m.invoke(RuntimeSubclassFinder.class,Expression.class.getPackage().getName(),Expression.class);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -196,13 +196,12 @@ public class JavaModelReaderTest {
 
     @Test
     public void runTimeFindSubClassesCheck2() {
-        JavaModelReader jmr = new JavaModelReader(this.getClass());
         Method m;
         try {
             Class[] args = new Class[2];
             args[0] = String.class;
             args[1] = Class.class;
-            m = jmr.getClass().getDeclaredMethod("runTimeFindSubclasses", args);
+            m = RuntimeSubclassFinder.class.getDeclaredMethod("runTimeFindSubclasses", args);
         } catch (NoSuchMethodException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -217,7 +216,7 @@ public class JavaModelReaderTest {
 
         Set<Class> classes;
         try {
-            classes = (Set<Class>) m.invoke(jmr,LiteralExpression.class.getPackage().getName(),LiteralExpression.class);
+            classes = (Set<Class>) m.invoke(RuntimeSubclassFinder.class,LiteralExpression.class.getPackage().getName(),LiteralExpression.class);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -247,13 +246,12 @@ public class JavaModelReaderTest {
 
     @Test
     public void runTimeFindSubClassesCheck3() {
-        JavaModelReader jmr = new JavaModelReader(this.getClass());
         Method m;
         try {
             Class[] args = new Class[2];
             args[0] = String.class;
             args[1] = Class.class;
-            m = jmr.getClass().getDeclaredMethod("runTimeFindSubclasses", args);
+            m = RuntimeSubclassFinder.class.getDeclaredMethod("runTimeFindSubclasses", args);
         } catch (NoSuchMethodException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
@@ -268,7 +266,7 @@ public class JavaModelReaderTest {
 
         Set<Class> classes;
         try {
-            classes = (Set<Class>) m.invoke(jmr,NestedInherits.A.class.getPackage().getName(),NestedInherits.A.class);
+            classes = (Set<Class>) m.invoke(RuntimeSubclassFinder.class,NestedInherits.A.class.getPackage().getName(),NestedInherits.A.class);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
