@@ -189,4 +189,68 @@ public class CSMTest {
         	assertEquals("",((RegExpPatternRecognizer)((BasicModelElement)m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.IntegerLiteral.class)).getPattern()).getRegExp());
     }
 
+    @Test
+    public void CSMTest16() {
+    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiteral,BinaryOperator;");
+        	assertTrue(m2.getPrecedences().get(m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.IntegerLiteral.class)).contains(m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.RealLiteral.class)));
+        	assertTrue(m2.getPrecedences().get(m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.IntegerLiteral.class)).contains(m2.getClassToElement().get(test.languages.arithmeticcalculator.BinaryOperator.class)));
+    }
+
+    @Test
+    public void CSMWrongTest1() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiterl;");
+    }
+    @Test
+    public void CSMWrongTest2() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"IntegerLiteral precedes=IntegerLiteral;");
+    }
+
+    @Test
+    public void CSMWrongTest3() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiteral;RealLiteral precedes=BinaryOperator;BinaryOperator precedes=IntegerLiteral;");
+    }
+
+    @Test
+    public void CSMWrongTest4() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"ClassDup prefix=\"a\";");
+    }
+
+    @Test
+    public void CSMWrongTest5() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main precedes=ClassDup2;");
+    }
+
+    @Test
+    public void CSMWrongTest6() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Maan precedes=ClassDup2;");
+    }
+
+    @Test
+    public void CSMWrongTest7() {
+    	//TODO detecta 1
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[okx] prefix=\"a\";");
+    }
+
 }

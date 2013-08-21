@@ -12,8 +12,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.modelcc.csm.CSM;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 
 /**
@@ -174,6 +180,91 @@ public final class Model implements Serializable,Cloneable {
 
                 }
         }
+    }
+
+	public void addPrecedence(ModelElement me, ModelElement other) {
+		Set<ModelElement> precs1 = precedences.get(me);
+		if (precs1 == null) {
+			precs1 = new HashSet<ModelElement>();
+			precedences.put(me,precs1);
+		}
+		precs1.add(other);
+		Set<ModelElement> precs2 = precedences.get(other);
+		if (precs2 != null) {
+			precs2.remove(me);
+			if (precs2.isEmpty())
+				precedences.remove(other);
+		}
+		if (!checkPrecedences())
+			addPrecedence(other,me);
+	}
+
+    private boolean checkPrecedences() {
+        Set<ModelElement> pool = new HashSet<ModelElement>();
+        pool.addAll(elements);
+
+
+        // -------------
+        // Generate specification
+        // -------------
+
+        {
+
+            // INITIALIZATION
+            // --------------
+
+            // Token specifications preceded by any token specification in the pool.
+            Set<ModelElement> precededs;
+
+            // Auxiliar variables.
+            Iterator<ModelElement> ite;
+            Iterator<ModelElement> ite2;
+            ModelElement ts;
+            ModelElement ts2;
+            Set<ModelElement> pset;
+
+            // Whether if any new token specification has been added to the sorted list.
+            boolean found;
+
+            // List of conflicting elements.
+            String list;
+
+            // PROCEDURE
+            // --------------
+
+            while (!pool.isEmpty()) {
+
+                found = false;
+
+                // Update precededs list.
+                precededs = new HashSet<ModelElement>();
+                for (ite = pool.iterator();ite.hasNext();) {
+                    ts = ite.next();
+                    pset = precedences.get(ts);
+                    if (pset != null) {
+                        precededs.addAll(pset);
+                    }
+                }
+
+                // Adds news unprecededs.
+                for (ite = pool.iterator();ite.hasNext();) {
+                    ts = ite.next();
+                    if (!precededs.contains(ts)) {
+                        ite.remove();
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    list = new String();
+                    for (ite = pool.iterator();ite.hasNext();)
+                        list += " "+ite.next().getElementClass().getCanonicalName();
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, "Cyclic precedence exception:{0}.", new Object[]{list.toString()});
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
