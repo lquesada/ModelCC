@@ -9,29 +9,31 @@ import java.io.Serializable;
 import org.modelcc.*;
 
 import org.modelcc.csm.language.ElementConstraint;
+import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
+import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.types.BooleanModel;
+import org.modelcc.types.QuotedStringModel;
 
 /**
- * Element Constraint class.
+ * Pattern value class.
  * @author elezeta
  * @serial
  */
-@Prefix("(?i)position")
-public class PositionElementConstraint extends ElementConstraint implements IModel,Serializable {
+public class RegExpPatternValue extends PatternValue implements IModel,Serializable {
 
-	//TODO implement 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    //TODO
-    BooleanModel a;
+    private QuotedStringModel regExp;
     
-	@Override
-	public void apply(Model m, ModelElement me) {
-	}
+    @Override
+    public PatternRecognizer getPattern() {
+    	return new RegExpPatternRecognizer(regExp.getValue());
+    }
     
 }

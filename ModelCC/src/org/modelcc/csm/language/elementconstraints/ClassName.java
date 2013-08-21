@@ -3,18 +3,18 @@
  */
 
 
-package org.modelcc.csm.language;
+package org.modelcc.csm.language.elementconstraints;
 
 import java.io.Serializable;
 import org.modelcc.*;
 
 /**
- * Element Name class.
+ * Class Name class.
  * @author elezeta
  * @serial
  */
 @Pattern(regExp="[a-zA-Z0-9\\_\\-\\.\\$]+")
-public class ElementName implements IModel,Serializable {
+public class ClassName implements IModel,Serializable {
 
     /**
      * Serial Version ID

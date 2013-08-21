@@ -39,6 +39,8 @@ import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.tools.FieldFinder;
+import org.modelcc.tools.PrimitiveClasses;
+import org.modelcc.tools.RuntimeSubclassFinder;
 import org.modelcc.*;
 import org.modelcc.io.DefaultFilter;
 import org.modelcc.io.WarningExportHandler;
@@ -353,7 +355,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 String packageName = "";
                 if (act.getPackage() != null)
                     packageName = act.getPackage().getName();
-                extendeds = runTimeFindSubclasses(packageName,act);
+                extendeds = RuntimeSubclassFinder.runTimeFindSubclasses(packageName,act);
                 for (Iterator<Class<?>> ite = extendeds.iterator();ite.hasNext();) {
                     add = ite.next();
                     addClass(add, q, done);
@@ -373,79 +375,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
         done.remove(String.class);
 
         return done;
-    }
-
-    /**
-     * Detects all the classes that extend a class or implement an interface in a package.
-     * @param pckgname the package name
-     * @param tosubclass the class
-     * @return a set of extending classes
-     * @throws ClassNotFoundException
-     */
-    private Set<Class<?>> runTimeFindSubclasses(String pckgname, Class<?> tosubclass) throws ClassNotFoundException {
-
-        Set<Class<?>> ret = new HashSet<Class<?>>();
-
-        String name = pckgname;
-		if (!name.startsWith("/"))
-		    name = "/" + name;
-		name = name.replace('.','/');
-	
-	  	URL url = JavaModelReader.class.getResource(name);
-        if (url == null) {
-        	return ret;
-        }
-	
-		File directory = new File(url.getFile());
-        if (directory.exists()) { //class is in a directory
-		    String [] files = directory.list();
-		    for (int i=0;i<files.length;i++) {
-				if (files[i].endsWith(".class") && !files[i].contains("<error>")) {
-				    String classname = files[i].substring(0,files[i].length()-6);
-	                Class<?> newClass = getClass(pckgname+"."+classname);
-	                if (newClass != null) {
-	                    if (tosubclass.isAssignableFrom(newClass) && !tosubclass.equals(newClass)) {
-	                        ret.add(newClass);
-	                    }
-	                }
-				}
-                else {
-                    ret.addAll(runTimeFindSubclasses(pckgname+"."+files[i],tosubclass));
-                }
-		    }
-		} else { //class is in a jar file
-			JarInputStream jarFile;
-            try {
-            	jarFile = new JarInputStream(new FileInputStream(tosubclass.getProtectionDomain().getCodeSource().getLocation().toString().substring(5)));
-                JarEntry e;
-                e = jarFile.getNextJarEntry();
-                while (e != null) {
-                    try {
-                        String entryname = e.getName();
-                        if (entryname.endsWith(".class") && !entryname.contains("<error>")) {
-                            String classname = entryname.substring(0,entryname.length()-6);
-                            if (classname.startsWith("/")) {
-                                classname = classname.substring(1);
-                            }
-                            classname = classname.replace('/','.');
-                            Class<?> newClass = getClass(classname);
-                            if (newClass != null) {
-                                if (tosubclass.isAssignableFrom(newClass) && !tosubclass.equals(newClass)) {
-                                    ret.add(newClass);
-                                }
-                            }
-                        }
-                        e = jarFile.getNextJarEntry();
-                    } catch (Exception ex) {
-                        //ex.printStackTrace();
-                    }                    
-                }
-                jarFile.close();
-            } catch (Exception ex) {
-                //ex.printStackTrace();
-            }                        
-		}
-        return ret;
     }
 
     /**
@@ -483,26 +412,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
           return true;
         }
         return false;
-    }
-
-    /**
-     * Returns the Class object of a primitive or non-primitive class name.
-     * @param className the class name
-     * @return the Class object
-     * @throws ClassNotFoundException
-     */
-    private Class getClass(String className) throws ClassNotFoundException {
-        if (!className.contains(".")) {
-            if("int" .equals(className)) return int.class;
-            if("long".equals(className)) return long.class;
-            if("byte".equals(className)) return byte.class;
-            if("short".equals(className)) return short.class;
-            if("float".equals(className)) return float.class;
-            if("double".equals(className)) return double.class;
-            if("boolean".equals(className)) return boolean.class;
-            if("char".equals(className)) return char.class;
-        }
-        return Class.forName(className);
     }
 
     /**
@@ -1113,7 +1022,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 int fin = fname.length()-1;
                 if (ini < fin && fname.endsWith(">")) {
                     try {
-                        return getClass(fname.substring(ini, fin));
+                        return PrimitiveClasses.getClass(fname.substring(ini, fin));
                     } catch (ClassNotFoundException ex) {
                         return null;
                     }

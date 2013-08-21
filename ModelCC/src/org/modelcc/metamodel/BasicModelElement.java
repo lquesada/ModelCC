@@ -8,6 +8,7 @@ package org.modelcc.metamodel;
 import java.io.Serializable;
 import java.util.List;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.AssociativityType;
 import org.modelcc.metamodel.ModelElement;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
@@ -67,5 +68,9 @@ public final class BasicModelElement extends ModelElement implements Serializabl
     public String getValueField() {
         return valueField;
     }
+
+	public void setPatternRecognizer(PatternRecognizer pattern) {
+		this.pattern = pattern;
+	}
 
 }
