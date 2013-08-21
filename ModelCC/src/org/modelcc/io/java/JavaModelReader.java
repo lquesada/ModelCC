@@ -1526,6 +1526,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
     			if (subclasses.containsKey(e)) {
 	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
 	    	    		ModelElement es = ites.next();
+	    	    		//System.out.println(es.getElementClass().getName()+"  "+canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>()));
 	    	    		if (canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>())) {
 	    	    			if (defaultElements == null)
 	    	    				defaultElements = new HashSet<ModelElement>();
@@ -1555,14 +1556,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement,Set<ModelElement> history) {
 		if ((es.getPrefix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
-				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+				if (ite.next().read("",0) != null) {
 					return false;
 				}
 			}
 		}
 		if ((es.getSuffix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getSuffix().iterator();ite.hasNext();) {
-				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+				if (ite.next().read("",0) != null) {
 					return false;
 				}
 			}
@@ -1600,14 +1601,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 				if (!em.isOptional()) {
 					if (em.getPrefix()!=null) {
 						for (Iterator<PatternRecognizer> ite = em.getPrefix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+							if (ite.next().read("",0) == null) {
 								return false;
 							}
 						}
 					}
 					if (em.getSuffix()!=null) {
 						for (Iterator<PatternRecognizer> ite = em.getSuffix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+							if (ite.next().read("",0) == null) {
 								return false;
 							}
 						}
@@ -1617,7 +1618,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						if (mem.getMinimumMultiplicity()>0) {
 							if (em.getSeparator()!=null) {
 								for (Iterator<PatternRecognizer> ite = em.getSeparator().iterator();ite.hasNext();) {
-									if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) != null) {
+									if (ite.next().read("",0) == null) {
 										return false;
 									}
 								}
@@ -1678,15 +1679,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 			Map<ModelElement, Set<ModelElement>> subclasses) {
 		if ((es.getPrefix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
-				String pref = ite.next().getArg();
-				if (new RegExpPatternRecognizer(pref).read("",0) == null) {
+				if (ite.next().read("",0) == null) {
 					return;
 				}
 			}
 		}
 		if ((es.getSuffix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getSuffix().iterator();ite.hasNext();) {
-				if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+				if (ite.next().read("",0) == null) {
 					return;
 				}
 			}
@@ -1705,14 +1705,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						hasOrig = true;
 						if ((me.getPrefix()!=null)) {
 							for (Iterator<PatternRecognizer> ite2 = me.getPrefix().iterator();ite2.hasNext();) {
-								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+								if (ite2.next().read("",0) == null) {
 									hasOtherThanOrig = true;
 								}
 							}
 						}
 						if ((me.getSuffix()!=null)) {
 							for (Iterator<PatternRecognizer> ite2 = me.getSuffix().iterator();ite2.hasNext();) {
-								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+								if (ite2.next().read("",0) == null) {
 									hasOtherThanOrig = true;
 								}
 							}
@@ -1737,28 +1737,28 @@ public class JavaModelReader extends ModelReader implements Serializable {
 					ModelElement emca = classToElement.get(em.getElementClass());
 					if (emca.getPrefix()!=null) {
 						for (Iterator<PatternRecognizer> ite = emca.getPrefix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+							if (ite.next().read("",0) == null) {
 								return;
 							}
 						}
 					}
 					if (emca.getSuffix()!=null) {
 						for (Iterator<PatternRecognizer> ite = emca.getSuffix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+							if (ite.next().read("",0) == null) {
 								return;
 							}
 						}
 					}
 					if (em.getPrefix()!=null) {
 						for (Iterator<PatternRecognizer> ite = em.getPrefix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+							if (ite.next().read("",0) == null) {
 								return;
 							}
 						}
 					}
 					if (em.getSuffix()!=null) {
 						for (Iterator<PatternRecognizer> ite = em.getSuffix().iterator();ite.hasNext();) {
-							if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+							if (ite.next().read("",0) == null) {
 								return;
 							}
 						}
@@ -1768,7 +1768,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						if (mem.getMinimumMultiplicity()>0) {
 							if (em.getSeparator()!=null) {
 								for (Iterator<PatternRecognizer> ite = em.getSeparator().iterator();ite.hasNext();) {
-									if (new RegExpPatternRecognizer(ite.next().getArg()).read("",0) == null) {
+									if (ite.next().read("",0) == null) {
 										return;
 									}
 								}
@@ -1788,14 +1788,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						hasOrig = true;
 						if ((emm.getPrefix()!=null)) {
 							for (Iterator<PatternRecognizer> ite2 = emm.getPrefix().iterator();ite2.hasNext();) {
-								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+								if (ite2.next().read("",0) == null) {
 									hasOtherThanOrig = true;
 								}
 							}
 						}
 						if ((emm.getSuffix()!=null)) {
 							for (Iterator<PatternRecognizer> ite2 = emm.getSuffix().iterator();ite2.hasNext();) {
-								if (new RegExpPatternRecognizer(ite2.next().getArg()).read("",0) == null) {
+								if (ite2.next().read("",0) == null) {
 									hasOtherThanOrig = true;
 								}
 							}

@@ -6,6 +6,8 @@
 package org.modelcc.metamodel;
 
 import org.modelcc.AssociativityType;
+import org.modelcc.SeparatorPolicy;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,6 +171,10 @@ public abstract class ModelElement implements Serializable {
 	
 	public Map<ElementMember, PositionInfo> getPositions() {
 		return Collections.unmodifiableMap(positions);
+	}
+
+	public void setPosition(ElementMember thisMember,ElementMember otherMember,int[] position,SeparatorPolicy separatorPolicy) {
+		positions.put(thisMember,new PositionInfo(otherMember,position,separatorPolicy));
 	}
 
     /**

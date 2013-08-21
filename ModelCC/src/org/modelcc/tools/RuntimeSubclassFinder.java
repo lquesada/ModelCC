@@ -35,7 +35,6 @@ public class RuntimeSubclassFinder implements Serializable {
     	
     }
     
-
     /**
      * Detects all the classes that extend a class or implement an interface in a package.
      * @param pckgname the package name
