@@ -47,7 +47,7 @@ public class MemberMappingComponent extends MappingComponent implements IModel,S
 		try {
 			me = ModelElementFinder.findElement(model, elementId.getElementName().getName());
 		} catch (AmbiguousElementDefinitionException e) {
-			Logger.getLogger(MemberMappingComponent.class.getName()).log(Level.SEVERE,"Ambiguous element definition in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Ambiguous element definition in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
 			return;
 		}
 		if (me == null)
@@ -56,7 +56,7 @@ public class MemberMappingComponent extends MappingComponent implements IModel,S
 		try {
 			em = ElementMemberFinder.findMember(me, memberId.getMemberName().getName());
 		} catch (NotComplexElementException e) {
-			Logger.getLogger(MemberMappingComponent.class.getName()).log(Level.SEVERE,"Not complex element in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Not complex element in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
 			return;
 		}
 
@@ -65,7 +65,7 @@ public class MemberMappingComponent extends MappingComponent implements IModel,S
     			constraints.get(i).apply(model, me,em);
         	return;
     	}
-		Logger.getLogger(MemberMappingComponent.class.getName()).log(Level.SEVERE,"Member not found in element {0}: {1}",new Object[]{elementId.getElementName().getName(),memberId.getMemberName().getName()});
+		Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Member not found in element {0}: {1}",new Object[]{elementId.getElementName().getName(),memberId.getMemberName().getName()});
     }
     
 

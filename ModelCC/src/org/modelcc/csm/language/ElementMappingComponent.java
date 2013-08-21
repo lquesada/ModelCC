@@ -40,7 +40,7 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
 		try {
 			me = ModelElementFinder.findElement(model, elementId.getElementName().getName());
 		} catch (AmbiguousElementDefinitionException e) {
-			Logger.getLogger(ElementMappingComponent.class.getName()).log(Level.SEVERE,"Ambiguous element definition in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Ambiguous element definition in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
 			return;
 		}
     	if (me != null) { 
@@ -48,7 +48,7 @@ public class ElementMappingComponent extends MappingComponent implements IModel,
     			constraints.get(i).apply(model, me);
         	return;
     	}
-		Logger.getLogger(ElementMappingComponent.class.getName()).log(Level.SEVERE,"Element not found in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
+		Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Element not found in CSM mapping: {0}",new Object[]{elementId.getElementName().getName()});
     }
     
 }

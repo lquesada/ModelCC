@@ -14,9 +14,12 @@ import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.*;
 
 
+import java.util.logging.Filter;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -198,59 +201,107 @@ public class CSMTest {
         	assertTrue(m2.getPrecedences().get(m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.IntegerLiteral.class)).contains(m2.getClassToElement().get(test.languages.arithmeticcalculator.BinaryOperator.class)));
     }
 
+
+    private class CountFilter implements Filter {
+
+        boolean show;
+
+        private int count;
+
+        public CountFilter(boolean show) {
+            this.show = show;
+        }
+
+        @Override
+		public boolean isLoggable(LogRecord record) {
+            if (record.getLevel() == Level.SEVERE) {
+                count++;
+            }
+            if (show) {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        int getCount() { return count; }
+
+    }
+    
     @Test
     public void CSMWrongTest1() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiterl;");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"IntegerLiteral precedes=RealLiterl;");
+        assertEquals(1,c.getCount());
     }
     @Test
     public void CSMWrongTest2() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"IntegerLiteral precedes=IntegerLiteral;");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"IntegerLiteral precedes=IntegerLiteral;");
+        assertEquals(1,c.getCount());
     }
 
     @Test
     public void CSMWrongTest3() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiteral;RealLiteral precedes=BinaryOperator;BinaryOperator precedes=IntegerLiteral;");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"IntegerLiteral precedes=RealLiteral;RealLiteral precedes=BinaryOperator;BinaryOperator precedes=IntegerLiteral;");
+        assertEquals(1,c.getCount());
     }
 
     @Test
     public void CSMWrongTest4() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.dup.Main.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"ClassDup prefix=\"a\";");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.dup.Main.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"ClassDup prefix=\"a\";");
+        assertEquals(1,c.getCount());
     }
 
     @Test
     public void CSMWrongTest5() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.dup.Main.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"Main precedes=ClassDup2;");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.dup.Main.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"Main precedes=ClassDup2;");
+        assertEquals(1,c.getCount());
     }
 
     @Test
     public void CSMWrongTest6() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.dup.Main.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"Maan precedes=ClassDup2;");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.dup.Main.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"Maan precedes=ClassDup2;");
+        assertEquals(1,c.getCount());
     }
 
     @Test
     public void CSMWrongTest7() {
-    	//TODO detecta 1
-    		Model m = modelGen(test.languages.dup.Main.class);
-    		Model m2 = null;
-    		m2 = CSMapply(m,"Main[okx] prefix=\"a\";");
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+		Model m = modelGen(test.languages.dup.Main.class);
+		Model m2 = null;
+		m2 = CSMapply(m,"Main[okx] prefix=\"a\";");
+        assertEquals(1,c.getCount());
     }
 
 }

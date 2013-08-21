@@ -55,8 +55,13 @@ public class PrecedesElementConstraint extends ElementConstraint implements IMod
 	    	if (other != null) {
 	    		if (me.equals(other))
 		    		Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Precedence element is preceding element: {0}",new Object[]{othername.getElementName().getName()});
-	    		else
+	    		else {
 	    			m.addPrecedence(me,other);
+	    			if (!m.checkPrecedences()) {
+	    				m.addPrecedence(other,me);
+	                    Logger.getLogger(CSM.class.getName()).log(Level.SEVERE, "Cyclic precedence exception from element: {0}.",new Object[]{othername.getElementName().getName()});
+	    			}
+	    		}
 	    	}
 	    	else {
 	    		Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Element not found in CSM mapping: {0}",new Object[]{othername.getElementName().getName()});

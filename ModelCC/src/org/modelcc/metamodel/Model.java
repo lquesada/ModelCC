@@ -195,11 +195,9 @@ public final class Model implements Serializable,Cloneable {
 			if (precs2.isEmpty())
 				precedences.remove(other);
 		}
-		if (!checkPrecedences())
-			addPrecedence(other,me);
 	}
 
-    private boolean checkPrecedences() {
+    public boolean checkPrecedences() {
         Set<ModelElement> pool = new HashSet<ModelElement>();
         pool.addAll(elements);
 
@@ -259,7 +257,6 @@ public final class Model implements Serializable,Cloneable {
                     list = new String();
                     for (ite = pool.iterator();ite.hasNext();)
                         list += " "+ite.next().getElementClass().getCanonicalName();
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, "Cyclic precedence exception:{0}.", new Object[]{list.toString()});
                     return false;
                 }
             }
