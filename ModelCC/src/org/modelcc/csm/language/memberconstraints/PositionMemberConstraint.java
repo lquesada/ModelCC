@@ -46,7 +46,7 @@ public class PositionMemberConstraint extends MemberConstraint implements IModel
     MemberID memberId;
     
     @Prefix("\\(")
-    @Suffix("\\)")
+    @Suffix({"separator","\\)"})
     @Optional
     SeparatorPolicyModel separatorPolicy;
     

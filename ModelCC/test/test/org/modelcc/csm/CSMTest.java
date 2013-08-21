@@ -8,10 +8,13 @@ package test.org.modelcc.csm;
 
 import org.modelcc.AssociativityType;
 import org.modelcc.CompositionType;
+import org.modelcc.Position;
+import org.modelcc.SeparatorPolicy;
 import org.modelcc.csm.CSM;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.metamodel.*;
+import org.modelcc.tools.ElementMemberFinder;
 
 
 import java.util.logging.Filter;
@@ -201,7 +204,116 @@ public class CSMTest {
         	assertTrue(m2.getPrecedences().get(m2.getClassToElement().get(test.languages.arithmeticcalculator.expressions.literals.IntegerLiteral.class)).contains(m2.getClassToElement().get(test.languages.arithmeticcalculator.BinaryOperator.class)));
     }
 
+    @Test
+    public void CSMTest17() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=before:ok3;");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok3"),pi.getMember());
+    		assertEquals(1,pi.getPosition().length);
+    		assertEquals(Position.BEFORE,pi.getPosition()[0]);
+    		assertEquals(SeparatorPolicy.AFTER,pi.getSeparatorPolicy());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
 
+    @Test
+    public void CSMTest18() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=after:ok3;");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok3"),pi.getMember());
+    		assertEquals(1,pi.getPosition().length);
+    		assertEquals(Position.AFTER,pi.getPosition()[0]);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
+
+    @Test
+    public void CSMTest19() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=within,beforelast:ok4(before separator);");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok4"),pi.getMember());
+    		assertEquals(2,pi.getPosition().length);
+    		assertEquals(Position.WITHIN,pi.getPosition()[0]);
+    		assertEquals(Position.BEFORELAST,pi.getPosition()[1]);
+    		assertEquals(SeparatorPolicy.BEFORE,pi.getSeparatorPolicy());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
+
+    @Test
+    public void CSMTest20() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=within,beforelast:ok4(extra separator);");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok4"),pi.getMember());
+    		assertEquals(2,pi.getPosition().length);
+    		assertEquals(Position.WITHIN,pi.getPosition()[0]);
+    		assertEquals(Position.BEFORELAST,pi.getPosition()[1]);
+    		assertEquals(SeparatorPolicy.EXTRA,pi.getSeparatorPolicy());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
+
+    @Test
+    public void CSMTest21() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=within,beforelast:ok4(after separator);");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok4"),pi.getMember());
+    		assertEquals(2,pi.getPosition().length);
+    		assertEquals(Position.WITHIN,pi.getPosition()[0]);
+    		assertEquals(Position.BEFORELAST,pi.getPosition()[1]);
+    		assertEquals(SeparatorPolicy.AFTER,pi.getSeparatorPolicy());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
+
+    @Test
+    public void CSMTest22() {
+		try {
+    		Model m = modelGen(test.languages.dup.Main.class);
+    		Model m2 = null;
+    		m2 = CSMapply(m,"Main[ok1] position=within,beforelast:ok4(replace separator);");
+    		ComplexModelElement main = ((ComplexModelElement)m2.getClassToElement().get(test.languages.dup.Main.class));
+    		PositionInfo pi = main.getPositions().get(ElementMemberFinder.findMember(main,"ok1"));
+    		assertNotNull(pi);
+    		assertEquals(ElementMemberFinder.findMember(main,"ok4"),pi.getMember());
+    		assertEquals(2,pi.getPosition().length);
+    		assertEquals(Position.WITHIN,pi.getPosition()[0]);
+    		assertEquals(Position.BEFORELAST,pi.getPosition()[1]);
+    		assertEquals(SeparatorPolicy.REPLACE,pi.getSeparatorPolicy());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+    }
     private class CountFilter implements Filter {
 
         boolean show;

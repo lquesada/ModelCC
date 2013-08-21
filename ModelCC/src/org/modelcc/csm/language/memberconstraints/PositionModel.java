@@ -19,7 +19,7 @@ import org.modelcc.types.BooleanModel;
  * @author elezeta
  * @serial
  */
-@Pattern(regExp="(?i)before|after|within|beforelast")
+@Pattern(regExp="(?i)beforelast|before|after|within")
 public class PositionModel implements IModel,Serializable {
 
     /**

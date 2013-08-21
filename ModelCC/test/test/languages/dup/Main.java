@@ -19,5 +19,5 @@ public class Main implements IModel {
 
 	test.languages.dup.two.ClassDup ok3;
 	
-	test.languages.dup.two.ClassDup2 ok4;
+	test.languages.dup.two.ClassDup2[] ok4;
 }
