@@ -125,5 +125,8 @@ public final class ComplexModelElement extends ModelElement implements Serializa
         return Collections.unmodifiableMap(fieldToContent);
     }
 
-    
+	public void setComposition(CompositionType composition) {
+		this.composition = composition;
+	}
+	
 }

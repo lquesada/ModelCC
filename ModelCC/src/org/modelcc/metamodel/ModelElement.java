@@ -190,4 +190,8 @@ public abstract class ModelElement implements Serializable {
 		this.separator = separator;
 	}
 
+	public void setAssociativity(AssociativityType associativity) {
+		this.associativity = associativity;
+	}
+
 }

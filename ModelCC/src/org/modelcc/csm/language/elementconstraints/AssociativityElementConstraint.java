@@ -21,17 +21,24 @@ import org.modelcc.types.BooleanModel;
 @Prefix("(?i)associativity")
 public class AssociativityElementConstraint extends ElementConstraint implements IModel,Serializable {
 
-	//TODO implement 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    //TODO
-    BooleanModel a;
-    
+    @Prefix("=")
+    private AssociativityTypeModel value;
+
 	@Override
 	public void apply(Model m, ModelElement me) {
+		if (value.getValue().toLowerCase().equals("nonassociative"))
+			me.setAssociativity(AssociativityType.NON_ASSOCIATIVE);
+		if (value.getValue().toLowerCase().equals("lefttoright"))
+			me.setAssociativity(AssociativityType.LEFT_TO_RIGHT);
+		if (value.getValue().toLowerCase().equals("righttoleft"))
+			me.setAssociativity(AssociativityType.RIGHT_TO_LEFT);
+		if (value.getValue().toLowerCase().equals("undefined"))
+			me.setAssociativity(AssociativityType.UNDEFINED);
 	}
-    
+
 }
