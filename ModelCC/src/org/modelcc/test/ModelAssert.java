@@ -31,7 +31,7 @@ public class ModelAssert {
     		exception = true;
     	}
 		if (exception==true)
-			fail("Expected valid input, input was invalid.");
+			fail("Valid input expected but was invalid.");
     }
 
     public static void assertInvalid(Parser parser,String string) {
@@ -42,7 +42,7 @@ public class ModelAssert {
     		exception = true;
     	}
 		if (exception==false)
-			fail("Expected invalid input, input was valid.");
+			fail("Invalid input expected but was valid.");
     }
 
     public static void assertAmbiguityFree(Parser parser,String string) {
@@ -59,13 +59,13 @@ public class ModelAssert {
     	}
     	if (n == 0) {
     		if (exception==false)
-    			fail("Expected 0 interpretations, "+n+" were found.");
+    			fail("0 expected but was "+n+".");
     	}
     	else {
     		if (exception==true)
-    			fail("Expected "+n+" interpretations, 0 were found.");
+    			fail(n+" expected but was 0.");
     		if (ret.size()!=n)
-    			fail("Expected "+n+" interpretations, "+ret.size()+" were found.");
+    			fail(n+" expected but was "+ret.size()+".");
     	}
     }
 
