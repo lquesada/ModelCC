@@ -416,4 +416,47 @@ public class CSMTest {
         assertEquals(1,c.getCount());
     }
 
-}
+    @Test
+    public void CSMWrongTest8() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"IntegerLiteral pattern=(org.modelcc.lexer.recognizer.regexp.agsdgPatternRecognizer:\"[1-9]*\");");
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void CSMWrongTest9() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"BinaryExpression pattern=(org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer:\"[1-9]*\");");
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void CSMWrongTest10() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"IntegerLiteral freeorder=true;");
+        assertEquals(1,c.getCount());
+    }
+
+    @Test
+    public void CSMWrongTest11() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"IntegerLiteral composition=eager;");
+        assertEquals(1,c.getCount());
+    }
+    }

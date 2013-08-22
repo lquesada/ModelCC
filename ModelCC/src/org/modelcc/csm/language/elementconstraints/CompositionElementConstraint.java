@@ -6,8 +6,12 @@
 package org.modelcc.csm.language.elementconstraints;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.modelcc.*;
 
+import org.modelcc.csm.CSM;
 import org.modelcc.csm.language.ElementConstraint;
 import org.modelcc.metamodel.ComplexModelElement;
 import org.modelcc.metamodel.Model;
@@ -33,7 +37,7 @@ public class CompositionElementConstraint extends ElementConstraint implements I
 	@Override
 	public void apply(Model m, ModelElement me) {
 		if (!ComplexModelElement.class.isAssignableFrom(me.getClass())) {
-			//TODO error not valid.
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Composition type being changed for non complex model element {0}.",new Object[]{me.getElementClass().getCanonicalName()});
 		}
 		else {
 			ComplexModelElement cme = (ComplexModelElement)me;

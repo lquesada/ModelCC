@@ -8,9 +8,12 @@ package org.modelcc.csm.language.elementconstraints;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.modelcc.*;
 
+import org.modelcc.csm.CSM;
 import org.modelcc.csm.language.ElementConstraint;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
@@ -41,7 +44,7 @@ public class PatternElementConstraint extends ElementConstraint implements IMode
 	@Override
  	public void apply(Model m, ModelElement me) {
 		if (!BasicModelElement.class.isAssignableFrom(me.getClass())) {
-			//TODO error not valid.
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Pattern being assigned to not basic model element {0}.",new Object[]{me.getElementClass().getCanonicalName()});
 		}
 		else {
 			BasicModelElement bme = (BasicModelElement)me;
