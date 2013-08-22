@@ -293,7 +293,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
         done.add(String.class);
         done.add(Object.class);
 
-        q.addLast(root);
+        if (!root.getName().contains("$"))
+        	q.addLast(root);
 
         while (!q.isEmpty()) {
             act = q.removeLast();
@@ -407,7 +408,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
      * @throws ClassNotFoundException
      */
     private boolean addClass(Class add,LinkedList<Class> q,Set<Class> done) throws ClassNotFoundException {
-        if (!done.contains(add) && !q.contains(add) && IModel.class.isAssignableFrom(add)) {
+        if (!done.contains(add) && !q.contains(add) && IModel.class.isAssignableFrom(add) && !add.getName().contains("$")) {
           q.addLast(add);
           return true;
         }
