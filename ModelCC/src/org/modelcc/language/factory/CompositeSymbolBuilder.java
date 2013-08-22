@@ -155,7 +155,6 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                     }
                 }
             }
-            //TODO REMOVE
             fixOptionals(o,m,filled);
             runSetupMethods(o,ce);
             valid &= runConstraints(o,ce);
@@ -217,7 +216,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                                Class c = fields[i].getType();
 	                                Object o2;
 	                                while (Modifier.isAbstract( c.getModifiers())) {
-	                                	c = m.getDefaultElement().get(m.getClassToElement().get(c)).iterator().next().getElementClass(); //TODO
+	                                	c = m.getDefaultElement().get(m.getClassToElement().get(c)).iterator().next().getElementClass();
 	                                }
                                 	o2 = c.newInstance();
 	                                fixOptionals(o2,m,null);
