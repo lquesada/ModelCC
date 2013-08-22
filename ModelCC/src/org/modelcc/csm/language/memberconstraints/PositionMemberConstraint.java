@@ -21,6 +21,7 @@ import org.modelcc.csm.language.MemberID;
 import org.modelcc.metamodel.ElementMember;
 import org.modelcc.metamodel.Model;
 import org.modelcc.metamodel.ModelElement;
+import org.modelcc.metamodel.MultipleElementMember;
 import org.modelcc.tools.ElementMemberFinder;
 import org.modelcc.tools.NotComplexElementException;
 import org.modelcc.types.BooleanModel;
@@ -53,15 +54,20 @@ public class PositionMemberConstraint extends MemberConstraint implements IModel
 	@Override
 	public void apply(Model m, ModelElement me,ElementMember em) {
 		Set<Integer> position = new HashSet<Integer>();
+		boolean list = false;
 		for (int i = 0;i < places.size();i++) {
 			if (places.get(i).getValue().toLowerCase().equals("after"))
 				position.add(Position.AFTER);
 			if (places.get(i).getValue().toLowerCase().equals("before"))
 				position.add(Position.BEFORE);
-			if (places.get(i).getValue().toLowerCase().equals("beforelast"))
+			if (places.get(i).getValue().toLowerCase().equals("beforelast")) {
 				position.add(Position.BEFORELAST);
-			if (places.get(i).getValue().toLowerCase().equals("within"))
+				list = true;
+			}
+			if (places.get(i).getValue().toLowerCase().equals("within")) {
 				position.add(Position.WITHIN);
+				list = true;
+			}
 		}
 		SeparatorPolicy sp = SeparatorPolicy.AFTER;
 		if (separatorPolicy != null) {
@@ -74,6 +80,7 @@ public class PositionMemberConstraint extends MemberConstraint implements IModel
 			if (separatorPolicy.getValue().toLowerCase().equals("replace"))
 				sp = SeparatorPolicy.REPLACE;
 		}
+
 		int[] posArray = new int[position.size()];
 		int i = 0;
 		for (Integer in : position) {
@@ -87,6 +94,8 @@ public class PositionMemberConstraint extends MemberConstraint implements IModel
 			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"Not complex element in CSM mapping: {0}",new Object[]{em.getElementClass().getName()});
 			return;
 		}
+		if (list && !(MultipleElementMember.class.isAssignableFrom(em2.getClass())))
+			Logger.getLogger(CSM.class.getName()).log(Level.SEVERE,"WITHIN or BEFORELAST used in element {0} of {1} can only be used in repetitive constructs.",new Object[]{em.getField(),me.getElementClass().getCanonicalName()});
 
     	if (em2 != null) { 
     		me.setPosition(em,em2, posArray, sp);

@@ -459,4 +459,26 @@ public class CSMTest {
     	m2 = CSMapply(m,"IntegerLiteral composition=eager;");
         assertEquals(1,c.getCount());
     }
+
+    @Test
+    public void CSMWrongTest12() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.arithmeticcalculator.Expression.class);
+    	Model m2 = null;
+    	m2 = CSMapply(m,"IntegerLiteral composition=eager;");
+        assertEquals(1,c.getCount());
     }
+
+    @Test
+    public void CSMWrongTest13() {
+        Logger lg = Logger.getLogger(CSM.class.getName());
+        CountFilter c = new CountFilter(false);
+        lg.setFilter(c);
+        Model m = modelGen(test.languages.dup.Main.class);
+    	Model m2 = null;
+		m2 = CSMapply(m,"Main[ok1] position=beforelast:ok2;");
+        assertEquals(1,c.getCount());
+    }
+   }
