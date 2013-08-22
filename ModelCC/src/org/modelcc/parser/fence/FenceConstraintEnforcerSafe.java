@@ -713,7 +713,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             return;
         }
         else {
-        	//TODO quita esto?
         	if (pg.getGrammar().getEmptyRules().containsKey(r.getRight().get(i).getType())) {
         		Set<Object> rules = pg.getGrammar().getEmptyRules().get(r.getRight().get(i).getType());
             	if (rules==null) {
