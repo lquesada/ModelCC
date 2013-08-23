@@ -1,3 +1,8 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package test.org.modelcc.types;
 
 import static org.junit.Assert.*;
@@ -18,6 +23,11 @@ import org.modelcc.parser.ParserException;
 import org.modelcc.parser.fence.adapter.FenceParserFactory;
 import org.modelcc.types.StringModel;
 
+/**
+ * String Test.
+ * @author elezeta
+ * @serial
+ */
 public class StringTest {
 
     public static Parser<?> generateParser(Class<?> source) {

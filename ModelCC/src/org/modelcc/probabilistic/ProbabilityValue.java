@@ -10,6 +10,7 @@ import java.io.Serializable;
 /**
  * Probability value.
  * @author elezeta
+ * @serial
  */
 public abstract class ProbabilityValue implements Serializable {
 

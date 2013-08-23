@@ -1,9 +1,19 @@
+/*
+ * ModelCC, under ModelCC Shared Software License, www.modelcc.org. Luis Quesada Torres.
+ */
+
+
 package org.modelcc.types;
 
 import java.io.Serializable;
 
 import org.modelcc.*;
 
+/**
+ * Non Quoted String Model.
+ * @author elezeta
+ * @serial
+ */
 @Pattern(regExp="([a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\,\\.\\<\\>\\/\\?]([a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\ ]*[a-zA-Z0-9_\\-\\!\\@\\$\\#\\`\\~\\%\\^\\&\\*\\(\\)\\=\\+\\[\\]\\{\\}\\\\\\|\\:\\'\\,\\.\\<\\>\\/\\?])?)?")
 public class NonQuotedStringModel extends StringModel implements IModel,Serializable {
 

@@ -10,6 +10,7 @@ import java.io.Serializable;
 /**
  * Numeric probability value.
  * @author elezeta
+ * @serial
  */
 public class NumericProbabilityValue extends ProbabilityValue implements Serializable {
 
