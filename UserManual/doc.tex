@@ -946,20 +946,24 @@ By applying such a set of constraint to a model, a new model is obtained.
 
 An example of application of a mapping is:
 
+\begin{colframe}
 \begin{verbatim}
 import static org.modelcc.csm.CSM;
 
     Model model = ...
     Model model2 = CSM.apply(model,string/reader);
 \end{verbatim}
+\end{colframe}
 
 An example of valid input is:
 
+\begin{colframe}
 \begin{verbatim}
 Element freeorder = true;
 Element pattern="[a-z]+";
 Element[member] prefix="\\(" suffix="\\)";
 \end{verbatim}
+\end{colframe}
 
 \section{Predefined types} \label{sec:predefinedtypes}
 
@@ -1208,8 +1212,9 @@ try \{
   System.out.println(result.eval());
 
   // Print metadata.
-  System.out.println("Start index: "+parser.getParsingMetadata(result).get("startIndex"));
-  System.out.println("End index: "+parser.getParsingMetadata(result).get("endIndex"));
+  Map<String,Object> metadata = parser.getParsingMetadata(result); 
+  System.out.println("Start index: "+metadata.get("startIndex"));
+  System.out.println("End index: "+metadata.get("endIndex"));
 
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
@@ -1243,9 +1248,10 @@ try \{
   Sentence mostProbable = result.iterator().next();
 
   // Print metadata.
-  System.out.println("Start index: "+parser.getParsingMetadata(mostProbable).get("startIndex"));
-  System.out.println("End index: "+parser.getParsingMetadata(mostProbable).get("endIndex"));
-  System.out.println("Probability: "+parser.getParsingMetadata(mostProbable).get("probability"));
+  Map<String,Object> metadata = parser.getParsingMetadata(mostProbable); 
+  System.out.println("Start index: "+metadata.get("startIndex"));
+  System.out.println("End index: "+metadata.get("endIndex"));
+  System.out.println("Probability: "+metadata.get("probability"));
 
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
@@ -1540,6 +1546,7 @@ This section presents an example on model testing using the ModelCC testing fram
 
 ModelCC's ModelAssert class provides static assert methods that allow embedding unitary model tests in code.
 
+\begin{colframe}
 \begin{verbatim}
 import static org.modelcc.test.ModelAssert.*;
 
@@ -1561,6 +1568,7 @@ try {
     return;
 }
 \end{verbatim}
+\end{colframe}
 
 %\fancyhead[LE]{}
 %\newpage
