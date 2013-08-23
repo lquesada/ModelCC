@@ -142,11 +142,15 @@ Section \ref{sec:modelspec} comments on ModelCC building blocks.
 
 Section \ref{sec:modelcons} describes the model constraints supported by ModelCC, which declaratively define the features of the formal language defined by the model.
 
+Section \ref{sec:asmcsm} presents an example of use of the ModelCC Domain Specific Language for ASM-CSM mapping.
+
 Section \ref{sec:predefinedtypes} defines ModelCC predefined types.
 
 Section \ref{sec:gettingstarted} explains how to use ModelCC.
 
 Section \ref{sec:examples} exposes examples of languages specified using ModelCC.
+
+Section \ref{sec:testing} presents an example of model testing using ModelCC testing framework.
 
 \section{Model Specification} \label{sec:modelspec}
 
@@ -935,6 +939,28 @@ Since ModelCC supports lexical and syntactic ambiguities and the combination of 
 ModelCC also supports alternative models for the representation of uncertainty, provided that an evaluation operator for language element instances is provided and an evaluation operator for the application of grammar rules is provided.
 Optionally, a casting operator that translates the estimated value in one model into a value valid for a different kind of model allows the specification of modular languages even when different mechanisms for representing natural language ambiguities are employed for different parts of the language model.
 
+\section{ModelCC Domain-Specific Language for ASM-CSM mapping} \label{sec:asmcsm}
+
+The ModelCC DSL for ASM-CSM mapping allows the specification of set of constraints.
+By applying such a set of constraint to a model, a new model is obtained.
+
+An example of application of a mapping is:
+
+\begin{verbatim}
+import static org.modelcc.csm.CSM;
+
+    Model model = ...
+    Model model2 = CSM.apply(model,string/reader);
+\end{verbatim}
+
+An example of valid input is:
+
+\begin{verbatim}
+Element freeorder = true;
+Element pattern="[a-z]+";
+Element[member] prefix="\\(" suffix="\\)";
+\end{verbatim}
+
 \section{Predefined types} \label{sec:predefinedtypes}
 
 ModelCC provides several predefined models for common data types.
@@ -942,12 +968,16 @@ ModelCC provides several predefined models for common data types.
 These models are found in the package org.modelcc.types and are:
 
 \begin{itemize}
+\item BooleanModel: A model that recognizes boolean values (``true'' or ``false'').
 \item ByteModel: A model that recognizes decimal integers and stores them as a Byte object would.
-\item ShortModel: A model that recognizes decimal integers and stores them as a Short object would.
+\item DoubleModel: A model that recognizes decimal integers and stores them as a Double object would. It supports scientific notation.
+\item FloatModel: A model that recognizes decimal integers and stores them as a Float object would. It supports scientific notation.
 \item IntegerModel: A model that recognizes decimal integers and stores them as a Integer object would.
 \item LongModel: A model that recognizes decimal integers and stores them as a Long object would.
-\item FloatModel: A model that recognizes decimal integers and stores them as a Float object would. It supports scientific notation.
-\item DoubleModel: A model that recognizes decimal integers and stores them as a Double object would. It supports scientific notation.
+\item NonQuotedStringModel: A model that recognizes strings not delimited by quotes.
+\item QuotedStringodel: A model that recognizes strings delimited by quotes (with escaped quotes inside).
+\item ShortModel: A model that recognizes decimal integers and stores them as a Short object would.
+\item Stringodel: A model that recognizes both strings delimited by quotes (with escaped quotes inside) and strings not deilmited by quotes.
 \end{itemize}
 
 \section{Getting Started on ModelCC} \label{sec:gettingstarted}
@@ -1101,7 +1131,7 @@ import org.modelcc.parser.ParserFactory;
 //being m the model.
 
 try \{
-  Parser<MySimpleLanguage> parser = ParserFactory.create(m);
+  Parser<MySimpleLanguage> parser = ParserFactory.create(m,ParserFactory.WHITESPACE);
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
 \}
@@ -1177,6 +1207,10 @@ try \{
   // Print output.
   System.out.println(result.eval());
 
+  // Print metadata.
+  System.out.println("Start index: "+parser.getParsingMetadata(result).get("startIndex"));
+  System.out.println("End index: "+parser.getParsingMetadata(result).get("endIndex"));
+
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
 \}
@@ -1207,6 +1241,11 @@ try \{
 
   // Keep the most probable interpretation.
   Sentence mostProbable = result.iterator().next();
+
+  // Print metadata.
+  System.out.println("Start index: "+parser.getParsingMetadata(mostProbable).get("startIndex"));
+  System.out.println("End index: "+parser.getParsingMetadata(mostProbable).get("endIndex"));
+  System.out.println("Probability: "+parser.getParsingMetadata(mostProbable).get("probability"));
 
 \} catch (Exception e) \{
   System.out.println(e.getMessage());
@@ -1494,6 +1533,34 @@ sentences
 \end{verbatim}
 \end{itemize}
 \end{itemize}
+
+\section{Testing} \label{sec:examples}
+
+This section presents an example on model testing using the ModelCC testing framework.
+
+ModelCC's ModelAssert class provides static assert methods that allow embedding unitary model tests in code.
+
+\begin{verbatim}
+import static org.modelcc.test.ModelAssert.*;
+
+try {
+
+    Model model = JavaModelReader.read(Expression.class);
+    Set<PatternRecognizer> se = new HashSet<PatternRecognizer>();
+    se.add(new RegExpPatternRecognizer(" "));
+    Parser<Expression> parser = ParserFactory.create(model,se);
+
+    assertValid(parser,"1+2");
+    assertValid(parser,"1+ 2");
+    assertInvalid(parser,"a1+2");
+    assertAmbiguityFree(parser,"1+2");
+    assertInterpretations(1,parser,"1+2+5");
+
+} catch (Exception ex) {
+    assertFalse(true);
+    return;
+}
+\end{verbatim}
 
 %\fancyhead[LE]{}
 %\newpage
