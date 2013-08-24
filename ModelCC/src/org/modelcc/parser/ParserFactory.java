@@ -29,7 +29,7 @@ public class ParserFactory implements Serializable {
      */
     private static final long serialVersionUID = 31415926535897932L;
 
-    public static Set<PatternRecognizer> WHITESPACE = new HashSet<PatternRecognizer>(Arrays.asList(new RegExpPatternRecognizer(RegExps.tabSpaceNewLines)));
+    public final static Set<PatternRecognizer> WHITESPACE = new HashSet<PatternRecognizer>(Arrays.asList(new RegExpPatternRecognizer(RegExps.tabSpaceNewLines)));
 
     /**
      * Creates a parser (convenience method)

@@ -6,9 +6,13 @@
 package org.modelcc.parser;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import org.modelcc.lexer.Lexer;
 import org.modelcc.lexer.recognizer.PatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
+import org.modelcc.lexer.recognizer.regexp.RegExps;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.fence.probabilistic.adapter.ProbabilisticFenceParserFactory;
 
@@ -24,6 +28,8 @@ public class ProbabilisticParserFactory implements Serializable {
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
+
+    public final static Set<PatternRecognizer> WHITESPACE = new HashSet<PatternRecognizer>(Arrays.asList(new RegExpPatternRecognizer(RegExps.tabSpaceNewLines)));
 
     /**
      * Creates a probabilistic parser (convenience method)
