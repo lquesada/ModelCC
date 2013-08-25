@@ -1,4 +1,26 @@
 -----------------------------
+ModelCC v3.00    (2013-08-25)
+-----------------------------
+
++ [FEATURE] Domain-Specific Language for ASM-CSM mapping.
++ [FEATURE] @Probability annotation.
++ [FEATURE] Probabilistic Fence parser.
++ [FEATURE] Probabilistic Fence Parser adapter.
++ [FEATURE] Probabilistic Fence Generator.
++ [FEATURE] The Fence parser now produces parsing metadata.
++ [FEATURE] Added start input string index and end input string index properties to symbol metadata.
++ [FEATURE] Added org.modelcc.types.BooleanModel.
++ [FEATURE] Added org.modelcc.types.StringModel.
++ [FEATURE] Added org.modelcc.types.QuotedStringModel.
++ [FEATURE] Added org.modelcc.types.NonQuotedStringModel.
++ [FEATURE] ModelCC metamodels are now clonable.
++ [FEATURE] All ModelCC classes and interfaces are now serializable.
++ [FEATURE] Added test framework: org.modelcc.Assert.
++ [FIX] Patterns matching empty strings could generate invalid symbols.
++ [FIX] Position within lists could generate invalid symbols.
++ [FIX] Optional members were not treated as optional when annotated with @Position.
+
+-----------------------------
 ModelCC v2.09    (2013-07-20)
 -----------------------------
 
