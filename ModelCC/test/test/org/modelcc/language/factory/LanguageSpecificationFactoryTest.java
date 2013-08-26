@@ -276,6 +276,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0,testFull("3*5*1-5+6*12+5",Expression2.class).size());
         assertEquals(0,testFull("3*5+1*5+6*12+5",Expression2.class).size());
         assertEquals(1,testFull("(3*5+1*5)+(6*12+5)",Expression2.class).size());
+        assertEquals(1,testFull("++2",Expression2.class).size());
         assertEquals(1,testFull("3/5++2*5",Expression2.class).size());
         assertEquals(1,testFull("(3/5++2*5)",Expression2.class).size());
         assertEquals(1,testFull("(3/5++2*5)+(3/5+2*5)",Expression2.class).size());

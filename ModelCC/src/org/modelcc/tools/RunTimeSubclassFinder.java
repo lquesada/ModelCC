@@ -24,17 +24,25 @@ import org.modelcc.metamodel.ModelElement;
  * @author elezeta
  * @serial
  */
-public class RuntimeSubclassFinder implements Serializable {
+public class RunTimeSubclassFinder implements Serializable {
 
     /**
      * Serial Version ID
      */
     private static final long serialVersionUID = 31415926535897932L;
     
-    private RuntimeSubclassFinder() {
+    private RunTimeSubclassFinder() {
     	
     }
     
+    public static Set<Class<?>> runTimeFindSubclasses(Set<String> packages, Class<?> tosubclass) throws ClassNotFoundException {
+        Set<Class<?>> ret = new HashSet<Class<?>>();
+        for (String pckgName : packages) {
+        	ret.addAll(runTimeFindSubclasses(pckgName,tosubclass));
+        }
+        return ret;
+    }
+
     /**
      * Detects all the classes that extend a class or implement an interface in a package.
      * @param pckgname the package name

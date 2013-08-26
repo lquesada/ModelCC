@@ -5,8 +5,8 @@
 
 package test.languages.arithmeticcalculator2.unaryoperators;
 
-import test.languages.arithmeticcalculator.Expression;
-import test.languages.arithmeticcalculator.UnaryOperator;
+import test.languages.arithmeticcalculator2.Expression2;
+import test.languages.arithmeticcalculator2.UnaryOperator;
 import org.modelcc.*;
 
 /**
@@ -16,7 +16,7 @@ import org.modelcc.*;
 public class PlusOperator extends UnaryOperator implements IModel {
 
     @Override
-    public double eval(Expression e) {
+    public double eval(Expression2 e) {
         return e.eval();
     }
 

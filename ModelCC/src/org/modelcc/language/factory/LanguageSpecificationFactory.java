@@ -505,7 +505,7 @@ public final class LanguageSpecificationFactory implements Serializable {
                                 for (Iterator<Rule> itr = sr.iterator();itr.hasNext();) {
                                     Rule r1 = itr.next();
                                     for (Iterator<Rule> itr2 = sr2.iterator();itr2.hasNext();) {
-                                        Rule r2 = itr.next();
+                                        Rule r2 = itr2.next();
                                         if (ComplexModelElement.class.isAssignableFrom(el.getClass()) && ComplexModelElement.class.isAssignableFrom(el2.getClass()))
                                             ssf.addCompositionPrecedence(r1, r2);
                                         if (ChoiceModelElement.class.isAssignableFrom(el.getClass()) && ChoiceModelElement.class.isAssignableFrom(el2.getClass()))

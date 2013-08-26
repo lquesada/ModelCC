@@ -40,7 +40,7 @@ import org.modelcc.probabilistic.Probability;
 import org.modelcc.probabilistic.ProbabilityEvaluator;
 import org.modelcc.tools.FieldFinder;
 import org.modelcc.tools.PrimitiveClasses;
-import org.modelcc.tools.RuntimeSubclassFinder;
+import org.modelcc.tools.RunTimeSubclassFinder;
 import org.modelcc.*;
 import org.modelcc.io.DefaultFilter;
 import org.modelcc.io.WarningExportHandler;
@@ -356,7 +356,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 String packageName = "";
                 if (act.getPackage() != null)
                     packageName = act.getPackage().getName();
-                extendeds = RuntimeSubclassFinder.runTimeFindSubclasses(packageName,act);
+                Set<String> packages = new HashSet<String>();
+                packages.add("org.modelcc.types");
+                packages.add(packageName);
+                extendeds = RunTimeSubclassFinder.runTimeFindSubclasses(packageName,act);
                 for (Iterator<Class<?>> ite = extendeds.iterator();ite.hasNext();) {
                     add = ite.next();
                     addClass(add, q, done);
