@@ -62,6 +62,7 @@ import test.languages.composition.Composition1;
 import test.languages.arithmeticcalculator2.Expression2;
 import test.languages.arithmeticcalculator2.expressions.BinaryExpression;
 import test.languages.arithmeticcalculator2.expressions.ParenthesizedExpression;
+import test.languages.arithmeticcalculator2.expressions.UnaryExpression;
 import test.languages.arithmeticcalculator2.expressions.literals.IntegerLiteral;
 import test.languages.worklanguage.Ini11;
 import test.languages.worklanguage.Ini10;
@@ -232,7 +233,13 @@ public class LanguageSpecificationFactoryTest {
 			return null;
 		}
         try {
-        	return parser.parseAll(input);
+        	Collection<Object> ret = parser.parseAll(input);
+/*        	for (Object o : ret) {
+        		Expression2 exp2 = (Expression2)o;
+        		System.out.println(((BinaryExpression)exp2).e1+"  "+((BinaryExpression)exp2).e2);
+        	}*/
+        	return ret;
+        
         } catch (Exception e) {
         	return new HashSet<Object>();
         }
@@ -277,6 +284,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0,testFull("3*5+1*5+6*12+5",Expression2.class).size());
         assertEquals(1,testFull("(3*5+1*5)+(6*12+5)",Expression2.class).size());
         assertEquals(1,testFull("++2",Expression2.class).size());
+        assertEquals(1,testFull("++2++3",Expression2.class).size());
         assertEquals(1,testFull("3/5++2*5",Expression2.class).size());
         assertEquals(1,testFull("(3/5++2*5)",Expression2.class).size());
         assertEquals(1,testFull("(3/5++2*5)+(3/5+2*5)",Expression2.class).size());

@@ -11,6 +11,7 @@ import org.modelcc.*;
 /**
  * @author elezeta
  */
+@Pattern(regExp="[0-9]+\\.[0-9]*")
 public class RealLiteral extends LiteralExpression implements IModel {
 
     @Value double value;

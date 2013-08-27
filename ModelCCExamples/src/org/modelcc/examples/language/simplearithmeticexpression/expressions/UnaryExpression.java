@@ -12,6 +12,7 @@ import org.modelcc.*;
 /**
  * @author elezeta
  */
+@Priority(precedes=BinaryExpression.class)
 public class UnaryExpression extends Expression implements IModel {
     UnaryOperator op;
     Expression e;

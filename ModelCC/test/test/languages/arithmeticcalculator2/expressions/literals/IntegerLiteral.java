@@ -11,6 +11,7 @@ import org.modelcc.*;
 /**
  * @author elezeta
  */
+@Pattern(regExp="[0-9]+")
 public class IntegerLiteral extends LiteralExpression implements IModel {
 
     @Value int value;
