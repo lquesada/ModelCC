@@ -1530,7 +1530,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
     			if (subclasses.containsKey(e)) {
 	    			for (Iterator<ModelElement> ites = subclasses.get(e).iterator();ites.hasNext();) {
 	    	    		ModelElement es = ites.next();
-	    	    		//System.out.println(es.getElementClass().getName()+"  "+canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>()));
 	    	    		if (canMatchEmptyString(es,subclasses,classToElement,new HashSet<ModelElement>())) {
 	    	    			if (defaultElements == null)
 	    	    				defaultElements = new HashSet<ModelElement>();
@@ -1632,9 +1631,9 @@ public class JavaModelReader extends ModelReader implements Serializable {
 				}
 			}
 
+			boolean anything = false;
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
-				boolean anything = false;
 				if (!em.isOptional()) {
 					Set<ModelElement> history2 = new HashSet<ModelElement>();
 					history2.addAll(history);
@@ -1643,13 +1642,10 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						anything = true;
 					}
 				}
-				if (!anything)
-					return true;
 			}
 
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
-				boolean anything = false;
 				if (!em.isOptional()) {
 					ModelElement emc = classToElement.get(em.getElementClass());
 					Set<ModelElement> history2 = new HashSet<ModelElement>();
@@ -1659,9 +1655,9 @@ public class JavaModelReader extends ModelReader implements Serializable {
 						anything = true;
 					}
 				}
-				if (!anything)
-					return true;
 			}
+			if (!anything)
+				return true;
 
 
 		}
