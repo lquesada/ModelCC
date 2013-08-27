@@ -1,4 +1,12 @@
 -----------------------------
+ModelCC v3.01    (2013-08-28)
+-----------------------------
+
++ [FIX] Relevant class finder would not consider ModelCC types package in some cases.
++ [FIX] Some elements would be incorrectly marked as empty string matchers.
++ [FIX] Precedences and priorities were incorrectly applied sometimes.
+
+-----------------------------
 ModelCC v3.00    (2013-08-25)
 -----------------------------
 
