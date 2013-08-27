@@ -1538,9 +1538,11 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	    	    	}
     			}
     		}
-    		if (defaultElements != null)
+    		if (defaultElements != null) {
     			defaultElement.put(e, defaultElements);
     			defaultElements = null;
+    		}
+
     	}
     	for (Iterator<ModelElement> ite = elements.iterator();ite.hasNext();) {
     		ModelElement e = ite.next();
