@@ -1559,14 +1559,14 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	private boolean canMatchEmptyString(ModelElement es,Map<ModelElement,Set<ModelElement>> subclasses,Map<Class,ModelElement> classToElement,Set<ModelElement> history) {
 		if ((es.getPrefix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getPrefix().iterator();ite.hasNext();) {
-				if (ite.next().read("",0) != null) {
+				if (ite.next().read("",0) == null) {
 					return false;
 				}
 			}
 		}
 		if ((es.getSuffix()!=null)) {
 			for (Iterator<PatternRecognizer> ite = es.getSuffix().iterator();ite.hasNext();) {
-				if (ite.next().read("",0) != null) {
+				if (ite.next().read("",0) == null) {
 					return false;
 				}
 			}
