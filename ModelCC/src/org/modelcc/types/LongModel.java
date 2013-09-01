@@ -51,5 +51,10 @@ public class LongModel extends Number implements IModel,Serializable {
     public byte byteValue() {
         return val.byteValue();
     }
-    
+	@Override
+	public String toString() {
+		return Long.toString(val);
+	}
+
+
 }

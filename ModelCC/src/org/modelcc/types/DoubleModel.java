@@ -61,5 +61,10 @@ public class DoubleModel extends Number implements IModel,Serializable {
     public byte byteValue() {
         return val.byteValue();
     }
-    
+	@Override
+	public String toString() {
+		return Double.toString(val);
+	}
+
+
 }

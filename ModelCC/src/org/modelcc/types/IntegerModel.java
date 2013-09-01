@@ -50,5 +50,10 @@ public class IntegerModel extends Number implements IModel,Serializable {
     public byte byteValue() {
         return val.byteValue();
     }
-    
+	@Override
+	public String toString() {
+		return Integer.toString(val);
+	}
+
+
 }

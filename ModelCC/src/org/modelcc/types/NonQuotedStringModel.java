@@ -30,4 +30,9 @@ public class NonQuotedStringModel extends StringModel implements IModel,Serializ
 		return val;
 	}
 	
+	@Override
+	public String toString() {
+		return val;
+	}
+	
 }

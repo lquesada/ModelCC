@@ -51,5 +51,10 @@ public class ShortModel extends Number implements IModel,Serializable {
     public byte byteValue() {
         return val.byteValue();
     }
-    
+	@Override
+	public String toString() {
+		return Short.toString(val);
+	}
+
+
 }

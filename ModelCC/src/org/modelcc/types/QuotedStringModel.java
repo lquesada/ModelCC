@@ -36,4 +36,9 @@ public class QuotedStringModel extends StringModel implements IModel,Serializabl
 		return val;
 	}
 	
+	@Override
+	public String toString() {
+		return "\""+val.replace("\"","\\\"")+"\"";
+	}
+	
 }

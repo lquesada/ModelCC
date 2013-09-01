@@ -62,5 +62,10 @@ public class FloatModel extends Number implements IModel,Serializable {
     public byte byteValue() {
         return val.byteValue();
     }
-    
+	@Override
+	public String toString() {
+		return Float.toString(val);
+	}
+
+
 }

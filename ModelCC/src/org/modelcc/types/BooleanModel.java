@@ -30,4 +30,12 @@ public class BooleanModel implements IModel,Serializable {
         return val.booleanValue();
     }
 
+	@Override
+	public String toString() {
+		if (val)
+			return "true";
+		else
+			return "false";
+	}
+	
 }
