@@ -183,7 +183,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
         return valid;
     }
 
-    private boolean fixOptionals(Object o, Model m,Set<Field> filled) throws InstantiationException, IllegalAccessException, NoSuchFieldException,SecurityException {
+    private boolean fixOptionals(Object o, Model m,Set<Field> filled) throws InstantiationException, IllegalAccessException, NoSuchFieldException,SecurityException, IllegalArgumentException, NoSuchMethodException, InvocationTargetException {
     	if (m.getClassToElement().get(o.getClass()).getClass().equals(BasicModelElement.class)) {
     		Class c = o.getClass();
             BasicModelElement be = (BasicModelElement) m.getClassToElement().get(c);
@@ -221,8 +221,14 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                                if (!Modifier.isAbstract(c.getModifiers())) {
 	                                	o2 = c.newInstance();
 		                                fixOptionals(o2,m,null);
-		                                fields[i].setAccessible(true);
-		                                fields[i].set(o,o2);
+		                                //TODO
+		                    	        ModelElement ee = (ModelElement)m.getClassToElement().get(o2.getClass());
+		                                runSetupMethods(o2,ee);
+		                                if (runConstraints(o2,ee)) {
+		                                	fields[i].setAccessible(true);
+		                                	fields[i].set(o,o2);
+		                                }
+		                                	
 	                                }
 	                            }
 	                            else {
