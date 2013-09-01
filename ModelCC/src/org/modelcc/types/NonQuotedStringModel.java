@@ -23,7 +23,10 @@ public class NonQuotedStringModel extends StringModel implements IModel,Serializ
     private static final long serialVersionUID = 31415926535897932L;
 
 	@Value
-	String val;
+	protected String val;
+
+	public NonQuotedStringModel() {
+	}
 
 	public NonQuotedStringModel(String val) {
 		this.val = val;

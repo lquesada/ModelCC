@@ -9,7 +9,7 @@ import java.io.Serializable;
 import org.modelcc.*;
 
 /**
- * Text Model.
+ * String Model.
  * @author elezeta
  * @serial
  */
@@ -21,5 +21,9 @@ public abstract class StringModel implements IModel,Serializable {
     private static final long serialVersionUID = 31415926535897932L;
 
 	public abstract String getValue();
-	
+
+	public StringModel() {
+	}
+
+
 }

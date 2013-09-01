@@ -9,12 +9,11 @@ import java.io.Serializable;
 import org.modelcc.*;
 
 /**
- * Long Model.
+ * Double Model.
  * @author elezeta
  * @serial
  */
-@Pattern(regExp="(-|\\+)?[0-9]+")
-public class LongModel extends Number implements IModel,Serializable {
+public abstract class DecimalModel extends Number implements IModel,Serializable {
     
     /**
      * Serial Version ID
@@ -24,13 +23,11 @@ public class LongModel extends Number implements IModel,Serializable {
     /**
      * Value.
      */
-    @Value
-    Long val;
-
-	public LongModel(Long val) {
-		this.val = val;
-	}
-
+    protected Double val;
+    
+    public DecimalModel() {
+    }
+    
     @Override
     public int intValue() {
         return val.intValue();
@@ -57,8 +54,7 @@ public class LongModel extends Number implements IModel,Serializable {
     }
 	@Override
 	public String toString() {
-		return Long.toString(val);
+		return Double.toString(val);
 	}
-
 
 }

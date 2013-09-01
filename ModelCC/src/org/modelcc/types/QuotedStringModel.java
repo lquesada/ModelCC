@@ -23,7 +23,10 @@ public class QuotedStringModel extends StringModel implements IModel,Serializabl
     private static final long serialVersionUID = 31415926535897932L;
 
 	@Value
-	String val;
+	protected String val;
+
+	public QuotedStringModel() {
+	}
 
 	public QuotedStringModel(String val) {
 		this.val = val;
