@@ -25,6 +25,10 @@ public class NonQuotedStringModel extends StringModel implements IModel,Serializ
 	@Value
 	String val;
 
+	public NonQuotedStringModel(String val) {
+		this.val = val;
+	}
+
 	@Override
 	public String getValue() {
 		return val;

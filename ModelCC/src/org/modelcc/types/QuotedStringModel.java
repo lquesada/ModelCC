@@ -24,7 +24,11 @@ public class QuotedStringModel extends StringModel implements IModel,Serializabl
 
 	@Value
 	String val;
-	
+
+	public QuotedStringModel(String val) {
+		this.val = val;
+	}
+
 	@Setup
 	public void fix() {
 		val = val.substring(1,val.length()-1);

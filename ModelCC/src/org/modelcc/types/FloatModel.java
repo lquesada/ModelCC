@@ -26,7 +26,11 @@ public class FloatModel extends Number implements IModel,Serializable {
      * Value.
      */
     Float val;
-    
+
+	public FloatModel(Float val) {
+		this.val = val;
+	}
+
     /**
      * Token value.
      */

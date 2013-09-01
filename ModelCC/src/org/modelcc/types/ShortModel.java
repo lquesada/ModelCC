@@ -26,7 +26,11 @@ public class ShortModel extends Number implements IModel,Serializable {
      */
     @Value
     Short val;
-        
+
+	public ShortModel(Short val) {
+		this.val = val;
+	}
+
     @Override
     public int intValue() {
         return val.intValue();

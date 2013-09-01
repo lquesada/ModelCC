@@ -26,7 +26,11 @@ public class LongModel extends Number implements IModel,Serializable {
      */
     @Value
     Long val;
-    
+
+	public LongModel(Long val) {
+		this.val = val;
+	}
+
     @Override
     public int intValue() {
         return val.intValue();

@@ -26,6 +26,10 @@ public class BooleanModel implements IModel,Serializable {
     @Value
     Boolean val;
 
+	public BooleanModel(Boolean val) {
+		this.val = val;
+	}
+
     public boolean booleanValue() {
         return val.booleanValue();
     }

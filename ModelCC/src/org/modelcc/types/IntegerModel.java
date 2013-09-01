@@ -25,7 +25,11 @@ public class IntegerModel extends Number implements IModel,Serializable {
      */
     @Value
     Integer val;
-    
+
+	public IntegerModel(Integer val) {
+		this.val = val;
+	}
+
     @Override
     public int intValue() {
         return val.intValue();

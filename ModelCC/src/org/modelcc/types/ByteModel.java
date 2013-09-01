@@ -26,7 +26,11 @@ public class ByteModel extends Number implements IModel,Serializable {
      */
     @Value
     Byte val;
-    
+
+	public ByteModel(Byte val) {
+		this.val = val;
+	}
+
     @Override
     public int intValue() {
         return val.intValue();

@@ -25,7 +25,11 @@ public class DoubleModel extends Number implements IModel,Serializable {
      * Value.
      */
     Double val;
-    
+
+	public DoubleModel(Double val) {
+		this.val = val;
+	}
+
     /**
      * Token value.
      */
