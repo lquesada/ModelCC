@@ -14,7 +14,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-@Pattern(regExp="\"([^\\\\\"]+|\\\\([btnfr\"\"\\\\]|[0-3]?[0-7]{1,2}|u[0-9a-fA-F]{4}))*\"|\"([^\\\\\"]+|\\\\([btnfr\"\"\\\\]|[0-3]?[0-7]{1,2}|u[0-9a-fA-F]{4}))*\"")
+@Pattern(regExp="\"(\\\\\"|[^\"])*\"")
 public class QuotedStringModel extends StringModel implements IModel,Serializable {
 
     /**
