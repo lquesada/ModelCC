@@ -1,4 +1,12 @@
 -----------------------------
+ModelCC v3.02    (2013-09-01)
+-----------------------------
+
++ [FEATURE] Added toString method to predefined types.
++ [FIX] @Setup and @Constraint were not considered for empty string matching elements.
++ [FIX] QuotedStringModel pattern hanged the regex pattern matcher sometimes.
+
+-----------------------------
 ModelCC v3.01    (2013-08-28)
 -----------------------------
 
