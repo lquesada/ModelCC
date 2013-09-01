@@ -220,11 +220,10 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                                }
 	                                if (!Modifier.isAbstract(c.getModifiers())) {
 	                                	o2 = c.newInstance();
-		                                fixOptionals(o2,m,null);
-		                                //TODO
 		                    	        ModelElement ee = (ModelElement)m.getClassToElement().get(o2.getClass());
 		                                runSetupMethods(o2,ee);
 		                                if (runConstraints(o2,ee)) {
+	                                		fixOptionals(o2,m,null);
 		                                	fields[i].setAccessible(true);
 		                                	fields[i].set(o,o2);
 		                                }
