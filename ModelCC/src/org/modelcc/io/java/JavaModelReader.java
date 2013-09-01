@@ -5,14 +5,11 @@
 
 package org.modelcc.io.java;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,15 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import org.modelcc.lexer.recognizer.PatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizer;
 import org.modelcc.lexer.recognizer.regexp.RegExps;
-import org.modelcc.csm.language.MemberMappingComponent;
 import org.modelcc.io.ModelReader;
 import org.modelcc.metamodel.*;
 import org.modelcc.probabilistic.InvalidProbabilityValueException;
@@ -712,6 +706,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
                      log(Level.SEVERE, "In class \"{0}\": The @Prefix value cannot contain null.", new Object[]{elementClass.getCanonicalName()});
                      err = true;
                 }
+                else if (an.value()[k].equals("")) {
+                }
                 else {
                     if (pas.containsKey(an.value()[k]))
                         pr = pas.get(an.value()[k]);
@@ -741,6 +737,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
                      log(Level.SEVERE, "In class \"{0}\": The @Suffix value cannot contain null.", new Object[]{elementClass.getCanonicalName()});
                      err = true;
                 }
+                else if (an.value()[k].equals("")) {
+                }
                 else {
                     if (pas.containsKey(an.value()[k]))
                         pr = pas.get(an.value()[k]);
@@ -769,6 +767,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 if (an.value()[k] == null) {
                      log(Level.SEVERE, "In class \"{0}\": The @Separator value cannot contain null.", new Object[]{elementClass.getCanonicalName()});
                      err = true;
+                }
+                else if (an.value()[k].equals("")) {
                 }
                 else {
                     if (pas.containsKey(an.value()[k]))
@@ -909,6 +909,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
             for (k = 0;k < an.value().length;k++) {
                 if (an.value()[k] == null)
                      log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Prefix value cannot contain null.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+                else if (an.value()[k].equals("")) {
+                }
                 else {
                     if (pas.containsKey(an.value()[k]))
                         pr = pas.get(an.value()[k]);
@@ -933,6 +935,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
             for (k = 0;k < an.value().length;k++) {
                 if (an.value()[k] == null)
                      log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Suffix value cannot contain null.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+                else if (an.value()[k].equals("")) {
+                }
                 else {
                     if (pas.containsKey(an.value()[k]))
                         pr = pas.get(an.value()[k]);
@@ -957,6 +961,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
             for (k = 0;k < an.value().length;k++) {
                 if (an.value()[k] == null)
                      log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Separator value cannot contain null.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+                else if (an.value()[k].equals("")) {
+                }
                 else {
                     if (pas.containsKey(an.value()[k]))
                         pr = pas.get(an.value()[k]);
@@ -1486,7 +1492,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
                 }
             }
         }
-        // Para cada elemento, ver sus contenidos
     }
 
     /**

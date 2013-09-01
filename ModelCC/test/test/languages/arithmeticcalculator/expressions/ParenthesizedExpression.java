@@ -11,7 +11,7 @@ import org.modelcc.*;
 /**
  * @author elezeta
  */
-@Prefix("\\(")
+@Prefix({"\\(",""})
 @Suffix("\\)")
 public class ParenthesizedExpression extends Expression implements IModel {
     public Expression e;
