@@ -24,6 +24,9 @@ public abstract class StringModel implements IModel,Serializable {
 
 	public StringModel() {
 	}
+	
+	public abstract boolean isInteger();
 
+	public abstract boolean isDecimal();
 
 }

@@ -47,5 +47,23 @@ public class QuotedStringModel extends StringModel implements IModel,Serializabl
 	public String toString() {
 		return "\""+val.replace("\"","\\\"")+"\"";
 	}
-	
+
+	@Override
+	public boolean isInteger() {
+	    try {
+	        Integer.parseInt(val);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
+	}
+
+	@Override
+	public boolean isDecimal() {
+	    try {
+	        Double.parseDouble(val);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
+	}
+
 }

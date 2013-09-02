@@ -42,4 +42,22 @@ public class NonQuotedStringModel extends StringModel implements IModel,Serializ
 		return val;
 	}
 	
+	@Override
+	public boolean isInteger() {
+	    try {
+	        Integer.parseInt(val);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
+	}
+
+	@Override
+	public boolean isDecimal() {
+	    try {
+	        Double.parseDouble(val);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
+	}
+
 }
