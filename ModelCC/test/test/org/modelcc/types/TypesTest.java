@@ -57,9 +57,9 @@ public class TypesTest {
         
     @Test
     public void IntegerModelTest() {
-        //assertEquals((new Integer(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"3")).intValue());
-        //assertEquals((new Integer(-3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"-3")).intValue());
-        assertEquals((new Integer(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"+3")).intValue());
+        assertEquals((new Long(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"3")).intValue());
+        assertEquals((new Long(-3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"-3")).intValue());
+        assertEquals((new Long(3)).intValue(),((IntegerModel)testFull(IntegerModel.class,"+3")).intValue());
     }
     
         @Test
