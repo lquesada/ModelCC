@@ -66,4 +66,14 @@ public class QuotedStringModel extends StringModel implements IModel,Serializabl
 	    return false;
 	}
 
+	@Override
+	public IntegerModel toInteger() {
+		return new IntegerModel(Long.parseLong(val));
+	}
+
+	@Override
+	public DecimalModel toDecimal() {
+		return new DecimalModel(Double.parseDouble(val));
+	}
+
 }

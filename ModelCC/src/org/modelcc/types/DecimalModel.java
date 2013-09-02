@@ -13,7 +13,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-public abstract class DecimalModel extends Number implements IModel,Serializable {
+public class DecimalModel extends Number implements IModel,Serializable {
     
     /**
      * Serial Version ID
@@ -28,6 +28,10 @@ public abstract class DecimalModel extends Number implements IModel,Serializable
     public DecimalModel() {
     }
     
+	public DecimalModel(Double val) {
+		this.val = val;
+	}
+
     @Override
     public int intValue() {
         return val.intValue();
@@ -52,6 +56,7 @@ public abstract class DecimalModel extends Number implements IModel,Serializable
     public byte byteValue() {
         return val.byteValue();
     }
+    
 	@Override
 	public String toString() {
 		return Double.toString(val);

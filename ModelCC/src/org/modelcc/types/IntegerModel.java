@@ -13,7 +13,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-public abstract class IntegerModel extends Number implements IModel,Serializable {
+public class IntegerModel extends Number implements IModel,Serializable {
     
     /**
      * Serial Version ID
@@ -26,6 +26,10 @@ public abstract class IntegerModel extends Number implements IModel,Serializable
     protected Long val;
 
 	public IntegerModel() {
+	}
+
+	public IntegerModel(Long val) {
+		this.val = val;
 	}
 
     @Override
