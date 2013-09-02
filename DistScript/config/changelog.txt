@@ -1,4 +1,22 @@
 -----------------------------
+ModelCC v3.03    (2013-09-02)
+-----------------------------
+
++ [FEATURE] Added argument constructors to predefined types.
++ [FEATURE] Added UnsignedDecimalModel predefined type.
++ [FEATURE] Added SignedDecimalModel predefined type.
++ [FEATURE] Added UnsignedIntegerModel predefined type.
++ [FEATURE] Added SignedIntegerModel predefined type.
++ [CHANGE] Removed ShortModel predefined type.
++ [CHANGE] Removed ByteModel predefined type.
++ [CHANGE] Removed FloatModel predefined type.
++ [CHANGE] Removed LongModel predefined type.
++ [CHANGE] Renamed DoubleModel predefined type to DecimalModel.
++ [CHANGE] NonQuotedStringModel does not match whitespaces now.
++ [FIX] Optional elements with all optional members but prefixes or suffixes threw warnings.
++ [FIX] Empty string delimiters were considered.
+
+-----------------------------
 ModelCC v3.02    (2013-09-01)
 -----------------------------
 
