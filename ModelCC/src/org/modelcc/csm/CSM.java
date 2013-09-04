@@ -66,7 +66,7 @@ public final class CSM implements Serializable {
      * @return constrained model.
      * @throws CannotApplyMappingException when the mapping cannot be applied
      */
-    public Model apply(Model model,Reader input) throws CannotApplyMappingException {
+    public static Model apply(Model model,Reader input) throws CannotApplyMappingException {
     	String inputs = "";
         int n;
         Writer writer = new StringWriter();
