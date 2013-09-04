@@ -119,6 +119,8 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
     }
 
     private void calculateProbability(Symbol symbol) {
+    	
+    	System.out.println("CALCULATING FOR "+symbol.getUserData());
         if (symbol.getUserData() == null)
         	return;
         Map<String,Object> symbolMap = objectMetadata.get(symbol.getUserData());
@@ -140,6 +142,8 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
         	ProbabilityEvaluator pe = ps.getElementProbabilities().get(symbol.getUserData().getClass());
         	if (pe != null)
         		pv = pe.evaluate(symbol.getUserData());
+        	else
+        		pv = new NumericProbabilityValue(1d);
         	Field[] fields = FieldFinder.getAllFields(symbol.getUserData().getClass());
         	for (int i = 0;i < fields.length;i++) {
         		Field field = fields[i];
