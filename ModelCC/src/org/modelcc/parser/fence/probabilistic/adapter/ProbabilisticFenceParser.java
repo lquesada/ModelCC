@@ -120,7 +120,6 @@ public class ProbabilisticFenceParser<T> extends ProbabilisticParser<T> implemen
 
     private void calculateProbability(Symbol symbol) {
     	
-    	System.out.println("CALCULATING FOR "+symbol.getUserData());
         if (symbol.getUserData() == null)
         	return;
         Map<String,Object> symbolMap = objectMetadata.get(symbol.getUserData());
