@@ -202,27 +202,27 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            		otherElement = celem.getContents().get(indexOther);
 		
 		            	if (otherElement==null) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to an undefined field.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to an undefined field.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (otherElement==thisElement) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to the same field.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to the same field.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (MultipleElementMember.class.isAssignableFrom(thisElement.getClass()) &&
 		            			(positionContains(positionTag.position(),Position.BEFORELAST)||positionContains(positionTag.position(),Position.WITHIN))) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list and have BEFORELAST or WITHIN values.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to a list and have BEFORELAST or WITHIN values.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (!MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) &&
 		            			(positionContains(positionTag.position(),Position.BEFORELAST)||positionContains(positionTag.position(),Position.WITHIN))) {
-		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to BEFORELAST or WITHIN a non-list element.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot be applied to BEFORELAST or WITHIN a non-list element.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (otherField.isAnnotationPresent(Position.class)) {
-	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Position.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Position.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (otherElement.isOptional()) {
-	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Optional.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Optional.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 		            	else if (!compatible(field,fl)) {
-	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getClass().getCanonicalName()});
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
 
 		            	else {
@@ -1792,9 +1792,16 @@ public class JavaModelReader extends ModelReader implements Serializable {
 			for (int i = 0;i < ces.getContents().size();i++) {
 				ElementMember em = ces.getContents().get(i);
 				ModelElement emm = classToElement.get(em.getElementClass());
+				boolean onlyOne = false;
+				if ((MultipleElementMember.class.isAssignableFrom(em.getClass()))) {
+					MultipleElementMember mem = (MultipleElementMember)em;
+					if (mem.getMinimumMultiplicity()<=1)
+						onlyOne = true;
+				}
 				if (!em.isOptional()) {
 					if (emm.equals(orig)) {
-						hasOrig = true;
+						if (onlyOne)
+							hasOrig = true;
 						if ((emm.getPrefix()!=null)) {
 							for (Iterator<PatternRecognizer> ite2 = emm.getPrefix().iterator();ite2.hasNext();) {
 								if (ite2.next().read("",0) == null) {
