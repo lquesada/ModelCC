@@ -1798,6 +1798,8 @@ public class JavaModelReader extends ModelReader implements Serializable {
 					if (mem.getMinimumMultiplicity()<=1)
 						onlyOne = true;
 				}
+				else
+					onlyOne = true;
 				if (!em.isOptional()) {
 					if (emm.equals(orig)) {
 						if (onlyOne)
