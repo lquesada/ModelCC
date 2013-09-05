@@ -1,4 +1,13 @@
 -----------------------------
+ModelCC v3.04    (2013-09-05)
+-----------------------------
+
++ [FEATURE] Added isDecimal, isInteger, toDecimal, and toInteger methods to StringModel predefined types.
++ [FIX] CSM.apply method that receives reader was not static.
++ [FIX] JavaModelReader could find cycles in multiple element members with minimum multiplicity greater than 1.
++ [FIX] Syntactic language elements had no default probability value.
+
+-----------------------------
 ModelCC v3.03    (2013-09-02)
 -----------------------------
 
