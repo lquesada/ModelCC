@@ -32,6 +32,11 @@ public class IntegerModel extends Number implements IModel,Serializable {
 		this.val = val;
 	}
 
+	public IntegerModel(Integer val) {
+		this.val = val.longValue();
+	}
+	
+
     @Override
     public int intValue() {
         return val.intValue();

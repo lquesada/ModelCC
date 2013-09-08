@@ -28,6 +28,10 @@ public class UnsignedDecimalModel extends DecimalModel implements IModel,Seriali
 		this.val = val;
 	}
 
+	public UnsignedDecimalModel(Float val) {
+		this.val = val.doubleValue();
+	}
+	
     /**
      * Token value.
      */

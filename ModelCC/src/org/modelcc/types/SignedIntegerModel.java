@@ -28,6 +28,11 @@ public class SignedIntegerModel extends IntegerModel implements IModel,Serializa
 		this.val = val;
 	}
 
+	public SignedIntegerModel(Integer val) {
+		this.val = val.longValue();
+	}
+	
+
     /**
      * Token value.
      */

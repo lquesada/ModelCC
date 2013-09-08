@@ -27,6 +27,9 @@ public class SignedDecimalModel extends DecimalModel implements IModel,Serializa
 	public SignedDecimalModel(Double val) {
 		this.val = val;
 	}
+	public SignedDecimalModel(Float val) {
+		this.val = val.doubleValue();
+	}	
 
     /**
      * Token value.

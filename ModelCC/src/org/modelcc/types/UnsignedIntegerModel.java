@@ -27,6 +27,10 @@ public class UnsignedIntegerModel extends IntegerModel implements IModel,Seriali
 	public UnsignedIntegerModel(Long val) {
 		this.val = val;
 	}
+
+	public UnsignedIntegerModel(Integer val) {
+		this.val = val.longValue();
+	}
 	
     /**
      * Token value.

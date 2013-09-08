@@ -32,6 +32,10 @@ public class DecimalModel extends Number implements IModel,Serializable {
 		this.val = val;
 	}
 
+	public DecimalModel(Float val) {
+		this.val = val.doubleValue();
+	}
+	
     @Override
     public int intValue() {
         return val.intValue();
