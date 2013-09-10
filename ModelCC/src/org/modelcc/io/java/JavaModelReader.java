@@ -675,9 +675,11 @@ public class JavaModelReader extends ModelReader implements Serializable {
             Field field = fl[i];
             ElementMember c = readContent(relevantClasses,field,elementClass,pas,delimiters);
             if (c != null) {
-                contents.add(c);
-                if (c.isId())
-                    ids.add(c);
+            	if (!Modifier.isStatic(field.getModifiers())) {
+	                contents.add(c);
+	                if (c.isId())
+	                    ids.add(c);
+            	}
             }
         }
 
