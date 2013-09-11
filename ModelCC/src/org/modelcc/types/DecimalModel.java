@@ -13,7 +13,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-public class DecimalModel extends Number implements IModel,Serializable {
+public class DecimalModel extends NumberModel implements IModel,Serializable {
     
     /**
      * Serial Version ID

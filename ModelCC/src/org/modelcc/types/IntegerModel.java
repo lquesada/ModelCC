@@ -13,7 +13,7 @@ import org.modelcc.*;
  * @author elezeta
  * @serial
  */
-public class IntegerModel extends Number implements IModel,Serializable {
+public class IntegerModel extends NumberModel implements IModel,Serializable {
     
     /**
      * Serial Version ID
