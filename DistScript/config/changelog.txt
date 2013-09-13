@@ -1,4 +1,12 @@
 -----------------------------
+ModelCC v3.05    (2013-09-13)
+-----------------------------
+
++ [FEATURE] Added NumberModel predefined type.
++ [FEATURE] New commodity constructors added to Integer and Decimal models.
++ [FIX] Static fields were considered element members.
+
+-----------------------------
 ModelCC v3.04    (2013-09-05)
 -----------------------------
 
