@@ -11,6 +11,8 @@ import test.languages.inheritlanguage.Inherit2;
 import test.languages.inheritlanguage.Inherit3;
 import test.languages.inheritlanguage.Inherit4;
 import test.languages.inheritlanguage.Inherit5;
+import test.languages.inheritmembers.Basic;
+import test.languages.inheritmembers.Parentheses;
 import test.languages.keys.Keys11Lang;
 import test.languages.keys.Keys10Lang;
 import test.languages.keys.Keys9Lang;
@@ -1068,6 +1070,15 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(o.objects[0],o.ref);
 
     }    
+    
+    @Test
+    public void InheritMembers() {
+        assertEquals(1,testFull("A",Basic.class).size());
+        assertEquals(1,testFull("(A)",Parentheses.class).size());
+        assertEquals(1,testFull("(A)",Basic.class).size());
+        assertEquals(0,testFull("A",Parentheses.class).size());
+    }    
+
 
     @Test
     public void InheritTest1() {
