@@ -53,6 +53,8 @@ import test.languages.positions.Position8;
 import test.languages.positions.Position9;
 import test.languages.positions.PositionFree1;
 import test.languages.positions.PositionRef1;
+import test.languages.testlanguage.DollarPrefix;
+import test.languages.testlanguage.IncorrectDollarPrefix;
 import test.languages.testlanguage.Test7_2;
 import test.languages.testlanguage.Test7_1;
 import test.languages.testlanguage.Test7;
@@ -82,6 +84,7 @@ import test.languages.worklanguage.Ini1;
 import test.languages.worklanguage.Ino;
 import test.languages.worklanguage.Ini;
 import test.languages.arithmeticcalculator.Expression;
+
 import org.modelcc.parser.CannotCreateParserException;
 import org.modelcc.parser.Parser;
 import org.modelcc.parser.ParserFactory;
@@ -96,6 +99,7 @@ import org.modelcc.metamodel.Model;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -561,6 +565,21 @@ public class LanguageSpecificationFactoryTest {
         assertNotNull(cc.getTest());
         assertNotNull(cc.getTest().getTest());
         assertNotNull(cc.getTest().getTest().getTest());
+    }
+
+    @Test
+    public void DollarPrefixTest() {
+        Collection<Object> col = testFull("$0",DollarPrefix.class);
+        assertEquals(1,col.size());
+        DollarPrefix obj = (DollarPrefix)col.iterator().next();
+        assertEquals("$0",obj.toString());
+    }
+    
+
+    @Test
+    public void IncorrectDollarPrefixTest() {
+        Collection<Object> col = testFull("$0",IncorrectDollarPrefix.class);
+        assertEquals(0,col.size());
     }
 
     @Test

@@ -189,12 +189,21 @@ public final class LanguageSpecificationFactory implements Serializable {
                 BasicModelElement bel = (BasicModelElement)el;
 
                 // Hack: pattern matches empty string
-            	
                 if (bel.getPattern().read("",0)!=null) {
                     RuleElement rel2 = new RuleElement(eid);
                 	Rule er = new Rule();
                 	er.setLeft(rel2);
-                	er.setRight(new ArrayList<RuleElement>());
+                    List<RuleElement> rers2 = new ArrayList<RuleElement>();
+
+                    if (el.getPrefix()!=null)
+                        for (int i = 0;i < el.getPrefix().size();i++)
+                            rers2.add(deltore.get(el.getPrefix().get(i)));
+
+                    if (el.getSuffix()!=null)
+                        for (int i = 0;i < el.getSuffix().size();i++)
+                            rers2.add(deltore.get(el.getSuffix().get(i)));
+
+                    er.setRight(rers2);
                 	er.setBuilder(esb);
                 	ssf.addRule(er);
                 	sr.add(er);

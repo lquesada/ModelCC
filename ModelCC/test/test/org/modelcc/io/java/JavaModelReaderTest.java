@@ -38,6 +38,7 @@ import org.modelcc.probabilistic.NumericProbabilityEvaluator;
 import org.modelcc.tools.RunTimeSubclassFinder;
 
 import test.languages.testlanguage.*;
+
 import org.modelcc.AssociativityType;
 import org.modelcc.Position;
 
@@ -1707,7 +1708,6 @@ public class JavaModelReaderTest {
         assertEquals(1,warnings.size());
         assertEquals(1,warnings2.size());
     }
-    
 
     @Test
     public void WarningExportHandlerTest3() {
