@@ -29,8 +29,6 @@ public class AWKTests {
 	Parser<AWKPattern> awkPatternParser;
 	Parser<AWKProgram> awkProgramParser;
 	Parser<AWKRule> awkRuleParser;
-	//TODO AWKProgram
-	//TODO AWKRule
 
 	public Parser generateParser(Class cl) {
 		Model model;
@@ -45,7 +43,7 @@ public class AWKTests {
 		return parser;
 	}
 
-	private void assertAmbiguityFree(Parser parser, String string) {
+	private void assertValid(Parser parser, String string) {
 		Collection ret = null;
     	try {
     		ret = parser.parseAll(string);
@@ -53,8 +51,7 @@ public class AWKTests {
     		e.printStackTrace();
         	assertFalse(true);
     	}
-    	assertEquals(1,ret.size());
-		
+	
 	}
 
 	private void assertInvalid(Parser parser, String string) {
@@ -75,60 +72,61 @@ public class AWKTests {
 		awkActionParser = generateParser(AWKAction.class);
 		awkRegularExpressionPatternParser = generateParser(AWKRegularExpressionPattern.class);
 		awkPatternParser = generateParser(AWKPattern.class);
-		awkProgramParser = generateParser(AWKProgram.class);
 		awkRuleParser = generateParser(AWKRule.class);
+		
+		awkProgramParser = generateParser(AWKProgram.class);
 	}
 	
 	@Test
 	public void awkFieldTest() {
-		assertAmbiguityFree(awkFieldParser,"$0");
-		assertAmbiguityFree(awkFieldParser,"$1");
+		assertValid(awkFieldParser,"$0");
+		assertValid(awkFieldParser,"$1");
 		assertInvalid(awkFieldParser,"0");
 		assertInvalid(awkFieldParser,"1");
 	}
 	@Test
 	public void awkExpressionTest() {
-		assertAmbiguityFree(awkExpressionParser,"$0");
-		assertAmbiguityFree(awkExpressionParser,"$1");
+		assertValid(awkExpressionParser,"$0");
+		assertValid(awkExpressionParser,"$1");
 		assertInvalid(awkExpressionParser,"0");
 		assertInvalid(awkExpressionParser,"1");
 	}
 	@Test
 	public void awkPrintStatementTest() {
-		assertAmbiguityFree(awkPrintStatementParser,"print $0");
-		assertAmbiguityFree(awkPrintStatementParser,"print $1");
+		assertValid(awkPrintStatementParser,"print $0");
+		assertValid(awkPrintStatementParser,"print $1");
 		assertInvalid(awkPrintStatementParser,"print 0");
 		assertInvalid(awkPrintStatementParser,"$0");
 	}
 	@Test
 	public void awkStatementTest() {
-		assertAmbiguityFree(awkStatementParser,"print $0");
-		assertAmbiguityFree(awkStatementParser,"print $1");
+		assertValid(awkStatementParser,"print $0");
+		assertValid(awkStatementParser,"print $1");
 		assertInvalid(awkStatementParser,"print 0");
 		assertInvalid(awkStatementParser,"$0");
 	}
 	@Test
 	public void awkActionTest() {
-		assertAmbiguityFree(awkActionParser,"{ }");
-		assertAmbiguityFree(awkActionParser,"{ print $1 }");
-		assertAmbiguityFree(awkActionParser,"{print $1}");
+		assertValid(awkActionParser,"{ }");
+		assertValid(awkActionParser,"{ print $1 }");
+		assertValid(awkActionParser,"{print $1}");
 		assertInvalid(awkActionParser,"{ 0 }");
 		assertInvalid(awkActionParser,"$0");
 	}
 	@Test
 	public void awkRegularExpressionPatternTest() {
-		//assertAmbiguityFree(awkRegularExpressionPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertAmbiguityFree(awkRegularExpressionPatternParser,"//");
-		//assertAmbiguityFree(awkRegularExpressionPatternParser,"/a/");
+		assertValid(awkRegularExpressionPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
+		assertValid(awkRegularExpressionPatternParser,"//");
+		assertValid(awkRegularExpressionPatternParser,"/a/");
 		assertInvalid(awkRegularExpressionPatternParser,"/aa/aa/");
 		assertInvalid(awkRegularExpressionPatternParser,"/");
 		assertInvalid(awkRegularExpressionPatternParser,"afa");
 	}
-/*TODO
- * 	@Test
+ 	@Test
 	public void awkPatternTest() {
-		assertAmbiguityFree(awkPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertAmbiguityFree(awkPatternParser,"//");
+		assertValid(awkPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
+		assertValid(awkPatternParser,"//");
+		assertValid(awkPatternParser,"/a/");
 		assertInvalid(awkPatternParser,"/aa/aa/");
 		assertInvalid(awkPatternParser,"/");
 		assertInvalid(awkPatternParser,"afa");
@@ -136,19 +134,19 @@ public class AWKTests {
 
 	@Test
 	public void awkRuleTest() {
-		assertAmbiguityFree(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/ { print $1 }");
-		assertAmbiguityFree(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertAmbiguityFree(awkRuleParser,"{ print $1 }");
+		assertValid(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/ { print $1 }");
+		assertValid(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
+		assertValid(awkRuleParser,"{ print $1 }");
 		assertInvalid(awkRuleParser,"/aaaa/ /aa/");
 		assertInvalid(awkRuleParser,"{ $1 } { $1 }");
 	}
 
 	@Test
 	public void awkProgramTest() {
-		assertAmbiguityFree(awkProgramParser,"/[a-zA-Z][a-zA-Z0-9_]+/ { print $1 }");
-		assertAmbiguityFree(awkProgramParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertAmbiguityFree(awkProgramParser,"{ print $1 }");
-		assertInvalid(awkProgramParser,"/aaaa/ /aa/");
-		assertInvalid(awkProgramParser,"{ $1 } { $1 }");
-	}*/
+		assertValid(awkProgramParser,"// { print $1 }");
+		assertValid(awkProgramParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
+		assertValid(awkProgramParser,"{ print $1 }");
+		assertValid(awkProgramParser,"/aaaa/ \n /aa/");
+		assertValid(awkProgramParser,"{ print $1 } \n { print $1 }");
+	}
 }

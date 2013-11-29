@@ -555,7 +555,7 @@ public final class LanguageSpecificationFactory implements Serializable {
       /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
-            System.out.println("token: "+rx);
+            System.out.println("token: "+rx.getRecognizer());
         }
 
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
@@ -879,6 +879,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
+	                    //System.out.println("1 "+t.getUserData());
             	        return true;
 	                }
 	            });
@@ -896,12 +897,15 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
 	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
+	                    //System.out.println("2 "+t.getUserData());
 	                    return true;
 	                }
 	            });
@@ -922,6 +926,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		                @Override
 						public boolean build(Symbol t,Object data) {
 		                    t.setUserData(t.getContents().get(0).getUserData());
+		                    //System.out.println("3 "+t.getUserData());
 		                    return true;
 		                }
 		            });
@@ -934,6 +939,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 		                @Override
 						public boolean build(Symbol t,Object data) {
 		                    t.setUserData(new ListContents(new Object[0]));
+		                    //System.out.println("4 "+t.getUserData());
 		                    return true;
 		                }
 		            });
@@ -971,12 +977,15 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(t.getContents().size()-2).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
 	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
+	                    //System.out.println("5 "+t.getUserData());
 	                    return true;
 	                }
 	            });
@@ -1053,6 +1062,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
+	                    //System.out.println("6 "+t.getUserData());
             	        return true;
 	                }
 	            });
@@ -1076,12 +1086,15 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
 	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
+	                    //System.out.println("7 "+t.getUserData());
 	                    return true;
 	                }
 	            });
@@ -1152,6 +1165,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
+	                    //System.out.println("8 "+t.getUserData());
             	        return true;
 	                }
 	            });
@@ -1183,6 +1197,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
+	                    //System.out.println("9 "+t.getUserData());
             	        return true;
 	                }
 	            });
@@ -1200,12 +1215,15 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
 	                    Object[] l = new Object[rest.length+1];
 	                    l[0] = t.getContents().get(0).getUserData();
 	                    for (int i = 0;i < rest.length;i++)
 	                        l[i+1] = rest[i];
 	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
+	                    //System.out.println("10 "+t.getUserData());
 	                    return true;
 	                }
 	            });
@@ -1280,6 +1298,10 @@ public final class LanguageSpecificationFactory implements Serializable {
 					public boolean build(Symbol t,Object data) {
 	        	        ListContents l0 = (ListContents)t.getContents().get(0).getUserData();
 				        ListContents l1 = (ListContents)t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (l0 == null)
+	                    	l0 = new ListContents(new Object[0]);
+	                    if (l1 == null)
+	                    	l1 = new ListContents(new Object[0]);
 				        Object[] l = new Object[l0.getL().length+l1.getL().length];
 				        Object[] rest = l0.getL();
 				        for (int i = 0;i < rest.length;i++)
@@ -1296,6 +1318,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        	}
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
+	                    //System.out.println("11 "+t.getUserData());
 				        return true;
 	                }
 	            });
@@ -1356,6 +1379,8 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(t.getContents().size()-1).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
             	        Symbol extra = null;
             	        RuleElementPosition extraRuleElement = null;
@@ -1366,6 +1391,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        	}
             	        }
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+	                    //System.out.println("12 "+t.getUserData());
 				        return true;
 	                }
 	            });
@@ -1427,6 +1453,8 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                @Override
 					public boolean build(Symbol t,Object data) {
 	                    ListContents restContents = (ListContents) t.getContents().get(0).getUserData();
+	                    if (restContents == null)
+	                    	restContents = new ListContents(new Object[0]);
 	                    Object[] rest = restContents.getL();
             	        Symbol extra = null;
             	        RuleElementPosition extraRuleElement = null;
@@ -1437,6 +1465,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        	}
             	        }
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+	                    //System.out.println("13 "+t.getUserData());
 				        return true;
 	                }
 	            });
@@ -1453,6 +1482,7 @@ public final class LanguageSpecificationFactory implements Serializable {
     	        		Symbol extra = t.getContents().get(0);
     	        		RuleElementPosition extraRuleElement = (RuleElementPosition)t.getElements().get(0);
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
+	                    //System.out.println("14 "+t.getUserData());
 				        return true;
 	                }
 	            });
