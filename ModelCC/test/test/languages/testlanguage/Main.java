@@ -19,15 +19,14 @@ public class Main implements IModel {
     @Prefix({"a","b"})
     @Suffix({"c","d"})
     @Separator({"e","a"})
-    @Minimum(0)
-    @Maximum(1000)
+    @Multiplicity(minimum=0,maximum=1000)
     @Optional
     Test1[] tests1;
 
-    @Minimum(1)
+    @Multiplicity(minimum=1)
     List<Test1> tests2;
 
-    @Maximum(10)
+    @Multiplicity(maximum=10)
     @Reference
     List<Test3> tests3;
 

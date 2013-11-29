@@ -14,8 +14,7 @@ import org.modelcc.*;
  */
 public class Ini10 implements IModel {
 
-    @Minimum(2)
-    @Maximum(4)
+	@Multiplicity(minimum=2,maximum=4)
     @Prefix("\\(")
     @Suffix("\\)")
     public Set<Ino2> a;

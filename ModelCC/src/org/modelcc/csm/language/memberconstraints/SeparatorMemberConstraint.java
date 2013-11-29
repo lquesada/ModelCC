@@ -34,7 +34,7 @@ public class SeparatorMemberConstraint extends MemberConstraint implements IMode
     private static final long serialVersionUID = 31415926535897932L;
 
     @Prefix("=")
-    @Minimum(0)
+    @Multiplicity(minimum=0)
     @Separator(",")
     private List<QuotedStringModel> separators;
  

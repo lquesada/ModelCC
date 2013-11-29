@@ -13,8 +13,7 @@ import org.modelcc.*;
  */
 public class WrongClass12 implements IModel {
 
-    @Minimum(3)
-    @Maximum(7)
+	@Multiplicity(minimum=3,maximum=7)
     OKClass aasdf2;
 
 }

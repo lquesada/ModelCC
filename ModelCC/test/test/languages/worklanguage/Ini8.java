@@ -14,7 +14,7 @@ import org.modelcc.*;
  */
 public class Ini8 implements IModel {
 
-    @Minimum(0)
+	@Multiplicity(minimum=0)
 //    @Maximum(4)
     @Prefix("\\(")
     @Suffix("\\)")

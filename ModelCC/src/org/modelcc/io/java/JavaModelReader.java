@@ -845,7 +845,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
 
         
         if (!relevantClasses.contains(contentClass)) {
-            if (field.isAnnotationPresent(ID.class) || field.isAnnotationPresent(Maximum.class) || field.isAnnotationPresent(Minimum.class) || field.isAnnotationPresent(Optional.class) || field.isAnnotationPresent(Prefix.class) || field.isAnnotationPresent(Suffix.class) || field.isAnnotationPresent(Separator.class) || field.isAnnotationPresent(Reference.class)) {
+            if (field.isAnnotationPresent(ID.class) || field.isAnnotationPresent(Multiplicity.class) || field.isAnnotationPresent(Optional.class) || field.isAnnotationPresent(Prefix.class) || field.isAnnotationPresent(Suffix.class) || field.isAnnotationPresent(Separator.class) || field.isAnnotationPresent(Reference.class)) {
                 log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": Field class does not implement IModel but has ModelCC annotations.", new Object[]{field.getName(), elementClass.getCanonicalName()});
             }
             return null;
@@ -871,33 +871,36 @@ public class JavaModelReader extends ModelReader implements Serializable {
         
         //int minimumMultiplicity = -1;
         //int maximumMultiplicity = -1;
-        if (field.isAnnotationPresent(Minimum.class)) {
-            minimumMultiplicity = field.getAnnotation(Minimum.class).value();
-            if (minimumMultiplicity < 0) {
-                log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Minimum value has to be 0 or higher.", new Object[]{field.getName(), elementClass.getCanonicalName()});
-                minimumMultiplicity = -1;
+        if (field.isAnnotationPresent(Multiplicity.class)) {
+            minimumMultiplicity = field.getAnnotation(Multiplicity.class).minimum();
+            if (minimumMultiplicity!=-19977) {
+            	if (minimumMultiplicity < 0) {
+            		log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Multiplicity minimum value has to be 0 or higher.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            		minimumMultiplicity = -1;
+            	}
             }
-        }
-
-        if (field.isAnnotationPresent(Maximum.class)) {
-            maximumMultiplicity = field.getAnnotation(Maximum.class).value();
-            if (maximumMultiplicity < 0) {
-                log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Maximum value has to be 0 or higher.", new Object[]{field.getName(), elementClass.getCanonicalName()});
-                maximumMultiplicity = -1;
+            maximumMultiplicity = field.getAnnotation(Multiplicity.class).maximum();
+            if (maximumMultiplicity!=-19977) {
+            	if (maximumMultiplicity < 0) {
+            		log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Multiplicity maximum value has to be 0 or higher.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            		maximumMultiplicity = -1;
+            	}
             }
-        }
-
-        if (field.isAnnotationPresent(Minimum.class) && field.isAnnotationPresent(Maximum.class)) {
-            if (minimumMultiplicity>maximumMultiplicity) {
-                log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Maximum value has to be the same or higher than the @Minimum value.", new Object[]{field.getName(), elementClass.getCanonicalName()});
-                maximumMultiplicity = -1;
+            if (minimumMultiplicity!=-19977 && maximumMultiplicity!=-19977) {
+            	if (minimumMultiplicity>maximumMultiplicity) {
+            		log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Multiplicity minimum value has to be the same or higher than the maximum value.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            		maximumMultiplicity = -1;
+            	}
             }
-        }
-
-        if ((field.isAnnotationPresent(Minimum.class) || field.isAnnotationPresent(Maximum.class)) && collection==null) {
-                log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Minimum or @Maximum values can only be set for container contents.", new Object[]{field.getName(), elementClass.getCanonicalName()});
-                maximumMultiplicity = -1;
-                minimumMultiplicity = -1;
+            if ((minimumMultiplicity!=-19977 || maximumMultiplicity!=-19977) && collection==null) {
+            	log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Multiplicity minimum or maximum values can only be set for container contents.", new Object[]{field.getName(), elementClass.getCanonicalName()});
+            	maximumMultiplicity = -1;
+            	minimumMultiplicity = -1;
+            }
+            if (minimumMultiplicity==-19977)
+            	minimumMultiplicity = -1;
+            if (maximumMultiplicity==-19977)
+            	maximumMultiplicity = -1;
         }
 
        

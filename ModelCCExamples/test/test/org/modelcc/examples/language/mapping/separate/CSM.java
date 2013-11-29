@@ -7,6 +7,7 @@ package test.org.modelcc.examples.language.mapping.separate;
 
 import java.util.Set;
 import org.modelcc.*;
+
 import test.org.modelcc.examples.language.mapping.separate.ConstraintDefinition;
 
 /**
@@ -14,7 +15,7 @@ import test.org.modelcc.examples.language.mapping.separate.ConstraintDefinition;
  * @author elezeta
  */
 public class CSM implements IModel {
-    @Minimum(0)
+	@Multiplicity(minimum=0)
     Set<ConstraintDefinition> constraints;
     
 }

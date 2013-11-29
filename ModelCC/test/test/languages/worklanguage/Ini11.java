@@ -16,8 +16,7 @@ import org.modelcc.*;
 @Suffix({"b","cc"})
 public class Ini11 implements IModel {
 
-    @Minimum(2)
-    @Maximum(4)
+	@Multiplicity(minimum=2,maximum=4)
     @Prefix("\\(")
     @Suffix("\\)")
     public Set<Ino2> a;

@@ -20,7 +20,7 @@ public class Polygon extends GraphicElement implements IModel {
 
     @Prefix("\\[")
     @Suffix("\\]")
-    @Minimum(3)
+    @Multiplicity(minimum=3)
     List<Coordinates> coords;
     
     @Optional

@@ -24,7 +24,7 @@ public class CanvasDraw extends JComponent implements IModel {
 
     public Parameters pars;
     
-    @Minimum(0)
+    @Multiplicity(minimum=0)
     public GraphicElement[] elems;    
     
     int width;

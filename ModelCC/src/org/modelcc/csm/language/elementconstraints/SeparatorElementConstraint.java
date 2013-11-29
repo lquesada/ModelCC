@@ -34,7 +34,7 @@ public class SeparatorElementConstraint extends ElementConstraint implements IMo
     private static final long serialVersionUID = 31415926535897932L;
 
     @Prefix("=")
-    @Minimum(0)
+    @Multiplicity(minimum=0)
     @Separator(",")
     private List<QuotedStringModel> separators;
  

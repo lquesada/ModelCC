@@ -4,24 +4,32 @@
 
 
 package org.modelcc;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Maximum multiplicity constraints.
+ * Multiplicity constraints.
  * @author elezeta
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Maximum {
+public @interface Multiplicity {
+
+  //Minimum number of elements in a container field.
 
     /**
-     * @return the maximum multiplicity value
+     * @return the minimum multiplicity value.
      */
-    public int value();
+    public int minimum() default -19977;
 
-  //Maximum number of elements in a container field.
+    //Maximum number of elements in a container field.
+
+    /**
+     * @return the minimum multiplicity value.
+     */
+    public int maximum() default -19977;
 
 }

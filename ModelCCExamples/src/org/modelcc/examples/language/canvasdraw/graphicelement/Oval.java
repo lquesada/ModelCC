@@ -17,8 +17,7 @@ import java.awt.*;
 @Prefix("oval")
 public class Oval extends GraphicElement implements IModel {
 
-    @Minimum(2)
-    @Maximum(2)
+	@Multiplicity(minimum=2,maximum=2)
     @Prefix("\\[")
     @Suffix("\\]")
     Coordinates[] coords;    

@@ -17,7 +17,7 @@ import org.modelcc.examples.language.graphdraw3d.Sentence;
 @Suffix("\\]")
 public final class GroupSentence extends Sentence implements IModel {
     
-    @Minimum(0)
+	@Multiplicity(minimum=0)
     Sentence[] sentences;
 
     @Override

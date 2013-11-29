@@ -14,8 +14,7 @@ import org.modelcc.*;
  */
 public class WrongClass11 implements IModel {
 
-    @Minimum(3)
-    @Maximum(1)
+	@Multiplicity(minimum=3,maximum=1)
     Set<OKClass> aasdf2;
 
 }

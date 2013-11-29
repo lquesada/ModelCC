@@ -15,7 +15,7 @@ public class Position11 implements IModel {
 
 	public A a;
 
-	@Minimum(3)
+	@Multiplicity(minimum=3)
 	@Separator(value={"x","y"})
 	public C[] c;
 	

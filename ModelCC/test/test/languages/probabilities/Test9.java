@@ -18,7 +18,7 @@ import org.modelcc.probabilistic.Probability;
 public class Test9 implements IModel {
    
 	@Probability(p=0.2)
-	@Minimum(0)
+	@Multiplicity(minimum=0)
     public List<OK05Class> a;
 
 	@Position(element="a",position=Position.WITHIN)
