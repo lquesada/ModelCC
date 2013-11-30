@@ -75,23 +75,23 @@ fi
 echo "Headers ok."
 echo ""
 
-echo "Checking @author..."
-eq=0
+#echo "Checking @author..."
+#eq=0
 au=`cat res/authororig`
-for i in $javas;do
-  af=0
-  cat "$i" | grep -e "$au" > /dev/null&&af=1
-  
-  if [ $af -eq 0 ];then
-     echo ERROR: INCORRECT @AUTHOR IN $i
-     eq=1
-  fi
-done
-if [ $eq -eq 1 ];then
-  exit
-fi
-echo "@author's ok."
-echo ""
+#for i in $javas;do
+#  af=0
+#  cat "$i" | grep -e "$au" > /dev/null&&af=1
+#  
+#  if [ $af -eq 0 ];then
+#     echo ERROR: INCORRECT @AUTHOR IN $i
+#     eq=1
+#  fi
+#done
+#if [ $eq -eq 1 ];then
+#  exit
+#fi
+#echo "@author's ok."
+#echo ""
 
 echo "Checking serialVersionUID..."
 eq=0
@@ -190,21 +190,21 @@ fi
 echo "Headers ok."
 echo ""
 
-echo "Checking @author..."
-eq=0
-for i in $javas;do
-  af=0
-  cat "$i" | grep "$aun" > /dev/null&&af=1
-  if [ $af -eq 0 ];then
-     echo ERROR: INCORRECT @AUTHOR IN $i
-     eq=1
-  fi
-done
-if [ $eq -eq 1 ];then
-  exit
-fi
-echo "@author's ok."
-echo ""
+#echo "Checking @author..."
+#eq=0
+#for i in $javas;do
+#  af=0
+#  cat "$i" | grep "$aun" > /dev/null&&af=1
+#  if [ $af -eq 0 ];then
+#     echo ERROR: INCORRECT @AUTHOR IN $i
+#     eq=1
+#  fi
+#done
+#if [ $eq -eq 1 ];then
+#  exit
+#fi
+#echo "@author's ok."
+#echo ""
 
 echo "Checking serialVersionUID..."
 eq=0
