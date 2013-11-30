@@ -5,11 +5,9 @@
 
 // This language specification by Fernando Berzal
 
-package test.languages.awk;
+package test.languages.bc;
 
-import org.modelcc.IModel;
-
-public abstract class AWKExpression implements IModel
+public class SimpleType extends Type 
 {
-
+	Identifier typename;
 }

@@ -5,11 +5,15 @@
 
 // This language specification by Fernando Berzal
 
-package test.languages.awk;
+package test.languages.bc;
 
-import org.modelcc.IModel;
+import org.modelcc.*;
 
-public abstract class AWKExpression implements IModel
+public class Range implements IModel
 {
-
+	IntegerLiteral min;
+	
+	@Prefix("\\.\\.")
+	IntegerLiteral max;
+	
 }
