@@ -77,28 +77,11 @@
     <target name="ModelCCTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.languages.optionalstring.ScanTest" todir="${junit.output.dir}"/>
-            <test name="test.languages.optionalstring2.ScanTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.ModelCC1_00Test" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.ModelCC1_01Test" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.ModelCC2_03Test" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.io.java.JavaModelReaderTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.factory.KeyWrapperTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.factory.LanguageSpecificationFactoryTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.factory.ObjectWrapperTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.lexis.LambSpecificationFactoryTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.syntax.ConstraintsFactoryTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.language.syntax.GrammarFactoryTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.lexer.lamb.LambTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.lexer.recognizer.PatternRecognizerTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.lexer.recognizer.regexp.RegExpPatternRecognizerTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.lexer.recognizer.regexp.ShiftingCharSequenceTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.parser.fence.FenceConstraintEnforcerTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.parser.fence.FenceGrammarParserTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.parser.fence.FenceTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.types.ScientificNotationParserTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.types.TypesTest" todir="${junit.output.dir}"/>
+            <batchtest fork="yes" todir="${reports.tests}">
+              <fileset dir="test">
+                <include name="**/*Test.java"/>
+              </fileset>
+            </batchtest>
             <classpath refid="ModelCC.classpath"/>
         </junit>
     </target>
