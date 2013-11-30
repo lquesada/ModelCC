@@ -86,10 +86,11 @@
     <target name="ModelCCExamplesTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.org.modelcc.examples.language.canvasdraw.CanvasDrawTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.examples.language.imperativearithmetic.ImperativeArithmeticTest" todir="${junit.output.dir}"/>
-            <test name="test.org.modelcc.examples.language.simplearithmeticexpression.ExpressionTest" todir="${junit.output.dir}"/>
+            <batchtest fork="yes" todir="${reports.tests}">
+              <fileset dir="test">
+                <include name="**/*Test.java"/>
+              </fileset>
+            </batchtest>
             <jvmarg line="-Djava.library.path=lib/lwjgl-2.9.0/native/linux"/>
             <classpath refid="ModelCCExamples.classpath"/>
         </junit>
