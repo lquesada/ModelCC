@@ -22,14 +22,29 @@ import org.modelcc.parser.ParserFactory;
 public class BCTests {
 
 	static Parser<StringLiteral> stringLiteralParser;
-//	static Parser<AWKExpression> awkExpressionParser;
-//	static Parser<AWKPrintStatement> awkPrintStatementParser;
-//	static Parser<AWKStatement> awkStatementParser;
-//	static Parser<AWKAction> awkActionParser;
-//	static Parser<AWKRegularExpressionPattern> awkRegularExpressionPatternParser;
-//	static Parser<AWKPattern> awkPatternParser;
-//	static Parser<AWKProgram> awkProgramParser;
-//	static Parser<AWKRule> awkRuleParser;
+	static Parser<ProcedureCallStatement> procedureCallStatementParser;
+	static Parser<Procedure> procedureParser;
+
+	//tests
+	//ArrayType
+	//AssignmentStatement
+	//Block
+	//Expression
+	//ExpressionGroup
+	//Identifier
+	//IfStatement
+	//InputStatement
+	//IntegerLiteral
+	//OutputStatement
+	//Program
+	//Range
+	//RepeatStatement
+	//SimpleType
+	//Statement
+	//StringLiteral
+	//Type
+	//Variable
+	//WhileStatement
 
 	public static Parser generateParser(Class cl) {
 		Model model;
@@ -67,14 +82,8 @@ public class BCTests {
 	@BeforeClass
 	public static void before() {
 		stringLiteralParser = generateParser(StringLiteral.class);
-/*		awkExpressionParser = generateParser(AWKExpression.class);
-		awkPrintStatementParser = generateParser(AWKPrintStatement.class);
-		awkStatementParser = generateParser(AWKStatement.class);
-		awkActionParser = generateParser(AWKAction.class);
-		awkRegularExpressionPatternParser = generateParser(AWKRegularExpressionPattern.class);
-		awkPatternParser = generateParser(AWKPattern.class);
-		awkRuleParser = generateParser(AWKRule.class);
-		awkProgramParser = generateParser(AWKProgram.class);*/
+		procedureCallStatementParser = generateParser(ProcedureCallStatement.class);
+		procedureParser = generateParser(Procedure.class);
 	}
 	
 	@Test
@@ -102,71 +111,49 @@ public class BCTests {
 		assertInvalid(stringLiteralParser,"' a");
 	}
 
+	@Test
+	public void procedureCallStatementValidTest1() {
+		assertValid(procedureCallStatementParser,"id(1)");
+	}
+
+	@Test
+	public void procedureCallStatementValidTest2() {
+		assertValid(procedureCallStatementParser,"id()");
+	}
+
+	@Test
+	public void procedureCallStatementValidTest3() {
+		assertValid(procedureCallStatementParser,"id(a)");
+	}
+
+	@Test
+	public void procedureCallStatementInvalidTest1() {
+		assertInvalid(procedureCallStatementParser,"id)");
+	}
+
+	@Test
+	public void procedureCallStatementInvValidTest2() {
+		assertInvalid(procedureCallStatementParser,"id(");
+	}
+
+	@Test
+	public void procedureValidTest1() {
+		assertValid(procedureParser,"procedimiento id(a:int;b:int); inicio fin");
+	}
+
+	@Test
+	public void procedureValidTest2() {
+		assertValid(procedureParser,"procedimiento id(a:int;b:int); inicio a := 2; fin");
+	}
+
+	@Test
+	public void procedureInvalidTest1() {
+		assertInvalid(procedureParser,"procedimiento id(a:int;b:int); inicio a := 2 fin");
+	}
 	
-/*	@Test
-	public void awkExpressionTest() {
-		assertValid(awkExpressionParser,"$0");
-		assertValid(awkExpressionParser,"$1");
-		assertInvalid(awkExpressionParser,"0");
-		assertInvalid(awkExpressionParser,"1");
-	}
 	@Test
-	public void awkPrintStatementTest() {
-		assertValid(awkPrintStatementParser,"print $0");
-		assertValid(awkPrintStatementParser,"print $1");
-		assertInvalid(awkPrintStatementParser,"print 0");
-		assertInvalid(awkPrintStatementParser,"$0");
-	}
-	@Test
-	public void awkStatementTest() {
-		assertValid(awkStatementParser,"print $0");
-		assertValid(awkStatementParser,"print $1");
-		assertInvalid(awkStatementParser,"print 0");
-		assertInvalid(awkStatementParser,"$0");
-	}
-	@Test
-	public void awkActionTest() {
-		assertValid(awkActionParser,"{ }");
-		assertValid(awkActionParser,"{ print $1 }");
-		assertValid(awkActionParser,"{print $1}");
-		assertInvalid(awkActionParser,"{ 0 }");
-		assertInvalid(awkActionParser,"$0");
-	}
-	@Test
-	public void awkRegularExpressionPatternTest() {
-		assertValid(awkRegularExpressionPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertValid(awkRegularExpressionPatternParser,"//");
-		assertValid(awkRegularExpressionPatternParser,"/a/");
-		assertInvalid(awkRegularExpressionPatternParser,"/aa/aa/");
-		assertInvalid(awkRegularExpressionPatternParser,"/");
-		assertInvalid(awkRegularExpressionPatternParser,"afa");
-	}
- 	@Test
-	public void awkPatternTest() {
-		assertValid(awkPatternParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertValid(awkPatternParser,"//");
-		assertValid(awkPatternParser,"/a/");
-		assertInvalid(awkPatternParser,"/aa/aa/");
-		assertInvalid(awkPatternParser,"/");
-		assertInvalid(awkPatternParser,"afa");
+	public void procedureInvalidTest2() {
+		assertInvalid(procedureParser,"procedimiento id(a:int;b:int) inicio a := 2; fin");
 	}
 
-	@Test
-	public void awkRuleTest() {
-		assertValid(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/ { print $1 }");
-		assertValid(awkRuleParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertValid(awkRuleParser,"{ print $1 }");
-		assertInvalid(awkRuleParser,"/aaaa/ /aa/");
-		assertInvalid(awkRuleParser,"{ $1 } { $1 }");
-	}
-
-	@Test
-	public void awkProgramTest() {
-		assertValid(awkProgramParser,"// { print $1 }");
-		assertValid(awkProgramParser,"/[a-zA-Z][a-zA-Z0-9_]+/");
-		assertValid(awkProgramParser,"{ print $1 }");
-		assertValid(awkProgramParser,"/aaaa/ \n /aa/");
-		assertValid(awkProgramParser,"{ print $1 } \n { print $1 }");
-	}
-	*/
 }
