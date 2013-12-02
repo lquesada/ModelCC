@@ -1,4 +1,12 @@
 -----------------------------
+ModelCC v3.06    (2013-12-02)
+-----------------------------
+
++ [CHANGE] Replaced @Minimum and @Maximum with @Multiplicity.
++ [FIX] Regular expression patterns in language elements could not match empty strings.
++ [FIX] List of elements with only optional members made ModelCC crash.
+
+-----------------------------
 ModelCC v3.05    (2013-09-13)
 -----------------------------
 
