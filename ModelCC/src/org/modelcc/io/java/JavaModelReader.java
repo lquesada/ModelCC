@@ -1485,17 +1485,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
                             if (!em2.isOptional())
                                 allopt = false;
                         }
-                        if (allopt && pe2.getPrefix() == null && pe2.getSuffix() == null && em.getPrefix() == null && em.getSuffix() == null) {
-                            pe.getContents().set(i,new ElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),em.getProbabilityEvaluator()));
-                            //log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field is annotated with @Optional and all its contents are also @Optional, the field @Optional annotation is redundant.", new Object[]{em.getField(), pe.getElementClass().getCanonicalName()});
-                        }
-                    }
-                    else {
-                        MultipleElementMember mem = (MultipleElementMember)em;
-                        if (mem.getMinimumMultiplicity()==0 && mem.getPrefix() == null && mem.getSuffix() == null) {
-                            pe.getContents().set(i,new MultipleElementMember(em.getField(),em.getElementClass(),false,em.isId(),em.isReference(),em.getPrefix(),em.getSuffix(),em.getSeparator(),mem.getCollection(),mem.getMinimumMultiplicity(),mem.getMaximumMultiplicity(),em.getProbabilityEvaluator()));
-                            //log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": This field has minimum multiplicity 0 and is redundantly optional because it has not prefixes or suffixes.", new Object[]{mem.getField(), pe.getElementClass().getCanonicalName()});
-                        }
                     }
                 }
             }

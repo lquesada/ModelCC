@@ -619,7 +619,7 @@ public class LanguageSpecificationFactoryTest {
         o = testFull("a1 a2 refs a",c);
         Keys1Lang cc = (Keys1Lang) o.iterator().next();
         assertEquals(cc.keys1[0],cc.refs[0]);
-        assertEquals(0,cf.getCount());
+        assertEquals(1,cf.getCount());
     }
     
     @Test
