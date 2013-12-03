@@ -13,10 +13,8 @@ import org.modelcc.*;
  */
 public class Keys9Lang implements IModel {
 
-    @Optional
     @Reference public Keys1b[] refsbla;
 
-    @Optional
     @Reference public CompositeData[] refs;
     
     @Prefix("data")

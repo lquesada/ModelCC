@@ -13,7 +13,6 @@ import org.modelcc.*;
  */
 public class WrongClassPositionClash5 implements IModel {
 
-	@Optional
 	OKClass[] a;
 	
 	@Position(element="a",position=Position.WITHIN,separatorPolicy=SeparatorPolicy.REPLACE)

@@ -13,7 +13,6 @@ import org.modelcc.*;
  */
 public class Keys11Lang implements IModel {
 
-    @Optional
     @Reference public FreeKey[] refs;
     
     @Prefix("data")

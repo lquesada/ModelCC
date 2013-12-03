@@ -14,6 +14,7 @@ import org.modelcc.*;
 public class Keys7Lang implements IModel {
 
     @Optional
+    @Multiplicity(minimum=1)
     @Prefix("startref") @Suffix("endref") @Reference public Keys1b[] refs;
     
     @Prefix("data") 

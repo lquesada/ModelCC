@@ -643,7 +643,7 @@ public class JavaModelReaderTest {
         mc = (MultipleElementMember) ce.getContents().get(2);
         assertEquals("tests3",mc.getField());
         assertEquals(CollectionType.LIST,mc.getCollection());
-        assertEquals(-1,mc.getMinimumMultiplicity());
+        assertEquals(0,mc.getMinimumMultiplicity());
         assertEquals(10,mc.getMaximumMultiplicity());
         assertEquals(false,mc.isOptional());
         assertEquals(false,mc.isId());
@@ -655,7 +655,7 @@ public class JavaModelReaderTest {
         mc = (MultipleElementMember) ce.getContents().get(3);
         assertEquals("tests4",mc.getField());
         assertEquals(CollectionType.SET,mc.getCollection());
-        assertEquals(-1,mc.getMinimumMultiplicity());
+        assertEquals(0,mc.getMinimumMultiplicity());
         assertEquals(-1,mc.getMaximumMultiplicity());
         assertEquals(false,mc.isOptional());
         assertEquals(false,mc.isId());
@@ -977,7 +977,7 @@ public class JavaModelReaderTest {
             return;
         }
         assertEquals(1,c.getCount());
-        assertEquals(-1,((MultipleElementMember)((ComplexModelElement)m.getClassToElement().get(WrongClass09.class)).getContents().get(0)).getMinimumMultiplicity());
+        assertEquals(0,((MultipleElementMember)((ComplexModelElement)m.getClassToElement().get(WrongClass09.class)).getContents().get(0)).getMinimumMultiplicity());
     }
 
     @Test
@@ -1396,20 +1396,20 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest1() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(false);
+        CountFilter c = new CountFilter(true);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash1.class);
         if (m == null) {
             assertFalse(true);
             return;
         }
-        assertEquals(2,c.getCount());
+        assertEquals(0,c.getCount());
     }
 
     @Test
     public void modelWrongPositionClashTest2() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(false);
+        CountFilter c = new CountFilter(true);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash2.class);
         if (m == null) {
@@ -1421,7 +1421,7 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest3() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(false);
+        CountFilter c = new CountFilter(true);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash3.class);
         if (m == null) {
@@ -1433,7 +1433,7 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest4() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(false);
+        CountFilter c = new CountFilter(true);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash4.class);
         if (m == null) {
@@ -1670,7 +1670,7 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
         }
-        assertEquals(1,c.getCount());
+        assertEquals(0,c.getCount());
     }
     
     @Test
@@ -1683,7 +1683,7 @@ public class JavaModelReaderTest {
             assertFalse(true);
             return;
         }
-        assertEquals(1,c.getCount());
+        assertEquals(0,c.getCount());
     }
             
     @Test
@@ -1693,7 +1693,7 @@ public class JavaModelReaderTest {
         lg.setFilter(c);
         List<String> warnings = modelWarnings(OptionalMult.class);
         
-        assertEquals(1,warnings.size());
+        assertEquals(0,warnings.size());
     }    
     
     @Test
@@ -1705,8 +1705,8 @@ public class JavaModelReaderTest {
         List<String> warnings2 = modelWarnings(OptionalMult.class);
 
         
-        assertEquals(1,warnings.size());
-        assertEquals(1,warnings2.size());
+        assertEquals(0,warnings.size());
+        assertEquals(0,warnings2.size());
     }
 
     @Test
@@ -1719,7 +1719,7 @@ public class JavaModelReaderTest {
             Logger.getLogger(JavaModelReaderTest.class.getName()).log(Level.SEVERE, null, ex);
             assertFalse(true);
         }
-        assertEquals(1,jmr.getWarnings().size());
+        assertEquals(0,jmr.getWarnings().size());
     }
     
     @Test

@@ -119,15 +119,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 
             RuleElement re = new RuleElement(pr);
             // Hack: delimiter pattern matches empty string
-            if (ts.getRecognizer().getArg().equals("")) {
-            	Rule er = new Rule();
-            	er.setLeft(re);
-            	er.setBuilder(null);
-            	er.setRight(new ArrayList<RuleElement>());
-            	ssf.addRule(er);
-            	deltore.put(pr,re);
-            }
-            else if (ts.getRecognizer().read("",0)!=null) {
+            if (ts.getRecognizer().read("",0)!=null) {
             	RuleElement parent = new RuleElement(re); 
             	Rule er = new Rule();
             	er.setLeft(parent);

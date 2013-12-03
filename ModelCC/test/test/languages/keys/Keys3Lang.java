@@ -14,6 +14,7 @@ import org.modelcc.*;
 public class Keys3Lang implements IModel {
 
     @Optional
+    @Multiplicity(minimum=1)
     @Reference public Keys1[] refs;
     
     @Prefix("data") 

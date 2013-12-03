@@ -15,7 +15,8 @@ public class Keys1Lang implements IModel {
 
     public Keys1[] keys1;
     
-    @Prefix("refs") @Optional
+    @Optional
+    @Prefix("refs")
     @Reference public Keys1[] refs;
     
 }

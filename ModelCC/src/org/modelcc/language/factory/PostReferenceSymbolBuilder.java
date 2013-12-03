@@ -266,17 +266,19 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             //DEBfor (int i = 0;i < auData.length;i++) {
             //DEB    //DEBSystem.out.println("  contains "+i+" :"+auData[i]);
             //DEB}
-            if (!auData[0].equals(atData[array])) {
-                //DEBSystem.out.println("Pop!");
-                atData[array] = auData[array-1];
-                //DEBfor (int i = 0;i < atData.length;i++) {
-                //DEB    //DEBSystem.out.println("  NOW contains "+i+" :"+atData[i]);
-                //DEB}
-                if (usedIn.get(t) != null) {
-                    for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
-                        propagateChanges(ite.next(),t,usedIn,array+1);
-                    }
-                }
+            if (array<atData.length) {
+	            if (!auData[0].equals(atData[array])) {
+	                //DEBSystem.out.println("Pop!");
+	                atData[array] = auData[array-1];
+	                //DEBfor (int i = 0;i < atData.length;i++) {
+	                //DEB    //DEBSystem.out.println("  NOW contains "+i+" :"+atData[i]);
+	                //DEB}
+	                if (usedIn.get(t) != null) {
+	                    for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
+	                        propagateChanges(ite.next(),t,usedIn,array+1);
+	                    }
+	                }
+	            }
             }
         }
         else if (!tData.getClass().isArray() && uData.getClass().isArray()) {
