@@ -155,6 +155,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                     }
                 }
             }
+            //TODO check fixOptionals
             fixOptionals(o,m,filled);
             runSetupMethods(o,ce);
             valid &= runConstraints(o,ce);

@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.modelcc.language.factory.ElementId;
+import org.modelcc.language.factory.ElementType;
+
 /**
  * Grammar factory.
  * @author elezeta
@@ -31,6 +34,11 @@ public final class GrammarFactory implements Serializable {
      * Set of grammar rules.
      */
     private Set<Rule> rules;
+
+    /**
+     * Set of not empty objects.
+     */
+    private Set<Object> notEmpty;
 
     /**
      * Start type.
@@ -52,6 +60,7 @@ public final class GrammarFactory implements Serializable {
      */
     public GrammarFactory() {
         rules = new HashSet<Rule>();
+        notEmpty = new HashSet<Object>();
         startType = null;
         dataFactory = null;
         tsb = null;
@@ -64,6 +73,14 @@ public final class GrammarFactory implements Serializable {
     public void addRule(Rule r) {
         if (r != null)
          rules.add(r);
+    }
+
+    /**
+     * Adds a rule.
+     * @param r the rule to add.
+     */
+    public void addNotEmpty(Object object) {
+         notEmpty.add(object);
     }
 
     /**
@@ -198,6 +215,11 @@ public final class GrammarFactory implements Serializable {
                 }
             } while (found);
 
+        }
+        //workaround
+        for (Object o : notEmpty) {
+    		emptyRuleRules.remove(o);
+    		emptyRules.remove(o);
         }
         return new Grammar(emptyRules,rules,startType,emptyRuleRules,dataFactory,tsb);
 

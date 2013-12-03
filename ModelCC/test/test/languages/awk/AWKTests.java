@@ -8,6 +8,7 @@ package test.languages.awk;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,7 +18,9 @@ import org.junit.Test;
 import org.modelcc.io.java.JavaModelReader;
 import org.modelcc.metamodel.Model;
 import org.modelcc.parser.Parser;
+import org.modelcc.parser.ParserException;
 import org.modelcc.parser.ParserFactory;
+import org.modelcc.parser.fence.Symbol;
 
 public class AWKTests {
 
@@ -290,6 +293,43 @@ public class AWKTests {
 	@Test
 	public void awkProgramValidTest5() {
 		assertValid(awkProgramParser,"{ print $1 } \n { print $1 }");
+/*		try {
+			Collection<AWKProgram> programs = awkProgramParser.parseAll("/aa/ { print $0 }");
+			int i = 0;
+			for (AWKProgram program : programs) {
+				i++;
+				System.out.println("");
+				System.out.println("");
+				System.out.println("Printing program "+i+" of "+programs.size());
+				System.out.println("Program is "+program);
+				Map<String, Object> s = awkProgramParser.getParsingMetadata(program);
+				for (String key : s.keySet()) {
+					System.out.println("    "+key+"   "+s.get(key));
+				}
+				Symbol symbol = (Symbol)s.get("symbol");
+				System.out.println("Symbol has "+symbol.getContents().size()+" contents");
+				int j = 0;
+				for (Symbol content : symbol.getContents()) {
+					System.out.println("    "+content+"  "+content.getType()+" with "+content.getContents().size()+" contents");
+					for (Symbol content2 : content.getContents()) {
+						System.out.println("        "+content2+"  "+content2.getType()+" with "+content2.getContents().size()+" contents  and "+content2.getUserData()+" "+content2.getRule());
+						for (Symbol content3 : content2.getContents()) {
+							System.out.println("          "+content3+"  "+content3.getType()+" with "+content3.getContents().size()+" contents  and "+content3.getUserData());
+						}
+					}
+					j++;
+				}
+
+				System.out.println("Program has "+program.getRules().length+" rules");
+				j = 0;
+				for (AWKRule rule : program.getRules()) {
+					j++;
+					System.out.println("Rule "+j+" is "+rule+" and has "+rule.getPattern()+" "+rule.getAction());
+				}
+			}
+		} catch (ParserException e) {
+			e.printStackTrace();
+		}*/ 
 	}
 
 }

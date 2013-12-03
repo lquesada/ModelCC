@@ -273,15 +273,15 @@ public final class LanguageSpecificationFactory implements Serializable {
                     for (int j = 0;j < curNodes.size();j++) {
                             MemberNode current = curNodes.get(j);
                             for (int k = 0;k < current.getContents().size();k++) {
-                            System.out.print("(");
+                            //System.out.print("(");
                                     ElementMember em = current.getContents().get(k);
-                            System.out.print(em.getField());
+                            //System.out.print(em.getField());
                             if (current.getContentMembers().get(em) != null)
-                                    System.out.print("+"+current.getContentMembers().get(em).getContent().getField());
-                            System.out.print(") ");
+                                    //System.out.print("+"+current.getContentMembers().get(em).getContent().getField());
+                            //System.out.print(") ");
                             }
                     }
-                    System.out.print("\n");
+                    //System.out.print("\n");
             	}
             	*/
 
@@ -555,16 +555,21 @@ public final class LanguageSpecificationFactory implements Serializable {
       /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
-            System.out.println("token: "+rx.getRecognizer());
+            //System.out.println("token: "+rx.getRecognizer());
         }
 
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
-            System.out.println("regla: "+rx);
+            //System.out.println("regla: "+rx);
         }
 */
 
  
+        // workaround: lists cannot contain empty objects
+        for (Rule r : listRules) {
+        	if (((ElementId)r.getLeft().getType()).getType()!=ElementType.LISTZERO)
+        	ssf.addNotEmpty(r.getLeft().getType());
+        }
         // -----------------
         // Build language specification.
         // -----------------
@@ -783,8 +788,8 @@ public final class LanguageSpecificationFactory implements Serializable {
                 lre.add(deltore.get(ct.getPrefix().get(i)));
 
         if (!MultipleElementMember.class.isAssignableFrom(ct.getClass())) {
-            //DESystem.out.println("Clase "+el.getElementClass().getName());
-            //DESystem.out.println("contiene "+((ElementId)eltore.get(el).getType()).getElement().getElementClass().getName());
+            //DE//System.out.println("Clase "+el.getElementClass().getName());
+            //DE//System.out.println("contiene "+((ElementId)eltore.get(el).getType()).getElement().getElementClass().getName());
             if (ct.isReference()) {
                 lre.add(new RuleElementPosition(eltoreref.get(el).getType(),ct));
             }
@@ -1063,7 +1068,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
 	                    //System.out.println("6 "+t.getUserData());
-            	        return true;
+	                    return true;
 	                }
 	            });
 	            listRules.add(r);
@@ -1095,7 +1100,7 @@ public final class LanguageSpecificationFactory implements Serializable {
 	                        l[i+1] = rest[i];
 	                    t.setUserData(new ListContents(l,restContents.getExtra(),restContents.getExtraRuleElement()));
 	                    //System.out.println("7 "+t.getUserData());
-	                    return true;
+            	        return true;
 	                }
 	            });
 	            listRules.add(r);
@@ -1197,7 +1202,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        Object[] l = new Object[1];
             	        l[0] = t.getContents().get(0).getUserData();
             	        t.setUserData(new ListContents(l));
-	                    //System.out.println("9 "+t.getUserData());
+	                    ////System.out.println("9 "+t.getUserData());
             	        return true;
 	                }
 	            });
@@ -1319,7 +1324,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        }
             	        t.setUserData(new ListContents(l,extra,extraRuleElement));
 	                    //System.out.println("11 "+t.getUserData());
-				        return true;
+            	        return true;
 	                }
 	            });
 	            listRules.add(r);
@@ -1392,7 +1397,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        }
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
 	                    //System.out.println("12 "+t.getUserData());
-				        return true;
+            	        return true;
 	                }
 	            });
 	            listRules.add(r);
@@ -1466,7 +1471,7 @@ public final class LanguageSpecificationFactory implements Serializable {
             	        }
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
 	                    //System.out.println("13 "+t.getUserData());
-				        return true;
+            	        return true;
 	                }
 	            });
 	            listRules.add(r);
@@ -1483,7 +1488,7 @@ public final class LanguageSpecificationFactory implements Serializable {
     	        		RuleElementPosition extraRuleElement = (RuleElementPosition)t.getElements().get(0);
             	        t.setUserData(new ListContents(rest,extra,extraRuleElement));
 	                    //System.out.println("14 "+t.getUserData());
-				        return true;
+            	        return true;
 	                }
 	            });
 	            listRules.add(r);

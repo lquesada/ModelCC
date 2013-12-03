@@ -105,7 +105,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
      * Perform syntactical analysis on a lexical graph.
      * @param constraints the constraints.
      * @param pg the input parsed graph.
-     * @param objectMetadata the object metadata warehouse
      * @return a syntactic analysis graph.
      */
     public SyntaxGraph enforce(Constraints constraints, ParsedGraph pg) {
@@ -1001,5 +1000,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     private void fillMetadata(Symbol symbol, Map<String, Object> symbolMap) {
         symbolMap.put("startIndex",symbol.getStartIndex());
         symbolMap.put("endIndex",symbol.getEndIndex());
+        symbolMap.put("symbol",symbol);
     }
 }

@@ -116,6 +116,14 @@ public final class SyntacticSpecificationFactory implements Serializable {
     }
 
     /**
+     * Adds a not empty object.
+     * @param r the not empty object to add
+     */
+    public void addNotEmpty(Object object) {
+        gf.addNotEmpty(object);
+    }
+
+    /**
      * Removes a rule.
      * @param r the rule to remove.
      */

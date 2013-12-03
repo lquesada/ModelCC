@@ -35,6 +35,7 @@ public class DelimiterTest {
             Set<PatternRecognizer> ignore = new HashSet<PatternRecognizer>();
             parser = ParserFactory.create(m,ignore);
         } catch (Exception ex) {
+        	ex.printStackTrace();
         	assertTrue(false);
         } 
         return parser;
