@@ -364,30 +364,6 @@ public final class LanguageSpecificationFactory implements Serializable {
                     rnonoptionals.addAll(assocRule(m,ssf,elre,nonoptionals.get(i),el,deltore, eltore, eltoreref,lists,listRules,csb));
                 }
 
-                CompositionType ctyp = ce.getComposition();
-                switch (ctyp) {
-                    case EAGER:
-                        for (int i = 0;i < roptionals.size();i++)
-                            for (int j = 0;j < rnonoptionals.size();j++)
-                                ssf.addCompositionPrecedence(roptionals.get(i),rnonoptionals.get(j));
-                        break;
-                    case LAZY:
-                        for (int i = 0;i < rnonoptionals.size();i++)
-                            for (int j = 0;j < roptionals.size();j++)
-                                ssf.addCompositionPrecedence(rnonoptionals.get(i),roptionals.get(j));
-                        break;
-                    case EXPLICIT:
-                        for (int i = 0;i < rnonoptionals.size();i++)
-                            for (int j = 0;j < roptionals.size();j++)
-                                ssf.addCompositionPrecedence(rnonoptionals.get(i),roptionals.get(j));
-                        for (int i = 0;i < roptionals.size();i++)
-                            for (int j = 0;j < rnonoptionals.size();j++)
-                                ssf.addCompositionPrecedence(roptionals.get(i),rnonoptionals.get(j));
-                        break;
-                    case UNDEFINED:
-                        break;
-                }
-
                 Set<Rule> sr = elementRules.get(el);
                 if (sr == null) {
                     sr = new HashSet<Rule>();
@@ -395,10 +371,43 @@ public final class LanguageSpecificationFactory implements Serializable {
                 }
                 sr.addAll(roptionals);
                 sr.addAll(rnonoptionals);
-                for (int i = 0;i < roptionals.size();i++)
-                    ssf.addRule(roptionals.get(i));
-                for (int i = 0;i < rnonoptionals.size();i++)
-                    ssf.addRule(rnonoptionals.get(i));
+                for (Rule r : sr)
+                    ssf.addRule(r);
+                
+                CompositionType ctyp = ce.getComposition();
+
+                for (Rule r1 : sr) {
+                    for (Rule r2 : sr) {
+                    	if (r1 != r2) {
+                    		boolean r1ssr2 = superset(r1,r2); 
+                    		boolean r2ssr1 = superset(r2,r1); 
+                            switch (ctyp) {
+                            	case EAGER:
+                            		if (r1ssr2 && !r2ssr1) {
+                                        ssf.addCompositionPrecedence(r1,r2);
+                                        ssf.addSelectionPrecedence(r1,r2);
+                            		}
+                                    break;
+                            	case LAZY:
+                            		if (r1ssr2 && !r2ssr1) {
+                                        ssf.addCompositionPrecedence(r2,r1);
+                                        ssf.addSelectionPrecedence(r2,r1);
+                            		}
+                                    break;
+                            	case EXPLICIT:
+                            		if (r1ssr2 && r2ssr1) {
+                                        ssf.addCompositionPrecedence(r1,r2);
+                                        ssf.addCompositionPrecedence(r2,r1);
+                                        ssf.addSelectionPrecedence(r1,r2);
+                                        ssf.addSelectionPrecedence(r2,r1);
+                            		}
+                                    break;
+                                case UNDEFINED:
+                                    break;
+                            }
+                    	}
+                    }
+                }
                 
                 
                 if (!ce.getIds().isEmpty()) {
@@ -581,7 +590,15 @@ public final class LanguageSpecificationFactory implements Serializable {
         return new LanguageSpecification(ls,ss,ps);
     }
 
-    private void processAfter(List<List<MemberNode>> newNodes,
+    private boolean superset(Rule r1, Rule r2) {
+    	for (RuleElement elem : r2.getRight()) {
+    		if (!r1.getRight().contains(elem))
+    			return false;
+    	}
+    	return true;
+	}
+
+	private void processAfter(List<List<MemberNode>> newNodes,
 			List<MemberNode> curNodes, ElementMember source,
 			ElementMember target) {
 		int sourceIndex = searchFront(curNodes,source);
