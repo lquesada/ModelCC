@@ -13,6 +13,7 @@ import org.modelcc.*;
  */
 public class WrongClassPositionClash2 implements IModel {
 
+	@Multiplicity(minimum=1)
 	OKClass[] a;
 	
 	@Position(element="a",position=Position.BEFORE,separatorPolicy=SeparatorPolicy.REPLACE)

@@ -200,7 +200,25 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            	indexOther = searchField(celem.getContents(),positionTag.element());    
 		            	if (indexOther != -1)
 		            		otherElement = celem.getContents().get(indexOther);
-		
+		            	
+			        	boolean empty = true;
+			        	if (otherElement != null) {
+				        	if (otherElement.getPrefix() != null) {
+					            for (PatternRecognizer prx : otherElement.getPrefix()) {
+					        		if (prx.read("",0)==null) {
+					        			empty = false;
+					        		}
+					            }
+				        	}
+				        	if (otherElement.getSuffix() != null) {
+					            for (PatternRecognizer prx : otherElement.getSuffix()) {
+					        		if (prx.read("",0)==null) {
+					        			empty = false;
+					        		}
+					            }
+				        	}
+			        	}
+
 		            	if (otherElement==null) {
 		                    log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation refers to an undefined field.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
@@ -221,10 +239,13 @@ public class JavaModelReader extends ModelReader implements Serializable {
 		            	else if (otherElement.isOptional()) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with @Optional.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
+		            	else if (MultipleElementMember.class.isAssignableFrom(otherElement.getClass()) &&
+		            			((MultipleElementMember)otherElement).getMinimumMultiplicity()==0 && empty) {
+	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": The @Position annotation cannot refer to a member annotated with minimum multiplicity 0 and empty prefixes or suffixes.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
+		            	}
 		            	else if (!compatible(field,fl)) {
 	                        log(Level.SEVERE, "In field \"{0}\" of class \"{1}\": @Position clashes with another member.", new Object[]{field.getName(),elem.getElementClass().getCanonicalName()});
 		            	}
-
 		            	else {
 		            		positions.put(thisElement,new PositionInfo(otherElement,positionTag.position(),positionTag.separatorPolicy()));
 		            	}
@@ -250,7 +271,7 @@ public class JavaModelReader extends ModelReader implements Serializable {
     		if (fl[j] != field) {
 	            if (fl[j].isAnnotationPresent(Position.class)) {
 	            	Position otherPositionTag = fl[j].getAnnotation(Position.class);
-	            	if (positionTag.element()==otherPositionTag.element()) {
+	            	if (positionTag.element().equals(otherPositionTag.element())) {
 
 	            		  if (
 	            				  (positionContains(positionTag.position(),Position.BEFORE) &&  (positionContains(otherPositionTag.position(),Position.BEFORE))) ||
@@ -259,7 +280,6 @@ public class JavaModelReader extends ModelReader implements Serializable {
 	            				  (positionContains(positionTag.position(),Position.BEFORELAST) &&  (positionContains(otherPositionTag.position(),Position.WITHIN) || positionContains(otherPositionTag.position(),Position.BEFORELAST)))
 	            			)
 	            			  return false;
-	            			  
 	            	}
 	            }
     		}

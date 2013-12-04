@@ -13,7 +13,9 @@ import org.modelcc.*;
  */
 public class Keys11Lang implements IModel {
 
-    @Reference public FreeKey[] refs;
+	@Multiplicity(minimum=1)
+	@Optional
+	@Reference public FreeKey[] refs;
     
     @Prefix("data")
     public FreeKey[] data;

@@ -610,19 +610,6 @@ public class LanguageSpecificationFactoryTest {
 
     
     @Test
-    public void ModelToLanguageSpecificationReferencesWarningTest() {
-
-        Class c = Keys1Lang.class;
-        Collection<Object> o;
-        CountFilter cf = new CountFilter(false);
-        Logger.getLogger(CompositeSymbolBuilder.class.getName()).setFilter(cf);
-        o = testFull("a1 a2 refs a",c);
-        Keys1Lang cc = (Keys1Lang) o.iterator().next();
-        assertEquals(cc.keys1[0],cc.refs[0]);
-        assertEquals(1,cf.getCount());
-    }
-    
-    @Test
     public void ModelToLanguageSpecificationReferencesTest1() {
 
         Class c = Keys1Lang.class;
@@ -1384,7 +1371,7 @@ public class LanguageSpecificationFactoryTest {
     	Parser<test.languages.probabilities.Test8> parser = genProbabilisticParser(test.languages.probabilities.Test8.class);
     	test.languages.probabilities.Test8 test8;
         try {
-        	test8 = parser.parse("");
+        	test8 = parser.parse("p");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1393,7 +1380,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test8).get("probability")).getNumericValue(),0.001d);
                 
         try {
-        	test8 = parser.parse("a");
+        	test8 = parser.parse("pa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1401,7 +1388,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test8).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test8 = parser.parse("aa");
+        	test8 = parser.parse("paa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1409,7 +1396,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test8).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test8 = parser.parse("b");
+        	test8 = parser.parse("pb");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1418,7 +1405,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.0040d,((ProbabilityValue)parser.getParsingMetadata(test8).get("probability")).getNumericValue(),0.001d);
                 
         try {
-        	test8 = parser.parse("ab");
+        	test8 = parser.parse("pab");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1426,7 +1413,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.0020d,((ProbabilityValue)parser.getParsingMetadata(test8).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test8 = parser.parse("baa");
+        	test8 = parser.parse("pbaa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1441,7 +1428,7 @@ public class LanguageSpecificationFactoryTest {
     	Parser<test.languages.probabilities.Test9> parser = genProbabilisticParser(test.languages.probabilities.Test9.class);
     	test.languages.probabilities.Test9 test9;
         try {
-        	test9 = parser.parse("");
+        	test9 = parser.parse("p");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1450,7 +1437,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.036d,((ProbabilityValue)parser.getParsingMetadata(test9).get("probability")).getNumericValue(),0.001d);
                 
         try {
-        	test9 = parser.parse("a");
+        	test9 = parser.parse("pa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1458,7 +1445,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.018d,((ProbabilityValue)parser.getParsingMetadata(test9).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test9 = parser.parse("aa");
+        	test9 = parser.parse("paa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1466,7 +1453,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.009d,((ProbabilityValue)parser.getParsingMetadata(test9).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test9 = parser.parse("b");
+        	test9 = parser.parse("pb");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1475,7 +1462,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.00040d,((ProbabilityValue)parser.getParsingMetadata(test9).get("probability")).getNumericValue(),0.0001d);
                 
         try {
-        	test9 = parser.parse("ab");
+        	test9 = parser.parse("pab");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1483,7 +1470,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.00020d,((ProbabilityValue)parser.getParsingMetadata(test9).get("probability")).getNumericValue(),0.0001d);
 
         try {
-        	test9 = parser.parse("baa");
+        	test9 = parser.parse("pbaa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1499,7 +1486,7 @@ public class LanguageSpecificationFactoryTest {
     	Parser<test.languages.probabilities.Test8b> parser = genProbabilisticParser(test.languages.probabilities.Test8b.class);
     	test.languages.probabilities.Test8b test8b;
         try {
-        	test8b = parser.parse("");
+        	test8b = parser.parse("p");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1508,7 +1495,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.040d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
                 
         try {
-        	test8b = parser.parse("a");
+        	test8b = parser.parse("pa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1516,7 +1503,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.020d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test8b = parser.parse("aa");
+        	test8b = parser.parse("paa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1524,7 +1511,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.010d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
    
         try {
-        	test8b = parser.parse("ba");
+        	test8b = parser.parse("pba");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1532,7 +1519,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.0020d,((ProbabilityValue)parser.getParsingMetadata(test8b).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test8b = parser.parse("aba");
+        	test8b = parser.parse("paba");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1547,7 +1534,7 @@ public class LanguageSpecificationFactoryTest {
     	Parser<test.languages.probabilities.Test9b> parser = genProbabilisticParser(test.languages.probabilities.Test9b.class);
     	test.languages.probabilities.Test9b test9b;
         try {
-        	test9b = parser.parse("");
+        	test9b = parser.parse("p");
         } catch (Exception e) {
         	e.printStackTrace();
 			assertTrue(false);
@@ -1556,7 +1543,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.036d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
                 
         try {
-        	test9b = parser.parse("a");
+        	test9b = parser.parse("pa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1564,7 +1551,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.018d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test9b = parser.parse("aa");
+        	test9b = parser.parse("paa");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1572,7 +1559,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.009d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.001d);
 
         try {
-        	test9b = parser.parse("ba");
+        	test9b = parser.parse("pba");
         } catch (Exception e) {
 			assertTrue(false);
 			return;
@@ -1580,7 +1567,7 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(0.00020d,((ProbabilityValue)parser.getParsingMetadata(test9b).get("probability")).getNumericValue(),0.0001d);
 
         try {
-        	test9b = parser.parse("aba");
+        	test9b = parser.parse("paba");
         } catch (Exception e) {
 			assertTrue(false);
 			return;

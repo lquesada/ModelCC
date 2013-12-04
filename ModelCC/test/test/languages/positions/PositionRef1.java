@@ -16,6 +16,7 @@ public class PositionRef1 implements IModel {
 	public Obj[] objects;
 	
 	@Reference
+	@Multiplicity(minimum=1)
 	public Obj[] reflist;    
 	
 	@Prefix("a")

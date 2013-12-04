@@ -1396,20 +1396,20 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest1() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(true);
+        CountFilter c = new CountFilter(false);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash1.class);
         if (m == null) {
             assertFalse(true);
             return;
         }
-        assertEquals(0,c.getCount());
+        assertEquals(2,c.getCount());
     }
 
     @Test
     public void modelWrongPositionClashTest2() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(true);
+        CountFilter c = new CountFilter(false);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash2.class);
         if (m == null) {
@@ -1421,7 +1421,7 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest3() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(true);
+        CountFilter c = new CountFilter(false);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash3.class);
         if (m == null) {
@@ -1433,7 +1433,7 @@ public class JavaModelReaderTest {
     @Test
     public void modelWrongPositionClashTest4() {
         Logger lg = Logger.getLogger(JavaModelReader.class.getName());
-        CountFilter c = new CountFilter(true);
+        CountFilter c = new CountFilter(false);
         lg.setFilter(c);
         Model m = modelGen(WrongClassPositionClash4.class);
         if (m == null) {
