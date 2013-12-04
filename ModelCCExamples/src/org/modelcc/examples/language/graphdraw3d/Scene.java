@@ -17,7 +17,6 @@ import org.modelcc.examples.language.graphdraw3d.resources.RunData;
  */
 public final class Scene implements IModel {
     
-	@Multiplicity(minimum=0)
     Definition[] definitions;
             
     @Prefix("scene")

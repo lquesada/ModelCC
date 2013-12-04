@@ -560,7 +560,7 @@ public final class LanguageSpecificationFactory implements Serializable {
         // workaround: lists cannot contain empty objects
         for (Rule r : listRules) {
         	if (((ElementId)r.getLeft().getType()).getType()!=ElementType.LISTZERO)
-        	ssf.addNotEmpty(r.getLeft().getType());
+        		ssf.addNotEmpty(r.getLeft().getType());
         }
         // -----------------
         // Build language specification.

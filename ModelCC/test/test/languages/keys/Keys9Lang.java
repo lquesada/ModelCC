@@ -13,12 +13,8 @@ import org.modelcc.*;
  */
 public class Keys9Lang implements IModel {
 
-	@Multiplicity(minimum=1)
-	@Optional
     @Reference public Keys1b[] refsbla;
 
-	@Multiplicity(minimum=1)
-	@Optional
     @Reference public CompositeData[] refs;
     
     @Prefix("data")

@@ -19,7 +19,6 @@ import org.modelcc.examples.language.graphdraw3d.resources.TextureData;
 @Suffix("\\}")
 public final class BlockSentence extends Sentence implements IModel {
     
-	@Multiplicity(minimum=0)
     Sentence[] sentences;
 
     @Override

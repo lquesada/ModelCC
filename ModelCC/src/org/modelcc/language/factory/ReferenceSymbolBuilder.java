@@ -105,10 +105,8 @@ public final class ReferenceSymbolBuilder extends SymbolBuilder implements Seria
 	                            	extraFld.set(o,extra.getUserData());
 	                            }
                             }
-                            if (mc.getMinimumMultiplicity() != -1) {
-                                if (listData.length<mc.getMinimumMultiplicity())
-                                    valid = false;
-                            }
+                            if (listData.length<mc.getMinimumMultiplicity())
+                                valid = false;
                             if (mc.getMaximumMultiplicity() != -1) {
                                 if (listData.length>mc.getMaximumMultiplicity())
                                     valid = false;

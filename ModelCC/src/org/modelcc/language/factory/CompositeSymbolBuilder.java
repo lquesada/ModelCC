@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.modelcc.language.syntax.RuleElement;
 import org.modelcc.language.syntax.RuleElementPosition;
 import org.modelcc.language.syntax.SymbolBuilder;
@@ -111,10 +112,8 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                            	extraFld.set(o,extra.getUserData());
 	                            }
                             }
-                            if (mc.getMinimumMultiplicity() != -1) {
-                                if (listData.length<mc.getMinimumMultiplicity())
-                                    valid = false;
-                            }
+                            if (listData.length<mc.getMinimumMultiplicity())
+                                valid = false;
                             if (mc.getMaximumMultiplicity() != -1) {
                                 if (listData.length>mc.getMaximumMultiplicity())
                                     valid = false;

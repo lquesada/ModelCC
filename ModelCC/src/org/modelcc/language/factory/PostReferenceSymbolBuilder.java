@@ -67,9 +67,10 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
         Map<Object,ObjectWrapper> map = ((ModelCCParserData)data).getMap();
         Set<Symbol> lazyReferences = ((ModelCCParserData)data).getLazyReferences();
         
+        
         if (!lazyReferences.contains(t))
             return true;
-        
+        //DEBSystem.out.println("Now considering lazy "+t.getType());
         ElementId eid = (ElementId)t.getType();
         ComplexModelElement ce = (ComplexModelElement) eid.getElement();
         Class c = ce.getElementClass();
@@ -112,10 +113,8 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
 	                            	extraFld.set(o,extra.getUserData());
 	                            }
                             }
-                            if (mc.getMinimumMultiplicity() != -1) {
-                                if (listData.length<mc.getMinimumMultiplicity())
-                                    valid = false;
-                            }
+                            if (listData.length<mc.getMinimumMultiplicity())
+                                valid = false;
                             if (mc.getMaximumMultiplicity() != -1) {
                                 if (listData.length>mc.getMaximumMultiplicity())
                                     valid = false;
@@ -173,8 +172,9 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             }*/
             //t.setUserData(o);
 
-            if (ce.getIds().isEmpty())
+            if (ce.getIds().isEmpty()) {
                 valid = false;
+            }
             if (valid) {
                 Map<KeyWrapper,Object> idmap = ids.get(c);
                 if (idmap == null) {
@@ -190,7 +190,6 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                         for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
                             Symbol sym = ite.next();
                             //DEBSystem.out.println("Propagate to "+sym.getType());
-                            
                             propagateChanges(sym,t,usedIn,0);
                             //DEBSystem.out.println("END PROP");
                             //DEBSystem.out.println("");
@@ -230,10 +229,9 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             }
             return;
         }
-        
-            //DEBSystem.out.println("EUREKA");
+        //DEBSystem.out.println("EUREKA");
         //DEBSystem.out.println("------");
-        //DEBSystem.out.println("Propagating symbols "+uData+" to "+tData);
+        //DEBSystem.out.println("Propagating symbols "+uData+" to "+tData+" which is "+tData.getClass());
         //DEBSystem.out.println("Rule of t is "+t.getRule());
         //DEBSystem.out.println("t Class is "+m.getClassToElement().get(tData.getClass()));
         //DEBSystem.out.println("Updated Class is "+m.getClassToElement().get(uData.getClass()));
@@ -259,26 +257,33 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
             Object[] atData = (Object[])tData;
             Object[] auData = (Object[])uData;
             //DEBSystem.out.println("tData size is "+atData.length);
-            //DEBfor (int i = 0;i < atData.length;i++) {
-            //DEB    //DEBSystem.out.println("  contains "+i+" :"+atData[i]);
-            //DEB}
+            for (int i = 0;i < atData.length;i++) {
+                //DEBSystem.out.println("  contains "+i+" :"+atData[i]);
+            }
             //DEBSystem.out.println("uData size is "+auData.length);
-            //DEBfor (int i = 0;i < auData.length;i++) {
-            //DEB    //DEBSystem.out.println("  contains "+i+" :"+auData[i]);
-            //DEB}
-            if (array<atData.length) {
+            for (int i = 0;i < auData.length;i++) {
+                //DEBSystem.out.println("  contains "+i+" :"+auData[i]);
+            }
+            if (atData.length>array) {
 	            if (!auData[0].equals(atData[array])) {
 	                //DEBSystem.out.println("Pop!");
 	                atData[array] = auData[array-1];
-	                //DEBfor (int i = 0;i < atData.length;i++) {
-	                //DEB    //DEBSystem.out.println("  NOW contains "+i+" :"+atData[i]);
-	                //DEB}
+	                for (int i = 0;i < atData.length;i++) {
+	                    //DEBSystem.out.println("  NOW contains "+i+" :"+atData[i]);
+	                }
 	                if (usedIn.get(t) != null) {
 	                    for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
 	                        propagateChanges(ite.next(),t,usedIn,array+1);
 	                    }
 	                }
 	            }
+            }
+            else {
+                if (usedIn.get(t) != null) {
+                    for (Iterator<Symbol> ite = usedIn.get(t).iterator();ite.hasNext();) {
+                        propagateChanges(ite.next(),t,usedIn,array);
+                    }
+                }
             }
         }
         else if (!tData.getClass().isArray() && uData.getClass().isArray()) {
@@ -303,9 +308,9 @@ public final class PostReferenceSymbolBuilder extends PostSymbolBuilder implemen
                 }
             }
             
-            //DEBfor (int i = 0;i < aContent.length;i++) {
+            for (int i = 0;i < aContent.length;i++) {
                 //DEBSystem.out.println("  content NOW contains "+i+" :"+aContent[i]);
-            //DEB}
+            }
         }
         else {
             //DEBSystem.out.println("CASE 4, tData is not array and uData is not array");
