@@ -1,4 +1,15 @@
 -----------------------------
+ModelCC v3.07    (2013-12-04)
+-----------------------------
+
++ [CHANGE] Multiplicity minimum now defaults to 0.
++ [FIX] Collections of elements that could match the empty string generated duplicated interpretations
++ [FIX] Position clashes did not produce warnings sometimes.
++ [FIX] Some reference in collections would not resolve correctly.
++ [FIX] Some optional elements that matched empty patterns threw exceptions.
++ [FIX] Optional members with 0 minimum multiplicity and empty prefixes and suffixes generated ambiguities.
+
+-----------------------------
 ModelCC v3.06    (2013-12-02)
 -----------------------------
 
