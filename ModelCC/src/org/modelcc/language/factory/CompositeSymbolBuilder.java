@@ -154,10 +154,9 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                     }
                 }
             }
-            //TODO check fixOptionals
             fixOptionals(o,m,filled);
             runSetupMethods(o,ce);
-            valid &= runConstraints(o,ce);
+            valid &= runConstraints(o,ce,true);
 
             t.setUserData(o);
 
@@ -222,7 +221,7 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
 	                                	o2 = c.newInstance();
 		                    	        ModelElement ee = (ModelElement)m.getClassToElement().get(o2.getClass());
 		                                runSetupMethods(o2,ee);
-		                                if (runConstraints(o2,ee)) {
+		                                if (runConstraints(o2,ee,false)) {
 	                                		fixOptionals(o2,m,null);
 		                                	fields[i].setAccessible(true);
 		                                	fields[i].set(o,o2);
@@ -296,10 +295,10 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
         }
 	}
 
-	private boolean runConstraints(Object o, ModelElement el) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	private boolean runConstraints(Object o, ModelElement el,boolean critical) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		boolean valid = true;
 		if (m.getSuperelements().get(el) != null) {
-			valid &= runConstraints(o,m.getSuperelements().get(el));
+			valid &= runConstraints(o,m.getSuperelements().get(el),critical);
 		}
         for (int i = 0;i < el.getConstraintMethods().size();i++) {
             Method mtd = el.getElementClass().getDeclaredMethod(el.getConstraintMethods().get(i),new Class[]{});
@@ -308,17 +307,29 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                 try {
                     valid &= (Boolean)mtd.invoke(o);
 				} catch (IllegalArgumentException e) {
-	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
-					e.printStackTrace();
-					throw e;
+					if (critical) {
+		                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+						e.printStackTrace();
+						throw e;
+					}
+					else
+						return false;
 				} catch (IllegalAccessException e) {
-	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
-					e.printStackTrace();
-					throw e;
+					if (critical) {
+		                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+						e.printStackTrace();
+						throw e;
+					}
+					else
+						return false;
 				} catch (InvocationTargetException e) {
-	                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
-					e.printStackTrace();
-					throw e;
+					if (critical) {
+		                Logger.getLogger(CompositeSymbolBuilder.class.getName()).log(Level.SEVERE, "Exception when invoking method \"{0}\" of class class \"{1}\".", new Object[]{mtd.getName(),el.getElementClass().getCanonicalName()});
+						e.printStackTrace();
+						return false;
+					}
+					else
+						return false;
 				}
             }
         }
