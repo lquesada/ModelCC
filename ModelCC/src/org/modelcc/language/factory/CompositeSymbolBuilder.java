@@ -100,6 +100,10 @@ public final class CompositeSymbolBuilder extends SymbolBuilder implements Seria
                         	filled.add(fld);
                             MultipleElementMember mc = (MultipleElementMember)ct;
                             ListContents listContents = (ListContents) s.getUserData();
+                            if (listContents==null) {
+                            	System.out.println("ERROR PROCESSING "+o);
+                            	System.exit(-1);
+                            }
                             listData = listContents.getL();
                             Symbol extra = listContents.getExtra();
                             RuleElementPosition extraRe = listContents.getExtraRuleElement();

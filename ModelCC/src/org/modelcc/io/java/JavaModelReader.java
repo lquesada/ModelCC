@@ -1033,6 +1033,24 @@ public class JavaModelReader extends ModelReader implements Serializable {
         if (collection != null && (minimumMultiplicity == -1 || minimumMultiplicity == 0)) {
         	minimumMultiplicity = 0;
         }
+    	boolean empty = true;
+    	if (prefix != null) {
+            for (PatternRecognizer prx : prefix) {
+        		if (prx.read("",0)==null) {
+        			empty = false;
+        		}
+            }
+    	}
+    	if (suffix != null) {
+            for (PatternRecognizer prx : suffix) {
+        		if (prx.read("",0)==null) {
+        			empty = false;
+        		}
+            }
+    	}
+    	
+        if (optional && empty && minimumMultiplicity==0)
+        	minimumMultiplicity=1;
         
         if (collection == null)
             return new ElementMember(field.getName(),contentClass,optional,id,reference,prefix,suffix,separator,probabilityEvaluator);

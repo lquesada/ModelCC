@@ -40,7 +40,6 @@ public final class ObjectName implements IModel {
     
     @Constraint
     public boolean check() {
-    	System.out.println(name);
     	if (name.equals("axis") || name.equals("cube") || name.equals("square"))
     		return false;
     	return true;
