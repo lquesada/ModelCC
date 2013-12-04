@@ -6,14 +6,9 @@
 package test.languages.composition4;
 
 import static org.junit.Assert.*;
-import static org.modelcc.test.ModelAssert.*;
 
 import java.util.Collection;
-import java.util.Map;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.modelcc.io.java.JavaModelReader;
@@ -41,27 +36,38 @@ public class Composition4Test {
 		}
 		return parser;
 	}
-
-	private void assertValid(Parser parser, String string) {
+	
+	private void assertInterpretations(int n,Parser parser, String string) {
 		Collection ret = null;
     	try {
     		ret = parser.parseAll(string);
+    		for (Object o : ret) {
+    			System.out.println("Printing object "+o);
+    			printTree((Symbol)parser.getParsingMetadata(o).get("symbol"));
+    		}
+    		assertEquals(n,ret.size());
     	} catch (Exception e) {
+    		assertEquals(n,0);
     		e.printStackTrace();
         	assertFalse(true);
     	}
 	
 	}
-
-	private void assertInvalid(Parser parser, String string) {
-    	try {
-    		parser.parseAll(string);
-    	} catch (Exception e) {
-    		return;
-    	}
-    	assertFalse(true);
+	private void printTree(Symbol symbol) {
+		printTree(symbol,0);
 	}
-	
+
+	private void printTree(Symbol symbol,int depth) {
+		char tab[] = new char[depth*2];
+		for (int i = 0;i < depth*2;i++)
+			tab[i] = ' ';
+		String tabs = new String(tab);
+		System.out.println(tabs+symbol.getType());
+		for (Symbol s : symbol.getContents()) {
+			printTree(s,depth+1);
+		}
+	}
+
 	@BeforeClass
 	public static void before() {
 		parserAmb = generateParser(Composition4Amb.class);
@@ -76,6 +82,7 @@ public class Composition4Test {
 
 	@Test
 	public void test2() {
+		
 		assertInterpretations(1, parserEager, "ab");
 		Composition4Eager val;
 		try {
