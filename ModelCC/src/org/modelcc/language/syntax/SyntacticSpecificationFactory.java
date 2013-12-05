@@ -73,6 +73,15 @@ public final class SyntacticSpecificationFactory implements Serializable {
     }
 
     /**
+     * Adds a start precedence between rules.
+     * @param ts1 the rule that precedes.
+     * @param ts2 the rule that is preceded.
+     */
+    public void addStartPrecedence(Rule ts1,Rule ts2) {
+        cf.addStartPrecedences(ts1,ts2);
+    }
+
+    /**
      * Removes a precedence relationship between tokens.
      * @param ts1 the token that precedes.
      * @param ts2 the token that is preceded.

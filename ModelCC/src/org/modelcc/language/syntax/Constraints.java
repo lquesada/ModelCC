@@ -38,15 +38,22 @@ public final class Constraints implements Serializable {
     private Map<Rule, Set<Rule>> selectionPrecedences;
 
     /**
+     * Map of start precedences.
+     */
+    private Map<Rule, Set<Rule>> startPrecedences;
+
+    /**
      * Constructor.
      * @param associativities the elements associativities.
      * @param compositionPrecedences the map of content precedences.
      * @param selectionPrecedences the map of selection precedences.
+     * @param startPrecedences the map of start precedences.
      */
-    public Constraints(Map<Object,AssociativityConstraint> associativities, Map<Rule,Set<Rule>> compositionPrecedences,Map<Rule, Set<Rule>> selectionPrecedences) {
+    public Constraints(Map<Object,AssociativityConstraint> associativities, Map<Rule,Set<Rule>> compositionPrecedences,Map<Rule, Set<Rule>> selectionPrecedences,Map<Rule, Set<Rule>> startPrecedences) {
         this.associativities = associativities;
         this.compositionPrecedences = compositionPrecedences;
         this.selectionPrecedences = selectionPrecedences;
+        this.startPrecedences = startPrecedences;
     }
 
     /**
@@ -68,6 +75,13 @@ public final class Constraints implements Serializable {
      */
     public Map<Rule, Set<Rule>> getSelectionPrecedences() {
         return Collections.unmodifiableMap(selectionPrecedences);
+    }
+
+    /**
+     * @return the selection precedences
+     */
+    public Map<Rule, Set<Rule>> getStartPrecedences() {
+        return Collections.unmodifiableMap(startPrecedences);
     }
 
 }

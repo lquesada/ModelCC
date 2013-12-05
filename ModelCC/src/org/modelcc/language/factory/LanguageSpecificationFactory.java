@@ -384,22 +384,12 @@ public final class LanguageSpecificationFactory implements Serializable {
                             switch (ctyp) {
                             	case EAGER:
                             		if (r1ssr2 && !r2ssr1) {
-                                        ssf.addCompositionPrecedence(r1,r2);
-                                        ssf.addSelectionPrecedence(r1,r2);
+                                        ssf.addStartPrecedence(r1,r2);
                             		}
                                     break;
                             	case LAZY:
                             		if (r1ssr2 && !r2ssr1) {
-                                        ssf.addCompositionPrecedence(r2,r1);
-                                        ssf.addSelectionPrecedence(r2,r1);
-                            		}
-                                    break;
-                            	case EXPLICIT:
-                            		if (r1ssr2 && r2ssr1) {
-                                        ssf.addCompositionPrecedence(r1,r2);
-                                        ssf.addCompositionPrecedence(r2,r1);
-                                        ssf.addSelectionPrecedence(r1,r2);
-                                        ssf.addSelectionPrecedence(r2,r1);
+                                        ssf.addStartPrecedence(r2,r1);
                             		}
                                     break;
                                 case UNDEFINED:

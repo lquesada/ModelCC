@@ -42,6 +42,11 @@ public final class ConstraintsFactory implements Serializable {
     private Map<Rule, Set<Rule>> compositionPrecedences;
 
     /**
+     * Map of start precedences.
+     */
+    private Map<Rule, Set<Rule>> startPrecedences;
+
+    /**
      * Map of selection precedences.
      */
     private Map<Rule, Set<Rule>> selectionPrecedences;
@@ -53,6 +58,7 @@ public final class ConstraintsFactory implements Serializable {
         associativities = new HashMap<Object,AssociativityConstraint>();
         compositionPrecedences = new HashMap<Rule, Set<Rule>>();
         selectionPrecedences = new HashMap<Rule, Set<Rule>>();
+        startPrecedences = new HashMap<Rule, Set<Rule>>();
     }
 
     /**
@@ -92,6 +98,22 @@ public final class ConstraintsFactory implements Serializable {
             if (set == null) {
                 set = new HashSet<Rule>();
                 compositionPrecedences.put(ts1,set);
+            }
+            set.add(ts2);
+        }
+    }
+
+    /**
+     * Adds a start precedence between rules.
+     * @param ts1 the rule that precedes.
+     * @param ts2 the rule that is preceded.
+     */
+    public void addStartPrecedences(Rule ts1,Rule ts2) {
+        if (ts1 != null && ts2 != null) {
+            Set<Rule> set = startPrecedences.get(ts1);
+            if (set == null) {
+                set = new HashSet<Rule>();
+                startPrecedences.put(ts1,set);
             }
             set.add(ts2);
         }
@@ -295,7 +317,7 @@ public final class ConstraintsFactory implements Serializable {
             }
         }
 
-        return new Constraints(associativities,compositionPrecedences,selectionPrecedences);
+        return new Constraints(associativities,compositionPrecedences,selectionPrecedences,startPrecedences);
 
     }
 

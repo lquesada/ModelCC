@@ -44,6 +44,8 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
     private Map<Object,Set<Object>> indirectSubclasses;
 
+    Set<Symbol> erase;
+
     private Set<Object> classes;
 
     private Counter id;
@@ -65,7 +67,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     private Map<ParsedSymbol,Set<ExpandTuple>> mappedtuples;
     
     protected Object data;
-
+    
     private Map<Object,Map<String,Object>> objectMetadata;
     
     /**
@@ -133,6 +135,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
         
         data = pg.getGrammar().getDataFactory().generate();
 
+        erase = new HashSet<Symbol>();
 
         // -------------
         // Expansion and enforcement.
@@ -221,29 +224,37 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
         }
 
-        Set<Symbol> erase = new HashSet<Symbol>();
         for (Iterator<Symbol> ite = usedSymbols.iterator();ite.hasNext();) {
             Symbol s = ite.next();
             if (!erase.contains(s)) {
                 if (s.getRule() != null) {
                     if (!postBuild(s.getRule(),s)) {
-                        removeDependent(s,erase);
+                        erase.add(s);
                     }
                 }
             }
         }
         
         for (Iterator<Symbol> ite = erase.iterator();ite.hasNext();) {
-            Symbol s = ite.next();
-            usedSymbols.remove(s);
-            start.remove(s);
+        	removeSymbol(ite.next());
         }
         
         return new SyntaxGraph(usedSymbols,start);
     }
 
 
-    private void initializeConstraints() {
+    private void removeSymbol(Symbol s) {
+        usedSymbols.remove(s);
+        start.remove(s);
+    	if (usedIn.get(s) != null) {
+	        if (usedIn.get(s).size()>=1)
+	        for (Symbol current : usedIn.get(s)) {
+	       		removeSymbol(current);
+	        }
+    	}
+	}
+
+	private void initializeConstraints() {
         
         // Super classes.
         
@@ -755,9 +766,10 @@ public class FenceConstraintEnforcerSafe implements Serializable {
     }
 
     private void expandSymbol(Set<ParsedSymbol> history,Set<Symbol> ret, ParsedSymbol ps,ExpandTuple et, int i,List<Symbol> content,List<RuleElement> elements) {
-        Rule r = et.getRule();
+    	Rule r = et.getRule();
         if (i >= r.getRight().size()) {
             if (content.get(content.size()-1).getEndIndex()<=ps.getEndIndex()) {
+            	boolean compositionProtected = false;
                 Rule relevant;
                 Symbol s;
                 if (r.getRight().size()==1)
@@ -875,6 +887,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 	                            }
 	                        }
 	                    }
+                        compositionProtected = true;
 	                }
 	
 	                 if (!inhibited) {
@@ -887,11 +900,42 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 	                            if (associateds.contains(content.get(r.getRelevant())))
 	                                associateds.add(s1);
 	                        symbols.add(s1);
+
 	                        ret.add(s1);
 	                        for (int j = 0;j < s1.getContents().size();j++) {
 	                            addUses(s1,s1.getContents().get(j));
 	                        }
 	                        storeMetadata(s1);
+	     	               
+
+	                    	Set<Rule> ruleConstMe = constraints.getStartPrecedences().get(r);
+	                    	Set<Rule> ruleConstMe2 = constraints.getCompositionPrecedences().get(r);
+	    	                for (Symbol sr : symbols) {
+	    	                	if (sr.getStartIndex()==s.getStartIndex() && sr.getType().equals(s.getType())) {
+	    		                	Set<Rule> ruleConst = constraints.getStartPrecedences().get(sr.getRule());
+	    		                	Set<Rule> ruleConst2 = constraints.getCompositionPrecedences().get(sr.getRule());
+	    		                	boolean meInRuleConst = false;
+	    		                	boolean meInRuleConst2 = false;
+	    		                	if (ruleConst != null)
+	    		                		if (ruleConst.contains(r))
+	    		                			meInRuleConst = true;
+	    		                	if (ruleConst2 != null)
+	    		                		if (ruleConst2.contains(r))
+	    		                			meInRuleConst2 = true;
+	    		                	boolean otherInRuleConst = false;
+	    		                	boolean otherInRuleConst2 = false;
+	    		                	if (ruleConstMe != null)
+	    		                		if (ruleConstMe.contains(sr.getRule()))
+	    		                			otherInRuleConst = true;
+	    		                	if (ruleConstMe2 != null)
+	    		                		if (ruleConstMe2.contains(sr.getRule()))
+	    		                			otherInRuleConst2 = true;
+	    		                	if (meInRuleConst)
+	    		                		erase.add(s1);
+	    		                	if (otherInRuleConst)
+	    		                		erase.add(sr);
+	    	                	}
+	    	                }
 	                    }
 	                }
                 }
@@ -966,16 +1010,6 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             usedIn.put(get,useds);
         }
         useds.add(s);
-    }
-
-    private void removeDependent(Symbol s,Set<Symbol> erase) {
-        erase.add(s);
-        if (usedIn.get(s) != null) {
-            for (Iterator<Symbol> ite = usedIn.get(s).iterator();ite.hasNext();) {
-                Symbol s2 = ite.next();
-                removeDependent(s2,erase);
-            }
-        }
     }
 
     private void storeMetadata(Symbol symbol) {
