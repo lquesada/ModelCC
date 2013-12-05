@@ -26,21 +26,6 @@ import org.modelcc.language.syntax.RuleElement;
  */
 public class FenceConstraintEnforcerSafe implements Serializable {
 
-	//TODO
-	private void printTree(Symbol symbol) {
-		printTree(symbol,0);
-	}
-
-	private void printTree(Symbol symbol,int depth) {
-		char tab[] = new char[depth*2];
-		for (int i = 0;i < depth*2;i++)
-			tab[i] = ' ';
-		String tabs = new String(tab);
-		System.out.println(tabs+symbol.getType());
-		for (Symbol s : symbol.getContents()) {
-			printTree(s,depth+1);
-		}
-	}
     private Constraints constraints;
 
     private Map<Object, Object> superClasses;
@@ -922,43 +907,21 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 	     	               
 
 	                    	Set<Rule> ruleConstMe = constraints.getStartPrecedences().get(r);
-	                    	Set<Rule> ruleConstMe2 = constraints.getCompositionPrecedences().get(r);
 	    	                for (Symbol sr : symbols) {
 	    	                	if (sr.getStartIndex()==s.getStartIndex() && sr.getType().equals(s.getType())) {
 	    		                	Set<Rule> ruleConst = constraints.getStartPrecedences().get(sr.getRule());
-	    		                	Set<Rule> ruleConst2 = constraints.getCompositionPrecedences().get(sr.getRule());
 	    		                	boolean meInRuleConst = false;
-	    		                	boolean meInRuleConst2 = false;
 	    		                	if (ruleConst != null)
 	    		                		if (ruleConst.contains(r))
 	    		                			meInRuleConst = true;
-	    		                	if (ruleConst2 != null)
-	    		                		if (ruleConst2.contains(r))
-	    		                			meInRuleConst2 = true;
 	    		                	boolean otherInRuleConst = false;
-	    		                	boolean otherInRuleConst2 = false;
 	    		                	if (ruleConstMe != null)
 	    		                		if (ruleConstMe.contains(sr.getRule()))
 	    		                			otherInRuleConst = true;
-	    		                	if (ruleConstMe2 != null)
-	    		                		if (ruleConstMe2.contains(sr.getRule()))
-	    		                			otherInRuleConst2 = true;
-	    		                	if (meInRuleConst && !otherInRuleConst) {
-	    		                		System.out.println("ERASING ME "+s1+"  "+s1.getType()+"    "+r+"   "+sr.getRule());
-		    		                	System.out.println("meInRuleConst "+meInRuleConst);
-		    		                	System.out.println("meInRuleConst2 "+meInRuleConst2);
-		    		                	System.out.println("otherInRuleConst "+otherInRuleConst);
-		    		                	System.out.println("otherInRuleConst2 "+otherInRuleConst2);
-	    		                		printTree(s1);
+	    		                	if (meInRuleConst) {
 	    		                		erase.add(s1);
 	    		                	}
-	    		                	if (otherInRuleConst && !meInRuleConst) {
-	    		                		System.out.println("ERASING OTHER "+sr+"  "+sr.getType()+"    "+r+"   "+sr.getRule());
-		    		                	System.out.println("meInRuleConst "+meInRuleConst);
-		    		                	System.out.println("meInRuleConst2 "+meInRuleConst2);
-		    		                	System.out.println("otherInRuleConst "+otherInRuleConst);
-		    		                	System.out.println("otherInRuleConst2 "+otherInRuleConst2);
-	    		                		printTree(sr);
+	    		                	if (otherInRuleConst) {
 	    		                		erase.add(sr);
 	    		                	}
 	    	                	}

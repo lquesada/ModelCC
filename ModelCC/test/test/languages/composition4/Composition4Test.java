@@ -41,10 +41,10 @@ public class Composition4Test {
 		Collection ret = null;
     	try {
     		ret = parser.parseAll(string);
-    		for (Object o : ret) {
-    			System.out.println("Printing object "+o);
-    			printTree((Symbol)parser.getParsingMetadata(o).get("symbol"));
-    		}
+    		/*for (Object o : ret) {
+    			//System.out.println("Printing object "+o);
+    			//printTree((Symbol)parser.getParsingMetadata(o).get("symbol"));
+    		}*/
     		assertEquals(n,ret.size());
     	} catch (Exception e) {
     		assertEquals(n,0);

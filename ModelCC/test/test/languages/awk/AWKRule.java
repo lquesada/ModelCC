@@ -7,9 +7,12 @@
 
 package test.languages.awk;
 
+import org.modelcc.Composition;
+import org.modelcc.CompositionType;
 import org.modelcc.IModel;
 import org.modelcc.Optional;
 
+@Composition(CompositionType.EAGER)
 public class AWKRule implements IModel 
 {
 	@Optional
