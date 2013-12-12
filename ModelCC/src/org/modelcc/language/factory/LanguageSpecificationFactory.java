@@ -552,20 +552,21 @@ public final class LanguageSpecificationFactory implements Serializable {
       /*
         for (Iterator<TokenSpecification> iter = lsf.getTokenSpecifications().iterator();iter.hasNext();) {
             TokenSpecification rx = iter.next();
-            //System.out.println("token: "+rx.getRecognizer());
+            System.out.println("token: "+rx.getRecognizer());
         }
 
         for (Iterator<Rule> iter = ssf.getRules().iterator();iter.hasNext();) {
             Rule rx = iter.next();
-            //System.out.println("regla: "+rx);
-        }
-*/
+            System.out.println("regla: "+rx);
+        }*/
+
 
  
         // workaround: lists cannot contain empty objects
         for (Rule r : listRules) {
-        	if (((ElementId)r.getLeft().getType()).getType()!=ElementType.LISTZERO)
+        	if (((ElementId)r.getLeft().getType()).getType()!=ElementType.LISTZERO) {
         		ssf.addNotEmpty(r.getLeft().getType());
+        	}
         }
         // -----------------
         // Build language specification.

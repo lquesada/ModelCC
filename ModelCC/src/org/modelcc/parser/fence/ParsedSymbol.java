@@ -204,6 +204,10 @@ public final class ParsedSymbol implements Serializable {
     public CharSequence getString() {
         return string;
     }
+    
+    public String toString() {
+    	return getType()+" ("+startIndex+"-"+endIndex+")";
+    }
 
 
 }

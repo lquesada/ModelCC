@@ -216,7 +216,9 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             // Calculate start and used symbols.
             for (ites = potentialstart.iterator();ites.hasNext();) {
                 s = ites.next();
+            	//out("CONSIDERING FOR START "+s+"  "+s.getType());
                 if (pg.getPreceding().get(s.getParsedSymbol()) == null && pg.getFollowing().get(s.getParsedSymbol()) == null) {
+                	//out("ADDED START "+s+"  "+s.getType());
                     start.add(s);
                     recAdd(s);
                 }
@@ -236,7 +238,9 @@ public class FenceConstraintEnforcerSafe implements Serializable {
         }
         
         for (Iterator<Symbol> ite = erase.iterator();ite.hasNext();) {
-        	removeSymbol(ite.next());
+        	Symbol s = ite.next();
+        	//out("REMOVING SYMBOL "+s+" "+s.getType());
+        	removeSymbol(s);
         }
         
         return new SyntaxGraph(usedSymbols,start);
@@ -416,7 +420,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             HashSet<Symbol> hs = new HashSet<Symbol>();
             s = new Symbol(id.val,ps);
 
-            //System.out.println("1------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+            //out("1------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
             mapped.put(ps,hs);
             Set<Symbol> ss = fixEmpties(s);
             if (ss.isEmpty())
@@ -426,6 +430,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 s1.setUserData(ps.getUserData());
 	            if (build(s1)) {
 	                id.val++;
+                    //out("GENERATED SYMBOL2 "+s1+" "+s1.getType());
 	                symbols.add(s1);
 	                hs.add(s1);
 	                storeMetadata(s1);
@@ -444,7 +449,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
 
 
-            //System.out.println("2------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+            //out("2------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
             
             mapped.put(ps,hs);
@@ -456,6 +461,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
                 s1.setUserData(ps.getUserData());
             	if (build(pg.getGrammar().getEmptyRuleRules().get(s.getType()),s)) {
             		id.val++;
+                    //out("GENERATED SYMBOL3 "+s1+" "+s1.getType());
                 	symbols.add(s1);
 	                hs.add(s1);
 	                storeMetadata(s1);
@@ -471,7 +477,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 
             Set<ExpandTuple> tuples = searchAllTuples(ps);
             
-            //System.out.println("3------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
+            //out("3------ to generate "+ps.getType()+" string "+ps.getString()+" "+ps.getStartIndex()+"-"+ps.getEndIndex());
 
             Set<Symbol> hs = new HashSet<Symbol>();
             for (Iterator<ExpandTuple> ite = tuples.iterator();ite.hasNext();) {
@@ -553,15 +559,15 @@ public class FenceConstraintEnforcerSafe implements Serializable {
             	/*
     			for (Iterator<Object> iter = rules.iterator();iter.hasNext();) {
     				Object type = iter.next();
-    				//System.out.println("FOUND "+type+"  "+rules);
+    				////out("FOUND "+type+"  "+rules);
     				Symbol sn = new Symbol(id.val,new ParsedSymbol(type,-1,-1,""));
-    				//System.out.println("RECURSIVE IN");
+    				////out("RECURSIVE IN");
     	            Set<Symbol> ss = fixEmpties(sn);
     	            if (ss.size()==0)
     	            	ret.add(s);
     	            for (Iterator<Symbol> ite = ss.iterator();ite.hasNext();) {
     	            	Symbol s1 = ite.next();
-    	            	//System.out.println("TIENE CONTENIDOS "+s1.getContents().size());
+    	            	////out("TIENE CONTENIDOS "+s1.getContents().size());
     	                //s1.setUserData(s.getParsedSymbol().getUserData());
     		            if (build(pg.getGrammar().getEmptyRuleRules().get(s1.getType()),s1)) {
     		                id.val++;
@@ -578,7 +584,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 //        		            	id.val++;
 //        		            	symbols.add(snew);
 //        		            	storeMetadata(snew);
-    		            	System.out.println("ACABO DE DEVOLVER"+snew+"    "+snew.getType()+"   con "+elements1);
+    		            	//out("ACABO DE DEVOLVER"+snew+"    "+snew.getType()+"   con "+elements1);
     		            	ret.add(snew);
 //        		            }
     		            }
@@ -897,6 +903,7 @@ public class FenceConstraintEnforcerSafe implements Serializable {
 	                        if (r.getRelevant() != -1)
 	                            if (associateds.contains(content.get(r.getRelevant())))
 	                                associateds.add(s1);
+	                        //out("GENERATED SYMBOL1 "+s1+" "+s1.getType());
 	                        symbols.add(s1);
 
 	                        ret.add(s1);

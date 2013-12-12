@@ -58,6 +58,8 @@ import test.languages.testlanguage.IncorrectDollarPrefix;
 import test.languages.testlanguage.Test7_2;
 import test.languages.testlanguage.Test7_1;
 import test.languages.testlanguage.Test7;
+import test.languages.testlanguage.Test9;
+import test.languages.testlanguage.Test9B;
 import test.languages.composition3.CondSentence3;
 import test.languages.composition2.CondSentence2;
 import test.languages.composition3.Composition3;
@@ -608,7 +610,25 @@ public class LanguageSpecificationFactoryTest {
         assertEquals(1,cc.c.a.count);
     }
 
-    
+    @Test
+    public void CompositionTest() {
+        assertEquals(1,testFull("CC",Test9.class).size());
+        assertEquals(1,testFull("CmCm",Test9.class).size());
+        assertEquals(1,testFull("CmC",Test9.class).size());
+        assertEquals(1,testFull("CCm",Test9.class).size());
+        assertEquals(1,testFull("CCC",Test9.class).size());
+
+    }
+
+    @Test
+    public void CompositionTest2() {
+        assertEquals(1,testFull("CC",Test9B.class).size());
+        assertEquals(1,testFull("mCmC",Test9B.class).size());
+        assertEquals(1,testFull("mCC",Test9B.class).size());
+        assertEquals(1,testFull("CmC",Test9B.class).size());
+        assertEquals(1,testFull("CCC",Test9B.class).size());
+
+    }
     @Test
     public void ModelToLanguageSpecificationReferencesTest1() {
 
