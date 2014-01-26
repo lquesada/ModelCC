@@ -34,6 +34,8 @@
 %\renewcommand{\floatpagefraction}{1}	% require fuller float pages
 %\renewcommand{\dblfloatpagefraction}{0}	% require fuller float pages
 
+\newcommand{\etexttt}[1]{\textit{#1}}
+
 \definecolor{MyGray}{rgb}{0.95,0.95,0.95}
 \newenvironment{colframe}{% 
   \begin{Sbox} 
@@ -128,8 +130,6 @@
 \newpage
 \section{Introduction} 
 
-{\bf \color{red} It should be noted that this user manual is under heavy construction. A complete version will be published in the website.}
-
 ModelCC is a model-based parser generator that decouples language specification from language processing.
 
 The idea behind model-based language specification is that, starting from a single abstract syntax model (ASM) representing the core concepts in
@@ -157,7 +157,7 @@ Section \ref{sec:testing} presents an example of model testing using ModelCC tes
 Any class implementing the \emph{IModel} interface is considered a language element.
 
 The specification of a language in ModelCC starts with the definition of basic language elements, which might be viewed as the tokens in the model-driven specification of a language.
-Basic language elements can be modeled as simple classes in an object-oriented programming language annotated with pattern constraints, as described in Section \ref{sec:patterns}.
+Basic language elements can be modeled as simple classes in an object-oriented programming language annotated with pattern constraints, as described in Section \ref{subsec:patterns}.
 The ASM-CSM mapping of those basic elements will establish their correspondence to the tokens that appear in the concrete syntax of the language whose ASM we design in ModelCC.
 
 The metadata annotation \emph{@Setup} can be used to specify the method, if any, that has to be run to initialize the language element instances.
@@ -246,7 +246,7 @@ Repetition allows the specification of a language element that appears several t
 
 In ModelCC, repetition is also achieved through object composition, just by allowing different multiplicities in the associations that connect
 composite elements to their constituent elements, that is, by declaring container members such as arrays, Lists/ArrayLists, or Sets/HashSets.
-The cardinality constraints described in Section \ref{sec:cardinality} can be used to annotate ModelCC models in order to establish specific multiplicities for repeatable language elements.
+The cardinality constraints described in Section \ref{subsec:cardinality} can be used to annotate ModelCC models in order to establish specific multiplicities for repeatable language elements.
 
 The following five pieces of code show examples of repetition, in which an \emph{OutputStatement} can contain an array, a List, an ArrayList, a Set, or an HashSet of \emph{Expressions}.
 
@@ -313,622 +313,555 @@ public class OutputStatement extends Statement implements{\emph IModel} \{
 
 \section{Model Constraints} \label{sec:modelcons}
 
-Once we have examined the mechanisms that let us create abstract syntax models in ModelCC, we now proceed to describe how constraints can be
-imposed on such models.
+Once we have examined the mechanisms that let us create abstract syntax models in ModelCC, we now proceed to describe how constraints can be imposed on such models in order to establish the desired ASM-CSM mapping.
+As soon as that ASM-CSM mapping is established, ModelCC is able to generate the suitable parser for the concrete syntax defined by the CSM.
 
-In ModelCC, the constraints are declared as metadata annotations on the model itself, and all constraints except prefixes and suffixes are inherited from superelements to subelements.
+ModelCC allows the definition of constraints using metadata annotations or a domain-specific language.
 
-\subsection{Pattern Specification Constraints} \label{sec:patterns}
+In ModelCC, which supports language composition without being scannerless, a first set of constraints is used for pattern specification, a necessary feature for defining the lexical elements of the concrete syntax model, i.e. its tokens (Subsection \ref{subsec:patterns}).
 
-Pattern specification constraints allow the specification of the basic language elements, i.e. the different token types
-defined for a textual language.
+A second set of constraints is employed for defining delimiters in the concrete syntax model, whose use is common for eliminating language ambiguities or just as syntactic sugar in many languages (Subsection \ref{subsec:delimiters}).
+
+A third set of ModelCC constraints lets us impose cardinalities on language elements, which control element repeatability and optionality (Subsection \ref{subsec:cardinality}).
+
+A fourth set of constraints lets us impose evaluation order on language elements, which are employed to declaratively resolve further ambiguities in the concrete syntax of a textual language by establishing associativity, precedence, and composition policies, the latter employed, for example, for resolving the ambiguities that cause the typical shift-reduce conflicts in LR parsers (Subsection \ref{subsec:evalorder}).
+
+A fifth set of constraints lets us specify the element constituent order in composite elements. (Subsection \ref{subsec:comporder}).
+
+A sixth set of constraints lets us specify referenceable language elements and references to them (Subsection \ref{subsec:references}).
+
+Custom constraints let us provide specific lexical, syntactic, and semantic constraints that take into consideration context information (Subsection \ref{subsec:custom}).
+
+Finally, probability constraints let us specify probabilities for disambiguation (Subsection \ref{subsec:probability}).
+
+\subsection{Pattern Specification Constraints} \label{subsec:patterns}
+
+Pattern specification constraints allow the specification of the lexical elements in a concrete syntax model, i.e. the different token types defined for the concrete syntax of a textual language.
+It should be noted that, once a language element is annotated with pattern specification constraints, it cannot be a composite element since, as a lexical element, it cannot be composed of other elements.
+
+The above constraint, which forces lexical elements to be basic language elements in a ModelCC ASM, does not reduce the flexibility of ModelCC for language composition.
+Language composition, typically achieved by scannerless parser generators, can also be achieved if the scanner supports lexical ambiguities.
+When lexical ambiguities are allowed, the same string or even overlapping strings might correspond to several tokens, which will later be processed by the parser consuming the output of the scanner supporting lexical ambiguities.
 
 \subsubsection{The @Pattern annotation}
 
+\begin{figure}[tb!]
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=1]{identifier.eps}
+\caption{Pattern specification example: Regular expression.} \label{fig:identifier}
+\end{minipage}
+
+\vspace{1mm}
+\begin{minipage}{\linewidth}
+
+\begin{center} \begin{minipage}{7.1cm} \vspace{4mm}
+\begin{verbatim}
+
+[a-zA-Z][_a-zA-Z0-9]*  return Identifier;
+\end{verbatim}
+\vspace{-6mm} \end{minipage} \end{center}
+
+\caption{Implementation of Figure \ref{fig:identifier} in lex.}
+\label{fig:identifierg}
+
+\end{minipage}
+
+\vspace{3mm}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=1]{javadoc.eps}
+\caption{Pattern specification example: Custom pattern matching.} \label{fig:javadoc}
+\end{minipage}
+
+\end{figure}
+
 The \an{@Pattern} annotation allows the specification of the pattern that will be used to match a basic language element in the input string.
-Two mutually exclusive mechanisms are provided for pattern specification in ModelCC: regular expressions and user-defined pattern matching
-classes. Regular expressions can be specified in ModelCC to build standard lexers, whereas custom pattern matching classes allow the language
-designer to use any custom-defined matching element to recognize basic language elements in the input string.
+Two mutually exclusive mechanisms are provided for pattern specification in ModelCC: regular expressions and user-defined pattern matching classes.
+Regular expressions can be specified in ModelCC to build standard lexers, whereas custom pattern matching classes allow the language designer to use any custom-defined matching element to recognize basic language elements in the input string.
+The custom pattern matching class can be anything, since it works as a black box for ModelCC.
+It might even be a complete ModelCC-generated parser, which could be used for the specification of modular languages, a coarse form of language composition (e.g. think of the JavaScript scripts and CSS stylesheets within the
+HTML in a web page).
 
-When used with regular expressions, the \an{@Pattern} annotation includes an argument representing the regular expression. This regular
-expression, specified as the \emph{regExp} field of the annotation, corresponds to the traditional token type definition in lex-like scanners.
+When used with regular expressions, the \an{@Pattern} annotation includes an argument representing the regular expression.
+This regular expression, specified as the \emph{regExp} field of the annotation, corresponds to the traditional token type definition in lex-like scanners.
 
-When used with custom pattern matching classes, the \an{@Pattern} annotation is used to specify the name of the class implementing the matching
-algorithm (this class should extend the abstract class \emph{PatternRecognizer}) in the \emph{matcher} field of the annotation and an argument string in the \emph{args} field of the annotation.
+When used with custom pattern matching classes, the \an{@Pattern} annotation is used to specify the name of the class implementing the matching algorithm and its argument string.
+If this pattern specification mechanism is used, ModelCC will need to resort to a scanning algorithm that supports pattern matcher classes.
 
-It should be noted that ModelCC supports lexical and syntactic ambiguities.
+For example, the \an{@Pattern} annotation in Figure \ref{fig:identifier} defines the typical \emph{Identifier} token in programming languages, which can be specified by the following regular expression: \emph{[a-zA-Z][\_a-zA-Z0-9]*}.
+This specification corresponds to the lex token definition shown in Figure \ref{fig:identifierg}.
 
-The following code shows an example of regular expression pattern specification, in which an \emph{Identifier} can be specified by the regular expression \emph{[a-zA-Z][\_a-zA-Z0-9]*}:
+The example in Figure \ref{fig:javadoc} illustrates the use of custom pattern matching classes in ModelCC.
+In this case, the \an{@Pattern} annotation refers to the \emph{JavaDocRecognizer} class, which will be responsible for recognizing \emph{JavaDoc} comments as basic language elements in the shown ASM.
+Arguments can also be specified when using the \emph{matcher} field of the \an{@Pattern} annotation with the help of its optional \emph{args} field (\emph{``simple''} in Figure \ref{fig:javadoc}).
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-{\bf\unskip @Pattern(regExp="[a-zA-Z][_a-zA-Z0-9]*")}
-public class Identifier implements{\emph IModel} \{
-
-\}
-\end{alltt}
-\end{colframe}
-
-The following code shows an example of matcher class pattern specification, in which \emph{JavaDoc} can be specified by a \emph{JavaDocRecognizer} class and the ``simple'' argument:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-{\bf\unskip @Pattern(matcher=JavaDocRecognizer.class,args="simple")}
-public class JavaDoc implements{\emph IModel} \{
-
-\}
-\end{alltt}
-\end{colframe}
+As mentioned above, the ModelCC use of custom pattern matching algorithms for defining basic language elements has no counterpart in traditional lexer generators, hence an equivalent lex-like definition cannot be provided.
 
 \subsubsection{The @Value annotation}
 
-The \an{@Value} annotation can be used in combination with the \an{@Pattern} annotation in ModelCC to indicate the location where the recognized
-token value will be stored in the abstract syntax graph, so that value can be used once the input string has been parsed.
+The \an{@Value} annotation can be used in ModelCC to indicate the location where the recognized token value will be stored in the abstract syntax graph, so that value can be used once the input string has been parsed.
 
-Associated to a field of the class defining a basic language element, that field will contain the value obtained from the input string that
-matches the token type pattern specification.
-
-When a numeric or boolean field is annotated with the \an{@Value} annotation, it is not necessary to specify the corresponding \an{@Pattern}
-annotation for recognizing the numeric or boolean tokens. When the \an{@Value}-annotated field is not numeric nor boolean (e.g. a string, a
-single character, or any non-primitive data type), the use of the \an{@Pattern} annotation is mandatory.
-
-The following code shows an example of an \an{@Value} annotation defining a primitive pattern, in which \emph{IntegerLiteral} will have a \emph{long}-matching pattern and the matched value will be stored in the \emph{value} member:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class IntegerLiteral implements{\emph IModel} \{
-
-  {\bf\unskip @Value}
-  long value;
-
-\}
-\end{alltt}
-\end{colframe}
-
-The following code shows an example of an \an{@Value} annotation defining where to store the matched value when a non-primitive pattern is used, in which a \emph{StringLiteral} will be recognized whenever a pair of double quotes
-encloses a string not containing a double quote, a constraint that can be specified by the regular expression \emph{$\backslash$``[$\mathbin{\char`\^}\backslash$``]*$\backslash$``}:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-@Pattern(regExp="\(\backslash\)"[^\(\backslash\)"]*\(\backslash\)""
-public class StringLiteral implements{\emph IModel} \{
-
-  {\bf\unskip @Value} 
-  String text;
-
-\}
-\end{alltt}
-\end{colframe}
+\begin{figure}[tb!]
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=1]{integerliteral.eps}
+\caption{Value field specification example: Integer literals.}
+ \label{fig:integerliteral}
+\end{minipage}
 
 
-\subsection{Delimiter Constraints}
+\begin{minipage}{\linewidth}
+\begin{center} \begin{minipage}{5cm} \vspace{4mm}
+\begin{verbatim}
 
-Delimiter constraints allow the specification of language element delimiters in a concrete syntax model. Delimiters include prefixes, suffixes,
-and separators. Such kinds of delimiters are often used to eliminate language ambiguities and facilitate parsing, but they can appear just as
-syntactic sugar to make languages more readable.
+[0-9]+ {
+  yylval.value = atoi(yytext);
+  return INTEGERLITERAL;
+}
+\end{verbatim}
+\vspace{-6mm} \end{minipage} \end{center}
+\caption{Implementation of Figure \ref{fig:integerliteral} using lex \& yacc.} \label{fig:integerliteralg}
+\end{minipage}
+\vspace{3mm}
 
-Usually, reserved words in programming languages act just as delimiters. As such, they will not appear in the language abstract syntax model.
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=1]{stringliteral.eps}
+\caption{Value field specification example: Double-quoted string literals.} \label{fig:stringliteral}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\begin{center} \begin{minipage}{5.2cm} \vspace{4mm}
+\begin{verbatim}
+
+\"[^\"]*\" {
+  int size,csize;
+  size = strlen(yytext);
+  csize = sizeof(char)*(size+1);
+  yylval.pval = malloc(csize);
+  strncpy(yylval.pval,yytext,size);
+  return STRINGLITERAL;
+}
+\end{verbatim}
+\vspace{-6mm} \end{minipage} \end{center}
+\caption{Implementation of Figure \ref{fig:stringliteral} using lex \& yacc.} \label{fig:stringliteralg}
+\end{minipage}
+
+\end{figure}
+
+Associated to a field of the class defining a basic language element, that field will contain the value obtained from the input string that matches the token type pattern specification.
+
+When a numeric or boolean field is annotated with the \an{@Value} annotation, it is not necessary to specify the corresponding \an{@Pattern} annotation for recognizing the numeric or boolean tokens. When the \an{@Value}-annotated field is not numeric nor boolean (e.g. a string, a single character, or any non-primitive data type), the use of the \an{@Pattern} annotation is mandatory.
+
+Elements from the ASM that contain a \an{@Value}-annotated numeric or boolean field are transformed into their corresponding token type lex-like definitions, even when no \an{@Pattern} annotation is present.
+ModelCC will always perform the proper assignment of the recognized token to the \an{@Value}-annotated field.
+
+For example, the model in Figure \ref{fig:integerliteral} defines an \emph{IntegerLiteral} language element that recognizes long integer literals.
+The proper regular expression for such literals will be employed and, whenever an integer literal is found in the input string, its integer value will be stored in the \an{@Value}-annotated \emph{value} field of the \emph{IntegerLiteral} class.
+If we had used lex \& yacc, we would have had to type the lexical definition and semantic action shown in Figure \ref{fig:identifierg}.
+
+As another example, Figure \ref{fig:stringliteral} shows how the \an{@Value} annotation would be used in conjunction with the \an{@Pattern} annotation to define string literals surrounded by double quotes.
+A \emph{StringLiteral} will be recognized whenever a pair of double quotes encloses a string not containing a double quote, a constraint that can be specified by the following regular expression: \emph{$\backslash$``[$\mathbin{\char`\^}\backslash$``]*$\backslash$``}.
+The lex \& yacc implementation of this string literal token type definition would be slightly more complex than the previous example, as shown in Figure \ref{fig:stringliteralg}.
+
+\subsection{Delimiter Constraints} \label{subsec:delimiters}
+
+Delimiter constraints allow the specification of language element delimiters in a concrete syntax model. Delimiters include prefixes, suffixes, and separators.
+Such kinds of delimiters are often used to eliminate language ambiguities and facilitate parsing, but they can appear just as syntactic sugar to make languages more readable.
+
+Usually, reserved words in programming languages act just as delimiters.
+As such, they will not appear in the language abstract syntax model.
 They will be specified as metadata annotations in the ASM-CSM mapping corresponding to the concrete syntax of the language.
 
-It should be noted that delimiters should always be specified as constraints on the ASM-CSM mapping rather than language elements in the ASM,
-since they do not provide any relevant information from the perspective of the abstract syntax model, even though they might be necessary to
-define unambiguous textual languages.
+It should be noted that delimiters should always be specified as constraints on the ASM-CSM mapping rather than language elements in the ASM, since they do not provide any relevant information from the perspective of the abstract syntax model, even though they might be necessary to define unambiguous textual languages.
 
 \subsubsection{The @Prefix annotation}
 
 The \an{@Prefix} annotation allows the specification of prefixes for language elements and specific constituents in composite language elements.
 
-The \emph{value} field of the \an{@Prefix} annotation is used to specify the list of regular expressions that define the prefixes that precede
-the corresponding language element (or a specific constituent element within a composite element) in the concrete syntax of a textual CSM.
+The \emph{value} field of the \an{@Prefix} annotation is used to specify the list of regular expressions that define the prefixes that precede the corresponding language element (or a specific constituent element within a composite element) in the concrete syntax of a textual CSM.
 
-The following pieces of code show an example of prefixes, in which a \emph{Program} is prefixed by the reserved word ``main'':
+When converting the ASM into a textual CSM, ModelCC will include the specified prefixes in every production where the annotated element appears in the textual CSM grammar, just before the appearance of the annotated element.
+When the annotation is associated to a constituent element within a composite language element, the sequence of prefixes will be included only in the productions that correspond to the composite language element, preceding the annotated constituent element within their right-hand side.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+It should be noted that, when the annotated element is repeatable, the sequence of prefixes appear only once, preceding the first instance of the annotated element.
+Prefixes will also be included in the CSM even when no elements appear in a repetition language construct (e.g. as when the opening parenthesis appears before an empty list of arguments in a parameterless C-like function call), but not when the repetition language construct is optional and is not present.
 
-{\bf\unskip @Prefix("main")}
-public class Program implements{\emph IModel} \{
+For example, the model in Figure \ref{fig:programmain} specifies that the textual representation of a \emph{Program} will always be preceded by a ``main'' keyword prefix.
+The grammar defining the textual CSM for this simple example is  \etexttt{$<$ProgramMain$>$ ::= ``main'' $<$Statement$>$}.
 
-  Statement main;
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{programmain.eps}
+\caption{\an{@Prefix} annotation example.} \label{fig:programmain}
+\end{figure}
 
-\}
-\end{alltt}
-\end{colframe}
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class Program implements{\emph IModel} \{
-
-  {\bf\unskip @Prefix("main")}
-  Statement main;
-
-\}
-\end{alltt}
-\end{colframe}
 
 \subsubsection{The @Suffix annotation}
 
 The \an{@Suffix} annotation allows the specification of suffixes for language elements and specific constituents in composite language elements.
 
-The \emph{value} field of the \an{@Suffix} annotation is used to specify the list of regular expressions that define the suffixes that follow
-the corresponding language element (or a specific constituent element within a composite element) in the concrete syntax of a textual CSM.
+The \emph{value} field of the \an{@Suffix} annotation is used to specify the list of regular expressions that define the suffixes that follow the corresponding language element (or a specific constituent element within a composite element) in the concrete syntax of a textual CSM.
 
-The following code shows an example of suffixes, in which an \emph{InputStatement} is suffixed by ``;'' and the list of \emph{Identifiers} it contains is suffixed by ``)'':
+When converting the ASM into a textual CSM, ModelCC will include the specified suffixes in every production where the annotated element appears in the textual CSM grammar, just after the appearance of the annotated element.
+When the annotation is associated to a constituent element within a composite language element, the sequence of suffixes will be included only in the productions that correspond to the composite language element, following the annotated constituent element within their right-hand side.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+It should be noted that, when the annotated element is repeatable, the sequence of suffixes appear only once, just after the last element in the sequence of repetitions.
+Suffixes will also be included in the CSM even when no elements appear in a repetition language construct (e.g. as when the closing parenthesis appears at the end of an empty list of arguments in a parameterless C-like function call), but not when the repetition language construct is optional and is not present.
 
-@Prefix("input")
-{\bf\unskip @Suffix(";")}
-public class InputStatement implements{\emph IModel} \{
+For example, the model in Figure \ref{fig:inputstatement} specifies that the textual representation of an \emph{InputStatement} is preceded by an ``input'' keyword prefix and followed by a semicolon (``;'') as its suffix.
+It also contains a sequence of \emph{Identifier}s delimited by opening and closing parentheses: ``('' as the prefix of the \emph{ids} constituent of the \emph{InputStatement} composite and ``)'' as its suffix.
+The grammar defined by the ASM-CSM mapping specified by the annotations in Figure \ref{fig:inputstatement} is \etexttt{$<$InputStatement$>$ ::= ``input'' ``('' $<$IdentifierList$>$ ``)'' ``';''; $<$IdentifierList$>$ ::= $<$Identifier$>$ $<$IdentifierList$>$ $|$ $<$Identifier$>$}.
 
-  @Prefix("(")
-  {\bf\unskip @Suffix(")")}
-  List<Identifier> ids;
-
-\}
-\end{alltt}
-\end{colframe}
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{inputstatement.eps}
+\caption{\an{@Suffix} annotation example.} \label{fig:inputstatement}
+\end{figure}
 
 \subsubsection{The @Separator annotation}
 
-The \an{@Separator} annotation allows the specification of separators between consecutive instances of elements within a repetition. Separators
-can be defined in ModelCC by annotating a language element in the ASM or just its appearance within a particular repetition construct. In the
-first case, a default separator is established for the language element: the specified separator will be used for separating consecutive
-instances of the annotated language element whenever a sequence of such language elements appears in a textual CSM. In the second case, an
-\emph{ad hoc} separator is defined: the specified separator will be used only when consecutive instances of the language element appear within
-the context of the annotated repetition construct.
+The \an{@Separator} annotation allows the specification of separators between consecutive instances of elements within a repetition.
+Separators can be defined in ModelCC by annotating a language element in the ASM or just its appearance within a particular repetition construct.
+In the first case, a default separator is established for the language element: the specified separator will be used for separating consecutive instances of the annotated language element whenever a sequence of such language elements appears in a textual CSM.
+In the second case, an \emph{ad hoc} separator is defined: the specified separator will be used only when consecutive instances of the language element appear within the context of the annotated repetition construct.
 
-The \emph{ad hoc} definition of separators with the \an{@Separator} annotation within repetition constructs can be used to override the default
-sequence of separators associated to the repeatable element in a repetition construct (or just to disable the use of separators for that
-specific repetition).
+The \emph{ad hoc} definition of separators with the \an{@Separator} annotation within repetition constructs can be used to override or disable the default sequence of separators associated to the repeatable element in a repetition construct.
 
-The following code shows an example of default separators, in which an \emph{Identifier} is set the default separator ``,'', which will be used in the set of identifiers of a \emph{VariableDeclaration}:
+Therefore, default separators are specified for language elements by the \an{@Separator} annotation.
+When converting the ASM into a textual CSM, ModelCC will include the sequence of regular expressions defining those default separators in every recursive production rule generated from a repetition where the annotated element is repeatable.
+When the \an{@Separator} annotation accompanies a repeatable element within a particular repetition construct, i.e. the \emph{ad hoc} case, separators will only appear in the recursive production rule derived from that particular repetition construct, but not in other constructs where the constituent element might also be repeatable.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+As an example of defining a default separator, Figure \ref{fig:identifier2} illustrates how a comma (``,'') can be used as the default separator for \emph{Identifier}s.
+Whenever a list of \emph{Identifier}s is needed within the language, a comma will separate consecutive identifiers.
+In the example, since a \emph{VariableDeclaration} contains a \emph{Type} and a set of \emph{Identifier}s, they will be separated by ``,'' in the textual CSM derived from the language ASM.
+The grammar of the resulting CSM will include the following productions: \etexttt{$<$VariableDeclaration$>$ ::= $<$Type$>$ $<$IdentifierList$>$ ``;''} and \etexttt{$<$IdentifierList$>$ ::= $<$Identifier$>$ ``,'' $<$IdentifierList$>$ $|$ $<$Identifier$>$}.
 
-public class VariableDeclaration implements{\emph IModel} \{
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{identifier2.eps}
+\caption{Default \an{@Separator} example.} \label{fig:identifier2}
+\end{figure}
 
-  Type type;
+As an example illustrating the use of \emph{ad hoc} separators, consider the model in Figure \ref{fig:inputstatement2}.
+Here, \emph{Identifier}s are also separated by commas, but only within \emph{InputStatement}s, i.e. ``,'' is the \emph{ad hoc} separator for identifiers within input statements, but lists of identifiers might employ different separators elsewhere.
+The grammar associated to the textual CSM derived from Figure \ref{fig:inputstatement2} would include the following productions: \etexttt{$<$InputStatement$>$ ::= ``input'' ``('' $<$InputStatementIdentifierList$>$ ``)'' ``;''} and \etexttt{$<$InputStatementIdentifierList$>$ ::= $<$Identifier$>$ ``,'' $<$InputStatementIdentifierList$>$ $|$ $<$Identifier$>$}.
 
-  Set<Identifier> ids;
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{inputstatement2.eps}
+\caption{\emph{Ad hoc} \an{@Separator} example.} \label{fig:inputstatement2}
+\end{figure}
 
-\}
-\end{alltt}
-\end{colframe}
+\subsection{Cardinality Constraints} \label{subsec:cardinality}
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-{\bf @Separator(",")}
-public class Identifier implements{\emph IModel} \{
-
-\}
-\end{alltt}
-\end{colframe}
-
-The following code shows an example of \emph{ad hoc} separators, in which an \emph{Identifier} is set the ad hoc separator ``,'' in a \emph{VariableDeclaration}:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class VariableDeclaration implements{\emph IModel} \{
-
-  Type type;
-
-  {\bf @Separator(",")}
-  Set<Identifier> ids;
-
-\}
-\end{alltt}
-\end{colframe}
-
-
-\subsection{Cardinality Constraints} \label{sec:cardinality}
-
-Cardinality constraints on language elements control element repeatability and optionality.
+Cardinality constraints let us impose cardinalities on composite language elements, which control element repeatability and optionality.
 
 \subsubsection{The @Optional annotation}
 
 The \an{@Optional} annotation allows the specification of optional elements in textual CSMs.
 
-When one of the constituent elements within a composite language element is optional, the textual representation of the composite element might
-include the optional element, along with its corresponding delimiters, or not. In the latter case, the missing element delimiters are not
-included in the textual representation the composite element either, even though a prefix and a suffix might have been defined for the missing
-constituent element.
+Optional elements naturally appear in language specifications and optionality could always be modeled by means of selection constructs.
+However, the declarative specification of the optionality constraints is necessary to avoid unnecessary duplication in the language model.
 
-The following code shows an example of optionality, in which a \emph{ConditionalStatement} contains an \emph{Expression} (the condition), the ``if'' \emph{Statement}, and an optional ``else'' \emph{Statement}:
+When one of the constituent elements within a composite language element is optional, the textual representation of the composite element might include the optional element along with its corresponding delimiters, or not.
+In the latter case, the missing element delimiters are not included in the textual representation either, even though a prefix and a suffix might have been defined for the missing constituent element.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+If we performed a naive transformation of a composite language into a set of CFG production rules and the composite element includes $i$ optional elements, $2^i$ production rules would result with the composite element in their left-hand side and all the possible combinations of optional elements in their right-hand side.
+A more reasonable transformation employs just $2i$ ancillary production rules that represent whether if each optional element is to be matched or not.
 
-@Prefix("if")
-@Suffix(";")
-public class ConditionalStatement implements{\emph IModel} \{
+For example, the model in Figure \ref{fig:conditional2} shows that a \emph{ConditionalStatement} contains an \emph{Expression}, the \emph{Statement} that will be run when the \emph{Expression} evaluates to true, and, optionally, the \emph{Statement} that will be run when the \emph{Expression} evaluates to false.
+The grammar resulting from the model transformation into a textual CSM will include the following two productions: \etexttt{$<$ConditionalStatement$>$ ::= ``if'' $<$Expression$>$ $<$Statement$>$ $<$OptionalElse$>$} and \etexttt{$<$OptionalElse$>$ ::= ``else'' $<$Statement$>$ $|$ $\epsilon$}.
 
-  Expression cond;
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{conditional2.eps}
+\caption{\an{@Optional} element example: if-then-else statement.} \label{fig:conditional2}
+\end{figure}
 
-  Statement ifst;
+\subsubsection{The @Multiplicity annotation}
 
-  @Prefix("else")
-  {\bf @Optional}
-  Statement elsest;
+The \an{@Multiplicity} annotation, depicted as minimum and maximum multiplicity constraint in standard UML notation, allows the specification of the lower and upper bound for the multiplicity of repeatable language elements within repetition constructs.
+By default, the lower bound is $0$ and the upper bound is infinite.
 
-\}
-\end{alltt}
-\end{colframe}
+It should be noted that, when the minimum multiplicity is $0$, no elements might appear in a particular instance of the repetition.
+However, delimiters would still be represented in the textual CSM unless the \an{@Optional} annotation were explicitly employed.
 
-\subsubsection{The @Minimum annotation}
+ModelCC generates semantic predicates that check if specific bounds are met for a list of elements, in which case the generated parser would not recognize the list of elements as such, since it does not satisfy the cardinality constraint imposed by the multiplicity annotation.
 
-The \an{@Minimum} annotation allows the specification of the lower bound for the multiplicity of repeatable language elements within repetition constructs. This lower bound is $1$ by default.
+Other parser generators would require the explicit generation of a grammar representing the minimum and maximum cardinality constraint, i.e. when an element must appear at least $i$ times within a repetition, two production rules would be necessary: \etexttt{$<$MinIElements$>$ ::= $<$Element$>$... i times... $<$Element$>$ $<$ElementList$>$} and \etexttt{$<$ElementList$>$ ::= $<$Element$>$ $<$ElementList$>$ $|$ $\epsilon$}.
 
-It should be noted that, when the minimum multiplicity is $0$, no elements might appear in a particular instance of the repetition. However,
-delimiters would still be represented in the textual CSM unless the \an{@Optional} annotation were explicitly employed.
+For example, the model in Figure \ref{fig:arguments} indicates that a \emph{Program} might have from $0$ to $2$ \emph{Parameter}s.
+Here, the multiplicity annotation is inferred from the multiplicity of the UML association.
+The grammar corresponding to the textual CSM derived from Figure \ref{fig:arguments} would include the following production rules: \etexttt{$<$Program$>$ ::= $<$OptionalParameterList$>$; $<$OptionalParameterList$>$ ::= $<$ParameterList$>$ $|$ $\epsilon$; and $<$ParameterList$>$ ::= $<$Parameter$>$ $<$ParameterList$>$ $|$ $<$Parameter$>$}, where the last production would be accompanied by a semantic predicate that would check whether the maximum multiplicity constraint holds.
+If such feature were not available in our parsing algorithm generator, this last production would have to be replaced by a much more explicit (and potentially verbose) set of equivalent productions incorporating the maximum multiplicity constraint: \etexttt{$<$ParameterList$>$ ::= $<$Parameter$>$ $|$ $<$Parameter$>$ $<$Parameter$>$}.
+This approach poses no problems in this simple example, but it might get much more complicated (no problem yet whenever the resulting grammar is automatically generated by a model-driven language specification tool).
 
-The following code shows an example of minimum cardinality, in which an \emph{ExpressionSet} contains a set of $0$ or more \emph{Expressions} delimited by ``{'' and ``}'':
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{arguments.eps}
+\caption{Maximum multiplicity example.} \label{fig:arguments}
+\end{figure}
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+\subsection{Evaluation Order Constraints} \label{subsec:evalorder}
 
-@Prefix("{")
-@Suffix("}")
-public class ExpressionSet implements{\emph IModel} \{
-  
-  {\bf @Minimum(0)}
-  Set<Expression> exps;
-
-\}
-\end{alltt}
-\end{colframe}
-
-\subsubsection{The @Maximum annotation}
-
-The \an{@Maximum} annotation, depicted as a maximum multiplicity constraint in standard UML associations, allows the specification of the upper
-bound for the multiplicity of repeatable language elements within repetition constructs. This upper bound is undefined by default.
-
-The following code shows an example of maximum cardinality, in which an \emph{Program} contains an array of $0$ to $2$ \emph{Parameters}:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class Program implements{\emph IModel} \{
-
-  @Minimum(0)
-  {\bf @Maximum(2)}
-  Parameter[] pars;
-
-\}
-\end{alltt}
-\end{colframe}
-
-\subsection{Evaluation Order Constraints}
-
-Evaluation order constraints are employed to declaratively resolve syntactic ambiguities in the concrete syntax of a textual language by establishing associativity, composition, and precedence constraints for CSMs.
+Evaluation order constraints let us declaratively resolve syntactic ambiguities in the concrete syntax of a textual language by establishing associativity, composition, and precedence constraints for CSMs.
 
 \subsubsection{The @Associativity annotation}
 
-The \an{@Associativity} annotation allows the specification of the operator-like associativity of language elements. ModelCC supports the
-following options for specifying associativity constraints:
-%
+The \an{@Associativity} annotation allows the specification of the operator-like associativity of language elements.
+ModelCC supports the following options for specifying associativity constraints:
+
 \begin{itemize}
-%
-% Undefined.
-%
-\item \an{AssociativityType.UNDEFINED}, when no associativity is declared (by default), all possibilities are considered.
-%
-% Left to right.
-%
-\item \an{AssociativityType.LEFT\_TO\_RIGHT}, for left-associative operations (e.g. substraction, division, or function application).
-%
-% Right to left.
-%
-\item \an{AssociativityType.RIGHT\_TO\_LEFT}, for right-associative elements (e.g. exponentiation and function definition).
-%
-% Non associative.
-%
-\item \an{AssociativityType.NON\_ASSOCIATIVE}, for non-associative elements (e.g. cross of three vectors).
-%
+\item \an{UNDEFINED}, when no associativity is declared (by default), all possibilities are considered.
+\item \an{LEFT\_TO\_RIGHT}, for left-associative operations (e.g. subtraction, division, or function application).
+\item \an{RIGHT\_TO\_LEFT}, for right-associative elements (e.g. exponentiation and function definition).
+\item \an{NON\_ASSOCIATIVE}, for non-associative elements (e.g. cross of three vectors).
 \end{itemize}
 
-The following pieces of code show an example of left to right associative \emph{BinaryOperator}:
+The specification of associativity constrains help us resolve ambiguities that might appear in recursive compositions (i.e. when using the composite design pattern for modeling the ASM for operations without explicit delimiters), where different interpretations of the input string could be given unless the associativity constraints impose an order on the reductions that can be performed (either left-to-right or right-to-left).
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+For each production in the CSM grammar where the nonterminal of a language element with associativity constraints is preceded and/or followed by the nonterminal that appears on the left-hand side the production or any of its superclasses in the ASM, ModelCC generates a semantic predicate that enforces that associativity constraint.
+The associativity constraint can be implemented by inhibiting the reduction of a production in three situations:
 
-public class Expression implements{\emph IModel} \{
+\begin{itemize}
+\item Whenever the element that follows a left-to-right associative element was generated by a reduction of the same production.
+\item Whenever the element that precedes a right-to-left associative element was generated by a reduction of the same production.
+\item Whenever an element that precedes or follows a non-associative element was generated by a reduction of the same production.
+\end{itemize}
 
-\}
-\end{alltt}
-\end{colframe}
+For example, the model in Figure \ref{fig:operator} establishes that \emph{BinaryOperator}s are left-associative.
+The grammar for the resulting textual CSM would include the productions \etexttt{$<$Expression$>$ ::= $<$BinaryExpression$>$} and \etexttt{$<$BinaryExpression$>$ ::= $<$Expression$>$ $<$BinaryOperator$>$ $<$Expression$>$}, where associativity is not explicit.
+Left-associativity will be imposed by the corresponding parser semantic predicate.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class BinaryExpression extends Expression implements{\emph IModel} \{
-
-  Expression e1;
-
-  BinaryOperator op;
-
-  Expression e2;
-
-\}
-\end{alltt}
-\end{colframe}
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-@Pattern(regExp="\(\backslash\)+|-")
-{\bf\unskip @Associativity(AssociativityType.LEFT\_TO\_RIGHT)}
-public class BinaryOperator implements{\emph IModel} \{
-
-  @Value
-  char operator;
-
-\}
-\end{alltt}
-\end{colframe}
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{operator.eps}
+\caption{Associativity constraint example.} \label{fig:operator}
+\end{figure}
 
 \subsubsection{The @Composition annotation}
 
-The \an{@Composition} annotation allows the specification of the suitable order of evaluation of compositions represented in a CSM, a situation
-that appears whenever the composite design pattern is present in the ASM, no delimiters are employed to eliminate potential
-ambiguities, and the composite contains several consecutive components of the same type of the composite. When such composites are nested,
-different interpretations are possible unless we specify composition constraints in the CSM. This is the case of the typical shift-reduce
-conflicts that appear in LR parsers when parsing nested if-then-else statements.
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{conditional3.eps}
+\caption{Composition constraint example.}
+\label{fig:conditional3}
+\end{figure}
 
-Hence, a specific constraint on element composition must be used to enforce a particular interpretation of such nested compositions in the
-ASM-CSM mapping. ModelCC supports the following options for composition constraints:
+The \an{@Composition} annotation allows the specification of the suitable order of evaluation of compositions represented in a CSM, a situation that appears whenever the composite design pattern is present in the ASM, no delimiters are employed to eliminate potential ambiguities, and the composite contains several consecutive components of the same type of the composite.
+When such composites are nested, different interpretations are possible unless we specify composition constraints in the CSM.
+This is the case of the typical shift-reduce conflicts that appear in LR parsers when parsing nested if-then-else statements.
 
-\begin{itemize}
-
-\item
-\an{CompositionType.UNDEFINED}, when no composition constraints are defined and potential ambiguities are taken into account.
-
-\item
-\an{CompositionType.EAGER}, when the matching of constituent elements is performed as soon as possible. This corresponds
-to the typical interpretation of nested if-then-else statements in programming languages, where the else clause is attached to the innermost if
-statement.
-
-\item
-\an{CompositionType.LAZY}, when the matching of constituent elements is deferred as much as possible. Then, a rightmost derivation is obtained; i.e. when an
-element might accompany any of two nested language constructs, it is associated to the outermost one.
-
-\item
-\an{CompositionType.EXPLICIT}, when no composition constraints are defined and any ambiguities should be resolved with the help of delimiters.
-
-\end{itemize}
-
-The following pieces of code show an example of eager \emph{ConditionalSentence}, in which the ``else'' sentence of ``if cond if cond2 else sent'' will correspond to the internal ``if'' sentence:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-public class Statement implements{\emph IModel} \{
-
-\}
-\end{alltt}
-\end{colframe}
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-@Prefix("if")
-@Suffix(";")
-{\bf @Composition(CompositionType.EAGER)}
-public class ConditionalStatement extends Statement implements{\emph IModel} \{
-
-  Expression cond;
-
-  Statement ifst;
-
-  @Prefix("else")
-  @Optional
-  Statement elsest;
-
-\}
-\end{alltt}
-\end{colframe}
-
-\subsection{Composite Element Order Constraints}
-
-Element order constraints allow modifying the order of elements in compositions.
-
-\subsubsection{The @FreeOrder annotation}
-
-The \an{@FreeOrder} annotation allows the specification of composite elements in which their component elements may appear in any order.
-
-The default behavior is that the elements may appear only in the same order that specified. The annotation accepts an optional boolean argument which enables or disables (default enables) the free order. It should be noted that as this constraint is inherited, if a superelement has free order enabled, subelements will have it enabled too unless specified otherwise.
-
-The following code shows an example of free order, in which a \emph{Program} can contain a set of \emph{FunctionDeclarations} and a main \emph{Sentence} in any order:
-
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
-
-{\bf @FreeOrder}
-public class Program implements{\emph IModel} \{
-
-  Set<FunctionDeclaration> functions;
-
-  Sentence main;
-
-\}
-\end{alltt}
-\end{colframe}
-
-\subsubsection{The @Position annotation}
-
-The \an{@Position} annotation allows the specification of the position of a component element in a composite element.
-
-The default behavior is that the elements appear in the same order that specified. The annotation accepts a mandatory element name, a new position relative to that element, and an optional separator policy in case the element is embedded into a repetition construct.
-
-ModelCC supports combinations of the following options for specifying relative positions:
-%
-\begin{itemize}
-\item \an{Position.AFTER}, puts the element after the referred element.
-\item \an{Position.BEFORE}, puts the element before the referred element.
-\item \an{Position.WITHIN}, puts the element in any position of the referred repetition construct.
-\item \an{Position.BEFORELAST}, puts the element before the last element in the referred repetition construct.
-\end{itemize}
-
-ModelCC supports the following options for specifying separator policies:
+Hence, a specific constraint on element composition must be used to enforce a particular interpretation of such nested compositions in the ASM-CSM mapping.
+ModelCC supports the following options for composition constraints:
 
 \begin{itemize}
-\item \an{SeparatorPolicy.AFTER}, puts the element after the separator.
-\item \an{SeparatorPolicy.BEFORE}, puts the element before the separator.
-\item \an{SeparatorPolicy.EXTRA}, adds an extra separator as if the element was another component of the repetition construct.
-\item \an{SeparatorPolicy.REPLACE}, replaces the separator with the element.
-onstruct.
+\item \an{UNDEFINED}, when no composition constraints are defined and potential ambiguities are taken into account.
+\item \an{EAGER}, when the matching of constituent elements is performed as soon as possible.
+      This corresponds to the typical interpretation of nested if-then-else statements in programming languages, where the else clause is attached to the innermost if statement.
+\item \an{LAZY}, when the matching of constituent elements is deferred as much as possible.
+      Then, a rightmost derivation is obtained; i.e. when an element might accompany any of two nested language constructs, it is associated to the outermost one.
+\item \an{EXPLICIT}, when no composition constraints are defined and any ambiguities should be resolved with the help of delimiters.
 \end{itemize}
 
-The following code shows an example of position, in which a \emph{Program} can contain a set of \emph{ProcedureDeclarations} and a separate main \emph{ProcedureDeclaration} that can be intermixed with them:
+Composition order constraints are enforced by defining precedences for the productions in the grammar of the resulting textual CSM.
+Establishing such precedences is possible in most parsing tools, including all yacc  derivatives and Fence.
+When composition is eager, shift operations will precede reduce operations.
+In contrast, when composition is lazy, reduce operations will have precedence over shift operations.
+Finally, when the composition order must be explicit in the CSM, the use of delimiters will determine whether shift or reduce operations are performed on a case by case basis.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+For example, the model in Figure \ref{fig:conditional3} represents typical if-then-else statements.
+In this case, the optional else \emph{Statement} of the eager \emph{ConditionalStatement} will always match the innermost if statement when such statements are nested, e.g. in
+``if E1 if E2 S1 else S2'', the else clause will correspond to the E2 if statement.
+The grammar for the resulting CSM will include the following productions: \etexttt{$<$ConditionalStatement$>$ ::= ``if'' $<$Expression$>$ $<$Statement$>$ ``;'' $|$ ``if'' $<$Expression$>$ $<$Statement$>$ ``else'' $<$Statement$>$ ``;''}.
+The parser will enforce the precedence of the second alternative over the first one, so that else clauses are parsed as usual.
 
-public class Program implements{\emph IModel} \{
+\subsubsection{The @Priority annotation}
 
-  @Minimum(0)
-  Set<ProcedureDeclaration> functions;
+The \an{@Priority} annotation allows the specification of precedences among language elements for eliminating ambiguities in textual CSMs.
 
-  {\bf @Position(element="functions",position=Position.WITHIN)}
-  ProcedureDeclaration main;
+ModelCC implements two mechanisms to specify priority constraints in the ASM-CSM mapping:
 
-\}
-\end{alltt}
-\end{colframe}
+\begin{itemize}
+\item A relative one, where precedence relationships are established between particular language elements (a \emph{precedes} declaration indicates which language elements have lower priority than the current element).
+\item An absolute one, where a numeric priority \emph{value} determines the priority level for each language element (the lower the value, the higher the priority)
+\end{itemize}
 
-The following code shows an example of position, in which a \emph{Program} can contain a set of \emph{ProcedureDeclarations} and a separate main \emph{ProcedureDeclaration} that can be either before or after all of them:
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{identifier3.eps}
+\caption{Relative priority resolved by the lexical analyzer.} \label{fig:identifier3}
+\end{figure}
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
 
-public class Program implements{\emph IModel} \{
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{outputfunction.eps}
+\caption{Relative priority resolved by the syntactic analyzer.} \label{fig:outputfunction}
+\end{figure}
 
-  @Minimum(0)
-  Set<ProcedureDeclaration> functions;
+Unless specified otherwise, all language elements have the same priority.
+Precedences established among basic language elements are managed at the lexical analysis level by the corresponding lexer.
+Precedences established among non-basic language elements that appear in concatenation, selection, and repetition constructs within the CSM are managed at the syntactic analysis level by the corresponding parser.
 
-  {\bf @Position(element="functions",
-                 position=\{Position.BEFORE,Position.AFTER\})}
-  ProcedureDeclaration main;
+For example, the model in Figure \ref{fig:identifier3} establishes a (fictitious) relative priority constraint between function names and identifiers: a \emph{FunctionName} will always precede an \emph{Identifier}.
+In case a string like ``func\_power'' is found in the input string, it will be recognized as a \emph{FunctionName}, but not as an \emph{Identifier}.
+Since the constraint is defined over basic language elements, the lexical analyzer generated by ModelCC will be responsible for identifying the right element in the input string.
 
-\}
-\end{alltt}
-\end{colframe}
+Figure \ref{fig:outputfunction} shows another example.
+In this case, the model enforces relative priority constraints between composite language elements that will be resolved by the parser generated by ModelCC.
+Here, output statements precede function calls so that a string like ``output(3+5,4+1);'' will be recognized as an \emph{OutputStatement} but not as an \emph{FunctionCallStatement}, even when ``output'' would be a perfectly valid identifier.
+The ModelCC lexer, which supports lexical ambiguities, will consider ``output'' as an \emph{Identifier} and also as a delimiter for output statements (i.e. its prefix keyword in the CSM).
 
-\subsection{Reference Constraints}
+\subsection{Composition Order Constraints} \label{subsec:comporder}
 
-Reference constraints allow specifying references to elements.
+The default order of the component elements in a composite element is given by the order in which the composition relationships were specified.
+However, composition order constraints let us override the element constituent order in composite elements.
+
+\subsubsection{The @Position Annotation}
+
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{prepositional.eps}
+\caption{Position constraint example.} \label{fig:prepositional}
+\end{figure}
+
+
+The \an{@Position} annotation allows the specification of the position of a component element relative to other component element.
+ModelCC supports combinations of the following options for specifying composition order:
+
+\begin{itemize}
+\item \an{BEFORE}, when the annotated element appears before the target element.
+\item \an{AFTER}, when the annotated element appears after the target element.
+\item \an{WITHIN}, when the annotated element appears as an embedded element in a repetition language construct.
+\item \an{BEFORELAST}, when the annotated element appears before the last element in a repetition language construct.
+\end{itemize}
+
+When the annotated element can appear as part of a repetitive construct (e.g. \an{WITHIN} or \an{BEFORELAST} in an enumeration), ModelCC allows the following separator policies:
+
+\begin{itemize}
+\item \an{BEFORE}, when the annotated element appears before the separator.
+\item \an{AFTER}, when the annotated element appears after the separator.
+\item \an{EXTRA}, when the annotated element appears between separators.
+\item \an{REPLACE}, when the annotated element replaces the corresponding separator.
+\end{itemize}
+
+The specification of position constraints allow the definition of CSMs in which element constituents are in different order than the composition relationships.
+Position constraints also allow embedding an element into a repetitive construct.
+
+The implementation of position constraints in ModelCC consists in generating a set of grammar production that contains all the element orderings that comply with the constraints.
+When the target element in a position constraint is a repetitive construct, an ancillary production that includes the embedded element in the corresponding position is produced.
+
+The model in Figure \ref{fig:prepositional} presents an example in which a \emph{PrepositionalComposite} is composed of two or more \emph{PrepositionalComplement}s and an optional conjunction which, in case is present, precedes the last \emph{PrepositionalComplement} in the construct.
+The grammar for the resulting textual CSM would include the production \etexttt{$<$PrepositionalComplementList+Conjuntion$>$ ::= $<$PrepositionalComplementList$>$ ``,'' $<$Conjunction$>$ $<$PrepositionalComplement$>$} and, finally, \etexttt{$<$PrepositionalComplementList+Conjuntion$>$ ::= $<$PrepositionalComplementList$>$} due to the optionality of the \emph{Conjunction}.
+
+\subsubsection{The @FreeOrder Annotation}
+
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{programfree.eps}
+\caption{Free order constraint example.} \label{fig:programfree}
+\end{figure}
+
+The \an{@FreeOrder} annotation allows the members of a language element to be shuffled in their textual representation.
+
+When using the \an{@FreeOrder} annotation, ModelCC generates grammar productions for each of the valid orderings of constituent elements in the annotated element.
+
+As an example of the use of the @FreeOrder annotation, the model in Figure \ref{fig:programfree} specifies that a \emph{Location} consists of an ``x'' coordinate and an ``y'' coordinate which may appear in any order.
+The grammar defining the textual CSM for this example contains \etexttt{$<$Location$>$ ::= ``x'' $<$Number$>$ ``y'' $<$Number$>$} and \etexttt{$<$Location$>$ ::= ``y'' $<$Number$>$ ``x'' $<$Number$>$}.
+
+\subsection{Reference Constraints} \label{subsec:references}
+
+Reference constraints let us specify referenceable language elements and references to them.
+
+References in ModelCC can be anaphoric, when they are preceded by the corresponding object definition, but also cataphoric, when the references precede the definition, and even recursive, when they appear within the definition they refer to.
 
 \subsubsection{The @ID annotation}
 
-The \an{@ID} annotation allows the specification of the components of an element that represent its key.
+The \an{@ID} annotation allows the specification of the identifier of referenceable language elements.
+This annotation is applied to a subset of the members of a language element model.
+This subset determines the syntax of references to particular instances of such elements in the concrete syntax of the corresponding language.
+That is, any appearance of the same set of values will be interpreted as a reference to the same instance of the referred language element.
 
-The following code shows an example of key specification, in which an \emph{IDNumber} preceded by the word ``ID'' identifies an \emph{User}:
+It should be noted that the \an{@ID} annotation is incompatible with the \an{@Optional} ModelCC annotation, as null language element identifiers are not allowed, for the same reasons that attributes in a primary key are not nullable in a relational database.
+However, the \an{@ID} annotation can be used together with other ModelCC annotations, such as \an{@FreeOrder}, which allows the members of a language element to be shuffled in their textual representation, and \an{@Prefix} and \an{@Suffix}, which add syntactic sugar to the incarnation of the abstract syntax model as a concrete textual language.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+The use of references is resolved in our implementation of ModelCC by the introduction of grammar productions that characterize such references and semantic predicates that map them to the corresponding language elements.
+The inadvertent definition of two entities of the same class with the same identifier in the same scope results in a runtime warning produced by ModelCC when parsing its input.
 
-public class User implements{\emph IModel} \{
+In the model in Figure \ref{fig:graphuserref}, the \an{@ID} annotation is employed to identify an \emph{User} by a single number. The grammar for the resulting CSM will contain the traditional \etexttt{$<$User$>$ ::= $<$Number$>$ $<$Name$>$} production with an associated semantic predicate that maps the \emph{Number} identifier of the language element with a particular \emph{User}, and also an additional \etexttt{$<$UserRef$>$ ::= $<$Number$>$} production with an associated semantic predicate that follows the mapping from the \emph{Number} identifier to the particular referenced \emph{User}, if possible.
 
-  {\bf @ID}
-  @Prefix("ID")
-  IDNumber id;
-
-  Name userName;
-
-\}
-\end{alltt}
-\end{colframe}
-
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{msg.eps}
+\caption{Reference constraint example.}
+\label{fig:graphuserref}
+\end{figure}
 
 \subsubsection{The @Reference annotation}
 
-The \an{@Reference} annotation allows the specification of references to an element. Whenever a key for that element is found, it is considered a reference to it, and therefore the very same object is linked to the reference.
+The \an{@Reference} annotation allows the specification of references to language elements.
+The \an{@Reference} annotation applies to individual members of any language element, provided that the referenced types contain at least one \an{@ID}-annotated member in their language model.
 
-The following code shows an example of reference, in which an \emph{IDNumber} preceded by the word ``ID'' is enough to identify the \emph{User} in a \emph{Sale}:
+Whenever a language element member is annotated with \emph{@Reference}, the corresponding grammar productions are modified so that they refer to the symbol corresponding to the element reference specification rather than the symbol that corresponds to its full specification.
+These productions are then associated to a semantic predicate that resolves the references at the end of the parsing process, in order to support cataphoric and recursive references, apart from the anaphoric references that could be resolved on the fly during the parsing process.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+In the example model in Figure \ref{fig:graphuserref}, the \an{@Reference} annotation is employed so that a \emph{Message} contain references to the sender and the recipient \emph{User}s. The grammar for the resulting CSM will contain, apart from the aforementioned \etexttt{$<$UserRef$>$ ::= $<$Number$>$} production and its associated semantic predicate, a \etexttt{$<$Message$>$ ::= $<$UserRef$>$ $<$UserRefList$>$ $<$Text$>$} production, a recursive production of the form \etexttt{$<$UserRefList$>$ ::= $<$UserRef$>$ $<$UserRefList$>$} and a complementary production \etexttt{$<$UserRefList$>$ ::= $<$UserRef$>$}.
 
-public class Sale implements{\emph IModel} \{
+\subsubsection{The @Scope annotation}
 
-  {\bf @Reference}
-  User user;
+The \an{@Scope} annotation allows the specification of static reference scopes and applies to language elements.
 
-  Product productName;
+Dynamic resolution can in general only be determined at run time, therefore dynamic scopes cannot be implemented in the ASM-CSM mapping.
 
-  Number quantity;
+ModelCC supports the following options for static scopes:
 
-\}
-\end{alltt}
-\end{colframe}
+\begin{itemize}
+\item \an{NESTED}, when the scope nests into the parent scope.
+      When resolving references, definitions are looked for by climbing in the scope hierarchy up to the global scope until the identifier is found.
+\item \an{LOCAL}, when the scope is local to the instance.
+      When resolving references, only definitions inside the language element instance are looked for.
+\item \an{GLOBAL}, when the scope is global.
+      When resolving references, only definitions inside the global scope are looked for.
+\end{itemize}
 
+Whenever a language element member is annotated with \emph{@Scope}, the corresponding grammar productions are modified so that they include scope tags in the mapping of identifiers to definitions. The semantic predicates that correspond to reference resolution only perform the search in the selected scopes.
 
-\subsection{User defined constraints}
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{blockscope.eps}
+\caption{Scope constraint example.}
+\label{fig:blockscope}
+\end{figure}
 
-ModelCC provides a mechanism for the user to implement any other constraint and semantic actions he needs.
+In the example model in Figure \ref{fig:blockscope}, the \an{@Scope} annotation is used so that each \emph{BlockStatement} defines a new nested scope for variables.
 
-\subsubsection{The @Constraint annotation}
+\subsection{Custom constraints with the @Constraint Annotation} \label{subsec:custom}
 
-the \an{@Constraint} annotation allows the specification of a method that will be run after an instance of a language element has been generated. That method can perform any action involving the \an{@Value}-annotated language element member or any other element member. It has to accept no parameters and must return a boolean that specifies if the element is valid and can be generated.
+While ModelCC supports a wide range of constraints, specific situations may require complex lexical, syntactic, or semantic constraints.
+ModelCC custom constraints allow the specification of actions that will determine, during the parsing process, whether an instance of a language element is valid or not.
 
-The following code shows an example of user defined constraint, in which a \emph{BoundedInteger} has to be between $4$ and $17$:
+The \an{@Constraint} annotation allows the definition of user-defined methods that are evaluated whenever an instance of the language element is created during the parsing.
+The constraining method can take into consideration any of the element members and must return a boolean from its evaluation.
+When the return value of the constraining method is ``true'', the element complies with the custom constraints and it is generated.
+Contrarily, when the return value of the constraining method is ``false'', the element does not comply with the custom constraints and it is inhibited from generating.
 
-\begin{colframe}
-\begin{alltt}
-import org.modelcc.*;
+ModelCC directly translates custom constraints into lexer and parser runtime semantic predicates.
 
-public class BoundedInteger implements{\emph IModel} \{
+The model in Figure \ref{fig:stringliteral2} presents an example in which the \an{@Constraint} annotation is employed so that the \emph{checkEscapedCharacters} user-defined method checks that all escaped characters in a \emph{StringLiteral} are valid (e.g. ``\textbackslash a'' would yield a badly-escaped character error, since the character `a' does not need escaping).
 
-  @Value
-  int value;
+\begin{figure}[tb!]
+\centering
+\includegraphics[scale=1]{stringliteral2.eps}
+\caption{Custom constraint example.}
+\label{fig:stringliteral2}
+\end{figure}
 
-  {\bf @Constraint}
-  boolean check() \{
-    if (value >= 4 && value <= 17)
-      return true;
-    else
-      return false;
-  \}
-
-\}
-\end{alltt}
-\end{colframe}
-
-\subsection{Probability constraints}
-
-\subsubsection{The @Probability annotation}
+\subsection{Probability constraints with the @Probability annotation} \label{subsec:probability}
 
 The \emph{@Probability} annotation allows the specification of probability values for language elements and language element members. Probability values can be specified for syntactic elements of the languages and for lexical components, in which case it should be noted that the lexical analyzer behaves as a part-of-speech tagger in natural language processing.
 
@@ -1585,3 +1518,6 @@ try {
 %ModelCC User Guide
 %\end{center}
 \end{document}
+
+
+
