@@ -3,14 +3,6 @@ ModelCC
 
 ModelCC: Model-Based Compiler Compiler
 
-Distributed under ModelCC Shared Software License.
+Copyright (c) 2009-2014, Luis Quesada Torres - https://github.com/lquesada | www.luisquesada.com, with guidance from the rest of the ModelCC team | Research Project at Universidad de Granada.
 
-www.modelcc.org / info@modelcc.org
-
-ModelCC development team:
-
-- Luis Quesada (lquesada@modelcc.org).
-- Fernando Berzal (berzal@modelcc.org).
-- Francisco J. Cortijo (cb@modelcc.org).
-- Juan-Carlos Cubero (jc.cubero@modelcc.org).
-
+Distributed under the ModelCC Shared Software License (LICENSE file).
